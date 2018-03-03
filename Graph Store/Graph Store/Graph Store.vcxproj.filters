@@ -42,6 +42,9 @@
     <ClInclude Include="DArray.hpp">
       <Filter>Dynamic Array</Filter>
     </ClInclude>
+    <ClInclude Include="Hash.hpp">
+      <Filter>Hashing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

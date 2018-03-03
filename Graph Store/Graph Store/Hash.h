@@ -14,6 +14,10 @@ public:
 	void insert(Item& item);
 	Item* remove(const Key& key);
 
+	size_t getCount() const;
+	bool isEmpty() const;
+	void empty();
+
 private:
 	size_t count;			   //The number of elements in the table.
 	DArray<Item*> table;	   //The table of pointers to store Item addresses. 
@@ -21,7 +25,12 @@ private:
 	HashFunction<Key> hash;    //The hash function.
 
 private:
-	int getIndex(const Key& key) const;
+	//Not const since the hash functor may have non const operator()!
+	int getIndex(const Key& key); 
+	void resize(int newSize);
+	void nullify(DArray<Item*>& arr);
 };
+
+#include "Hash.hpp"
 
 #endif //__HASH_HEADER_INCLUDED__
