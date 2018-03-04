@@ -29,6 +29,7 @@ private:
 	int getIndex(const Key& key); 
 	void resize(int newSize);
 	void nullify(DArray<Item*>& arr);
+	void rehash(int index);
 };
 
 #include "Hash.hpp"

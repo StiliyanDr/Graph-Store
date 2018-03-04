@@ -3,9 +3,55 @@
 
 
 ///
+///See getIndex.
+///
+template <class Item, class Key, class KeyAccessor>
+Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
+{
+	int index = getIndex(key);
+
+	return (index != -1) ? table[index] : nullptr;
+}
+
+
+///
+/// Inserts item's address into the table.
+/// The table doubles its size and rehashes the old items,
+/// if at least 2/3 of the slots are occupied. If the object is empty
+/// (its table has no slots), the table is resized to have 10 slots. 
+///
+template <class Item, class Key, class KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::insert(Item& item)
+{
+	size_t size = table.getCount();
+
+	//In an empty object size = count = 0.
+	//In a non-empty object there must be at least one empty slot!
+	assert((count == 0 && size == 0) || count < size);
+
+	if (3 * count >= 2 * size)
+	{
+		resize(size ? 2 * size : 10);
+		size = table.getCount();
+	}
+
+	int index = hash(accessor(item)) % size;
+
+	while (table[index])
+		index = (index + 1) % size;
+
+	table[index] = &item;
+	++count;
+}
+
+
+///
 /// Removes the first found item that has a matching key
-/// (if any). Rehashes the items between the removed one
-/// and the next empty slot in the table.
+/// (if any). If the number of items left in the table is 
+/// at most 1/6 of the number of slots, the table is resized
+/// to half of the number of slots. Otherwise the items between 
+/// the removed one and the next empty slot in the table are
+/// rehashed.
 ///
 template <class Item, class Key, class KeyAccessor>
 Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
@@ -16,28 +62,19 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 	//If there is such an item:
 	if (index != -1)
 	{
+		assert(count > 0 && table.getCount() > count);
+
 		//Empty the item's slot.
 		table[index] = nullptr;
 		--count;
 
 		const int size = table.getCount();
-		index = (index + 1) % size;
 
-		//A pointer to the item that is being rehashed.
-		Item* temp;
-
-		//Rehash the items between the removed item and the
-		//next empty slot since its removal left an empty slot.
-		while (table[index])
-		{
-			temp = table[index];
-			table[index] = nullptr;
-			
-			--count;
-
-			insert(*temp);
-			index = (index + 1) % size;
-		}
+		if (6 * count <= size)
+			resize(size / 2);			//Shrink the table so memory is not wasted.
+		else
+			rehash((index + 1) % size); //Rehash the items between the removed item and the
+									    //next empty slot since the removal left an empty slot.
 	}
 }
 
@@ -144,4 +181,31 @@ void Hash<Item, Key, KeyAccessor>::nullify(DArray<Item*>& arr)
 
 	for (int i = 0; i < size; ++i)
 		arr[i] = nullptr;
+}
+
+
+///
+/// Starting from index, the function rehashes all the
+/// items in the table, until an empty slot is reached.
+///
+template <class Item, class Key, class KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::rehash(int index)
+{
+	const int size = table.getCount();
+
+	assert(index >= 0 && index < size);
+
+	//A pointer to the item that is being rehashed.
+	Item* temp;
+
+	while (table[index])
+	{
+		temp = table[index];
+		table[index] = nullptr;
+
+		--count;
+
+		insert(*temp);
+		index = (index + 1) % size;
+	}
 }
