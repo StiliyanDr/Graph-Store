@@ -2,11 +2,9 @@
 //
 
 #include "stdafx.h"
-#include "Hash.h"
 
 int main()
 {
 
     return 0;
 }
-

@@ -1,0 +1,14 @@
+﻿  Graph Store.cpp
+d:\temp\graph store\graph-store\graph store\graph store\hash.hpp(88): warning C4018: '>': signed/unsigned mismatch
+  d:\temp\graph store\graph-store\graph store\graph store\hash.hpp(79): note: while compiling class template member function 'Box *Hash<Box,int,Accessor>::remove(const Key &)'
+          with
+          [
+              Key=int
+          ]
+  d:\temp\graph store\graph-store\graph store\graph store\graph store.cpp(25): note: see reference to class template instantiation 'Hash<Box,int,Accessor>' being compiled
+d:\temp\graph store\graph-store\graph store\graph store\hash.hpp(96): warning C4018: '<=': signed/unsigned mismatch
+d:\temp\graph store\graph-store\graph store\graph store\hash.hpp(190): warning C4018: '>': signed/unsigned mismatch
+  d:\temp\graph store\graph-store\graph store\graph store\hash.hpp(187): note: while compiling class template member function 'void Hash<Box,int,Accessor>::resize(int)'
+  d:\temp\graph store\graph-store\graph store\graph store\hash.hpp(53): note: see reference to function template instantiation 'void Hash<Box,int,Accessor>::resize(int)' being compiled
+  Graph Store.vcxproj -> D:\Temp\Graph Store\Graph-Store\Graph Store\Debug\Graph Store.exe
+  Graph Store.vcxproj -> D:\Temp\Graph Store\Graph-Store\Graph Store\Debug\Graph Store.pdb (Full PDB)

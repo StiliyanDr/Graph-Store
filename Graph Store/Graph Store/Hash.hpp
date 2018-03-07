@@ -15,7 +15,7 @@
 template <class Item, class Key, class KeyAccessor>
 Hash<Item, Key, KeyAccessor>::Hash(int expectedCount) :
 	count(0),
-	table((3 * (expectedCount + 1)) / 2, (3 * (expectedCount + 1)) / 2)
+	table(((3 * expectedCount) / 2) + MIN_SIZE, ((3 * expectedCount) / 2) + MIN_SIZE)
 {
 	if (expectedCount < 1)
 		throw std::invalid_argument("The expected count must be positive!");
@@ -38,22 +38,19 @@ Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
 
 ///
 /// Inserts item's address into the table.
-/// The table doubles its size and rehashes the old items,
-/// if at least 2/3 of the slots are occupied. If the object is empty
-/// (its table has no slots), the table is resized to have 10 slots. 
+/// The table doubles its size and rehashes the old 
+/// items, if at least 2/3 of the slots are occupied. 
 ///
 template <class Item, class Key, class KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::insert(Item& item)
 {
 	size_t size = table.getCount();
 
-	//After empty() is called on an object: size = count = 0.
-	//In a non-empty object there must be at least one empty slot!
-	assert((count == 0 && size == 0) || count < size);
+	assert(size >= MIN_SIZE && count < size);
 
 	if (3 * count >= 2 * size)
 	{
-		resize(size ? 2 * size : 10);
+		resize(2 * size);
 		size = table.getCount();
 	}
 
@@ -68,14 +65,14 @@ void Hash<Item, Key, KeyAccessor>::insert(Item& item)
 
 
 ///
-/// Removes the first found item that has a matching key
-/// and returns its address. If there is no such item, 
-/// nullptr is returned. 
+/// Removes the first found item that has a matching key and returns 
+/// its address. If there is no such item, nullptr is returned. 
 /// If the number of items left in the table after a removal is 
-/// at most 1/6 of the number of slots, the table is resized
-/// to half of the number of slots (see comments below). 
-/// Otherwise the items between the removed one and the 
-/// next empty slot in the table are rehashed.
+/// at most 1/6 of the size of the table and half the size is at
+/// least MIN_SIZE, then the table is resized to half of its size 
+/// (which includes rehashing the elements!). Otherwise the items 
+/// between the removed one and the next empty slot in the table are 
+/// rehashed.
 ///
 template <class Item, class Key, class KeyAccessor>
 Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
@@ -94,16 +91,13 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 		table[index] = nullptr;  //and empty its slot.
 		--count;
 
-		if (!isEmpty())	 //Prevent shrinking when the only item is being removed to stop the
-		{				 //table from shrinking to a very small size and cause logic errors.
-			const int size = table.getCount();
+		const int size = table.getCount();
 
-			if (6 * count <= size)
-				resize(size / 2);			//Shrink the table so memory is not wasted.
-			else
-				rehash((index + 1) % size); //Rehash the items between the removed item and the
-											//next empty slot since the removal left an empty slot.
-		}
+		if (6 * count <= size && (size / 2) >= MIN_SIZE)
+			resize(size / 2);			//Shrink the table so memory is not wasted.
+		else
+			rehash((index + 1) % size); //Rehash the items between the removed item and the
+										//next empty slot since the removal left an empty slot.
 	}
 
 	return removed;
@@ -133,12 +127,18 @@ inline bool Hash<Item, Key, KeyAccessor>::isEmpty() const
 
 
 ///
-///Empties the array of pointers.
+/// Releases the current table and allocates
+/// a new one with MIN_SIZE empty slots.
 ///
 template <class Item, class Key, class KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::empty()
 {
 	table.empty();
+	table.ensureSize(MIN_SIZE);
+
+	for (int i = 1; i <= MIN_SIZE; ++i)
+		table.add(nullptr);
+
 	count = 0;
 }
 
@@ -153,15 +153,16 @@ void Hash<Item, Key, KeyAccessor>::empty()
 /// (!) accessor's operator() must take an object of type Item
 /// by const& and return its key of type Key by const&.
 ///
+/// (!) Key must have overloaded operator!= .
+///
 template <class Item, class Key, class KeyAccessor>
 int Hash<Item, Key, KeyAccessor>::getIndex(const Key& key)
 {
-	//In an empty object size may be 0!
 	if (!isEmpty())
 	{
 		const int size = table.getCount();
 
-		assert(size > 0);
+		assert(size >= MIN_SIZE);
 
 		int index = hash(key) % size;
 
@@ -186,7 +187,7 @@ void Hash<Item, Key, KeyAccessor>::resize(int newSize)
 {
 	//Leave at least one empty slot in the table
 	//to terminate probing.
-	assert(newSize > 0 && newSize > count);
+	assert(newSize >= MIN_SIZE && newSize > count);
 
 	//Allocate an array with the new size.
 	DArray<Item*> temp(newSize, newSize);
