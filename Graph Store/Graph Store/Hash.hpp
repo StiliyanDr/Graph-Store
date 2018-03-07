@@ -1,5 +1,27 @@
 #include <cassert>
 #include <utility>
+#include <stdexcept>
+
+
+///
+/// Allocates an array of null pointers (table slots) big enough to hold
+/// expectedCount items and have some spare space to terminate probes.
+/// 
+/// A Hash object should store at least one item, so expectedCount
+/// must be at least 1.
+///
+/// (!) HashFunction<Key> and KeyAccessor must be default constructable. 
+///
+template <class Item, class Key, class KeyAccessor>
+Hash<Item, Key, KeyAccessor>::Hash(int expectedCount) :
+	count(0),
+	table((3 * (expectedCount + 1)) / 2, (3 * (expectedCount + 1)) / 2)
+{
+	if (expectedCount < 1)
+		throw std::invalid_argument("The expected count must be positive!");
+
+	nullify(table);
+}
 
 
 ///
@@ -25,7 +47,7 @@ void Hash<Item, Key, KeyAccessor>::insert(Item& item)
 {
 	size_t size = table.getCount();
 
-	//In an empty object size = count = 0.
+	//After empty() is called on an object: size = count = 0.
 	//In a non-empty object there must be at least one empty slot!
 	assert((count == 0 && size == 0) || count < size);
 
@@ -47,15 +69,19 @@ void Hash<Item, Key, KeyAccessor>::insert(Item& item)
 
 ///
 /// Removes the first found item that has a matching key
-/// (if any). If the number of items left in the table is 
+/// and returns its address. If there is no such item, 
+/// nullptr is returned. 
+/// If the number of items left in the table after a removal is 
 /// at most 1/6 of the number of slots, the table is resized
-/// to half of the number of slots. Otherwise the items between 
-/// the removed one and the next empty slot in the table are
-/// rehashed.
+/// to half of the number of slots (see comments below). 
+/// Otherwise the items between the removed one and the 
+/// next empty slot in the table are rehashed.
 ///
 template <class Item, class Key, class KeyAccessor>
 Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 {
+	Item* removed = nullptr;
+
 	//Search for an item with a matching key.
 	int index = getIndex(key);
 
@@ -64,23 +90,28 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 	{
 		assert(count > 0 && table.getCount() > count);
 
-		//Empty the item's slot.
-		table[index] = nullptr;
+		removed = table[index];  //Save the address of the item being removed
+		table[index] = nullptr;  //and empty its slot.
 		--count;
 
-		const int size = table.getCount();
+		if (!isEmpty())	 //Prevent shrinking when the only item is being removed to stop the
+		{				 //table from shrinking to a very small size and cause logic errors.
+			const int size = table.getCount();
 
-		if (6 * count <= size)
-			resize(size / 2);			//Shrink the table so memory is not wasted.
-		else
-			rehash((index + 1) % size); //Rehash the items between the removed item and the
-									    //next empty slot since the removal left an empty slot.
+			if (6 * count <= size)
+				resize(size / 2);			//Shrink the table so memory is not wasted.
+			else
+				rehash((index + 1) % size); //Rehash the items between the removed item and the
+											//next empty slot since the removal left an empty slot.
+		}
 	}
+
+	return removed;
 }
 
 
 ///
-/// Returns the number of elements that
+/// Returns the number of items that
 /// are stored in the hash.
 ///
 template <class Item, class Key, class KeyAccessor>
@@ -91,7 +122,7 @@ inline size_t Hash<Item, Key, KeyAccessor>::getCount() const
 
 
 ///
-/// Checks whether there are no elements
+/// Checks whether there are no items
 /// stored in the hash.
 ///
 template <class Item, class Key, class KeyAccessor>
@@ -116,23 +147,32 @@ void Hash<Item, Key, KeyAccessor>::empty()
 /// Returns the index of the first found item with a
 /// matching key or -1 if there is no such item in the hash.
 ///
-/// hash's operator() must take an object of type Key by
+/// (!) hash's operator() must take an object of type Key by
 /// const& and return its hash value (unsigned integer).
 ///
-/// accessor's operator() must take an object of type Item
+/// (!) accessor's operator() must take an object of type Item
 /// by const& and return its key of type Key by const&.
 ///
 template <class Item, class Key, class KeyAccessor>
 int Hash<Item, Key, KeyAccessor>::getIndex(const Key& key)
 {
-	const int size = table.getCount();
+	//In an empty object size may be 0!
+	if (!isEmpty())
+	{
+		const int size = table.getCount();
 
-	int index = hash(key) % size;
+		assert(size > 0);
 
-	while (table[index] && accessor(*table[index]) != key)
-		index = (index + 1) % size;
+		int index = hash(key) % size;
 
-	return (table[index]) ? index : -1;
+		while (table[index] && accessor(*table[index]) != key)
+			index = (index + 1) % size;
+		
+		if (table[index]) 
+			return index;
+	}
+
+	return -1;
 }
 
 
@@ -155,11 +195,11 @@ void Hash<Item, Key, KeyAccessor>::resize(int newSize)
 	//Swap the current table with the new one by moving them.
 	std::swap(table, temp);
 
-	//Elements are going to be re-inserted into the new table,
+	//Items are going to be re-inserted into the new table,
 	//so count must be updated first.
 	count = 0;
 
-	//Now rehash the elements from the old table into the new table.
+	//Now rehash the items from the old table into the new table.
 	int oldSize = temp.getCount();
 
 	for (int i = 0; i < oldSize; ++i)
