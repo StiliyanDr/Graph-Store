@@ -19,6 +19,9 @@
     <Filter Include="Dynamic Array">
       <UniqueIdentifier>{80eccae9-df2d-481a-acea-90ab27b5b0f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="String">
+      <UniqueIdentifier>{0c393ecb-636c-402e-b466-46106eed10b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -45,6 +48,12 @@
     <ClInclude Include="Hash.hpp">
       <Filter>Hashing</Filter>
     </ClInclude>
+    <ClInclude Include="String.h">
+      <Filter>String</Filter>
+    </ClInclude>
+    <ClInclude Include="HashFunctionStringSpecialization.h">
+      <Filter>Hashing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -52,6 +61,9 @@
     </ClCompile>
     <ClCompile Include="Graph Store.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="String.cpp">
+      <Filter>String</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
