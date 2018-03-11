@@ -1,21 +1,14 @@
-#include "stdafx.h"
 #include "String.h"
 #include <cstring>
 #include <utility>
 
 
-///
-///Checks the two strings for equality.
-///
 bool operator==(const String &lhs, const String &rhs)
 {
 	return !strcmp(lhs, rhs);
 }
 
 
-///
-///Checks the two strings for inequality.
-///
 bool operator!=(const String &lhs, const String &rhs)
 {
 	return !(lhs == rhs);
@@ -75,30 +68,6 @@ String operator+(const String &lhs, const String &rhs)
 ///
 ///Returns the string concatenation of lhs and rhs.
 ///
-String operator+(const char* lhs, const String &rhs)
-{
-	String tmp(lhs);
-	tmp += rhs;
-
-	return tmp;
-}
-
-
-///
-///Returns the string concatenation of lhs and rhs.
-///
-String operator+(const String &lhs, const char* rhs)
-{
-	String tmp(lhs);
-	tmp += rhs;
-
-	return tmp;
-}
-
-
-///
-///Returns the string concatenation of lhs and rhs.
-///
 String operator+(const String &lhs, char rhs)
 {
 	String tmp(lhs);
@@ -142,32 +111,13 @@ String::String(const char* string) :
 
 
 ///
-///Moves src's string into the current object.
+///Moves source's string into the current object.
 ///
-String::String(String&& src) :
-	string(src.string)
+String::String(String&& source) :
+	string(source.string)
 {
-	src.string = nullptr;
+	source.string = nullptr;
 }
-
-
-///
-/// Using the copy-and-swap idiom to implement
-/// operator= for arguments of type:
-///
-/// 1) const char*: The parameter is initialised with the String(const char*) constructor. 
-/// 2) rvalue String: the move constructor initialises the parameter.
-/// 3) lvalue String: the copy constructor initialises the parameter.
-///
-/// All these cases are handled with this implementation.
-///
-/// String& String::operator=(String rhs)
-/// {
-///		std::swap(this->string, rhs.string);
-///
-///		return *this;
-/// }
-///
 
 
 ///
@@ -178,8 +128,8 @@ String& String::operator=(const String& rhs)
 {
 	if (this != &rhs)
 	{
-		String tmp(rhs);
-		std::swap(string, tmp.string);
+		String temp(rhs);
+		std::swap(string, temp.string);
 	}
 	return *this;
 }
@@ -193,38 +143,31 @@ String& String::operator=(String&& rhs)
 {
 	if (this != &rhs)
 	{
-		delete[] string;		//Release the old string
-		string = rhs.string;	//and move rhs' string into 
-		rhs.string = nullptr;	//the current object.
+		delete[] string;		
+		string = rhs.string;	
+		rhs.string = nullptr;	
 	}
 	return *this;
 }
 
 
 ///
-///Makes a copy of src's string
+///Makes a copy of source's string
 ///and stores it in the object.
 ///
-String::String(const String &src) :
+String::String(const String &source) :
 	string(nullptr)
 {
-	setString(src.string);
+	setString(source.string);
 }
 
 
-///
-///Release memory.
-///
 String::~String()
 {
 	delete[] string;
 }
 
 
-///
-///Returns the length of the string
-///that is stored in the object.
-///
 size_t String::getLength() const
 {
 	return strlen(getString());
@@ -235,20 +178,20 @@ size_t String::getLength() const
 ///Concatenates a copy of the passed string
 ///to the string stored in the object.
 ///
-void String::concatenate(const char* str)
+void String::concatenate(const char* argument)
 {
-	if (str)
+	if (argument)
 	{
-		size_t newLen, currLen, argLen = strlen(str);
+		size_t argLen = strlen(argument);
 
 		if (argLen)
 		{
-			currLen = getLength();
-			newLen = currLen + argLen + 1;
+			size_t currLen = getLength();
+			size_t newLen = currLen + argLen + 1;
 			char* buffer = new char[newLen];
 
 			strcpy_s(buffer, currLen + 1, getString());
-			strcat_s(buffer, newLen, str);
+			strcat_s(buffer, newLen, argument);
 
 			delete[] string;
 			string = buffer;
@@ -257,9 +200,6 @@ void String::concatenate(const char* str)
 }
 
 
-///
-///Concatenates symbol at the end of the string.
-///
 void String::concatenate(char symbol)
 {
 	char buffer[2] = "";
@@ -269,9 +209,6 @@ void String::concatenate(char symbol)
 }
 
 
-///
-///Concatenates rhs to the string.
-///
 String& String::operator+=(const char* rhs)
 {
 	concatenate(rhs);
@@ -280,9 +217,6 @@ String& String::operator+=(const char* rhs)
 }
 
 
-///
-///Concatenates rhs to the string.
-///
 String& String::operator+=(char rhs)
 {
 	concatenate(rhs);
@@ -297,10 +231,6 @@ String::operator const char *() const
 }
 
 
-///
-///Returns the string stored in the object
-///or the empty string if the member is nullptr.
-///
 const char* String::getString() const
 {
 	return (string) ? string : "";
@@ -316,13 +246,13 @@ const char* String::getString() const
 ///nullptr and the object represents the empty 
 ///string.
 ///
-void String::setString(const char* value)
+void String::setString(const char* with)
 {
-	if (value)
+	if (with)
 	{
-		size_t buffSize = strlen(value) + 1;
+		size_t buffSize = strlen(with) + 1;
 		char* buffer = new char[buffSize];
-		strcpy_s(buffer, buffSize, value);
+		strcpy_s(buffer, buffSize, with);
 
 		delete[] string;
 		string = buffer;

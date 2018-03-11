@@ -6,8 +6,8 @@ class String
 public:
 	String(char symbol);
 	String(const char* string = "");
-	String(String&& src);
-	String(const String& src);
+	String(String&& source);
+	String(const String& source);
 	String& operator=(const String &rhs);
 	String& operator=(String &&rhs);
 	~String();
@@ -38,8 +38,6 @@ bool operator>=(const String &lhs, const String &rhs);
 bool operator<=(const String &lhs, const String &rhs);
 
 String operator+(const String &lhs, const String &rhs);
-String operator+(const char* lhs, const String &rhs);
-String operator+(const String &lhs, const char* rhs);
 String operator+(const String &lhs, char rhs);
 String operator+(char lhs, const String &rhs);
 
