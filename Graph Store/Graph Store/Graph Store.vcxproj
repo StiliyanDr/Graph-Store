@@ -143,6 +143,8 @@
   <ItemGroup>
     <ClInclude Include="DArray.h" />
     <ClInclude Include="DArray.hpp" />
+    <ClInclude Include="DynamicQueue.h" />
+    <ClInclude Include="DynamicQueue.hpp" />
     <ClInclude Include="Hash.h" />
     <ClInclude Include="Hash.hpp" />
     <ClInclude Include="HashFunction.h" />
