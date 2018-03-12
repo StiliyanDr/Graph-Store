@@ -1,0 +1,21 @@
+﻿  HashTest.cpp
+d:\repositories\graph-store\graph store\graph store\hash.hpp(88): warning C4018: '>': signed/unsigned mismatch
+  d:\repositories\graph-store\graph store\graph store\hash.hpp(79): note: while compiling class template member function 'Book *Hash<Book,String,BookTitleAccessor>::remove(const Key &)'
+          with
+          [
+              Key=String
+          ]
+  d:\repositories\graph-store\hash unit test\hash unit test\hashtest.cpp(114): note: see reference to function template instantiation 'Book *Hash<Book,String,BookTitleAccessor>::remove(const Key &)' being compiled
+          with
+          [
+              Key=String
+          ]
+  d:\repositories\graph-store\hash unit test\hash unit test\hashtest.cpp(24): note: see reference to class template instantiation 'Hash<Book,String,BookTitleAccessor>' being compiled
+d:\repositories\graph-store\graph store\graph store\hash.hpp(96): warning C4018: '<=': signed/unsigned mismatch
+d:\repositories\graph-store\graph store\graph store\hash.hpp(190): warning C4018: '>': signed/unsigned mismatch
+  d:\repositories\graph-store\graph store\graph store\hash.hpp(187): note: while compiling class template member function 'void Hash<Book,String,BookTitleAccessor>::resize(int)'
+  d:\repositories\graph-store\graph store\graph store\hash.hpp(53): note: see reference to function template instantiation 'void Hash<Book,String,BookTitleAccessor>::resize(int)' being compiled
+  d:\repositories\graph-store\graph store\graph store\hash.hpp(16): note: while compiling class template member function 'Hash<Book,String,BookTitleAccessor>::Hash(int)'
+  d:\repositories\graph-store\hash unit test\hash unit test\hashtest.cpp(40): note: see reference to function template instantiation 'Hash<Book,String,BookTitleAccessor>::Hash(int)' being compiled
+  Hash Unit Test.vcxproj -> D:\Repositories\Graph-Store\Hash Unit Test\Debug\Hash Unit Test.dll
+  Hash Unit Test.vcxproj -> D:\Repositories\Graph-Store\Hash Unit Test\Debug\Hash Unit Test.pdb (Partial PDB)
