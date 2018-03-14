@@ -24,6 +24,38 @@ Hash<Item, Key, KeyAccessor>::Hash(int expectedCount) :
 }
 
 
+template <class Item, class Key, class KeyAccessor>
+Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source) :
+	count(source.count),
+	accessor(std::move(source.accessor)),
+	hash(std::move(source.hash))
+{
+	stealTableFrom(source);
+}
+
+
+template <class Item, class Key, class KeyAccessor>
+Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(Hash<Item, Key, KeyAccessor>&& rhs)
+{
+	if (this != &rhs)
+	{
+		swapContentsWith(std::move(rhs));
+	}
+	return *this;
+}
+
+
+template <class Item, class Key, class KeyAccessor>
+Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(const Hash<Item, Key, KeyAccessor>& rhs)
+{
+	if (this != &rhs)
+	{
+		swapContentsWith(rhs);
+	}
+	return *this;
+}
+
+
 ///
 ///See getIndex.
 ///
@@ -248,5 +280,36 @@ void Hash<Item, Key, KeyAccessor>::rehash(int index)
 
 		insert(*temp);
 		index = (index + 1) % size;
+	}
+}
+
+
+template <class Item, class Key, class KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::swapContentsWith(Hash<Item, Key, KeyAccessor> temp)
+{
+	std::swap(count, temp.count);
+	std::swap(table, temp.table);
+	std::swap(accessor, temp.accessor);
+	std::swap(hash, temp.hash);
+}
+
+
+template <class Item, class Key, class KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::stealTableFrom(Hash<Item, Key, KeyAccessor>& other)
+{	
+	this->table = std::move(other.table);
+
+	try
+	{
+		other.empty();
+	}
+	catch (std::bad_alloc&)
+	{
+		other.count = this->count;
+		other.table = std::move(this->table);
+		other.accessor = std::move(this->accessor);
+		other.hash = std::move(this->hash);
+
+		throw;
 	}
 }

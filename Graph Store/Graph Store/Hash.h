@@ -27,6 +27,11 @@ class Hash
 {
 public:
 	explicit Hash(int expectedCount);
+	Hash(Hash<Item, Key, KeyAccessor>&& source);
+	Hash(const Hash<Item, Key, KeyAccessor>& source) = default;
+	Hash<Item, Key, KeyAccessor>& operator=(Hash<Item, Key, KeyAccessor>&& rhs);
+	Hash<Item, Key, KeyAccessor>& operator=(const Hash<Item, Key, KeyAccessor>& rhs);
+	~Hash() = default;
 
 	Item* search(const Key& key);
 	void insert(Item& item);
@@ -52,6 +57,8 @@ private:
 	void resize(int newSize);
 	void nullify(DArray<Item*>& arr);
 	void rehash(int index);
+	void swapContentsWith(Hash<Item, Key, KeyAccessor> temp);
+	void stealTableFrom(Hash<Item, Key, KeyAccessor>& other);
 };
 
 #include "Hash.hpp"
