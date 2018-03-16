@@ -54,10 +54,12 @@ private:
 private:
 	int searchAndGetIndex(const Key& key);
 	void resize(int newSize);
-	void nullify(DArray<Item*>& table);
 	void rehashCluster(int start);
 	void swapContentsWith(Hash<Item, Key, KeyAccessor> temp);
-	void stealTableFrom(Hash<Item, Key, KeyAccessor>& other);
+
+private:
+	static void nullify(DArray<Item*>& table);
+	static int calculateTableSize(int expectedCount);
 };
 
 #include "Hash.hpp"

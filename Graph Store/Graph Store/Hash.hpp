@@ -4,33 +4,28 @@
 
 
 ///
-/// Allocates an array of null pointers (table slots) big enough to hold
-/// expectedCount items and have some spare space to terminate probes.
-/// 
-/// A Hash object should store at least one item, so expectedCount
-/// must be at least 1.
-///
 /// (!) HashFunction<Key> and KeyAccessor must be default constructable. 
 ///
 template <class Item, class Key, class KeyAccessor>
 Hash<Item, Key, KeyAccessor>::Hash(int expectedCount) :
 	count(0),
-	table(((3 * expectedCount) / 2) + MIN_TABLE_SIZE, ((3 * expectedCount) / 2) + MIN_TABLE_SIZE)
+	table(calculateTableSize(expectedCount), calculateTableSize(expectedCount))
 {
-	if (expectedCount < 1)
-		throw std::invalid_argument("The expected count must be positive!");
-
 	nullify(table);
 }
 
 
 template <class Item, class Key, class KeyAccessor>
 Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source) :
-	count(source.count),
+	count(0),
+	table(MIN_TABLE_SIZE, MIN_TABLE_SIZE),
 	keyAccessor(std::move(source.keyAccessor)),
 	hashFunction(std::move(source.hashFunction))
 {
-	stealTableFrom(source);
+	nullify(table);
+
+	std::swap(table, source.table);
+	std::swap(count, source.count);
 }
 
 
@@ -245,22 +240,16 @@ void Hash<Item, Key, KeyAccessor>::swapContentsWith(Hash<Item, Key, KeyAccessor>
 }
 
 
+///
+/// Depending on the expected number of items to be inserted into the 
+/// hash, calculate a table size that is big enough to store all the 
+/// items and have spare space so that probing is efficient.
+///
 template <class Item, class Key, class KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::stealTableFrom(Hash<Item, Key, KeyAccessor>& other)
-{	
-	this->table = std::move(other.table);
-
-	try
-	{
-		other.empty();
-	}
-	catch (std::bad_alloc&)
-	{
-		other.count = this->count;
-		other.table = std::move(this->table);
-		other.keyAccessor = std::move(this->keyAccessor);
-		other.hashFunction = std::move(this->hashFunction);
-
-		throw;
-	}
+int Hash<Item, Key, KeyAccessor>::calculateTableSize(int expectedCount)
+{
+	if (expectedCount > 0)
+		return ((3 * expectedCount) / 2) + MIN_TABLE_SIZE;
+	else
+		throw std::invalid_argument("The expected count must be positive!");
 }
