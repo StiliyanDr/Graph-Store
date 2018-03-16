@@ -34,7 +34,7 @@ public:
 	~Hash() = default;
 
 	Item* search(const Key& key);
-	void insert(Item& item);
+	void add(Item& item);
 	Item* remove(const Key& key);
 
 	size_t getCount() const;
@@ -42,21 +42,20 @@ public:
 	void empty();
 
 private:
-	//The minimum number of slots in the table.
-	static const int MIN_SIZE = 3;
+	static const int MIN_TABLE_SIZE = 3;
+	static const int SEARCH_MISS = -1;
 
 private:
-	size_t count;			   //The number of elements in the table.
-	DArray<Item*> table;	   //The table of pointers to store Item addresses. 
-	KeyAccessor accessor;      //A functor that gives access to an item's key.
-	HashFunction<Key> hash;    //The hash function.
+	size_t count;			 
+	DArray<Item*> table;
+	KeyAccessor keyAccessor;
+	HashFunction<Key> hashFunction;
 
 private:
-	//Not const since the hash functor may have non const operator()!
-	int getIndex(const Key& key); 
+	int searchAndGetIndex(const Key& key);
 	void resize(int newSize);
-	void nullify(DArray<Item*>& arr);
-	void rehash(int index);
+	void nullify(DArray<Item*>& table);
+	void rehashCluster(int start);
 	void swapContentsWith(Hash<Item, Key, KeyAccessor> temp);
 	void stealTableFrom(Hash<Item, Key, KeyAccessor>& other);
 };
