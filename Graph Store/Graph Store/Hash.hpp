@@ -3,9 +3,6 @@
 #include <stdexcept>
 
 
-///
-/// (!) HashFunction<Key> and KeyAccessor must be default constructable. 
-///
 template <class Item, class Key, class KeyAccessor>
 Hash<Item, Key, KeyAccessor>::Hash(int expectedCount) :
 	count(0),
@@ -137,15 +134,6 @@ void Hash<Item, Key, KeyAccessor>::empty()
 }
 
 
-///
-/// (!) hashFunction's operator() must take an object of type Key by
-/// const& and return its hash value (unsigned integer).
-///
-/// (!) keyAccessor's operator() must take an object of type Item
-/// by const& and return its key of type Key by const&.
-///
-/// (!) Key must have overloaded operator!= .
-///
 template <class Item, class Key, class KeyAccessor>
 int Hash<Item, Key, KeyAccessor>::searchAndGetIndex(const Key& key)
 {

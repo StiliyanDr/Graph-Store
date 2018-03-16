@@ -1,21 +1,3 @@
-/*
-	Hash data structure that stores addresses of objects
-	of type Item, whose key is of type Key. KeyAccessor
-	is used to access an item's key.
-
-	The method used for collision resolution is linear probing.
-	
-	Type requirements:
-
-	(1) Key must have overloaded operator!= .
-	(2) HashFunction<Key> must be default constructable.
-	(3) HashFunction<Key>'s operator() must take an object of type Key by
-	    const& and return its hash value (unsigned integer).
-	(4) KeyAccessor must be default constructable. 
-	(5) KeyAccessor's operator() must take an object of type Item
-		by const& and return its key of type Key by const&.
-*/
-
 #ifndef __HASH_HEADER_INCLUDED__
 #define __HASH_HEADER_INCLUDED__
 
