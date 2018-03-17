@@ -1,0 +1,114 @@
+The Hash class is a hash data structure that stores references to objects,
+the lifetime of these objects is not managed by the class.
+The method used for collision resolution is linear probing.
+
+Template parameters:
+- Item: the type of the objects whose references are going to be stored in the container.
+- Key: the type of the item's key that is going to be used for hashing and searching.
+- KeyAccessor: a functor that gives access to an item's key.
+
+The class also uses a functor of type HashFunction<Key> as a hash function.
+
+Type requirements:
+1) Key:
+- must have overloaded operator!= .
+- the HashFunction class may need a template class specialization for this type.
+
+2) KeyAccessor:
+- its special members must not throw exceptions.
+- must be default constructible.
+- must be copy constructible.
+- must be copy- or move- assignable.
+- must have overloaded operator() to take an object of type Item by const& and return its 
+  key of type Key by const&.
+
+3) HashFunction<Key>:
+- its special members must not throw exceptions.
+- must be default constructible.
+- must be copy constructible.
+- must be copy- or move- assignable.
+- must have overloaded operator() to take an object of type Key by const& and return a 
+  hash value - unsigned integer.
+
+
+PUBLIC MEMBER FUNCTIONS:
+
+Special members:
+
+1) explicit Hash(int expectedCount);
+Constructs an empty container.
+
+2) Hash(Hash<Item, Key, KeyAccessor>&& source);
+Move constructor.
+Constructs the container with the contents of source by using move semantics.
+source is left with no elements after the move constructor returns.
+In case std::bad_alloc is thrown, source is not changed.
+
+3) Hash(const Hash<Item, Key, KeyAccessor>& source);
+Copy constructor.
+Constructs the container with a copy of source's contents.
+
+4) Hash<Item, Key, KeyAccessor>& operator=(Hash<Item, Key, KeyAccessor>&& rhs);
+Move assignment operator. 
+Replaces the contents of the current object with those of rhs using move semantics. 
+rhs is left with no elements after the move assignment operator returns. 
+In case std::bad_alloc is thrown, both of the objects are not changed.
+
+5) Hash<Item, Key, KeyAccessor>& operator=(const Hash<Item, Key, KeyAccessor>& rhs);
+Copy assignment operator. 
+Replaces the contents of the current object with a copy of rhs' contents. 
+In case std::bad_alloc is thrown, the current object is not changed.
+
+6) ~Hash();
+Destructs the object. The container stores references and the referenced objects are not 
+destroyed.
+
+7) Item* search(const Key& key);
+Searches for an item with a key equivalent to the argument. Returns a pointer to the first 
+found item with a matching key or nullptr if there is no such item.
+
+8) void add(Item& item);
+Adds a reference to the passed item in the container. No checks for duplicate keys are made.
+Causes reallocation and rehashing of all the items when the container is close to filling up.
+
+9) Item* remove(const Key& key);
+Searches for an item with a key equivalent to the argument, removes the item from the container
+and returns a pointer to it (nullptr if there is no such item in the container). At least part
+of the items in the container are rehashed after a successfull removal, may include reallocation.
+
+10) size_t getCount() const;
+Returns the number of items that are stored in the container.
+
+11) bool isEmpty() const;
+Checks whether the container currently stores no items.
+
+12) void empty();
+Removes all the items from the container. Involves memory allocation.
+
+
+PRIVATE MEMBER FUNCTIONS:
+
+13) int searchAndGetIndex(const Key& key);
+Searches for an item with a key equivalent to the argument. Returns the index of the first found 
+item with a matching key or the SEARCH_MISS constant if there is no such item in the container.
+
+14) void resize(int newSize);
+Resizes the table to have newSize slots. newSize must be > count so that the table can contain all 
+the current items and have at least one empty slot to terminate probing. All the items are rehashed 
+into the new table.
+
+15) void rehashCluster(int start);
+Starting from the passed index and moving with one position to the right (wrapping back to the 
+beginning of the table if the end is reached), rehashes the items until an empty slot is reached.
+
+16) void swapContentsWith(Hash<Item, Key, KeyAccessor> temp);
+Swaps the contents of the current object with the contents of temp using std::swap, the old contents 
+are destroyed when the function returns and temp is destroyed.
+
+17) static void nullify(DArray<Item*>& table);
+Makes every pointer in the passed table a null pointer.
+
+18) static int calculateTableSize(int expectedCount);
+Depending on the expected number of items to be inserted into the container, calculates a table 
+size that is big enough to store all the items and have spare space so that probing is efficient. 
+Throws std::invalid_argument if expectedCount is less than one.
