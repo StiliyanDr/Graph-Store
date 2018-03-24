@@ -8,7 +8,7 @@ template <class Item, class Key, class KeyAccessor>
 class Hash
 {
 public:
-	explicit Hash(int expectedCount);
+	explicit Hash(size_t expectedCount);
 	Hash(Hash<Item, Key, KeyAccessor>&& source);
 	Hash(const Hash<Item, Key, KeyAccessor>& source) = default;
 	Hash<Item, Key, KeyAccessor>& operator=(Hash<Item, Key, KeyAccessor>&& rhs);
@@ -24,24 +24,27 @@ public:
 	void empty();
 
 private:
-	static const int MIN_TABLE_SIZE = 3;
-	static const int SEARCH_MISS = -1;
+	static const size_t MIN_TABLE_SIZE = 3;
+	static const long SEARCH_MISS = -1;
 
 private:
-	size_t count;			 
+	size_t count, tableSize;			 
 	DArray<Item*> table;
 	KeyAccessor keyAccessor;
 	HashFunction<Key> hashFunction;
 
 private:
-	int searchAndGetIndex(const Key& key);
-	void resize(int newSize);
-	void rehashCluster(int start);
+	long searchAndGetIndex(const Key& key);
+	void resize(size_t newSize);
+	void rehashCluster(size_t start);
+	Item* emptySlotAndReturnItemAt(size_t index);
+	bool hasTooManyEmptySlots() const;
+	bool isFillingUp() const;
 	void swapContentsWith(Hash<Item, Key, KeyAccessor> temp);
 
 private:
 	static void nullify(DArray<Item*>& table);
-	static int calculateTableSize(int expectedCount);
+	static size_t calculateTableSize(size_t expectedCount);
 };
 
 #include "Hash.hpp"

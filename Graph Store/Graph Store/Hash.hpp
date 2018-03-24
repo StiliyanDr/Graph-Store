@@ -4,9 +4,10 @@
 
 
 template <class Item, class Key, class KeyAccessor>
-Hash<Item, Key, KeyAccessor>::Hash(int expectedCount) :
+Hash<Item, Key, KeyAccessor>::Hash(size_t expectedCount) :
 	count(0),
-	table(calculateTableSize(expectedCount), calculateTableSize(expectedCount))
+	tableSize(calculateTableSize(expectedCount)),
+	table(tableSize, tableSize)
 {
 	nullify(table);
 }
@@ -15,7 +16,8 @@ Hash<Item, Key, KeyAccessor>::Hash(int expectedCount) :
 template <class Item, class Key, class KeyAccessor>
 Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source) :
 	count(0),
-	table(MIN_TABLE_SIZE, MIN_TABLE_SIZE),
+	tableSize(MIN_TABLE_SIZE),
+	table(tableSize, tableSize),
 	keyAccessor(std::move(source.keyAccessor)),
 	hashFunction(std::move(source.hashFunction))
 {
@@ -23,6 +25,7 @@ Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source) :
 
 	std::swap(table, source.table);
 	std::swap(count, source.count);
+	std::swap(tableSize, source.tableSize);
 }
 
 
@@ -51,7 +54,7 @@ Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(const Hash
 template <class Item, class Key, class KeyAccessor>
 Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
 {
-	int index = searchAndGetIndex(key);
+	long index = searchAndGetIndex(key);
 
 	return (index != SEARCH_MISS) ? table[index] : nullptr;
 }
@@ -60,17 +63,12 @@ Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
 template <class Item, class Key, class KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::add(Item& item)
 {
-	size_t tableSize = table.getCount();
-
 	assert(tableSize >= MIN_TABLE_SIZE && count < tableSize);
 
-	if (3 * count >= 2 * tableSize)
-	{
+	if (isFillingUp())
 		resize(2 * tableSize);
-		tableSize = table.getCount();
-	}
 
-	int index = hashFunction(keyAccessor(item)) % tableSize;
+	size_t index = hashFunction(keyAccessor(item)) % tableSize;
 
 	while (table[index])
 		index = (index + 1) % tableSize;
@@ -85,19 +83,15 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 {
 	Item* removed = nullptr;
 
-	int index = searchAndGetIndex(key);
+	long index = searchAndGetIndex(key);
 
 	if (index != SEARCH_MISS)
 	{
-		assert(count > 0 && table.getCount() > count);
+		assert(count > 0 && tableSize > count);
 
-		removed = table[index];  
-		table[index] = nullptr; 
-		--count;
+		removed = emptySlotAndReturnItemAt(index);
 
-		const int tableSize = table.getCount();
-
-		if (6 * count <= tableSize && (tableSize / 2) >= MIN_TABLE_SIZE)
+		if (hasTooManyEmptySlots() && (tableSize / 2) >= MIN_TABLE_SIZE)
 			resize(tableSize / 2);
 		else
 			rehashCluster((index + 1) % tableSize);
@@ -127,23 +121,22 @@ void Hash<Item, Key, KeyAccessor>::empty()
 	table.empty();
 	table.ensureSize(MIN_TABLE_SIZE);
 
-	for (int i = 1; i <= MIN_TABLE_SIZE; ++i)
+	for (size_t i = 1; i <= MIN_TABLE_SIZE; ++i)
 		table.add(nullptr);
 
+	tableSize = MIN_TABLE_SIZE;
 	count = 0;
 }
 
 
 template <class Item, class Key, class KeyAccessor>
-int Hash<Item, Key, KeyAccessor>::searchAndGetIndex(const Key& key)
+long Hash<Item, Key, KeyAccessor>::searchAndGetIndex(const Key& key)
 {
 	if (!isEmpty())
 	{
-		const int tableSize = table.getCount();
-
 		assert(tableSize >= MIN_TABLE_SIZE);
 
-		int index = hashFunction(key) % tableSize;
+		size_t index = hashFunction(key) % tableSize;
 
 		while (table[index] && keyAccessor(*table[index]) != key)
 			index = (index + 1) % tableSize;
@@ -162,22 +155,20 @@ int Hash<Item, Key, KeyAccessor>::searchAndGetIndex(const Key& key)
 /// items and have at least one empty slot to terminate probing.
 ///
 template <class Item, class Key, class KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::resize(int newSize)
+void Hash<Item, Key, KeyAccessor>::resize(size_t newSize)
 {
 	assert(newSize >= MIN_TABLE_SIZE && newSize > count);
 
 	DArray<Item*> temp(newSize, newSize);
 	nullify(temp);
 
-	//Swap the current table with the new one by moving them.
 	std::swap(table, temp);
 
-	//Items are going to be inserted into the new empty table.
+	size_t oldTableSize = tableSize;
+	tableSize = newSize;
 	count = 0;
 
-	int oldTableSize = temp.getCount();
-
-	for (int i = 0; i < oldTableSize; ++i)
+	for (size_t i = 0; i < oldTableSize; ++i)
 	{
 		if (temp[i])
 			add(*temp[i]);
@@ -186,32 +177,26 @@ void Hash<Item, Key, KeyAccessor>::resize(int newSize)
 
 
 template <class Item, class Key, class KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::nullify(DArray<Item*>& arr)
+void Hash<Item, Key, KeyAccessor>::nullify(DArray<Item*>& table)
 {
-	int size = arr.getCount();
+	size_t size = table.getCount();
 
-	for (int i = 0; i < size; ++i)
-		arr[i] = nullptr;
+	for (size_t i = 0; i < size; ++i)
+		table[i] = nullptr;
 }
 
 
 template <class Item, class Key, class KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::rehashCluster(int start)
+void Hash<Item, Key, KeyAccessor>::rehashCluster(size_t start)
 {
-	int index = start;
-	const int tableSize = table.getCount();
-
-	assert(index >= 0 && index < tableSize);
-
+	assert(start < tableSize);
+	
+	size_t index = start;
 	Item* temp;
 
 	while (table[index])
 	{
-		temp = table[index];
-		table[index] = nullptr;
-
-		--count;
-
+		temp = emptySlotAndReturnItemAt(index);
 		add(*temp);
 		index = (index + 1) % tableSize;
 	}
@@ -219,9 +204,38 @@ void Hash<Item, Key, KeyAccessor>::rehashCluster(int start)
 
 
 template <class Item, class Key, class KeyAccessor>
+Item* Hash<Item, Key, KeyAccessor>::emptySlotAndReturnItemAt(size_t index)
+{
+	assert(table[index]);
+
+	Item* removed = table[index];
+	table[index] = nullptr;
+	
+	--count;
+	
+	return removed;
+}
+
+
+template <class Item, class Key, class KeyAccessor>
+inline bool Hash<Item, Key, KeyAccessor>::hasTooManyEmptySlots() const
+{
+	return 6 * count <= tableSize;
+}
+
+
+template <class Item, class Key, class KeyAccessor>
+inline bool Hash<Item, Key, KeyAccessor>::isFillingUp() const
+{
+	return 3 * count >= 2 * tableSize;
+}
+
+
+template <class Item, class Key, class KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::swapContentsWith(Hash<Item, Key, KeyAccessor> temp)
 {
 	std::swap(count, temp.count);
+	std::swap(tableSize, temp.tableSize);
 	std::swap(table, temp.table);
 	std::swap(keyAccessor, temp.keyAccessor);
 	std::swap(hashFunction, temp.hashFunction);
@@ -234,7 +248,7 @@ void Hash<Item, Key, KeyAccessor>::swapContentsWith(Hash<Item, Key, KeyAccessor>
 /// items and have spare space so that probing is efficient.
 ///
 template <class Item, class Key, class KeyAccessor>
-int Hash<Item, Key, KeyAccessor>::calculateTableSize(int expectedCount)
+size_t Hash<Item, Key, KeyAccessor>::calculateTableSize(size_t expectedCount)
 {
 	if (expectedCount > 0)
 		return ((3 * expectedCount) / 2) + MIN_TABLE_SIZE;
