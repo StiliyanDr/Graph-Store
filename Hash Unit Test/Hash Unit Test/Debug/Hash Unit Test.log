@@ -1,21 +1,5 @@
 ﻿  HashTest.cpp
-d:\repositories\graph-store\graph store\graph store\hash.hpp(92): warning C4018: '>': signed/unsigned mismatch
-  d:\repositories\graph-store\graph store\graph store\hash.hpp(85): note: while compiling class template member function 'Book *Hash<Book,String,BookTitleAccessor>::remove(const Key &)'
-          with
-          [
-              Key=String
-          ]
-  d:\repositories\graph-store\hash unit test\hash unit test\hashtest.cpp(229): note: see reference to function template instantiation 'Book *Hash<Book,String,BookTitleAccessor>::remove(const Key &)' being compiled
-          with
-          [
-              Key=String
-          ]
-  d:\repositories\graph-store\hash unit test\hash unit test\hashtest.cpp(24): note: see reference to class template instantiation 'Hash<Book,String,BookTitleAccessor>' being compiled
-d:\repositories\graph-store\graph store\graph store\hash.hpp(100): warning C4018: '<=': signed/unsigned mismatch
-d:\repositories\graph-store\graph store\graph store\hash.hpp(167): warning C4018: '>': signed/unsigned mismatch
-  d:\repositories\graph-store\graph store\graph store\hash.hpp(166): note: while compiling class template member function 'void Hash<Book,String,BookTitleAccessor>::resize(int)'
-  d:\repositories\graph-store\graph store\graph store\hash.hpp(69): note: see reference to function template instantiation 'void Hash<Book,String,BookTitleAccessor>::resize(int)' being compiled
-  d:\repositories\graph-store\graph store\graph store\hash.hpp(16): note: while compiling class template member function 'Hash<Book,String,BookTitleAccessor>::Hash(Hash<Book,String,BookTitleAccessor> &&)'
-  d:\repositories\graph-store\hash unit test\hash unit test\hashtest.cpp(63): note: see reference to function template instantiation 'Hash<Book,String,BookTitleAccessor>::Hash(Hash<Book,String,BookTitleAccessor> &&)' being compiled
+  LINK : D:\Repositories\Graph-Store\Hash Unit Test\Debug\Hash Unit Test.dll not found or not built by the last incremental link; performing full link
+     Creating library D:\Repositories\Graph-Store\Hash Unit Test\Debug\Hash Unit Test.lib and object D:\Repositories\Graph-Store\Hash Unit Test\Debug\Hash Unit Test.exp
   Hash Unit Test.vcxproj -> D:\Repositories\Graph-Store\Hash Unit Test\Debug\Hash Unit Test.dll
   Hash Unit Test.vcxproj -> D:\Repositories\Graph-Store\Hash Unit Test\Debug\Hash Unit Test.pdb (Partial PDB)

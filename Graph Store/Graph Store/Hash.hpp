@@ -91,7 +91,7 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 
 		removed = emptySlotAndReturnItemAt(index);
 
-		if (hasTooManyEmptySlots() && (tableSize / 2) >= MIN_TABLE_SIZE)
+		if (hasTooManyEmptySlots() && tableCanBeHalved())
 			resize(tableSize / 2);
 		else
 			rehashCluster((index + 1) % tableSize);
@@ -149,11 +149,6 @@ long Hash<Item, Key, KeyAccessor>::searchAndGetIndex(const Key& key)
 }
 
 
-///
-/// Resizes the table to have newSize slots. newSize must 
-/// be > count so that the table can contain all the current 
-/// items and have at least one empty slot to terminate probing.
-///
 template <class Item, class Key, class KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::resize(size_t newSize)
 {
@@ -225,6 +220,13 @@ inline bool Hash<Item, Key, KeyAccessor>::hasTooManyEmptySlots() const
 
 
 template <class Item, class Key, class KeyAccessor>
+inline bool Hash<Item, Key, KeyAccessor>::tableCanBeHalved() const
+{
+	return (tableSize / 2) >= MIN_TABLE_SIZE;
+}
+
+
+template <class Item, class Key, class KeyAccessor>
 inline bool Hash<Item, Key, KeyAccessor>::isFillingUp() const
 {
 	return 3 * count >= 2 * tableSize;
@@ -243,9 +245,10 @@ void Hash<Item, Key, KeyAccessor>::swapContentsWith(Hash<Item, Key, KeyAccessor>
 
 
 ///
-/// Depending on the expected number of items to be inserted into the 
-/// hash, calculate a table size that is big enough to store all the 
-/// items and have spare space so that probing is efficient.
+/// With this expression, when expectedCount items are inserted into the table,
+/// the load factor will be 2 / 3. 
+/// Adding MIN_TABLE_SIZE prevents from inappropriate table size for small values 
+/// of expectedCount.
 ///
 template <class Item, class Key, class KeyAccessor>
 size_t Hash<Item, Key, KeyAccessor>::calculateTableSize(size_t expectedCount)

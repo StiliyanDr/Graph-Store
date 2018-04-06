@@ -39,6 +39,7 @@ private:
 	void rehashCluster(size_t start);
 	Item* emptySlotAndReturnItemAt(size_t index);
 	bool hasTooManyEmptySlots() const;
+	bool tableCanBeHalved() const;
 	bool isFillingUp() const;
 	void swapContentsWith(Hash<Item, Key, KeyAccessor> temp);
 
