@@ -1,7 +1,7 @@
 #ifndef __HASH_HEADER_INCLUDED__
 #define __HASH_HEADER_INCLUDED__
 
-#include "DArray.h"
+#include "DynamicArray.h"
 #include "HashFunction.h"
 
 template <class Item, class Key, class KeyAccessor>
@@ -29,7 +29,7 @@ private:
 
 private:
 	size_t count, tableSize;			 
-	DArray<Item*> table;
+	DynamicArray<Item*> table;
 	KeyAccessor keyAccessor;
 	HashFunction<Key> hashFunction;
 
@@ -44,7 +44,7 @@ private:
 	void swapContentsWith(Hash<Item, Key, KeyAccessor> temp);
 
 private:
-	static void nullify(DArray<Item*>& table);
+	static void nullify(DynamicArray<Item*>& table);
 	static size_t calculateTableSize(size_t expectedCount);
 };
 

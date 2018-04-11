@@ -154,7 +154,7 @@ void Hash<Item, Key, KeyAccessor>::resize(size_t newSize)
 {
 	assert(newSize >= MIN_TABLE_SIZE && newSize > count);
 
-	DArray<Item*> temp(newSize, newSize);
+	DynamicArray<Item*> temp(newSize, newSize);
 	nullify(temp);
 
 	std::swap(table, temp);
@@ -172,7 +172,7 @@ void Hash<Item, Key, KeyAccessor>::resize(size_t newSize)
 
 
 template <class Item, class Key, class KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::nullify(DArray<Item*>& table)
+void Hash<Item, Key, KeyAccessor>::nullify(DynamicArray<Item*>& table)
 {
 	size_t size = table.getCount();
 
