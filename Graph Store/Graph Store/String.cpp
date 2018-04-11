@@ -16,47 +16,31 @@ bool operator!=(const String &lhs, const String &rhs)
 }
 
 
-///
-///Checks whether lhs is lexicographically smaller than rhs.
-///
 bool operator<(const String &lhs, const String &rhs)
 {
 	return strcmp(lhs, rhs) < 0;
 }
 
 
-///
-///Checks whether lhs is lexicographically greater than rhs.
-///
 bool operator>(const String &lhs, const String &rhs)
 {
 	return rhs < lhs;
 }
 
 
-///
-///Checks whether lhs is lexicographically
-///greater or equal to rhs.
-///
+
 bool operator>=(const String &lhs, const String &rhs)
 {
 	return !(lhs < rhs);
 }
 
 
-///
-///Checks whether lhs is lexicographically
-///smaller or equal to rhs.
-///
 bool operator<=(const String &lhs, const String &rhs)
 {
 	return !(rhs < lhs);
 }
 
 
-///
-///Returns the string concatenation of lhs and rhs.
-///
 String operator+(const String &lhs, const String &rhs)
 {
 	String tmp(lhs);
@@ -66,9 +50,6 @@ String operator+(const String &lhs, const String &rhs)
 }
 
 
-///
-///Returns the string concatenation of lhs and rhs.
-///
 String operator+(const String &lhs, char rhs)
 {
 	String tmp(lhs);
@@ -78,9 +59,6 @@ String operator+(const String &lhs, char rhs)
 }
 
 
-///
-///Returns the string concatenation of lhs and rhs.
-///
 String operator+(char lhs, const String &rhs)
 {
 	String tmp(lhs);
@@ -100,10 +78,6 @@ String::String(char symbol) :
 }
 
 
-///
-///Makes a copy of the passed string
-///and stores it in the object.
-///
 String::String(const char* string) :
 	string(nullptr)
 {
@@ -111,9 +85,6 @@ String::String(const char* string) :
 }
 
 
-///
-///Moves source's string into the current object.
-///
 String::String(String&& source) :
 	string(source.string)
 {
@@ -121,10 +92,6 @@ String::String(String&& source) :
 }
 
 
-///
-///Make a copy of rhs, swap contents with the copy and
-///let it go out of scope, deleting the old string.
-///
 String& String::operator=(const String& rhs)
 {
 	if (this != &rhs)
@@ -136,10 +103,6 @@ String& String::operator=(const String& rhs)
 }
 
 
-///
-///Move rhs into the current object and leave it
-///with a null pointer (rhs becomes the empty string).
-///
 String& String::operator=(String&& rhs)
 {
 	if (this != &rhs)
@@ -152,10 +115,6 @@ String& String::operator=(String&& rhs)
 }
 
 
-///
-///Makes a copy of source's string
-///and stores it in the object.
-///
 String::String(const String &source) :
 	string(nullptr)
 {
@@ -175,10 +134,6 @@ size_t String::getLength() const
 }
 
 
-///
-///Concatenates a copy of the passed string
-///to the string stored in the object.
-///
 void String::concatenate(const char* argument)
 {
 	if (argument)
@@ -238,15 +193,6 @@ const char* String::getString() const
 }
 
 
-///
-///Makes a copy of the argument and stores
-///it in the object, releasing the old string 
-///first(if any).
-///
-///If nullptr is passed, the member becomes
-///nullptr and the object represents the empty 
-///string.
-///
 void String::setString(const char* with)
 {
 	if (with)
