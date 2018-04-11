@@ -142,8 +142,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DArray.h" />
-    <ClInclude Include="DArray.hpp" />
+    <ClInclude Include="DynamicArray.h" />
+    <ClInclude Include="DynamicArray.hpp" />
     <ClInclude Include="DynamicQueue.h" />
     <ClInclude Include="DynamicQueue.hpp" />
     <ClInclude Include="Hash.h" />

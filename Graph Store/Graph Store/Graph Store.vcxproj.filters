@@ -45,12 +45,6 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DArray.h">
-      <Filter>Dynamic Array</Filter>
-    </ClInclude>
-    <ClInclude Include="DArray.hpp">
-      <Filter>Dynamic Array</Filter>
-    </ClInclude>
     <ClInclude Include="String.h">
       <Filter>String</Filter>
     </ClInclude>
@@ -71,6 +65,12 @@
     </ClInclude>
     <ClInclude Include="HashFunctionStringSpecialization.h">
       <Filter>Hashing\Hash Function</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicArray.h">
+      <Filter>Dynamic Array</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicArray.hpp">
+      <Filter>Dynamic Array</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,7 @@
 #ifndef __DYNAMIC_QUEUE_HEADER_INCLUDED__
 #define __DYNAMIC_QUEUE_HEADER_INCLUDED__
 
-#include "../../Linked List/Linked List/LinkedList.h"
+#include "../../../SDP/Linked List/Linked List/LinkedList.h"
 
 template <class T>
 class DynamicQueue
