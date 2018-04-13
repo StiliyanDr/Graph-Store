@@ -31,6 +31,9 @@
     <Filter Include="Hashing\Hash Function">
       <UniqueIdentifier>{9220ccf3-1853-4def-8350-4cf926edfb30}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Linked List">
+      <UniqueIdentifier>{859d3703-6a4c-4370-9bd6-f3ae322aa179}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -71,6 +74,21 @@
     </ClInclude>
     <ClInclude Include="DynamicArray.hpp">
       <Filter>Dynamic Array</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedList.h">
+      <Filter>Linked List</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedList.hpp">
+      <Filter>Linked List</Filter>
+    </ClInclude>
+    <ClInclude Include="Box.h">
+      <Filter>Linked List</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedListIterator.h">
+      <Filter>Linked List</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedListIterator.hpp">
+      <Filter>Linked List</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
