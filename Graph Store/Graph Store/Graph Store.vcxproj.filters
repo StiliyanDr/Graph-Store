@@ -34,6 +34,9 @@
     <Filter Include="Linked List">
       <UniqueIdentifier>{859d3703-6a4c-4370-9bd6-f3ae322aa179}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Iterator">
+      <UniqueIdentifier>{8a39ee88-5d74-41ec-aea5-a21a0277cff0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -89,6 +92,9 @@
     </ClInclude>
     <ClInclude Include="LinkedListIterator.hpp">
       <Filter>Linked List</Filter>
+    </ClInclude>
+    <ClInclude Include="Iterator.h">
+      <Filter>Iterator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

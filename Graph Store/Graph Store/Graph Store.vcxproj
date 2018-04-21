@@ -151,6 +151,7 @@
     <ClInclude Include="Hash.hpp" />
     <ClInclude Include="HashFunction.h" />
     <ClInclude Include="HashFunctionStringSpecialization.h" />
+    <ClInclude Include="Iterator.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="LinkedList.hpp" />
     <ClInclude Include="LinkedListIterator.h" />
