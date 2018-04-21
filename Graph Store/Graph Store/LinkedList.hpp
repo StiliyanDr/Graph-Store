@@ -249,6 +249,26 @@ inline size_t LinkedList<T>::getSize() const
 
 
 template <class T>
+const T& LinkedList<T>::getFirst() const
+{
+	if (!isEmpty())
+		return first->item;
+	else
+		throw std::logic_error("The list is empty!");
+}
+
+
+template <class T>
+const T& LinkedList<T>::getLast() const
+{
+	if (!isEmpty())
+		return last->item;
+	else
+		throw std::logic_error("The list is empty!");
+}
+
+
+template <class T>
 void LinkedList<T>::appendChainFrom(LinkedList<T> source)
 {
 	if (!source.isEmpty())

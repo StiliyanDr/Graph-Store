@@ -36,6 +36,9 @@ public:
 	bool isEmpty() const;
 	size_t getSize() const;
 
+	const T& getFirst() const;
+	const T& getLast() const;
+
 private:
 	static Box<T>* findEndOfChain(Box<T>* current);
 	static void destroyChain(Box<T>* first);
