@@ -23,11 +23,11 @@ public:
 	operator const char*() const;
 
 private:
-	char* string;
-
-private:
 	const char* getString() const;
 	void setString(const char* with);
+
+private:
+	char* string;
 };
 
 bool operator==(const String &lhs, const String &rhs);

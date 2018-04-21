@@ -37,8 +37,8 @@ public:
 	size_t getSize() const;
 
 private:
-	size_t size;
-	Box<T> *first, *last;
+	static Box<T>* findEndOfChain(Box<T>* current);
+	static void destroyChain(Box<T>* first);
 
 private:
 	void appendChainFrom(LinkedList<T> source);
@@ -52,8 +52,8 @@ private:
 	void nullifyMembers();
 
 private:
-	static Box<T>* findEndOfChain(Box<T>* current);
-	static void destroyChain(Box<T>* first);
+	size_t size;
+	Box<T> *first, *last;
 };
 
 #include "LinkedList.hpp"

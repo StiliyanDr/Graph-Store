@@ -38,15 +38,15 @@ protected:
 	T* getItems();
 
 private:
-	size_t count, size;
-	T* items;
-
-private:
 	void resize(size_t newSize);
 	void copyFrom(const DynamicArray<T>& source);
 	void swapContentsWith(DynamicArray<T> temp);
 	void destroyItems();
 	void nullifyMembers();
+
+private:
+	size_t count, size;
+	T* items;
 };
 
 template <class T>

@@ -24,11 +24,11 @@ public:
 	friend bool operator!=(const LinkedListIterator<T>& lhs, const LinkedListIterator<T>& rhs);
 
 private:
-	Box<T>* current;
-	const LinkedList<T>* owner;
+	LinkedListIterator(Box<T>* current, const LinkedList<T>* owner);
 
 private:
-	LinkedListIterator(Box<T>* current, const LinkedList<T>* owner);
+	Box<T>* current;
+	const LinkedList<T>* owner;
 };
 
 #include "LinkedListIterator.hpp"

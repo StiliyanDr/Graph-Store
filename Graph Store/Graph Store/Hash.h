@@ -24,14 +24,8 @@ public:
 	void empty();
 
 private:
-	static const size_t MIN_TABLE_SIZE = 3;
-	static const long SEARCH_MISS = -1;
-
-private:
-	size_t count, tableSize;			 
-	DynamicArray<Item*> table;
-	KeyAccessor keyAccessor;
-	HashFunction<Key> hashFunction;
+	static void nullify(DynamicArray<Item*>& table);
+	static size_t calculateTableSize(size_t expectedCount);
 
 private:
 	long searchAndGetIndex(const Key& key);
@@ -44,8 +38,14 @@ private:
 	void swapContentsWith(Hash<Item, Key, KeyAccessor> temp);
 
 private:
-	static void nullify(DynamicArray<Item*>& table);
-	static size_t calculateTableSize(size_t expectedCount);
+	static const size_t MIN_TABLE_SIZE = 3;
+	static const long SEARCH_MISS = -1;
+
+private:
+	size_t count, tableSize;			 
+	DynamicArray<Item*> table;
+	KeyAccessor keyAccessor;
+	HashFunction<Key> hashFunction;
 };
 
 #include "Hash.hpp"
