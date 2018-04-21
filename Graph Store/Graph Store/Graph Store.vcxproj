@@ -145,6 +145,7 @@
     <ClInclude Include="Box.h" />
     <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="DynamicArray.hpp" />
+    <ClInclude Include="DynamicArrayIterator.hpp" />
     <ClInclude Include="DynamicQueue.h" />
     <ClInclude Include="DynamicQueue.hpp" />
     <ClInclude Include="Hash.h" />

@@ -175,6 +175,16 @@ inline size_t DynamicArray<T>::getCount() const
 
 
 template <class T>
+DynamicArrayIterator<T> DynamicArray<T>::getIteratorToFirst()
+{
+	DynamicArrayIterator<T>::Position position;
+    position = isEmpty() ? DynamicArrayIterator<T>::INVALID_POSITION : 0;
+
+	return DynamicArrayIterator<T>(position, this);
+}
+
+
+template <class T>
 T& DynamicArray<T>::operator[](size_t index)
 {
 	if (index < count)

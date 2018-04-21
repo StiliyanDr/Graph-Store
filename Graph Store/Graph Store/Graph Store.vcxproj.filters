@@ -96,6 +96,9 @@
     <ClInclude Include="Iterator.h">
       <Filter>Iterator</Filter>
     </ClInclude>
+    <ClInclude Include="DynamicArrayIterator.hpp">
+      <Filter>Dynamic Array</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

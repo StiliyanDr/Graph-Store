@@ -2,6 +2,9 @@
 #define __DYNAMIC_ARRAY_HEADER_INCLUDED__
 
 template <class T>
+class DynamicArrayIterator;
+
+template <class T>
 class DynamicArray
 {
 public:
@@ -23,6 +26,8 @@ public:
 
 	size_t getSize() const;
 	size_t getCount() const;
+
+	DynamicArrayIterator<T> getIteratorToFirst();
 
 public:
 	T& operator[](size_t index);
@@ -58,6 +63,42 @@ DynamicArray<T> operator+(const T& lhs, const DynamicArray<T>& rhs);
 template <class T>
 DynamicArray<T> operator+(const DynamicArray<T>& lhs, const T& rhs);
 
+template <class T>
+class DynamicArrayIterator
+{
+	typedef DynamicArrayIterator<T> Iterator;
+	typedef long Position;
+
+	template <class T>
+	friend class DynamicArray;
+
+public:
+	Iterator& operator++();
+	Iterator operator++(int);
+
+	T& operator*();
+	bool operator!() const;
+	operator bool() const;
+
+	template <class T>
+	friend bool operator==(const DynamicArrayIterator<T>& lhs, const DynamicArrayIterator<T>& rhs);
+
+	template <class T>
+	friend bool operator!=(const DynamicArrayIterator<T>& lhs, const DynamicArrayIterator<T>& rhs);
+
+private:
+	DynamicArrayIterator(Position current, DynamicArray<T>* owner);
+	bool isValid() const;
+
+private:
+	static const Position INVALID_POSITION = -1;
+
+private:
+	Position current;
+	DynamicArray<T>* owner;
+};
+
+#include "DynamicArrayIterator.hpp"
 #include "DynamicArray.hpp"
 
 #endif //__DYNAMIC_ARRAY_HEADER_INCLUDED__

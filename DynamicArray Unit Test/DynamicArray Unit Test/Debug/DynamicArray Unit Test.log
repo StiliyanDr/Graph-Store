@@ -1,5 +1,6 @@
 ﻿  stdafx.cpp
   Test.cpp
+  LINK : D:\Repositories\Graph-Store\DynamicArray Unit Test\Debug\DynamicArray Unit Test.dll not found or not built by the last incremental link; performing full link
      Creating library D:\Repositories\Graph-Store\DynamicArray Unit Test\Debug\DynamicArray Unit Test.lib and object D:\Repositories\Graph-Store\DynamicArray Unit Test\Debug\DynamicArray Unit Test.exp
   DynamicArray Unit Test.vcxproj -> D:\Repositories\Graph-Store\DynamicArray Unit Test\Debug\DynamicArray Unit Test.dll
   DynamicArray Unit Test.vcxproj -> D:\Repositories\Graph-Store\DynamicArray Unit Test\Debug\DynamicArray Unit Test.pdb (Partial PDB)
