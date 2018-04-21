@@ -146,8 +146,6 @@
     <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="DynamicArray.hpp" />
     <ClInclude Include="DynamicArrayIterator.hpp" />
-    <ClInclude Include="DynamicQueue.h" />
-    <ClInclude Include="DynamicQueue.hpp" />
     <ClInclude Include="Hash.h" />
     <ClInclude Include="Hash.hpp" />
     <ClInclude Include="HashFunction.h" />
@@ -157,6 +155,8 @@
     <ClInclude Include="LinkedList.hpp" />
     <ClInclude Include="LinkedListIterator.h" />
     <ClInclude Include="LinkedListIterator.hpp" />
+    <ClInclude Include="Queue.h" />
+    <ClInclude Include="Queue.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="String.h" />
     <ClInclude Include="targetver.h" />

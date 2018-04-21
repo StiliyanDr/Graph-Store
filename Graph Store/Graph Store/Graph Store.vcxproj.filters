@@ -54,12 +54,6 @@
     <ClInclude Include="String.h">
       <Filter>String</Filter>
     </ClInclude>
-    <ClInclude Include="DynamicQueue.h">
-      <Filter>Queue</Filter>
-    </ClInclude>
-    <ClInclude Include="DynamicQueue.hpp">
-      <Filter>Queue</Filter>
-    </ClInclude>
     <ClInclude Include="Hash.h">
       <Filter>Hashing\Hash</Filter>
     </ClInclude>
@@ -98,6 +92,12 @@
     </ClInclude>
     <ClInclude Include="DynamicArrayIterator.hpp">
       <Filter>Dynamic Array</Filter>
+    </ClInclude>
+    <ClInclude Include="Queue.h">
+      <Filter>Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Queue.hpp">
+      <Filter>Queue</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
