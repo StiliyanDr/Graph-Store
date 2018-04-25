@@ -143,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Box.h" />
+    <ClInclude Include="Distance.h" />
     <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="DynamicArray.hpp" />
     <ClInclude Include="DynamicArrayIterator.hpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Distance.cpp" />
     <ClCompile Include="Graph Store.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

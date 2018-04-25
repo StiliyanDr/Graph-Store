@@ -37,6 +37,9 @@
     <Filter Include="Iterator">
       <UniqueIdentifier>{8a39ee88-5d74-41ec-aea5-a21a0277cff0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Distance">
+      <UniqueIdentifier>{0c351ac3-f56d-447f-91f4-077beead836b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -99,6 +102,9 @@
     <ClInclude Include="Queue.hpp">
       <Filter>Queue</Filter>
     </ClInclude>
+    <ClInclude Include="Distance.h">
+      <Filter>Distance</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -109,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="String.cpp">
       <Filter>String</Filter>
+    </ClCompile>
+    <ClCompile Include="Distance.cpp">
+      <Filter>Distance</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

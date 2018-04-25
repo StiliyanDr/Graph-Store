@@ -9,6 +9,7 @@ public:
 	static const Distance infinity;
 
 public:
+	Distance();
 	Distance(unsigned distance);
 	Distance(const Distance&) = default;
 	Distance(Distance&&) = default;
@@ -17,8 +18,7 @@ public:
 	~Distance() = default;
 
 	Distance& operator=(unsigned distance);
-
-	friend Distance operator+(const Distance& lhs, const Distance& rhs);
+	Distance& operator+=(const Distance& rhs);
 
 	friend std::ostream& operator<<(std::ostream& output, const Distance& distance);
 	
@@ -32,6 +32,8 @@ private:
 	unsigned distance;
 	bool isInfinity;
 };
+
+Distance operator+(const Distance& lhs, const Distance& rhs);
 
 bool operator!=(const Distance& lhs, const Distance& rhs);
 bool operator>(const Distance& lhs, const Distance& rhs);
