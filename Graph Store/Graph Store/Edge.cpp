@@ -12,9 +12,13 @@ Edge::Edge(Vertex* vertex, unsigned weight)
 void Edge::setVertex(Vertex* vertex)
 {
 	if (vertex != nullptr)
+	{
 		this->vertex = vertex;
+	}
 	else
+	{
 		throw std::invalid_argument("Expected a vertex!");
+	}
 }
 
 void Edge::setWeight(unsigned weight)
