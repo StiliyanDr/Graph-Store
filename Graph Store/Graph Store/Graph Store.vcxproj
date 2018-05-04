@@ -148,6 +148,7 @@
     <ClInclude Include="DynamicArray.hpp" />
     <ClInclude Include="DynamicArrayIterator.hpp" />
     <ClInclude Include="Edge.h" />
+    <ClInclude Include="Graph.h" />
     <ClInclude Include="Hash.h" />
     <ClInclude Include="Hash.hpp" />
     <ClInclude Include="HashFunction.h" />
@@ -168,6 +169,7 @@
     <ClCompile Include="Distance.cpp" />
     <ClCompile Include="Edge.cpp" />
     <ClCompile Include="Graph Store.cpp" />
+    <ClCompile Include="Graph.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

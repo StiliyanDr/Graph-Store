@@ -49,6 +49,9 @@
     <Filter Include="Graph\Vertex">
       <UniqueIdentifier>{7bf2074e-861c-4488-adc3-7ac67a9ded77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graph\Abstraction">
+      <UniqueIdentifier>{dee3a313-5a63-433f-9d47-ff80ea26882e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -120,6 +123,9 @@
     <ClInclude Include="Edge.h">
       <Filter>Graph\Edge</Filter>
     </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>Graph\Abstraction</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -139,6 +145,9 @@
     </ClCompile>
     <ClCompile Include="Vertex.cpp">
       <Filter>Graph\Vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph.cpp">
+      <Filter>Graph\Abstraction</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

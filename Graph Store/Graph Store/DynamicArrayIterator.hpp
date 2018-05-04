@@ -1,22 +1,11 @@
 #include <cassert>
 #include <stdexcept>
 
-
 template <class T>
-DynamicArrayIterator<T>& DynamicArrayIterator<T>::operator++()
+inline DynamicArrayIterator<T>::DynamicArrayIterator(Position currentPosition, DynamicArray<T>* owner) :
+	currentPosition(currentPosition), owner(owner)
 {
-	if (isValid())
-	{
-		assert(current >= 0);
-		assert(current < owner->getCount());
-
-		++current;
-
-		if (current >= owner->getCount())
-			current = INVALID_POSITION;
-	}
 }
-
 
 template <class T>
 DynamicArrayIterator<T> DynamicArrayIterator<T>::operator++(int)
@@ -27,16 +16,32 @@ DynamicArrayIterator<T> DynamicArrayIterator<T>::operator++(int)
 	return temp;
 }
 
-
 template <class T>
-T& DynamicArrayIterator<T>::operator*()
+DynamicArrayIterator<T>& DynamicArrayIterator<T>::operator++()
 {
-	if (isValid())
-		return (*owner)[current];
-	else
-		throw std::out_of_range("Iterator out of range!");
+	advance();
+
+	return *this;
 }
 
+template <class T>
+void DynamicArrayIterator<T>::advance()
+{
+	if (!isValid())
+	{
+		return;
+	}
+
+	assert(currentPosition >= 0);
+	assert(currentPosition < owner->getCount());
+
+	++currentPosition;
+
+	if (currentPosition >= owner->getCount())
+	{
+		currentPosition = INVALID_POSITION;
+	}
+}
 
 template <class T>
 inline bool DynamicArrayIterator<T>::operator!() const
@@ -44,37 +49,45 @@ inline bool DynamicArrayIterator<T>::operator!() const
 	return !isValid();
 }
 
-
 template <class T>
 inline DynamicArrayIterator<T>::operator bool() const
 {
 	return isValid();
 }
 
-
-template <class T>
-inline DynamicArrayIterator<T>::DynamicArrayIterator(Position current, DynamicArray<T>* owner) :
-	current(current), owner(owner)
-{
-}
-
-
 template <class T>
 inline bool DynamicArrayIterator<T>::isValid() const
 {
-	return current != INVALID_POSITION;
+	return currentPosition != INVALID_POSITION;
 }
-
 
 template <class T>
-inline bool operator==(const DynamicArrayIterator<T>& lhs, const DynamicArrayIterator<T>& rhs)
+inline T& DynamicArrayIterator<T>::operator*()
 {
-	return lhs.owner == rhs.owner && lhs.current == rhs.current;
+	return getCurrentItem();
 }
 
+template <class T>
+T& DynamicArrayIterator<T>::getCurrentItem()
+{
+	if (isValid())
+	{
+		return (*owner)[currentPosition];
+	}
+	else
+	{
+		throw std::out_of_range("Iterator out of range!");
+	}
+}
 
 template <class T>
 inline bool operator!=(const DynamicArrayIterator<T>& lhs, const DynamicArrayIterator<T>& rhs)
 {
 	return !(lhs == rhs);
+}
+
+template <class T>
+inline bool operator==(const DynamicArrayIterator<T>& lhs, const DynamicArrayIterator<T>& rhs)
+{
+	return lhs.owner == rhs.owner && lhs.currentPosition == rhs.currentPosition;
 }

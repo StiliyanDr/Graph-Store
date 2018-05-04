@@ -5,17 +5,6 @@ inline LinkedListIterator<T>::LinkedListIterator(Box<T>* current, const LinkedLi
 {
 }
 
-
-template <class T>
-LinkedListIterator<T>& LinkedListIterator<T>::operator++()
-{
-	if (current)
-		current = current->next;
-
-	return *this;
-}
-
-
 template <class T>
 LinkedListIterator<T> LinkedListIterator<T>::operator++(int)
 {
@@ -25,37 +14,61 @@ LinkedListIterator<T> LinkedListIterator<T>::operator++(int)
 	return temp;
 }
 
+template <class T>
+LinkedListIterator<T>& LinkedListIterator<T>::operator++()
+{
+	advance();
+
+	return *this;
+}
+
+template <class T>
+void LinkedListIterator<T>::advance()
+{
+	if (current)
+	{
+		current = current->next;
+	}
+}
 
 template <class T>
 inline T& LinkedListIterator<T>::operator*()
 {
-	return current->item;
+	return getCurrentItem();
 }
 
+template <class T>
+inline T& LinkedListIterator<T>::getCurrentItem()
+{
+	return current->item;
+}
 
 template <class T>
 inline bool LinkedListIterator<T>::operator!() const
 {
-	return !current;
+	return !isValid();
 }
-
 
 template <class T>
 inline LinkedListIterator<T>::operator bool() const
 {
-	return current != nullptr;
+	return isValid();
 }
-
 
 template <class T>
-inline bool operator==(const LinkedListIterator<T>& lhs, const LinkedListIterator<T>& rhs)
+inline bool LinkedListIterator<T>::isValid() const
 {
-	return (lhs.owner == rhs.owner) && (lhs.current == rhs.current);
+	return current != nullptr;
 }
-
 
 template <class T>
 inline bool operator!=(const LinkedListIterator<T>& lhs, const LinkedListIterator<T>& rhs)
 {
 	return !(lhs == rhs);
+}
+
+template <class T>
+inline bool operator==(const LinkedListIterator<T>& lhs, const LinkedListIterator<T>& rhs)
+{
+	return (lhs.owner == rhs.owner) && (lhs.current == rhs.current);
 }

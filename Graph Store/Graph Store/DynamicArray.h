@@ -63,18 +63,25 @@ DynamicArray<T> operator+(const T& lhs, const DynamicArray<T>& rhs);
 template <class T>
 DynamicArray<T> operator+(const DynamicArray<T>& lhs, const T& rhs);
 
+#include "Iterator.h"
+
 template <class T>
-class DynamicArrayIterator
+class DynamicArrayIterator : public Iterator<T>
 {
-	typedef DynamicArrayIterator<T> Iterator;
 	typedef long Position;
 
 	template <class T>
 	friend class DynamicArray;
 
 public:
-	Iterator& operator++();
-	Iterator operator++(int);
+	virtual ~DynamicArrayIterator() = default;
+
+	virtual void advance() override;
+	virtual T& getCurrentItem() override;
+	virtual bool isValid() const override;
+
+	DynamicArrayIterator<T>& operator++();
+	DynamicArrayIterator<T> operator++(int);
 
 	T& operator*();
 	bool operator!() const;
@@ -87,14 +94,13 @@ public:
 	friend bool operator!=(const DynamicArrayIterator<T>& lhs, const DynamicArrayIterator<T>& rhs);
 
 private:
-	DynamicArrayIterator(Position current, DynamicArray<T>* owner);
-	bool isValid() const;
+	DynamicArrayIterator(Position currentPosition, DynamicArray<T>* owner);
 
 private:
 	static const Position INVALID_POSITION = -1;
 
 private:
-	Position current;
+	Position currentPosition;
 	DynamicArray<T>* owner;
 };
 

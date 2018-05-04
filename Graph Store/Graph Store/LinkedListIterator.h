@@ -2,14 +2,21 @@
 #define __LINKED_LIST_ITERATOR_HEADER_INCLUDED__
 
 #include "Box.h"
+#include "Iterator.h"
 
 template <class T>
-class LinkedListIterator
+class LinkedListIterator : public Iterator<T>
 {
 	template <class T>
 	friend class LinkedList;
 
 public:
+	virtual ~LinkedListIterator() = default;
+
+	virtual void advance() override;
+	virtual T& getCurrentItem() override;
+	virtual bool isValid() const override;
+
 	LinkedListIterator<T>& operator++();
 	LinkedListIterator<T> operator++(int);
 
