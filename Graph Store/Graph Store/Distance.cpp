@@ -16,6 +16,8 @@ Distance::Distance(unsigned distance)
 Distance& Distance::operator=(unsigned distance)
 {
 	setDistance(distance);
+
+	return *this;
 }
 
 void Distance::setDistance(unsigned distance)
