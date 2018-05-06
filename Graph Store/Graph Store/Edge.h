@@ -5,7 +5,7 @@ class Vertex;
 
 class Edge
 {
-	friend class Graph;
+	friend class GraphBase;
 
 public:
 	~Edge() = default;
