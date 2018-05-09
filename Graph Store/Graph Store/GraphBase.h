@@ -46,6 +46,7 @@ private:
 	EdgeConcreteIterator getConcreteIteratorOfEdgesStartingFrom(Vertex& vertex);
 	LinkedList<Edge>& getEdgesStartingFrom(Vertex& vertex);
 	VertexConcreteIterator getConcreteIteratorOfVertices();
+	void destroyAllVertices();
 
 private:
 	static const size_t INITIAL_COLLECTION_SIZE = 16;
