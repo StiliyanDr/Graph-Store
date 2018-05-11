@@ -8,7 +8,9 @@
 #include "targetver.h"
 
 #include "String.h"
-#include "Distance.h"
 
+#include "Distance.h"
+#include "Graph.h"
+#include "Edge.h"
 
 // TODO: reference additional headers your program requires here

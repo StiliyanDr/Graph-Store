@@ -52,6 +52,15 @@
     <Filter Include="Graph\Abstraction">
       <UniqueIdentifier>{dee3a313-5a63-433f-9d47-ff80ea26882e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graph\Graph Base">
+      <UniqueIdentifier>{b512bb41-d138-4d52-8abd-8ddd386f8827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph\Identifier Accessor">
+      <UniqueIdentifier>{22075870-293d-4918-9d93-c583698928bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph\Directed Graph">
+      <UniqueIdentifier>{8872f1e2-a4d7-4bd2-8a3d-6b4ff9b80eea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -126,6 +135,15 @@
     <ClInclude Include="Graph.h">
       <Filter>Graph\Abstraction</Filter>
     </ClInclude>
+    <ClInclude Include="GraphBase.h">
+      <Filter>Graph\Graph Base</Filter>
+    </ClInclude>
+    <ClInclude Include="IdentifierAccessor.h">
+      <Filter>Graph\Identifier Accessor</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectedGraph.h">
+      <Filter>Graph\Directed Graph</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -148,6 +166,12 @@
     </ClCompile>
     <ClCompile Include="Graph.cpp">
       <Filter>Graph\Abstraction</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphBase.cpp">
+      <Filter>Graph\Graph Base</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectedGraph.cpp">
+      <Filter>Graph\Directed Graph</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
