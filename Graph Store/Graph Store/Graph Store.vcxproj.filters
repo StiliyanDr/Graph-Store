@@ -61,6 +61,9 @@
     <Filter Include="Graph\Directed Graph">
       <UniqueIdentifier>{8872f1e2-a4d7-4bd2-8a3d-6b4ff9b80eea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graph\Undirected Graph">
+      <UniqueIdentifier>{4808a882-2d3d-4a62-b9ca-655e6f62c525}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -135,14 +138,17 @@
     <ClInclude Include="Graph.h">
       <Filter>Graph\Abstraction</Filter>
     </ClInclude>
-    <ClInclude Include="GraphBase.h">
-      <Filter>Graph\Graph Base</Filter>
-    </ClInclude>
     <ClInclude Include="IdentifierAccessor.h">
       <Filter>Graph\Identifier Accessor</Filter>
     </ClInclude>
+    <ClInclude Include="GraphBase.h">
+      <Filter>Graph\Graph Base</Filter>
+    </ClInclude>
     <ClInclude Include="DirectedGraph.h">
       <Filter>Graph\Directed Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="UndirectedGraph.h">
+      <Filter>Graph\Undirected Graph</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +178,9 @@
     </ClCompile>
     <ClCompile Include="DirectedGraph.cpp">
       <Filter>Graph\Directed Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="UndirectedGraph.cpp">
+      <Filter>Graph\Undirected Graph</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
