@@ -19,10 +19,9 @@ public:
 	virtual ~GraphBase();
 
 	virtual void addVertex(const char* identifier) override;
-	virtual void removeVertex(const char* identifier) override;
-	virtual void addEdgeFromToWithWeight(const char* startVertex, const char* endVertex, unsigned weight) override;
-	virtual void removeEdgeFromTo(const char* startVertex, const char* endVertex) override;
+	virtual void removeVertex(Vertex& vertexToRemove) override;
 
+	virtual Vertex* getVertexWithIdentifier(const char* identifier) override;
 	virtual VertexAbstractIterator getIteratorOfVertices() override;
 	virtual EdgeAbstractIterator getIteratorOfEdgesStartingFrom(Vertex& vertex) override;
 
@@ -32,7 +31,6 @@ protected:
 	bool hasVertexWithIdentifier(const char* identifier);
 	Vertex* createVertex(const char* identifier) const;
 	void addVertexToCollection(Vertex* vertex);
-	Vertex& getVertexWithIdentifier(const char* identifier);
 	virtual void removeEdgesEndingIn(Vertex& vertex);
 	virtual void removeEdgesStartingFrom(Vertex& vertex);
 	void removeVertexFromCollection(const Vertex& vertexToRemove);
@@ -40,6 +38,7 @@ protected:
 	bool hasEdgeFromTo(Vertex& startVertex, const Vertex& endVertex);
 	void addEdgeFromToWithWeight(Vertex& startVertex, Vertex& endVertex, unsigned weight);
 	void removeEdgeFromTo(Vertex& startVertex, const Vertex& endVertex);
+	bool isOwnerOf(const Vertex& vertex) const;
 
 private:
 	EdgeConcreteIterator searchForEdgeFromTo(Vertex& startVertex, const Vertex& endVertex);
