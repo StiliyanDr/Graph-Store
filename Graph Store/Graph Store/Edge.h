@@ -6,10 +6,9 @@ class Vertex;
 class Edge
 {
 	friend class GraphBase;
+	friend struct Box<Edge>;
 
 public:
-	~Edge() = default;
-
 	Vertex& getVertex();
 	unsigned getWeight() const;
 
@@ -17,6 +16,7 @@ private:
 	Edge(Vertex* vertex, unsigned weight = 1);
 	Edge(const Edge&) = default;
 	Edge& operator=(const Edge&) = default;
+	~Edge() = default;
 
 	void setVertex(Vertex* vertex);
 	void setWeight(unsigned weight);
