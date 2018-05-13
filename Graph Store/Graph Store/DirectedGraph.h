@@ -12,7 +12,7 @@ public:
 	virtual ~DirectedGraph() = default;
 
 	virtual void addEdgeBetweenWithWeight(Vertex& startVertex, Vertex& endVertex, unsigned weight) override;
-	virtual void removeEdgeBetween(Vertex& startVertex, const Vertex& endVertex) override;
+	virtual void removeEdgeBetween(Vertex& startVertex, Vertex& endVertex) override;
 };
 
 #endif //__DIRECTED_GRAPH_HEADER_INCLUDED__

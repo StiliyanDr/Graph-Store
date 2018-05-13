@@ -24,7 +24,7 @@ void UndirectedGraph::addEdgeBetweenWithWeight(Vertex& startVertex, Vertex& endV
 	}
 }
 
-void UndirectedGraph::removeEdgeBetween(Vertex& startVertex, const Vertex& endVertex)
+void UndirectedGraph::removeEdgeBetween(Vertex& startVertex, Vertex& endVertex)
 {
 	assert(isOwnerOf(startVertex));
 	assert(isOwnerOf(endVertex));

@@ -21,7 +21,7 @@ public:
 	virtual void addVertex(const char* identifier) = 0;
 	virtual void removeVertex(Vertex& vertexToRemove) = 0;
 	virtual void addEdgeBetweenWithWeight(Vertex& startVertex, Vertex& endVertex, unsigned weight) = 0;
-	virtual void removeEdgeBetween(Vertex& startVertex, const Vertex& endVertex) = 0;
+	virtual void removeEdgeBetween(Vertex& startVertex, Vertex& endVertex) = 0;
 
 	virtual Vertex* getVertexWithIdentifier(const char* identifier) = 0;
 	virtual VertexAbstractIterator getIteratorOfVertices() = 0;

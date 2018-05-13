@@ -23,7 +23,7 @@ void DirectedGraph::addEdgeBetweenWithWeight(Vertex& startVertex, Vertex& endVer
 	}
 }
 
-void DirectedGraph::removeEdgeBetween(Vertex& startVertex, const Vertex& endVertex)
+void DirectedGraph::removeEdgeBetween(Vertex& startVertex, Vertex& endVertex)
 {
 	assert(isOwnerOf(startVertex));
 	assert(isOwnerOf(endVertex));
