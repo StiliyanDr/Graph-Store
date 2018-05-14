@@ -3,6 +3,11 @@
 
 const Distance Distance::infinity;
 
+const Distance& Distance::getInfinity()
+{
+	return infinity;
+}
+
 Distance::Distance() :
 	isInfinity(true)
 {

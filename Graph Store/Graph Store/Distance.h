@@ -6,7 +6,7 @@
 class Distance
 {
 public:
-	static const Distance infinity;
+	static const Distance& getInfinity();
 
 public:
 	Distance();
@@ -27,6 +27,9 @@ public:
 
 private:
 	void setDistance(unsigned distance);
+
+private:
+	static const Distance infinity;
 
 private:
 	unsigned distance;
