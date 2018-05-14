@@ -8,7 +8,7 @@ Vertex::Vertex(String identifier, size_t index) :
 {
 	setIdentifier(std::move(identifier));
 	setParent(nullptr);
-	setDistance(Distance::infinity);
+	setDistance(Distance::getInfinity());
 	markAsNotVisited();
 }
 
