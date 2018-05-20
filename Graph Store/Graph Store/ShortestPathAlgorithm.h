@@ -18,7 +18,9 @@ public:
 
 protected:
 	ShortestPathAlgorithm(const char* identifier);
-	virtual void initialiseGraphAndSource(Graph& graph, Vertex& source) const;
+
+	void initialiseVerticesOf(Graph& graph) const;
+	virtual void initialiseVertex(Vertex& vertex) const = 0;
 
 private:
 	void setIdentifier(const char* identifier);

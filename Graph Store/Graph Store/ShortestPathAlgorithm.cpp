@@ -26,22 +26,22 @@ const String& ShortestPathAlgorithm::getIdentifier() const
 	return identifier;
 }
 
-void ShortestPathAlgorithm::initialiseGraphAndSource(Graph& graph, Vertex& source) const
+void ShortestPathAlgorithm::initialiseVerticesOf(Graph& graph) const
 {
 	std::unique_ptr<Iterator<Vertex*>> vertexIterator = graph.getIteratorOfVertices();
 
-	Vertex* vertex;
-
 	while (vertexIterator->isValid())
 	{
-		vertex = vertexIterator->getCurrentItem();
-		
-		vertex->markAsNotVisited();
-		vertex->setParent(nullptr);
-		vertex->setDistance(Distance::getInfinity());
+		assert(vertexIterator->getCurrentItem() != nullptr);
 
+		initialiseVertex(*(vertexIterator->getCurrentItem()));
 		vertexIterator->advance();
 	}
+}
 
-	source.setDistance(0);
+void ShortestPathAlgorithm::initialiseVertex(Vertex& vertex) const
+{
+	vertex.markAsNotVisited();
+	vertex.setParent(nullptr);
+	vertex.setDistance(Distance::getInfinity());
 }
