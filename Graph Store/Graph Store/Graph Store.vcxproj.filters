@@ -67,6 +67,12 @@
     <Filter Include="Shortest Path Algorithms">
       <UniqueIdentifier>{eb1361a8-3847-4417-947f-c42a826d562b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shortest Path Algorithms\Abstract class">
+      <UniqueIdentifier>{4eb8960e-4e4e-4f7a-b28e-bc366a8cb965}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shortest Path Algorithms\BFS">
+      <UniqueIdentifier>{04f2d1ac-e4e2-431c-8bf2-8c9bdb242edf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -142,7 +148,13 @@
       <Filter>Graph\Abstraction</Filter>
     </ClInclude>
     <ClInclude Include="ShortestPathAlgorithm.h">
-      <Filter>Shortest Path Algorithms</Filter>
+      <Filter>Shortest Path Algorithms\Abstract class</Filter>
+    </ClInclude>
+    <ClInclude Include="BFS.h">
+      <Filter>Shortest Path Algorithms\BFS</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphBase.h">
+      <Filter>Graph\Graph Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -168,7 +180,13 @@
       <Filter>Graph\Abstraction</Filter>
     </ClCompile>
     <ClCompile Include="ShortestPathAlgorithm.cpp">
-      <Filter>Shortest Path Algorithms</Filter>
+      <Filter>Shortest Path Algorithms\Abstract class</Filter>
+    </ClCompile>
+    <ClCompile Include="BFS.cpp">
+      <Filter>Shortest Path Algorithms\BFS</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphBase.cpp">
+      <Filter>Graph\Graph Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
