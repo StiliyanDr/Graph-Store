@@ -7,10 +7,12 @@ template <class T>
 class Queue
 {
 public:
-	bool isEmpty() const;
 	void enqueue(const T& item);
 	T dequeue();
 	T first() const;
+
+	bool isEmpty() const;
+	void empty();
 
 private:
 	LinkedList<T> items;
