@@ -34,7 +34,7 @@ void BFS::initialiseAlgorithm(Graph& graph, Vertex& source, const Vertex& destin
 {
 	assert(theFrontierIsEmpty());
 
-	if (&source != &destination)
+	if (source != destination)
 	{
 		hasFoundAShortestPath = false;
 		setDestination(destination);
@@ -114,7 +114,7 @@ void BFS::setDestination(const Vertex& destination)
 
 void BFS::checkIfDestination(const Vertex& vertex)
 {
-	if (&vertex == destination)
+	if (vertex == *destination)
 	{
 		assert(!hasFoundAShortestPath);
 
