@@ -39,4 +39,7 @@ private:
 	bool isVisited;
 };
 
+bool operator==(const Vertex& lhs, const Vertex& rhs);
+bool operator!=(const Vertex& lhs, const Vertex& rhs);
+
 #endif //__VERTEX_HEADER_INCLUDED__

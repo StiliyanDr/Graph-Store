@@ -63,3 +63,13 @@ void Vertex::setIdentifier(String identifier)
 		throw std::invalid_argument("Invalid vertex identifier!");
 	}
 }
+
+bool operator!=(const Vertex& lhs, const Vertex& rhs)
+{
+	return !(lhs == rhs);
+}
+
+bool operator==(const Vertex& lhs, const Vertex& rhs)
+{
+	return &lhs == &rhs;
+}
