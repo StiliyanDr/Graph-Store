@@ -193,3 +193,8 @@ LinkedList<Edge>& GraphBase::getEdgesStartingFrom(Vertex& vertex)
 {
 	return vertex.edges;
 }
+
+unsigned GraphBase::getVerticesCount() const
+{
+	return vertices.getCount();
+}

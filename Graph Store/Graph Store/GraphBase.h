@@ -24,6 +24,7 @@ public:
 	virtual Vertex* getVertexWithIdentifier(const char* identifier) override;
 	virtual VertexAbstractIterator getIteratorOfVertices() override;
 	virtual EdgeAbstractIterator getIteratorOfEdgesStartingFrom(Vertex& vertex) override;
+	virtual unsigned getVerticesCount() const override;
 
 protected:
 	GraphBase(String identifier);
