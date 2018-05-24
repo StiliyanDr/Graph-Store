@@ -7,10 +7,11 @@
 
 #include "targetver.h"
 
-#include "String.h"
+#include <assert.h>
+#include <stdexcept>
+#include <utility>
 
-#include "Distance.h"
 #include "Graph.h"
 #include "Edge.h"
-
-// TODO: reference additional headers your program requires here
+#include "Vertex.h"
+#include "String.h"
