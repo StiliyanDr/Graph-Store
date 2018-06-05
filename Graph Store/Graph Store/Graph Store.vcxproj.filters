@@ -76,6 +76,9 @@
     <Filter Include="Shortest Path Algorithms\Iterative Deepening DFS">
       <UniqueIdentifier>{0989909a-0ea5-4cfe-a894-f411fa880c64}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shortest Path Algorithms\Shortest Path Algorithms Store">
+      <UniqueIdentifier>{64578d2a-b4d0-4f1f-8e7e-314661566a2d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -150,26 +153,20 @@
     <ClInclude Include="Graph.h">
       <Filter>Graph\Abstraction</Filter>
     </ClInclude>
+    <ClInclude Include="ShortestPathAlgorithmsStore.h">
+      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
+    </ClInclude>
     <ClInclude Include="ShortestPathAlgorithm.h">
       <Filter>Shortest Path Algorithms\Abstract class</Filter>
+    </ClInclude>
+    <ClInclude Include="IdentifierAccessor.h">
+      <Filter>Graph\Identifier Accessor</Filter>
     </ClInclude>
     <ClInclude Include="BFS.h">
       <Filter>Shortest Path Algorithms\BFS</Filter>
     </ClInclude>
-    <ClInclude Include="GraphBase.h">
-      <Filter>Graph\Graph Base</Filter>
-    </ClInclude>
     <ClInclude Include="IterativeDeepeningDFS.h">
       <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectedGraph.h">
-      <Filter>Graph\Directed Graph</Filter>
-    </ClInclude>
-    <ClInclude Include="UndirectedGraph.h">
-      <Filter>Graph\Undirected Graph</Filter>
-    </ClInclude>
-    <ClInclude Include="IdentifierAccessor.h">
-      <Filter>Graph\Identifier Accessor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -200,17 +197,11 @@
     <ClCompile Include="BFS.cpp">
       <Filter>Shortest Path Algorithms\BFS</Filter>
     </ClCompile>
-    <ClCompile Include="GraphBase.cpp">
-      <Filter>Graph\Graph Base</Filter>
+    <ClCompile Include="ShortestPathAlgorithmsStore.cpp">
+      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
     </ClCompile>
     <ClCompile Include="IterativeDeepeningDFS.cpp">
       <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectedGraph.cpp">
-      <Filter>Graph\Directed Graph</Filter>
-    </ClCompile>
-    <ClCompile Include="UndirectedGraph.cpp">
-      <Filter>Graph\Undirected Graph</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

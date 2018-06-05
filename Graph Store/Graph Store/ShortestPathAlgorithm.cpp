@@ -2,23 +2,20 @@
 #include "ShortestPathAlgorithm.h"
 #include "Graph.h"
 #include "Vertex.h"
-#include <stdexcept>
+#include "ShortestPathAlgorithmsStore.h"
 
 ShortestPathAlgorithm::ShortestPathAlgorithm(const char* identifier)
 {
 	setIdentifier(identifier);
+
+	ShortestPathAlgorithmsStore::instance().addAlgorithm(*this);
 }
 
 void ShortestPathAlgorithm::setIdentifier(const char* identifier)
 {
-	if (identifier && *identifier)
-	{
-		this->identifier = identifier;
-	}
-	else
-	{
-		throw std::invalid_argument("Invalid ShortestPathAlgorithm identifier!");
-	}
+	assert(identifier != nullptr && *identifier);
+
+	this->identifier = identifier;
 }
 
 const String& ShortestPathAlgorithm::getIdentifier() const
