@@ -1,72 +1,60 @@
 #include "stdafx.h"
 #include "String.h"
 #include <cstring>
-#include <utility>
-
-
-bool operator==(const String &lhs, const String &rhs)
-{
-	return !strcmp(lhs, rhs);
-}
-
 
 bool operator!=(const String &lhs, const String &rhs)
 {
 	return !(lhs == rhs);
 }
 
-
-bool operator<(const String &lhs, const String &rhs)
+bool operator==(const String &lhs, const String &rhs)
 {
-	return strcmp(lhs, rhs) < 0;
+	return !strcmp(lhs, rhs);
 }
-
 
 bool operator>(const String &lhs, const String &rhs)
 {
 	return rhs < lhs;
 }
 
-
-
 bool operator>=(const String &lhs, const String &rhs)
 {
 	return !(lhs < rhs);
 }
-
 
 bool operator<=(const String &lhs, const String &rhs)
 {
 	return !(rhs < lhs);
 }
 
+bool operator<(const String &lhs, const String &rhs)
+{
+	return strcmp(lhs, rhs) < 0;
+}
 
 String operator+(const String &lhs, const String &rhs)
 {
-	String tmp(lhs);
-	tmp += rhs;
+	String newString(lhs);
+	newString += rhs;
 
-	return tmp;
+	return newString;
 }
-
 
 String operator+(const String &lhs, char rhs)
 {
-	String tmp(lhs);
-	tmp += rhs;
+	String newString(lhs);
+	newString += rhs;
 
-	return tmp;
+	return newString;
 }
-
 
 String operator+(char lhs, const String &rhs)
 {
-	String tmp(lhs);
-	tmp += rhs;
+	String newString(lhs);
+	newString += rhs;
 
-	return tmp;
+	return newString;
 }
-
 
 String::String(char symbol) :
 	string(nullptr)
@@ -77,13 +65,11 @@ String::String(char symbol) :
 	setString(buffer);
 }
 
-
 String::String(const char* string) :
 	string(nullptr)
 {
 	setString(string);
 }
-
 
 String::String(String&& source) :
 	string(source.string)
@@ -91,17 +77,21 @@ String::String(String&& source) :
 	source.string = nullptr;
 }
 
+String::String(const String &source) :
+	string(nullptr)
+{
+	setString(source.string);
+}
 
 String& String::operator=(const String& rhs)
 {
 	if (this != &rhs)
 	{
-		String temp(rhs);
-		std::swap(string, temp.string);
+		setString(rhs.string);
 	}
+
 	return *this;
 }
-
 
 String& String::operator=(String&& rhs)
 {
@@ -111,95 +101,22 @@ String& String::operator=(String&& rhs)
 		string = rhs.string;	
 		rhs.string = nullptr;	
 	}
+
 	return *this;
 }
-
-
-String::String(const String &source) :
-	string(nullptr)
-{
-	setString(source.string);
-}
-
 
 String::~String()
 {
 	delete[] string;
 }
 
-
-size_t String::getLength() const
+void String::setString(const char* newString)
 {
-	return strlen(getString());
-}
-
-
-void String::concatenate(const char* argument)
-{
-	if (argument)
+	if (newString != nullptr)
 	{
-		size_t argLen = strlen(argument);
-
-		if (argLen)
-		{
-			size_t currLen = getLength();
-			size_t newLen = currLen + argLen + 1;
-			char* buffer = new char[newLen];
-
-			strcpy_s(buffer, currLen + 1, getString());
-			strcat_s(buffer, newLen, argument);
-
-			delete[] string;
-			string = buffer;
-		}
-	}
-}
-
-
-void String::concatenate(char symbol)
-{
-	char buffer[2] = "";
-	buffer[0] = symbol;
-
-	concatenate(buffer);
-}
-
-
-String& String::operator+=(const char* rhs)
-{
-	concatenate(rhs);
-
-	return *this;
-}
-
-
-String& String::operator+=(char rhs)
-{
-	concatenate(rhs);
-
-	return *this;
-}
-
-
-String::operator const char *() const
-{
-	return getString();
-}
-
-
-const char* String::getString() const
-{
-	return (string) ? string : "";
-}
-
-
-void String::setString(const char* with)
-{
-	if (with)
-	{
-		size_t buffSize = strlen(with) + 1;
-		char* buffer = new char[buffSize];
-		strcpy_s(buffer, buffSize, with);
+		size_t bufferSize = strlen(newString) + 1;
+		char* buffer = new char[bufferSize];
+		strcpy_s(buffer, bufferSize, newString);
 
 		delete[] string;
 		string = buffer;
@@ -209,4 +126,64 @@ void String::setString(const char* with)
 		delete[] string;
 		string = nullptr;
 	}
+}
+
+String& String::operator+=(const char* string)
+{
+	concatenate(string);
+
+	return *this;
+}
+
+String& String::operator+=(char symbol)
+{
+	concatenate(symbol);
+
+	return *this;
+}
+
+void String::concatenate(char symbol)
+{
+	char buffer[2] = "";
+	buffer[0] = symbol;
+
+	concatenate(buffer);
+}
+
+void String::concatenate(const char* stringToConcatenate)
+{
+	if (stringToConcatenate == nullptr)
+	{
+		return;
+	}
+
+	size_t stringToConcatenateLength = strlen(stringToConcatenate);
+
+	if (stringToConcatenateLength > 0)
+	{
+		size_t currentLength = getLength();
+		size_t newLength = currentLength + stringToConcatenateLength + 1;
+		char* buffer = new char[newLength];
+
+		strcpy_s(buffer, currentLength + 1, getString());
+		strcat_s(buffer, newLength, stringToConcatenate);
+
+		delete[] string;
+		string = buffer;
+	}
+}
+
+size_t String::getLength() const
+{
+	return strlen(getString());
+}
+
+String::operator const char *() const
+{
+	return getString();
+}
+
+const char* String::getString() const
+{
+	return (string != nullptr) ? string : "";
 }

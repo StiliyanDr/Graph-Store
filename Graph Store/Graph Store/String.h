@@ -18,13 +18,13 @@ public:
 	void concatenate(char symbol);
 
 public:
-	String& operator+=(const char* rhs);
-	String& operator+=(char rhs);
+	String& operator+=(const char* string);
+	String& operator+=(char symbol);
 	operator const char*() const;
 
 private:
 	const char* getString() const;
-	void setString(const char* with);
+	void setString(const char* newString);
 
 private:
 	char* string;
