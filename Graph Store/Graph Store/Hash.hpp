@@ -66,12 +66,16 @@ void Hash<Item, Key, KeyAccessor>::add(Item& item)
 	assert(tableSize >= MIN_TABLE_SIZE && count < tableSize);
 
 	if (isFillingUp())
+	{
 		resize(2 * tableSize);
+	}
 
 	size_t index = hashFunction(keyAccessor(item)) % tableSize;
 
 	while (table[index])
+	{
 		index = (index + 1) % tableSize;
+	}
 
 	table[index] = &item;
 	++count;
@@ -82,19 +86,21 @@ template <class Item, class Key, class KeyAccessor>
 Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 {
 	Item* removed = nullptr;
-
 	long index = searchAndGetIndex(key);
 
 	if (index != SEARCH_MISS)
 	{
 		assert(count > 0 && tableSize > count);
-
 		removed = emptySlotAndReturnItemAt(index);
 
 		if (hasTooManyEmptySlots() && tableCanBeHalved())
+		{
 			resize(tableSize / 2);
+		}
 		else
+		{
 			rehashCluster((index + 1) % tableSize);
+		}
 	}
 
 	return removed;
@@ -122,7 +128,9 @@ void Hash<Item, Key, KeyAccessor>::empty()
 	table.ensureSize(MIN_TABLE_SIZE);
 
 	for (size_t i = 1; i <= MIN_TABLE_SIZE; ++i)
+	{
 		table.add(nullptr);
+	}
 
 	tableSize = MIN_TABLE_SIZE;
 	count = 0;
@@ -135,14 +143,17 @@ long Hash<Item, Key, KeyAccessor>::searchAndGetIndex(const Key& key)
 	if (!isEmpty())
 	{
 		assert(tableSize >= MIN_TABLE_SIZE);
-
 		size_t index = hashFunction(key) % tableSize;
 
 		while (table[index] && keyAccessor(*table[index]) != key)
+		{
 			index = (index + 1) % tableSize;
-		
-		if (table[index]) 
+		}
+
+		if (table[index])
+		{
 			return index;
+		}
 	}
 
 	return SEARCH_MISS;
@@ -154,10 +165,10 @@ void Hash<Item, Key, KeyAccessor>::resize(size_t newSize)
 {
 	assert(newSize >= MIN_TABLE_SIZE && newSize > count);
 
-	DynamicArray<Item*> temp(newSize, newSize);
-	nullify(temp);
+	DynamicArray<Item*> buffer(newSize, newSize);
+	nullify(buffer);
 
-	std::swap(table, temp);
+	std::swap(table, buffer);
 
 	size_t oldTableSize = tableSize;
 	tableSize = newSize;
@@ -165,8 +176,10 @@ void Hash<Item, Key, KeyAccessor>::resize(size_t newSize)
 
 	for (size_t i = 0; i < oldTableSize; ++i)
 	{
-		if (temp[i])
-			add(*temp[i]);
+		if (buffer[i])
+		{
+			add(*buffer[i]);
+		}
 	}
 }
 
@@ -177,7 +190,9 @@ void Hash<Item, Key, KeyAccessor>::nullify(DynamicArray<Item*>& table)
 	size_t size = table.getCount();
 
 	for (size_t i = 0; i < size; ++i)
+	{
 		table[i] = nullptr;
+	}
 }
 
 
@@ -187,12 +202,12 @@ void Hash<Item, Key, KeyAccessor>::rehashCluster(size_t start)
 	assert(start < tableSize);
 	
 	size_t index = start;
-	Item* temp;
+	Item* itemToRehash;
 
 	while (table[index])
 	{
-		temp = emptySlotAndReturnItemAt(index);
-		add(*temp);
+		itemToRehash = emptySlotAndReturnItemAt(index);
+		add(*itemToRehash);
 		index = (index + 1) % tableSize;
 	}
 }
@@ -245,16 +260,20 @@ void Hash<Item, Key, KeyAccessor>::swapContentsWith(Hash<Item, Key, KeyAccessor>
 
 
 ///
-/// With this expression, when expectedCount items are inserted into the table,
-/// the load factor will be 2 / 3. 
+/// With this expression, when expectedItemsCount items are inserted into the
+/// table, the load factor will be 2 / 3. 
 /// Adding MIN_TABLE_SIZE prevents from inappropriate table size for small values 
-/// of expectedCount.
+/// of expectedItemsCount.
 ///
 template <class Item, class Key, class KeyAccessor>
-size_t Hash<Item, Key, KeyAccessor>::calculateTableSize(size_t expectedCount)
+size_t Hash<Item, Key, KeyAccessor>::calculateTableSize(size_t expectedItemsCount)
 {
-	if (expectedCount > 0)
-		return ((3 * expectedCount) / 2) + MIN_TABLE_SIZE;
+	if (expectedItemsCount > 0)
+	{
+		return ((3 * expectedItemsCount) / 2) + MIN_TABLE_SIZE;
+	}
 	else
-		throw std::invalid_argument("The expected count must be positive!");
+	{
+		throw std::invalid_argument("The expected items count must be positive!");
+	}
 }

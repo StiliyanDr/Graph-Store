@@ -25,7 +25,7 @@ public:
 
 private:
 	static void nullify(DynamicArray<Item*>& table);
-	static size_t calculateTableSize(size_t expectedCount);
+	static size_t calculateTableSize(size_t expectedItemsCount);
 
 private:
 	long searchAndGetIndex(const Key& key);
