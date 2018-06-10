@@ -13,248 +13,297 @@ namespace HashUnitTest
 	{
 		typedef Hash<Book, String, BookTitleAccessor> Hash;
 		
-		static const size_t ARRAY_SIZE = 16;
-		static Book books[ARRAY_SIZE];
+		static const size_t BOOKS_COUNT = 16;
+		static Book books[BOOKS_COUNT];
 
 	public:
 
-		void fillHash(Hash& hash, size_t from, size_t to)
+		void fillHashWithBooksFromTo(Hash& hash, size_t from, size_t to)
 		{
-			while (from <= to)
-				hash.add(books[from++]);
+			assert(from < BOOKS_COUNT);
+			assert(to < BOOKS_COUNT);
+
+			for (size_t i = from; i <= to; ++i)
+			{
+				hash.add(books[i]);
+			}
 		}
 
-		TEST_CLASS_INITIALIZE(HashTestInitialise)
+		bool hashConsistsOfBooksFromTo(Hash& hash, size_t from, size_t to)
 		{
-			static const char* titles[ARRAY_SIZE] = { "one", "two", "three", "four", "five", "six", "seven", 
+			assert(from <= to);
+			
+			size_t booksCount = to - from + 1;
+
+			return booksCount == hash.getCount()
+				   && hashContainsBooksFromTo(hash, from, to);
+		}
+
+		bool hashContainsBooksFromTo(Hash& hash, size_t from, size_t to)
+		{
+			assert(from < BOOKS_COUNT);
+			assert(to < BOOKS_COUNT);
+
+			for (size_t i = from; i <= to; ++i)
+			{
+				if (!hash.search(books[i].getTitle()))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		TEST_CLASS_INITIALIZE(initialiseHashTest)
+		{
+			static const char* titles[BOOKS_COUNT] = { "one", "two", "three", "four", "five", "six", "seven", 
 				"eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen" };
 
-			for (int i = 0; i < ARRAY_SIZE; ++i)
+			for (int i = 0; i < BOOKS_COUNT; ++i)
+			{
 				books[i].setTitle(titles[i]);
-		}
-
-		TEST_METHOD(integerConstructor)
-		{
-			for (int i = 1; i <= 50; ++i)
-			{
-				Hash hash(i);
-				Assert::AreEqual(0u, hash.getCount());
-				Assert::IsTrue(hash.isEmpty());
-			}
-
-			for (int i = 0; i <= 10; ++i)
-			{
-				try
-				{
-					Hash hash(-i);
-
-					Assert::Fail(L"Created an object with an invalid size!");
-				}
-				catch (...)
-				{
-				}
 			}
 		}
 
-		TEST_METHOD(moveConstruction)
+		TEST_METHOD(testConstructorFromIntegerCreatesEmptyHash)
 		{
-			Hash hash(1);
-			
-			Hash fromEmpty(std::move(hash));
-			Assert::IsTrue(fromEmpty.isEmpty() && hash.isEmpty());
+			Hash hash(100);
 
-			fillHash(hash, 0, ARRAY_SIZE - 1);
-			
-			Hash fromNonEmpty(std::move(hash));
 			Assert::IsTrue(hash.isEmpty());
+		}
 
-			fillHash(hash, 0, ARRAY_SIZE - 1);
-
-			for (int i = 0; i < ARRAY_SIZE - 1; ++i)
+		TEST_METHOD(testConstructorFromNilThrowsException)
+		{
+			try
 			{
-				Assert::IsNotNull(hash.search(books[i].getTitle()));
-				Assert::IsNotNull(fromNonEmpty.search(books[i].getTitle()));
+				Hash hash(0);
+
+				Assert::Fail(L"Constructor should have thrown an exception!");
+			}
+			catch (std::invalid_argument&)
+			{
 			}
 		}
 
-		TEST_METHOD(copyConstruction)
+		TEST_METHOD(testMoveConstructorFromEmptyHash)
+		{
+			Hash emptyHash(1);
+
+			Hash hash(std::move(emptyHash));
+
+			Assert::IsTrue(emptyHash.isEmpty(), L"The moved-from hash should be empty!");
+			Assert::IsTrue(hash.isEmpty(), L"The moved-into hash should be empty!");
+		}
+
+		TEST_METHOD(testMoveConstructorFromNonEmptyHash)
+		{
+			Hash hashToMove(BOOKS_COUNT / 2);
+			fillHashWithBooksFromTo(hashToMove, 0, BOOKS_COUNT / 2);
+
+			Hash hash(std::move(hashToMove));
+
+			Assert::IsTrue(hashToMove.isEmpty(), L"The moved-from hash should be empty!");
+			Assert::IsTrue(hashConsistsOfBooksFromTo(hash, 0, BOOKS_COUNT / 2));
+		}
+
+		TEST_METHOD(testCopyConstructorFromEmptyHash)
+		{
+			Hash emptyHash(1);
+
+			Hash hash(emptyHash);
+
+			Assert::IsTrue(hash.isEmpty());
+		}
+
+		TEST_METHOD(testCopyConstructorFromNonEmptyHash)
+		{
+			Hash hashToCopy(BOOKS_COUNT / 2);
+			fillHashWithBooksFromTo(hashToCopy, 0, BOOKS_COUNT / 2);
+
+			Hash hash(hashToCopy);
+
+			Assert::IsTrue(hashConsistsOfBooksFromTo(hash, 0, BOOKS_COUNT / 2));
+		}
+
+		TEST_METHOD(testCopyAssignmentEmptyToEmptyHash)
+		{
+			Hash emptyHash(1);
+			Hash hash(1);
+
+			hash = emptyHash;
+
+			Assert::IsTrue(hash.isEmpty());
+		}
+
+		TEST_METHOD(testCopyAssignmentEmptyToNonEmptyHash)
+		{
+			Hash emptyHash(1);
+			Hash hash(BOOKS_COUNT / 2);
+			fillHashWithBooksFromTo(hash, 0, BOOKS_COUNT / 2);
+
+			hash = emptyHash;
+
+			Assert::IsTrue(hash.isEmpty());
+		}
+
+		TEST_METHOD(testCopyAssignmentNonEmptyToEmptyHash)
+		{
+			Hash hashToCopy(BOOKS_COUNT / 2);
+			fillHashWithBooksFromTo(hashToCopy, 0, BOOKS_COUNT / 2);
+			Hash hash(1);
+
+			hash = hashToCopy;
+
+			Assert::IsTrue(hashConsistsOfBooksFromTo(hash, 0, BOOKS_COUNT / 2));
+		}
+
+		TEST_METHOD(testCopyAssignmentNonEmptyToNonEmptyHash)
+		{
+			Hash hashToCopy(BOOKS_COUNT / 2);
+			fillHashWithBooksFromTo(hashToCopy, 0, BOOKS_COUNT / 2);
+			Hash hash(BOOKS_COUNT / 2);
+			fillHashWithBooksFromTo(hash, BOOKS_COUNT / 2 + 1, BOOKS_COUNT - 1);
+
+			hash = hashToCopy;
+
+			Assert::IsTrue(hashConsistsOfBooksFromTo(hash, 0, BOOKS_COUNT / 2));
+		}
+
+		TEST_METHOD(testMoveAssignmentEmptyToEmptyHash)
+		{
+			Hash hashToMove(1);
+			Hash hash(1);
+
+			hash = std::move(hashToMove);
+
+			Assert::IsTrue(hashToMove.isEmpty(), L"The empty hash should remain empty!");
+			Assert::IsTrue(hash.isEmpty(), L"The moved-into hash should be empty!");
+		}
+
+		TEST_METHOD(testMoveAssignmentEmptyToNonEmptyHash)
+		{
+			Hash emptyHash(1);
+			Hash hash(BOOKS_COUNT / 2);
+			fillHashWithBooksFromTo(hash, 0, BOOKS_COUNT / 2);
+
+			hash = std::move(emptyHash);
+
+			Assert::IsTrue(emptyHash.isEmpty(), L"The empty hash should remain empty!");
+			Assert::IsTrue(hash.isEmpty(), L"The non-empty hash should now be empty!");
+		}
+
+		TEST_METHOD(testMoveAssignmentNonEmptyToEmptyHash)
+		{
+			Hash hashToMove(BOOKS_COUNT / 2);
+			fillHashWithBooksFromTo(hashToMove, 0, BOOKS_COUNT / 2);
+			Hash hash(1);
+
+			hash = std::move(hashToMove);
+
+			Assert::IsTrue(hashToMove.isEmpty(), L"The moved-from hash should be empty!");
+			Assert::IsTrue(hashConsistsOfBooksFromTo(hash, 0, BOOKS_COUNT / 2));
+		}
+
+		TEST_METHOD(testMoveAssignmentNonEmptyToNonEmptyHash)
+		{
+			Hash hashToMove(BOOKS_COUNT / 2);
+			fillHashWithBooksFromTo(hashToMove, 0, BOOKS_COUNT / 2);
+			Hash hash(BOOKS_COUNT / 2);
+			fillHashWithBooksFromTo(hash, BOOKS_COUNT / 2 + 1, BOOKS_COUNT - 1);
+
+			hash = std::move(hashToMove);
+
+			Assert::IsTrue(hashToMove.isEmpty(), L"The moved-from hash should be empty!");
+			Assert::IsTrue(hashConsistsOfBooksFromTo(hash, 0, BOOKS_COUNT / 2));
+		}
+
+		TEST_METHOD(testSearchInEmptyHashFindsNothing)
 		{
 			Hash hash(10);
 
-			Hash fromEmpty(hash);
-			Assert::IsTrue(fromEmpty.isEmpty());
-		
-			fillHash(hash, 0, ARRAY_SIZE - 1);
-
-			Hash fromNonEmpty(hash);
-			Assert::AreEqual(hash.getCount(), fromNonEmpty.getCount());
-
-			for (int i = 0; i < ARRAY_SIZE - 1; ++i)
-				Assert::IsNotNull(fromNonEmpty.search(books[i].getTitle()));
-		}
-
-		TEST_METHOD(moveAssigningEmptyObject)
-		{
-			Hash empty(1);
-
-			Hash lhs(1);
-			lhs = std::move(empty);
-			Assert::IsTrue(lhs.isEmpty() && empty.isEmpty());
-
-			fillHash(lhs, 0, ARRAY_SIZE - 1);
-
-			lhs = std::move(empty);
-			Assert::IsTrue(lhs.isEmpty() && empty.isEmpty());
-		}
-
-		TEST_METHOD(moveAssigningNonEmptyObject)
-		{
-			size_t middle = ARRAY_SIZE / 2;
-
-			Hash rhs(ARRAY_SIZE), lhs(1);
-			fillHash(rhs, 0, middle - 1);
-
-			lhs = std::move(rhs);
-			Assert::IsTrue(rhs.isEmpty());
-
-			for (size_t i = 0; i < middle; ++i)
-				Assert::IsNotNull(lhs.search(books[i].getTitle()));
-
-			fillHash(rhs, middle, ARRAY_SIZE - 1);
-
-			lhs = std::move(rhs);
-			Assert::IsTrue(rhs.isEmpty());
-
-			for (size_t i = 0; i < middle; ++i)
-				Assert::IsNull(lhs.search(books[i].getTitle()));
-
-			for (size_t i = middle; i < ARRAY_SIZE; ++i)
-				Assert::IsNotNull(lhs.search(books[i].getTitle()));
-		}
-
-		TEST_METHOD(copyAssigningEmptyObject)
-		{
-			Hash empty(1), lhs(ARRAY_SIZE);
-
-			fillHash(lhs, 0, ARRAY_SIZE - 1);
-
-			for (int i = 1; i <= 2; ++i)
+			for (size_t i = 0; i < BOOKS_COUNT; ++i)
 			{
-				lhs = empty;
-				Assert::IsTrue(empty.isEmpty() && lhs.isEmpty());
-			}
-		}
-
-		TEST_METHOD(copyAssigningNonEmptyObject)
-		{
-			size_t middle = ARRAY_SIZE / 2;
-
-			Hash lhs(1), rhs(ARRAY_SIZE);
-
-			fillHash(rhs, 0, middle - 1);
-
-			lhs = rhs;
-			Assert::AreEqual(middle, rhs.getCount());
-
-			for (size_t i = 0; i < middle; ++i)
-				Assert::IsNotNull(lhs.search(books[i].getTitle()));
-
-			fillHash(rhs, middle, ARRAY_SIZE - 1);
-
-			lhs = rhs;
-			Assert::AreEqual(ARRAY_SIZE, rhs.getCount());
-
-			for (size_t i = 0; i < ARRAY_SIZE; ++i)
-			{
-				Assert::IsNotNull(lhs.search(books[i].getTitle()));
-				Assert::IsNotNull(rhs.search(books[i].getTitle()));
-			}
-		}
-
-		TEST_METHOD(addingAndSearching)
-		{
-			Hash hash(ARRAY_SIZE);
-
-			const int middle = ARRAY_SIZE / 2;
-
-			fillHash(hash, 0, middle - 1);
-
-			for (int i = 0; i < middle; ++i)
-				Assert::IsNotNull(hash.search(books[i].getTitle()));
-
-			for (int i = middle; i < ARRAY_SIZE; ++i)
 				Assert::IsNull(hash.search(books[i].getTitle()));
-			
-			fillHash(hash, middle, ARRAY_SIZE - 1);
-
-			for (int i = 0; i < ARRAY_SIZE; ++i)
-				Assert::IsNotNull(hash.search(books[i].getTitle()));
-
-			Assert::AreEqual(ARRAY_SIZE, hash.getCount());
+			}
 		}
 
-		TEST_METHOD(correctCountWithInsertion)
+		TEST_METHOD(testSearchFindsAddedItems)
+		{
+			Hash hash(BOOKS_COUNT);
+			fillHashWithBooksFromTo(hash, 0, BOOKS_COUNT - 1);
+
+			for (size_t i = 0; i < BOOKS_COUNT; ++i)
+			{
+				Assert::IsTrue(&books[i] == hash.search(books[i].getTitle()));
+			}
+		}
+
+		TEST_METHOD(testSearchDoesNotFindNotAddedItems)
+		{
+			Hash hash(BOOKS_COUNT / 2);
+			fillHashWithBooksFromTo(hash, 0, BOOKS_COUNT / 2);
+
+			for (size_t i = BOOKS_COUNT / 2 + 1; i < BOOKS_COUNT; ++i)
+			{
+				Assert::IsNull(hash.search(books[i].getTitle()));
+			}
+		}
+
+		TEST_METHOD(testAddDealsWithPotentialFillUp)
 		{
 			Hash hash(1);
 
-			for (size_t i = 0; i < ARRAY_SIZE; ++i)
+			for (size_t i = 0; i < BOOKS_COUNT; ++i)
 			{
 				hash.add(books[i]);
 				Assert::AreEqual(i + 1, hash.getCount());
 			}
+
+			Assert::IsTrue(hashConsistsOfBooksFromTo(hash, 0, BOOKS_COUNT - 1));
 		}
 
-		TEST_METHOD(exceedingExpectedCount)
+		TEST_METHOD(testRemoveLeavesNotRemovedItemsInTheHash)
 		{
-			Hash hash(1);
+			Hash hash(BOOKS_COUNT);
+			fillHashWithBooksFromTo(hash, 0, BOOKS_COUNT - 1);
 
-			fillHash(hash, 0, ARRAY_SIZE - 1);
-
-			Assert::AreEqual(ARRAY_SIZE, hash.getCount());
-
-			for (int i = 0; i < ARRAY_SIZE; ++i)
-				Assert::IsNotNull(hash.search(books[i].getTitle()));
-		}
-
-		TEST_METHOD(removal)
-		{
-			Hash hash(ARRAY_SIZE);
-		
-			const int end = ARRAY_SIZE - 1;
-
-			fillHash(hash, 0, end);
-
-			for (int i = end; i >= 0; --i)
+			for (size_t i = BOOKS_COUNT / 2 + 1; i < BOOKS_COUNT; ++i)
 			{
-				Assert::IsTrue(&books[i] == hash.remove(books[i].getTitle()));
-
-				Assert::AreEqual((size_t)i, hash.getCount());
-
-				Assert::IsNull(hash.search(books[i].getTitle()));
-
-				for (int k = 0; k < i; ++k)
-					Assert::IsNotNull(hash.search(books[k].getTitle()));
+				hash.remove(books[i].getTitle());
 			}
 
-			Assert::IsTrue(hash.isEmpty());
+			Assert::IsTrue(hashConsistsOfBooksFromTo(hash, 0, BOOKS_COUNT / 2));
 		}
 
-		TEST_METHOD(emptying)
+		TEST_METHOD(testSearchForRemovedItemsIsUnsuccessfull)
 		{
-			Hash hash(ARRAY_SIZE);
+			Hash hash(BOOKS_COUNT);
+			fillHashWithBooksFromTo(hash, 0, BOOKS_COUNT - 1);
 
-			fillHash(hash, 0, ARRAY_SIZE - 1);
-
-			Assert::IsFalse(hash.isEmpty());
-			Assert::AreEqual(ARRAY_SIZE, hash.getCount());
-
-			hash.empty();
-
-			Assert::AreEqual(0u, hash.getCount());
-			Assert::IsTrue(hash.isEmpty());
+			for (size_t i = BOOKS_COUNT / 2; i < BOOKS_COUNT; ++i)
+			{
+				hash.remove(books[i].getTitle());
+				Assert::IsNull(hash.search(books[i].getTitle()));
+			}
 		}
 
+		TEST_METHOD(testRemoveDecrementsItemsCount)
+		{
+			Hash hash(BOOKS_COUNT);
+
+			size_t indexOfMiddleBook = BOOKS_COUNT / 2;
+			fillHashWithBooksFromTo(hash, 0, indexOfMiddleBook);
+
+			size_t correctCount = hash.getCount();
+
+			for (size_t i = 0; i <= indexOfMiddleBook; ++i)
+			{
+				hash.remove(books[i].getTitle());
+				Assert::AreEqual(--correctCount, hash.getCount());
+			}
+		}
 	};
 
-	Book HashTest::books[ARRAY_SIZE];
+	Book HashTest::books[BOOKS_COUNT];
 }

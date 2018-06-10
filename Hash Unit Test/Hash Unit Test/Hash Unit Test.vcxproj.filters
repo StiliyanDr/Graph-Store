@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="String">
-      <UniqueIdentifier>{d62959cf-ce64-440a-8d04-61a15c425749}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Book">
       <UniqueIdentifier>{8dd8ff91-83a4-4c13-a0f6-39f6074ea457}</UniqueIdentifier>
     </Filter>
@@ -44,11 +41,11 @@
     <ClCompile Include="HashTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Graph Store\Graph Store\String.cpp">
-      <Filter>String</Filter>
-    </ClCompile>
     <ClCompile Include="Book.cpp">
       <Filter>Book</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Graph Store\Graph Store\String.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
