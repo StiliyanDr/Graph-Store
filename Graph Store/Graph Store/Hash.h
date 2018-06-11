@@ -33,11 +33,12 @@ private:
 	void rehashCluster(size_t start);
 	Item* emptySlotAndReturnItemAt(size_t index);
 	bool hasTooManyEmptySlots() const;
-	bool tableCanBeHalved() const;
+	bool tableCanBeShrinked() const;
 	bool isFillingUp() const;
 	void swapContentsWith(Hash<Item, Key, KeyAccessor> temp);
 
 private:
+	static const size_t GROWTH_RATE = 2;
 	static const size_t MIN_TABLE_SIZE = 3;
 	static const long SEARCH_MISS = -1;
 

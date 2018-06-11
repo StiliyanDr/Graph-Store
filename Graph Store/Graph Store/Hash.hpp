@@ -67,7 +67,7 @@ void Hash<Item, Key, KeyAccessor>::add(Item& item)
 
 	if (isFillingUp())
 	{
-		resize(2 * tableSize);
+		resize(GROWTH_RATE * tableSize);
 	}
 
 	size_t index = hashFunction(keyAccessor(item)) % tableSize;
@@ -93,9 +93,9 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 		assert(count > 0 && tableSize > count);
 		removedItem = emptySlotAndReturnItemAt(index);
 
-		if (hasTooManyEmptySlots() && tableCanBeHalved())
+		if (hasTooManyEmptySlots() && tableCanBeShrinked())
 		{
-			resize(tableSize / 2);
+			resize(tableSize / GROWTH_RATE);
 		}
 		else
 		{
@@ -235,9 +235,9 @@ inline bool Hash<Item, Key, KeyAccessor>::hasTooManyEmptySlots() const
 
 
 template <class Item, class Key, class KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::tableCanBeHalved() const
+inline bool Hash<Item, Key, KeyAccessor>::tableCanBeShrinked() const
 {
-	return (tableSize / 2) >= MIN_TABLE_SIZE;
+	return (tableSize / GROWTH_RATE) >= MIN_TABLE_SIZE;
 }
 
 
