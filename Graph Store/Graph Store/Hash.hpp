@@ -85,13 +85,13 @@ void Hash<Item, Key, KeyAccessor>::add(Item& item)
 template <class Item, class Key, class KeyAccessor>
 Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 {
-	Item* removed = nullptr;
+	Item* removedItem = nullptr;
 	long index = searchAndGetIndex(key);
 
 	if (index != SEARCH_MISS)
 	{
 		assert(count > 0 && tableSize > count);
-		removed = emptySlotAndReturnItemAt(index);
+		removedItem = emptySlotAndReturnItemAt(index);
 
 		if (hasTooManyEmptySlots() && tableCanBeHalved())
 		{
@@ -103,7 +103,7 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 		}
 	}
 
-	return removed;
+	return removedItem;
 }
 
 
@@ -218,12 +218,12 @@ Item* Hash<Item, Key, KeyAccessor>::emptySlotAndReturnItemAt(size_t index)
 {
 	assert(table[index]);
 
-	Item* removed = table[index];
+	Item* removedItem = table[index];
 	table[index] = nullptr;
 	
 	--count;
 	
-	return removed;
+	return removedItem;
 }
 
 
@@ -249,13 +249,13 @@ inline bool Hash<Item, Key, KeyAccessor>::isFillingUp() const
 
 
 template <class Item, class Key, class KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::swapContentsWith(Hash<Item, Key, KeyAccessor> temp)
+void Hash<Item, Key, KeyAccessor>::swapContentsWith(Hash<Item, Key, KeyAccessor> hash)
 {
-	std::swap(count, temp.count);
-	std::swap(tableSize, temp.tableSize);
-	std::swap(table, temp.table);
-	std::swap(keyAccessor, temp.keyAccessor);
-	std::swap(hashFunction, temp.hashFunction);
+	std::swap(count, hash.count);
+	std::swap(tableSize, hash.tableSize);
+	std::swap(table, hash.table);
+	std::swap(keyAccessor, hash.keyAccessor);
+	std::swap(hashFunction, hash.hashFunction);
 }
 
 
