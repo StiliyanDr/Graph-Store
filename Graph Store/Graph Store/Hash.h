@@ -26,22 +26,22 @@ public:
 	void empty();
 
 private:
-	static Table emptyAllSlotsIn(Table table);
 	static Table createEmptyTableWithSize(size_t size);
+	static Table emptyAllSlotsIn(Table table);
 	static size_t calculateTableSize(size_t expectedItemsCount);
 
 private:
 	long searchAndGetIndex(const Key& key);
-	void resize(size_t newSize);
 	void rehashCluster(size_t start);
 	Item* emptySlotAndReturnItemAt(size_t index);
+	void resize(size_t newSize);
+	void addAllItemsFrom(Table& table);
 	bool hasTooManyEmptySlots() const;
 	bool tableCanBeShrinked() const;
 	bool isFillingUp() const;
-	void swapContentsWith(Hash<Item, Key, KeyAccessor> temp);
-	void setTable(Table table);
 	void makeTableEmptyWithSize(size_t size);
-	void addAllItemsFrom(Table& table);
+	void setTable(Table table);
+	void swapContentsWith(Hash<Item, Key, KeyAccessor> temp);
 
 private:
 	static const size_t GROWTH_RATE = 2;
@@ -49,7 +49,8 @@ private:
 	static const long SEARCH_MISS = -1;
 
 private:
-	size_t count, tableSize;			 
+	size_t count;
+	size_t tableSize;
 	Table table;
 	KeyAccessor keyAccessor;
 	HashFunction<Key> hashFunction;
