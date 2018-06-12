@@ -2,32 +2,23 @@
 #include <utility>
 #include <stdexcept>
 
-
 template <class Item, class Key, class KeyAccessor>
-Hash<Item, Key, KeyAccessor>::Hash(size_t expectedCount) :
-	count(0),
-	tableSize(calculateTableSize(expectedCount)),
-	table(tableSize, tableSize)
+inline Hash<Item, Key, KeyAccessor>::Hash(size_t expectedItemsCount)
 {
-	nullify(table);
+	makeTableEmptyWithSize(calculateTableSize(expectedItemsCount));
 }
 
-
 template <class Item, class Key, class KeyAccessor>
-Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source) :
-	count(0),
-	tableSize(MIN_TABLE_SIZE),
-	table(tableSize, tableSize),
-	keyAccessor(std::move(source.keyAccessor)),
-	hashFunction(std::move(source.hashFunction))
+Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source)
 {
-	nullify(table);
+	makeTableEmptyWithSize(MIN_TABLE_SIZE);
 
 	std::swap(table, source.table);
 	std::swap(count, source.count);
 	std::swap(tableSize, source.tableSize);
+	keyAccessor = std::move(source.keyAccessor);
+	hashFunction = std::move(source.hashFunction);
 }
-
 
 template <class Item, class Key, class KeyAccessor>
 Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(Hash<Item, Key, KeyAccessor>&& rhs)
@@ -36,6 +27,7 @@ Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(Hash<Item,
 	{
 		swapContentsWith(std::move(rhs));
 	}
+
 	return *this;
 }
 
@@ -47,6 +39,7 @@ Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(const Hash
 	{
 		swapContentsWith(rhs);
 	}
+
 	return *this;
 }
 
@@ -122,18 +115,9 @@ inline bool Hash<Item, Key, KeyAccessor>::isEmpty() const
 
 
 template <class Item, class Key, class KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::empty()
+inline void Hash<Item, Key, KeyAccessor>::empty()
 {
-	table.empty();
-	table.ensureSize(MIN_TABLE_SIZE);
-
-	for (size_t i = 1; i <= MIN_TABLE_SIZE; ++i)
-	{
-		table.add(nullptr);
-	}
-
-	tableSize = MIN_TABLE_SIZE;
-	count = 0;
+	makeTableEmptyWithSize(MIN_TABLE_SIZE);
 }
 
 
@@ -159,33 +143,53 @@ long Hash<Item, Key, KeyAccessor>::searchAndGetIndex(const Key& key)
 	return SEARCH_MISS;
 }
 
-
 template <class Item, class Key, class KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::resize(size_t newSize)
 {
 	assert(newSize >= MIN_TABLE_SIZE && newSize > count);
-
-	DynamicArray<Item*> buffer(newSize, newSize);
-	nullify(buffer);
-
-	std::swap(table, buffer);
-
-	size_t oldTableSize = tableSize;
-	tableSize = newSize;
-	count = 0;
-
-	for (size_t i = 0; i < oldTableSize; ++i)
+	
+	Table oldTable = std::move(table);
+	
+	try
 	{
-		if (buffer[i])
+		makeTableEmptyWithSize(newSize);
+	}
+	catch (std::bad_alloc&)
+	{
+		table = std::move(oldTable);
+		throw;
+	}
+
+	addAllItemsFrom(oldTable);
+}
+
+template <class Item, class Key, class KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::addAllItemsFrom(Table& table)
+{
+	size_t size = table.getCount();
+
+	for (size_t i = 0; i < size; ++i)
+	{
+		if (table[i])
 		{
-			add(*buffer[i]);
+			add(*table[i]);
 		}
 	}
 }
 
+template <class Item, class Key, class KeyAccessor>
+typename Hash<Item, Key, KeyAccessor>::Table Hash<Item, Key, KeyAccessor>::createEmptyTableWithSize(size_t size)
+{
+	assert(size >= MIN_TABLE_SIZE);
+
+	Table table(size, size);
+	table = emptyAllSlotsIn(std::move(table));
+
+	return table;
+}
 
 template <class Item, class Key, class KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::nullify(DynamicArray<Item*>& table)
+typename Hash<Item, Key, KeyAccessor>::Table Hash<Item, Key, KeyAccessor>::emptyAllSlotsIn(Table table)
 {
 	size_t size = table.getCount();
 
@@ -193,8 +197,25 @@ void Hash<Item, Key, KeyAccessor>::nullify(DynamicArray<Item*>& table)
 	{
 		table[i] = nullptr;
 	}
+
+	return table;
 }
 
+template <class Item, class Key, class KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::makeTableEmptyWithSize(size_t size)
+{
+	setTable(createEmptyTableWithSize(size));
+	count = 0;
+}
+
+template <class Item, class Key, class KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::setTable(Table table)
+{
+	this->table = std::move(table);
+	this->tableSize = this->table.getCount();
+
+	assert(tableSize >= MIN_TABLE_SIZE);
+}
 
 template <class Item, class Key, class KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::rehashCluster(size_t start)

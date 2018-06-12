@@ -7,8 +7,10 @@
 template <class Item, class Key, class KeyAccessor>
 class Hash
 {
+	typedef DynamicArray<Item*> Table;
+
 public:
-	explicit Hash(size_t expectedCount);
+	explicit Hash(size_t expectedItemsCount);
 	Hash(Hash<Item, Key, KeyAccessor>&& source);
 	Hash(const Hash<Item, Key, KeyAccessor>& source) = default;
 	Hash<Item, Key, KeyAccessor>& operator=(Hash<Item, Key, KeyAccessor>&& rhs);
@@ -24,7 +26,8 @@ public:
 	void empty();
 
 private:
-	static void nullify(DynamicArray<Item*>& table);
+	static Table emptyAllSlotsIn(Table table);
+	static Table createEmptyTableWithSize(size_t size);
 	static size_t calculateTableSize(size_t expectedItemsCount);
 
 private:
@@ -36,6 +39,9 @@ private:
 	bool tableCanBeShrinked() const;
 	bool isFillingUp() const;
 	void swapContentsWith(Hash<Item, Key, KeyAccessor> temp);
+	void setTable(Table table);
+	void makeTableEmptyWithSize(size_t size);
+	void addAllItemsFrom(Table& table);
 
 private:
 	static const size_t GROWTH_RATE = 2;
@@ -44,7 +50,7 @@ private:
 
 private:
 	size_t count, tableSize;			 
-	DynamicArray<Item*> table;
+	Table table;
 	KeyAccessor keyAccessor;
 	HashFunction<Key> hashFunction;
 };
