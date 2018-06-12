@@ -127,11 +127,11 @@ void Hash<Item, Key, KeyAccessor>::add(Item& item)
 		resize(GROWTH_RATE * tableSize);
 	}
 
-	size_t index = hashFunction(keyAccessor(item)) % tableSize;
+	size_t index = computeIndexFromKey(keyAccessor(item));
 
 	while (table[index])
 	{
-		index = (index + 1) % tableSize;
+		index = getNextPositionToProbe(index);
 	}
 
 	table[index] = &item;
@@ -195,7 +195,7 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 		}
 		else
 		{
-			rehashCluster((index + 1) % tableSize);
+			rehashCluster(getNextPositionToProbe(index));
 		}
 	}
 
@@ -208,11 +208,11 @@ long Hash<Item, Key, KeyAccessor>::searchAndGetIndex(const Key& key)
 	if (!isEmpty())
 	{
 		assert(tableSize >= MIN_TABLE_SIZE);
-		size_t index = hashFunction(key) % tableSize;
+		size_t index = computeIndexFromKey(key);
 
 		while (table[index] && keyAccessor(*table[index]) != key)
 		{
-			index = (index + 1) % tableSize;
+			index = getNextPositionToProbe(index);
 		}
 
 		if (table[index])
@@ -222,6 +222,12 @@ long Hash<Item, Key, KeyAccessor>::searchAndGetIndex(const Key& key)
 	}
 
 	return SEARCH_MISS;
+}
+
+template <class Item, class Key, class KeyAccessor>
+inline size_t Hash<Item, Key, KeyAccessor>::computeIndexFromKey(const Key& key)
+{
+	return hashFunction(key) % tableSize;
 }
 
 template <class Item, class Key, class KeyAccessor>
@@ -236,7 +242,7 @@ void Hash<Item, Key, KeyAccessor>::rehashCluster(size_t start)
 	{
 		itemToRehash = emptySlotAndReturnItemAt(index);
 		add(*itemToRehash);
-		index = (index + 1) % tableSize;
+		index = getNextPositionToProbe(index);
 	}
 }
 
@@ -283,4 +289,10 @@ template <class Item, class Key, class KeyAccessor>
 inline bool Hash<Item, Key, KeyAccessor>::isEmpty() const
 {
 	return count == 0;
+}
+
+template <class Item, class Key, class KeyAccessor>
+inline size_t Hash<Item, Key, KeyAccessor>::getNextPositionToProbe(size_t currentPosition) const
+{
+	return (currentPosition + 1) % tableSize;
 }

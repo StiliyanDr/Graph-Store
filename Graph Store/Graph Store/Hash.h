@@ -32,6 +32,7 @@ private:
 
 private:
 	long searchAndGetIndex(const Key& key);
+	size_t computeIndexFromKey(const Key& key);
 	void rehashCluster(size_t start);
 	Item* emptySlotAndReturnItemAt(size_t index);
 	void resize(size_t newSize);
@@ -42,6 +43,7 @@ private:
 	void makeTableEmptyWithSize(size_t size);
 	void setTable(Table table);
 	void swapContentsWith(Hash<Item, Key, KeyAccessor> temp);
+	size_t getNextPositionToProbe(size_t currentPosition) const;
 
 private:
 	static const size_t GROWTH_RATE = 2;
