@@ -33,7 +33,7 @@ private:
 private:
 	long searchAndGetIndex(const Key& key);
 	size_t computeIndexFromKey(const Key& key);
-	void rehashCluster(size_t start);
+	void rehashClusterStartingAt(size_t index);
 	Item* emptySlotAndReturnItemAt(size_t index);
 	void resize(size_t newSize);
 	void addAllItemsFrom(Table& table);

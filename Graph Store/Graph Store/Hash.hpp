@@ -202,7 +202,7 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 		}
 		else
 		{
-			rehashCluster(getNextPositionToProbe(index));
+			rehashClusterStartingAt(getNextPositionToProbe(index));
 		}
 	}
 
@@ -229,11 +229,10 @@ inline size_t Hash<Item, Key, KeyAccessor>::computeIndexFromKey(const Key& key)
 }
 
 template <class Item, class Key, class KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::rehashCluster(size_t start)
+void Hash<Item, Key, KeyAccessor>::rehashClusterStartingAt(size_t index)
 {
-	assert(start < tableSize);
+	assert(index < tableSize);
 
-	size_t index = start;
 	Item* itemToRehash;
 
 	while (table[index])
