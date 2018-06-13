@@ -120,12 +120,10 @@ inline void Hash<Item, Key, KeyAccessor>::empty()
 template <class Item, class Key, class KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::add(Item& item)
 {
-	assert(tableSize >= MIN_TABLE_SIZE && count < tableSize);
+	assert(tableSize >= MIN_TABLE_SIZE);
+	assert(count < tableSize);
 
-	if (isFillingUp())
-	{
-		resize(GROWTH_RATE * tableSize);
-	}
+	extendIfFillingUp();
 
 	size_t index = computeIndexFromKey(keyAccessor(item));
 
@@ -136,6 +134,15 @@ void Hash<Item, Key, KeyAccessor>::add(Item& item)
 
 	table[index] = &item;
 	++count;
+}
+
+template <class Item, class Key, class KeyAccessor>
+inline void Hash<Item, Key, KeyAccessor>::extendIfFillingUp()
+{
+	if (isFillingUp())
+	{
+		resize(GROWTH_RATE * tableSize);
+	}
 }
 
 template <class Item, class Key, class KeyAccessor>
@@ -205,23 +212,14 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 template <class Item, class Key, class KeyAccessor>
 long Hash<Item, Key, KeyAccessor>::searchAndGetIndex(const Key& key)
 {
-	if (!isEmpty())
+	size_t index = computeIndexFromKey(key);
+
+	while (table[index] && keyAccessor(*table[index]) != key)
 	{
-		assert(tableSize >= MIN_TABLE_SIZE);
-		size_t index = computeIndexFromKey(key);
-
-		while (table[index] && keyAccessor(*table[index]) != key)
-		{
-			index = getNextPositionToProbe(index);
-		}
-
-		if (table[index])
-		{
-			return index;
-		}
+		index = getNextPositionToProbe(index);
 	}
 
-	return SEARCH_MISS;
+	return (table[index]) ? index : SEARCH_MISS;
 }
 
 template <class Item, class Key, class KeyAccessor>
@@ -249,6 +247,7 @@ void Hash<Item, Key, KeyAccessor>::rehashCluster(size_t start)
 template <class Item, class Key, class KeyAccessor>
 Item* Hash<Item, Key, KeyAccessor>::emptySlotAndReturnItemAt(size_t index)
 {
+	assert(index < tableSize);
 	assert(table[index]);
 
 	Item* removedItem = table[index];

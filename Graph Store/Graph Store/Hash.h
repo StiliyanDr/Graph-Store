@@ -39,6 +39,7 @@ private:
 	void addAllItemsFrom(Table& table);
 	bool hasTooManyEmptySlots() const;
 	bool tableCanBeShrinked() const;
+	void extendIfFillingUp();
 	bool isFillingUp() const;
 	void makeTableEmptyWithSize(size_t size);
 	void setTable(Table table);
