@@ -1,7 +1,3 @@
-/*
-	Represents an element from a singly linked list.
-*/
-
 #ifndef __BOX_HEADER_INCLUDED__
 #define __BOX_HEADER_INCLUDED__
 
