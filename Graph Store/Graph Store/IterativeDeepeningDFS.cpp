@@ -61,7 +61,7 @@ void IterativeDeepeningDFS::depthLimitedSearch(Vertex& vertex, unsigned depth)
 
 void IterativeDeepeningDFS::checkIfDestination(const Vertex& vertex)
 {
-	if (&vertex == destination)
+	if (vertex == *destination)
 	{
 		assert(!hasFoundAShortestPath);
 
