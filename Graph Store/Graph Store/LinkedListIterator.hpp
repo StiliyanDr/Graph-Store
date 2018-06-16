@@ -1,3 +1,4 @@
+#include <assert.h>
 
 template <class T>
 inline LinkedListIterator<T>::LinkedListIterator(Box<T>* current, const LinkedList<T>* owner) :
@@ -40,6 +41,8 @@ inline T& LinkedListIterator<T>::operator*()
 template <class T>
 inline T& LinkedListIterator<T>::getCurrentItem()
 {
+	assert(isValid());
+
 	return current->item;
 }
 

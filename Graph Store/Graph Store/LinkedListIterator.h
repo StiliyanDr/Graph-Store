@@ -7,8 +7,7 @@
 template <class T>
 class LinkedListIterator : public Iterator<T>
 {
-	template <class T>
-	friend class LinkedList;
+	friend class LinkedList<T>;
 
 public:
 	virtual ~LinkedListIterator() = default;
