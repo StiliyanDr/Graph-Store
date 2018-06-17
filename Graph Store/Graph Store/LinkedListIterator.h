@@ -5,6 +5,9 @@
 #include "Iterator.h"
 
 template <class T>
+class LinkedList;
+
+template <class T>
 class LinkedListIterator : public Iterator<T>
 {
 	friend class LinkedList<T>;
