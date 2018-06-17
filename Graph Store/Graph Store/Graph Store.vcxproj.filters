@@ -153,14 +153,11 @@
     <ClInclude Include="Graph.h">
       <Filter>Graph\Abstraction</Filter>
     </ClInclude>
-    <ClInclude Include="ShortestPathAlgorithmsStore.h">
-      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
-    </ClInclude>
     <ClInclude Include="ShortestPathAlgorithm.h">
       <Filter>Shortest Path Algorithms\Abstract class</Filter>
     </ClInclude>
-    <ClInclude Include="IdentifierAccessor.h">
-      <Filter>Graph\Identifier Accessor</Filter>
+    <ClInclude Include="ShortestPathAlgorithmsStore.h">
+      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
     </ClInclude>
     <ClInclude Include="BFS.h">
       <Filter>Shortest Path Algorithms\BFS</Filter>
@@ -194,11 +191,11 @@
     <ClCompile Include="ShortestPathAlgorithm.cpp">
       <Filter>Shortest Path Algorithms\Abstract class</Filter>
     </ClCompile>
-    <ClCompile Include="BFS.cpp">
-      <Filter>Shortest Path Algorithms\BFS</Filter>
-    </ClCompile>
     <ClCompile Include="ShortestPathAlgorithmsStore.cpp">
       <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
+    </ClCompile>
+    <ClCompile Include="BFS.cpp">
+      <Filter>Shortest Path Algorithms\BFS</Filter>
     </ClCompile>
     <ClCompile Include="IterativeDeepeningDFS.cpp">
       <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>

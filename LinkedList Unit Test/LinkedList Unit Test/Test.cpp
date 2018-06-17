@@ -2,6 +2,7 @@
 #include "CppUnitTest.h"
 #include "../../Graph Store/Graph Store/LinkedList.h"
 #include <utility>
+#include <assert.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -14,16 +15,30 @@ namespace LinkedListUnitTest
 
 	public:
 
-		void fillListFromTo(List& list, unsigned from, unsigned to) const
+		void fillListWithNumbersFromTo(List& list, unsigned from, unsigned to)
 		{
-			while(from <= to)
-				list.addBack(from++);
+			for (unsigned number = from; number <= to; ++number)
+			{
+				list.addBack(number);
+			}
 		}
 
-		bool areEqual(List& lhs, List& rhs) const
+		List createListFromRange(unsigned start, unsigned end)
 		{
-			if (lhs.getSize() != rhs.getSize())
-				return false;
+			List list;
+			fillListWithNumbersFromTo(list, start, end);
+
+			return list;
+		}
+
+		bool areEqual(List& expected, List& actual)
+		{
+			return listsHaveSameSize(expected, actual) && listsHaveSameElements(expected, actual);
+		}
+
+		bool listsHaveSameElements(List& lhs, List& rhs)
+		{
+			assert(listsHaveSameSize(lhs, rhs));
 
 			Iterator lhsIterator = lhs.getIteratorToFirst();
 			Iterator rhsIterator = rhs.getIteratorToFirst();
@@ -31,7 +46,9 @@ namespace LinkedListUnitTest
 			while (lhsIterator)
 			{
 				if (*lhsIterator != *rhsIterator)
+				{
 					return false;
+				}
 
 				++lhsIterator;
 				++rhsIterator;
@@ -40,19 +57,26 @@ namespace LinkedListUnitTest
 			return true;
 		}
 
-		bool listConsistsOfAllInRange(List& list, unsigned start, unsigned end) const
+		bool listsHaveSameSize(const List& lhs, const List& rhs)
 		{
-			unsigned rangeSize = end - start + 1;
+			return lhs.getSize() == rhs.getSize();
+		}
 
-			if (rangeSize != list.getSize())
+		bool listConsistsOfNumbersInRange(List& list, unsigned start, unsigned end)
+		{
+			if (end - start + 1 != list.getSize())
+			{
 				return false;
+			}
 
 			Iterator iterator = list.getIteratorToFirst();
 
-			for (unsigned i = start; i <= end; ++i)
+			for (unsigned number = start; number <= end; ++number)
 			{
-				if (i != *iterator)
+				if (number != *iterator)
+				{
 					return false;
+				}
 
 				++iterator;
 			}
@@ -60,23 +84,14 @@ namespace LinkedListUnitTest
 			return true;
 		}
 
-		List createListFromRange(unsigned start, unsigned end) const
-		{
-			List list;
-			fillListFromTo(list, start, end);
-
-			return list;
-		}
-
-		TEST_METHOD(defaultConstructor)
+		TEST_METHOD(testDefaultConstructorCreatesAnEmptyList)
 		{
 			List list;
 
 			Assert::IsTrue(list.isEmpty());
-			Assert::AreEqual(0u, list.getSize());
 		}
 
-		TEST_METHOD(moveCtorFromEmpty)
+		TEST_METHOD(testMoveConstructorFromEmptyList)
 		{
 			List emptyList;
 
@@ -86,484 +101,460 @@ namespace LinkedListUnitTest
 			Assert::IsTrue(emptyList.isEmpty());
 		}
 
-		TEST_METHOD(moveCtorFromNonEmpty)
+		TEST_METHOD(testMoveConstructorFromNonEmptyList)
 		{
-			List movedFrom;
-			fillListFromTo(movedFrom, 1, 10);
+			List listToMove;
+			fillListWithNumbersFromTo(listToMove, 1, 10);
+	
+			List list(std::move(listToMove));
 
-			List copy(movedFrom);
-			List movedInto(std::move(movedFrom));
-
-			Assert::IsTrue(movedFrom.isEmpty());
-			Assert::IsTrue(areEqual(copy, movedInto));
+			Assert::IsTrue(listToMove.isEmpty());
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 10));
 		}
 
-		TEST_METHOD(copyCtorFromEmpty)
+		TEST_METHOD(testCopyConstructorFromEmptyList)
 		{
-			const List emptyList;
+			List emptyList;
 			List copy(emptyList);
 
 			Assert::IsTrue(copy.isEmpty());
-			Assert::AreEqual(0u, copy.getSize());
 		}
 
-		TEST_METHOD(copyCtorFromNonEmpty)
+		TEST_METHOD(testCopyConstructorFromNonEmptyList)
 		{
 			List list = createListFromRange(1, 10);
+			
 			List copy(list);
 
 			Assert::IsTrue(areEqual(list, copy));
 		}
 
-		TEST_METHOD(moveAssignmentEmptyList)
+		TEST_METHOD(testMoveAssignmentEmptyToEmptyList)
 		{
-			List emptyList;
+			List listToMove;
+			List list;
 
-			List emptyLhs;
-			emptyLhs = std::move(emptyList);
-			Assert::IsTrue(emptyLhs.isEmpty() && emptyList.isEmpty());
+			list = std::move(listToMove);
 
-			List nonEmptyLhs = createListFromRange(1, 10);
-			nonEmptyLhs = std::move(emptyList);
-			Assert::IsTrue(emptyList.isEmpty() && nonEmptyLhs.isEmpty());
+			Assert::IsTrue(listToMove.isEmpty());
+			Assert::IsTrue(list.isEmpty());
 		}
 
-		TEST_METHOD(moveAssignmentNonEmptyList)
+		TEST_METHOD(testMoveAssignmentEmptyToNonEmptyList)
 		{
-			List rhs = createListFromRange(1, 10);
-			List copyOfRhs(rhs);
-
-			List emptyLhs;
-			emptyLhs = std::move(rhs);
-			Assert::IsTrue(rhs.isEmpty());
-			Assert::IsTrue(areEqual(copyOfRhs, emptyLhs));
-
-			List nonEmptyLhs = createListFromRange(0, 5);
-			nonEmptyLhs = std::move(copyOfRhs);
-			Assert::IsTrue(copyOfRhs.isEmpty());
-			Assert::IsTrue(areEqual(emptyLhs, nonEmptyLhs));
+			List listToMove;
+			List list = createListFromRange(1, 10);
+			
+			list = std::move(listToMove);
+			
+			Assert::IsTrue(listToMove.isEmpty());
+			Assert::IsTrue(list.isEmpty());
 		}
 
-		TEST_METHOD(copyAssignmentEmptyList)
+		TEST_METHOD(testMoveAssignmentNonEmptyToEmptyList)
 		{
-			const List emptyList;
+			List listToMove = createListFromRange(1, 10);
+			List list;
 
-			List emptyLhs;
-			emptyLhs = emptyList;
-			Assert::IsTrue(emptyLhs.isEmpty());
+			list = std::move(listToMove);
 
-			List nonEmptyLhs = createListFromRange(0, 10);
-			nonEmptyLhs = emptyList;
-			Assert::IsTrue(nonEmptyLhs.isEmpty());
+			Assert::IsTrue(listToMove.isEmpty());
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 10));
 		}
 
-		TEST_METHOD(copyAssignmentNonEmptyList)
+		TEST_METHOD(testMoveAssignmentNonEmptyToNonEmptyList)
 		{
-			List list = createListFromRange(0, 10);
-
-			List emptyLhs;
-			emptyLhs = list;
-			Assert::IsTrue(areEqual(list, emptyLhs));
-
-			List nonEmptyLhs = createListFromRange(10, 20);
-			nonEmptyLhs = list;
-			Assert::IsTrue(areEqual(list, nonEmptyLhs));
-		}
-
-		TEST_METHOD(copyAppendEmptyList)
-		{
-			const List emptyList;
-
-			List emptyLhs;
-			emptyLhs.appendList(emptyList);
-			Assert::IsTrue(emptyLhs.isEmpty());
-
-			List nonEmptyLhs = createListFromRange(1, 10);
-			List copyOfNonEmptyLhs(nonEmptyLhs);
-
-			nonEmptyLhs.appendList(emptyList);
-			Assert::IsTrue(areEqual(copyOfNonEmptyLhs, nonEmptyLhs));
-		}
-
-		TEST_METHOD(copyAppendNonEmptyList)
-		{
+			List listToMove = createListFromRange(1, 10);
 			List list = createListFromRange(11, 20);
 
-			List emptyLhs;
-			emptyLhs.appendList(list);
-			Assert::IsTrue(areEqual(list, emptyLhs));
+			list = std::move(listToMove);
 
-			List nonEmptyLhs = createListFromRange(1, 10);
-			nonEmptyLhs.appendList(list);
-
-			Assert::IsTrue(listConsistsOfAllInRange(nonEmptyLhs, 1, 20));
+			Assert::IsTrue(listToMove.isEmpty());
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 10));
 		}
 
-		TEST_METHOD(moveAppendEmptyList)
+		TEST_METHOD(testCopyAssignmentEmptyToEmptyList)
 		{
-			List emptyList;
+			const List emptyList;
+			List list;
 
-			List emptyLhs;
-			emptyLhs.appendList(std::move(emptyList));
-			Assert::IsTrue(emptyLhs.isEmpty() && emptyList.isEmpty());
+			list = emptyList;
 
-			List nonEmptyLhs = createListFromRange(1, 10);
-
-			nonEmptyLhs.appendList(std::move(emptyList));
-			Assert::IsTrue(emptyList.isEmpty());
-			Assert::IsTrue(listConsistsOfAllInRange(nonEmptyLhs, 1, 10));
+			Assert::IsTrue(list.isEmpty());
 		}
 
-		TEST_METHOD(moveAppendNonEmptyToEmptyList)
+		TEST_METHOD(testCopyAssignmentEmptyToNonEmptyList)
 		{
-			List rhs = createListFromRange(1, 10);
+			const List emptyList;
+			List list = createListFromRange(1, 10);
 
-			List lhs;
-			lhs.appendList(std::move(rhs));
+			list = emptyList;
 
-			Assert::IsTrue(rhs.isEmpty());
-			Assert::IsTrue(listConsistsOfAllInRange(lhs, 1, 10));
+			Assert::IsTrue(list.isEmpty());
 		}
 
-		TEST_METHOD(moveAppendNonEmptyToNonEmptyList)
+		TEST_METHOD(testCopyAssignmentNonEmptyToEmptyList)
 		{
-			List rhs = createListFromRange(11, 20);
+			List listToCopy = createListFromRange(1, 10);
+			List list;
 
-			List lhs = createListFromRange(1, 10);
-			lhs.appendList(std::move(rhs));
+			list = listToCopy;
 
-			Assert::IsTrue(rhs.isEmpty());
-			Assert::IsTrue(listConsistsOfAllInRange(lhs, 1, 20));
+			Assert::IsTrue(areEqual(listToCopy, list));
+		}
+
+		TEST_METHOD(testCopyAssignmentNonEmptyToNonEmptyList)
+		{
+			List listToCopy = createListFromRange(1, 10);
+			List list = createListFromRange(20, 30);
+
+			list = listToCopy;
+
+			Assert::IsTrue(areEqual(listToCopy, list));
+		}
+
+		TEST_METHOD(testCopyAppendEmptyToEmptyList)
+		{
+			List listToAppend;
+			List list;
+
+			list.appendList(listToAppend);
+
+			Assert::IsTrue(list.isEmpty());
+		}
+
+		TEST_METHOD(testCopyAppendEmptyToNonEmptyList)
+		{
+			List listToAppend;
+			List list = createListFromRange(1, 10);
+
+			list.appendList(listToAppend);
+
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 10));
+		}
+
+		TEST_METHOD(testCopyAppendNonEmptyToEmptyList)
+		{
+			List listToAppend = createListFromRange(1, 10);
+			List list;
+
+			list.appendList(listToAppend);
+
+			Assert::IsTrue(areEqual(listToAppend, list));
+		}
+
+		TEST_METHOD(testCopyAppendNonEmptyToNonEmptyList)
+		{
+			List listToAppend = createListFromRange(11, 20);
+			List list = createListFromRange(1, 10);
+
+			list.appendList(listToAppend);
+
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 20));
+		}
+
+		TEST_METHOD(testMoveAppendEmptyToEmptyList)
+		{
+			List listToAppend;
+			List list;
+
+			list.appendList(std::move(listToAppend));
+
+			Assert::IsTrue(listToAppend.isEmpty());
+			Assert::IsTrue(list.isEmpty());
+		}
+
+		TEST_METHOD(testMoveAppendEmptyToNonEmptyList)
+		{
+			List listToAppend;
+			List list = createListFromRange(1, 10);
+
+			list.appendList(std::move(listToAppend));
+
+			Assert::IsTrue(listToAppend.isEmpty());
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 10));
+		}
+
+		TEST_METHOD(testMoveAppendNonEmptyToEmptyList)
+		{
+			List listToAppend = createListFromRange(1, 10);
+			List list;
+
+			list.appendList(std::move(listToAppend));
+
+			Assert::IsTrue(listToAppend.isEmpty());
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 10));
+		}
+
+		TEST_METHOD(testMoveAppendNonEmptyToNonEmptyList)
+		{
+			List listToAppend = createListFromRange(11, 20);
+			List list = createListFromRange(1, 10);
+
+			list.appendList(std::move(listToAppend));
+
+			Assert::IsTrue(listToAppend.isEmpty());
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 20));
 		}
 		
-		TEST_METHOD(insertAfterInvalidIterator)
+		TEST_METHOD(testInsertAfterInvalidIteratorInsertsBack)
 		{
 			List list;
-			Iterator invalidIterator = list.getIteratorToFirst();
-
-			fillListFromTo(list, 1, 5);
-
-			size_t size = list.getSize();
-
-			for (unsigned i = 6; i <= 10; ++i)
-			{
-				list.insertAfter(invalidIterator, i);
-				Assert::AreEqual(++size, list.getSize());
-			}
-
-			Assert::IsTrue(listConsistsOfAllInRange(list, 1, 10));
-		}
-
-		TEST_METHOD(insertAfter)
-		{
-			List list;
-
-			for (unsigned i = 0; i <= 6; i += 2)
-				list.addBack(i);
-
-			size_t size = list.getSize();
-
 			Iterator iterator = list.getIteratorToFirst();
-
-			for (unsigned i = 1; i <= 5; i += 2)
-			{
-				list.insertAfter(iterator, i);
-				Assert::AreEqual(++size, list.getSize());
-
-				for (int i = 1; i <= 2; ++i)
-					++iterator;
-			}
-
-			Assert::IsTrue(listConsistsOfAllInRange(list, 0, 6));
-		}
-
-		TEST_METHOD(insertBeforeInvalidIterator)
-		{
-			List list;
-			Iterator invalidIterator = list.getIteratorToFirst();
-
-			fillListFromTo(list, 3, 5);
-
-			size_t size = list.getSize();
+			list = createListFromRange(1, 4);
 			
-			for (unsigned i = 2; i >= 1; --i)
-			{
-				list.insertBefore(invalidIterator, i);
-				Assert::AreEqual(++size, list.getSize());
-			}
+			list.insertAfter(iterator, 5);
 
-			Assert::IsTrue(listConsistsOfAllInRange(list, 1, 5));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 5));
 		}
 
-		TEST_METHOD(insertBefore)
+		TEST_METHOD(testInsertAfterLastItem)
 		{
-			List list;
+			List list = createListFromRange(1, 4);
+			Iterator iteratorToLast = list.getIteratorToLast();
 
-			for (unsigned i = 1; i <= 5; i += 2)
-				list.addBack(i);
+			list.insertAfter(iteratorToLast, 5);
 
-			size_t size = list.getSize();
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 5));
+		}
+
+		TEST_METHOD(testInsertAfterMiddleItem)
+		{
+			List list = createListFromRange(1, 1);
+			list.addBack(3);
 			Iterator iterator = list.getIteratorToFirst();
 
-			for (unsigned i = 0; i <= 4; i += 2)
-			{
-				list.insertBefore(iterator, i);
-				Assert::AreEqual(++size, list.getSize());
-				++iterator;
-			}
+			list.insertAfter(iterator, 2);
 
-			Assert::IsTrue(listConsistsOfAllInRange(list, 0, 5));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 3));
 		}
 
-		TEST_METHOD(addFront)
-		{
-			List list;
-
-			size_t size = 0;
-
-			for (unsigned i = 10; i >= 1; --i)
-			{
-				list.addFront(i);
-				Assert::AreEqual(++size, list.getSize());
-			}
-
-			Assert::IsTrue(listConsistsOfAllInRange(list, 1, 10));
-		}
-
-		TEST_METHOD(addBack)
-		{
-			List list;
-
-			for (unsigned i = 1; i <= 10; ++i)
-			{
-				list.addBack(i);
-				Assert::AreEqual(i, list.getSize());
-			}
-
-			Assert::IsTrue(listConsistsOfAllInRange(list, 1, 10));
-		}
-
-		TEST_METHOD(removeAtInvalidIterator)
+		TEST_METHOD(testInsertBeforeInvalidIteratorInsertsAtFront)
 		{
 			List list;
 			Iterator invalidIterator = list.getIteratorToFirst();
+			list = createListFromRange(2, 5);
 
-			fillListFromTo(list, 1, 10);
+			list.insertBefore(invalidIterator, 1);
+
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 5));
+		}
+
+		TEST_METHOD(testInsertBeforeFirstInList)
+		{
+			List list = createListFromRange(2, 5);
+			Iterator iteratorToFirst = list.getIteratorToFirst();
+
+			list.insertBefore(iteratorToFirst, 1);
+
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 5));
+		}
+
+		TEST_METHOD(testInsertBeforeMiddleItem)
+		{
+			List list = createListFromRange(1, 1);
+			list.addBack(3);
+			Iterator iterator = list.getIteratorToLast();
+
+			list.insertBefore(iterator, 2);
+
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 3));
+		}
+
+		TEST_METHOD(testAddFrontInEmptyList)
+		{
+			List list;
+
+			list.addFront(1);
+
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 1));
+		}
+
+		TEST_METHOD(testAddFrontInNonEmptyList)
+		{
+			List list = createListFromRange(2, 5);
+
+			list.addFront(1);
+
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 5));
+		}
+
+		TEST_METHOD(testAddBack)
+		{
+			List list;
+
+			for (unsigned number = 1; number <= 5; ++number)
+			{
+				list.addBack(number);
+			}
+
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 5));
+		}
+
+		TEST_METHOD(testRemoveAtInvalidIteratorDoesNothing)
+		{
+			List list;
+			Iterator invalidIterator = list.getIteratorToFirst();
+			list = createListFromRange(1, 10);
 
 			list.removeAt(invalidIterator);
 
-			Assert::IsTrue(listConsistsOfAllInRange(list, 1, 10));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 10));
 		}
 
-		TEST_METHOD(removeAt)
+		TEST_METHOD(testRemoveAtFrontOfList)
 		{
 			List list = createListFromRange(1, 5);
 
 			list.removeAt(list.getIteratorToFirst());
+
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 2, 5));
+		}
+
+		TEST_METHOD(testRemoveAtBackOfList)
+		{
+			List list = createListFromRange(1, 5);
+
 			list.removeAt(list.getIteratorToLast());
 
-			Iterator iterator = list.getIteratorToFirst();
-			list.removeAt(++iterator);
-
-			Assert::AreEqual(2u, list.getSize());
-			Assert::AreEqual(2u, *(list.getIteratorToFirst()));
-			Assert::AreEqual(4u, *(list.getIteratorToLast()));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 4));
 		}
 
-		TEST_METHOD(removeAfterInvalidIterator)
+		TEST_METHOD(testRemoveAtMiddleOfList)
+		{
+			List list = createListFromRange(1, 2);
+			list.insertAfter(list.getIteratorToFirst(), 100);
+			Iterator iterator = list.getIteratorToFirst();
+			++iterator;
+
+			list.removeAt(iterator);
+
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 2));
+		}
+
+		TEST_METHOD(testRemoveAfterInvalidIteratorDoesNothing)
 		{
 			List list;
 			Iterator invalidIterator = list.getIteratorToFirst();
+			list = createListFromRange(1, 5);
 
-			fillListFromTo(list, 1, 10);
 			list.removeAfter(invalidIterator);
 
-			Assert::IsTrue(listConsistsOfAllInRange(list, 1, 10));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 5));
 		}
 
-		TEST_METHOD(removeAfter)
+		TEST_METHOD(testRemoveAfterLastDoesNothing)
 		{
-			List list = createListFromRange(1, 10);
+			List list = createListFromRange(1, 5);
 
-			size_t size = list.getSize();
+			list.removeAfter(list.getIteratorToLast());
 
-			Iterator iterator = list.getIteratorToFirst();
-
-			for (int i = 1; i <= 9; ++i)
-			{
-				list.removeAfter(iterator);
-				Assert::AreEqual(--size, list.getSize());
-			}
-
-			Assert::IsTrue(listConsistsOfAllInRange(list, 1, 1));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 5));
 		}
 
-		TEST_METHOD(removeBeforeInvalidIterator)
+		TEST_METHOD(testRemoveAfterMiddleItem)
+		{
+			List list = createListFromRange(1, 2);
+			list.insertAfter(list.getIteratorToFirst(), 100);
+
+			list.removeAfter(list.getIteratorToFirst());
+
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 2));
+		}
+
+		TEST_METHOD(testRemoveBeforeInvalidIteratorDoesNothing)
 		{
 			List list;
-			Iterator invalidIterator = list.getIteratorToLast();
-			
-			fillListFromTo(list, 1, 5);
+			Iterator invalidIterator = list.getIteratorToFirst();
+			list = createListFromRange(1, 5);
+
 			list.removeBefore(invalidIterator);
 
-			Assert::IsTrue(listConsistsOfAllInRange(list, 1, 5));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 5));
 		}
 
-		TEST_METHOD(removeBefore)
-		{
-			List list = createListFromRange(1, 10);
-			
-			size_t size = list.getSize();
-
-			Iterator last = list.getIteratorToLast();
-
-			for (int i = 1; i <= 9; ++i)
-			{
-				list.removeBefore(last);
-				Assert::AreEqual(--size, list.getSize());
-			}
-
-			Assert::IsTrue(listConsistsOfAllInRange(list, 10, 10));
-		}
-
-		TEST_METHOD(removeFirst)
+		TEST_METHOD(testRemoveBeforeFirstItemDoesNothing)
 		{
 			List list = createListFromRange(1, 5);
 
-			size_t size = list.getSize();
+			list.removeBefore(list.getIteratorToFirst());
 
-			for (unsigned i = 1; i <= 5; ++i)
-			{
-				Assert::AreEqual(size--, list.getSize());
-				Assert::AreEqual(i, *(list.getIteratorToFirst()));
-				list.removeFirst();
-			}
-
-			Assert::IsTrue(list.isEmpty());
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 5));
 		}
 
-		TEST_METHOD(removeFirstFromEmptyList)
+		TEST_METHOD(testRemoveBeforeMiddleItem)
 		{
-			List list;
-			
-			try
-			{
-				list.removeFirst();
+			List list = createListFromRange(1, 2);
+			list.insertAfter(list.getIteratorToFirst(), 100);
 
-				Assert::Fail(L"Removed the first element from an empty list!");
-			}
-			catch (...)
-			{
-			}
+			list.removeBefore(list.getIteratorToLast());
+
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 2));
 		}
 
-		TEST_METHOD(removeLast)
+		TEST_METHOD(testRemoveFirst)
 		{
 			List list = createListFromRange(1, 5);
 
-			size_t size = list.getSize();
+			list.removeFirst();
 
-			for (unsigned i = 5; i >= 1; --i)
-			{
-				Assert::AreEqual(size--, list.getSize());
-				Assert::AreEqual(i, (*list.getIteratorToLast()));
-				list.removeLast();
-			}
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 2, 5));
+		}
+
+		TEST_METHOD(testRemoveFirstInOneElementList)
+		{
+			List list = createListFromRange(1, 1);
+
+			list.removeFirst();
 
 			Assert::IsTrue(list.isEmpty());
 		}
 
-		TEST_METHOD(removeLastFromEmptyList) 
+		TEST_METHOD(testRemoveLast)
 		{
-			List list;
+			List list = createListFromRange(1, 5);
 
-			try
-			{
-				list.removeLast();
+			list.removeLast();
 
-				Assert::Fail(L"Removed the last element from an empty list!");
-			}
-			catch (...)
-			{
-			}
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 4));
 		}
 
-		TEST_METHOD(search)
+		TEST_METHOD(testRemoveLastInOneElementList)
 		{
-			List list = createListFromRange(11, 20);
-			
-			for (unsigned i = 1; i <= 10; ++i)
-			{	
-				Iterator result = list.search(i);
-				Assert::IsFalse(result);
-			}
+			List list = createListFromRange(1, 1);
 
-			for (unsigned i = 11; i <= 20; ++i)
-			{
-				Iterator result = list.search(i);
-				Assert::AreEqual(i, *result);
-			}
-		}
+			list.removeLast();
 
-		TEST_METHOD(getIteratorToFirst)
-		{
-			List list;
-
-			Iterator invalidIterator = list.getIteratorToFirst();
-			Assert::IsFalse(invalidIterator);
-
-			fillListFromTo(list, 1, 5);
-
-			Iterator first = list.getIteratorToFirst();
-			Assert::AreEqual(1u, *first);
-		}
-
-		TEST_METHOD(getIteratorToLast)
-		{
-			List list;
-
-			Iterator invalidIterator = list.getIteratorToLast();
-			Assert::IsFalse(invalidIterator);
-
-			fillListFromTo(list, 1, 5);
-
-			Iterator last = list.getIteratorToLast();
-			Assert::AreEqual(5u, *last);
-		}
-
-		TEST_METHOD(emptyAList)
-		{
-			List emptyList;
-			emptyList.empty();
-			Assert::IsTrue(emptyList.isEmpty());
-
-			List nonEmptyList = createListFromRange(1, 5);
-			nonEmptyList.empty();
-			Assert::IsTrue(nonEmptyList.isEmpty());
-		}
-
-		TEST_METHOD(isEmpty)
-		{
-			List list;
 			Assert::IsTrue(list.isEmpty());
+		}
 
-			for (unsigned i = 1; i <= 10; ++i)
+		TEST_METHOD(testSearchIsSuccessfullForAddedItems)
+		{
+			List list = createListFromRange(1, 5);
+
+			for (unsigned number = 1; number <= 5; ++number)
 			{
-				list.addBack(i);
-				Assert::IsFalse(list.isEmpty());
+				Iterator iterator = list.search(number);
+				Assert::AreEqual(number, *iterator);
 			}
 		}
 
-		TEST_METHOD(getSize)
+		TEST_METHOD(testUnsuccessfullSearchReturnsInvalidIterator)
 		{
-			List list;
-			Assert::AreEqual(0u, list.getSize());
+			List list = createListFromRange(1, 5);
 
-			for (size_t i = 1; i <= 50; ++i)
-			{
-				list.addFront(i);
-				Assert::AreEqual(i, list.getSize());
-			}
+			Iterator iterator = list.search(100);
+
+			Assert::IsFalse(iterator.isValid());
+		}
+
+		TEST_METHOD(testEmptyANonEmptyList)
+		{
+			List list = createListFromRange(1, 5);
+
+			list.empty();
+
+			Assert::IsTrue(list.isEmpty());
 		}
 	};
 }
