@@ -2,13 +2,11 @@
 #include <cassert>
 #include <utility>
 
-
 template <class T>
 inline LinkedList<T>::LinkedList()
 {
 	nullifyMembers();
 }
-
 
 template <class T>
 LinkedList<T>::LinkedList(LinkedList<T>&& source) :
@@ -17,13 +15,11 @@ LinkedList<T>::LinkedList(LinkedList<T>&& source) :
 	source.nullifyMembers();
 }
 
-
 template <class T>
 inline LinkedList<T>::LinkedList(const LinkedList<T>& source)
 {
 	copyFrom(source);
 }
-
 
 template <class T>
 LinkedList<T>& LinkedList<T>::operator=(LinkedList<T>&& rhs)
@@ -36,7 +32,6 @@ LinkedList<T>& LinkedList<T>::operator=(LinkedList<T>&& rhs)
 	return *this;
 }
 
-
 template <class T>
 LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>& rhs)
 {
@@ -48,20 +43,17 @@ LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>& rhs)
 	return *this;
 }
 
-
 template <class T>
 inline LinkedList<T>::~LinkedList()
 {
 	destroyChain(first);
 }
 
-
 template <class T>
 inline void LinkedList<T>::appendList(const LinkedList<T>& list)
 {
 	appendChainFrom(list);
 }
-
 
 template <class T>
 void LinkedList<T>::appendList(LinkedList<T>&& list)
@@ -72,21 +64,25 @@ void LinkedList<T>::appendList(LinkedList<T>&& list)
 	}	
 }
 
-
 template <class T>
 void LinkedList<T>::insertAfter(LinkedListIterator<T>& iterator, const T& item)
 {
 	if (iterator.owner == this)
 	{
 		if (iterator)
+		{
 			insertAfter(iterator.current, item);
+		}
 		else
+		{
 			addBack(item);
+		}
 	}
 	else
+	{
 		throw std::invalid_argument("Iterator with a different owner!");
+	}
 }
-
 
 template <class T>
 void LinkedList<T>::insertBefore(LinkedListIterator<T>& iterator, const T& item)
@@ -94,14 +90,19 @@ void LinkedList<T>::insertBefore(LinkedListIterator<T>& iterator, const T& item)
 	if (iterator.owner == this)
 	{
 		if (iterator)
+		{
 			insertBefore(iterator.current, item);
+		}
 		else
+		{
 			addFront(item);
+		}
 	}
 	else
+	{
 		throw std::invalid_argument("Iterator with a different owner!");
+	}
 }
-
 
 template <class T>
 void LinkedList<T>::addFront(const T &item)
@@ -109,13 +110,14 @@ void LinkedList<T>::addFront(const T &item)
 	Box<T>* newFirstBox = new Box<T>(item, first);
 
 	if (!first)
+	{
 		last = newFirstBox;
+	}
 
 	first = newFirstBox;
 
 	++size;
 }
-
 
 template <class T>
 void LinkedList<T>::addBack(const T &item)
@@ -123,15 +125,18 @@ void LinkedList<T>::addBack(const T &item)
 	Box<T>* newLastBox = new Box<T>(item);
 
 	if (last)
+	{
 		last->next = newLastBox;
+	}
 	else
+	{
 		first = newLastBox;
+	}
 
 	last = newLastBox;
 
 	++size;
 }
-
 
 template <class T>
 void LinkedList<T>::removeAt(LinkedListIterator<T>& iterator)
@@ -145,9 +150,10 @@ void LinkedList<T>::removeAt(LinkedListIterator<T>& iterator)
 		}
 	}
 	else
+	{
 		throw std::invalid_argument("Iterator with a different owner!");
+	}
 }
-
 
 template <class T>
 void LinkedList<T>::removeAfter(LinkedListIterator<T>& iterator)
@@ -155,12 +161,15 @@ void LinkedList<T>::removeAfter(LinkedListIterator<T>& iterator)
 	if (iterator.owner == this)
 	{
 		if (iterator && iterator.current->next)
+		{
 			removeAt(iterator.current->next);
+		}
 	}
 	else
+	{
 		throw std::invalid_argument("Iterator with a different owner!");
+	}
 }
-
 
 template <class T>
 void LinkedList<T>::removeBefore(LinkedListIterator<T>& iterator)
@@ -172,33 +181,42 @@ void LinkedList<T>::removeBefore(LinkedListIterator<T>& iterator)
 			Box<T>* previousBox = findBoxBefore(iterator.current);
 
 			if (previousBox)
+			{
 				removeAt(previousBox);
+			}
 		}
 	}
 	else
+	{
 		throw std::invalid_argument("Iterator with a different owner!");
+	}
 }
-
 
 template <class T>
 void LinkedList<T>::removeFirst()
 {
 	if (!isEmpty())
+	{
 		removeAt(first);
+	}
 	else
+	{
 		throw std::logic_error("The list is empty!");
+	}
 }
-
 
 template <class T>
 void LinkedList<T>::removeLast()
 {
 	if (!isEmpty())
+	{
 		removeAt(last);
+	}
 	else
+	{
 		throw std::logic_error("The list is empty!");
+	}
 }
-
 
 template <class T>
 LinkedListIterator<T> LinkedList<T>::search(const T& what)
@@ -206,11 +224,12 @@ LinkedListIterator<T> LinkedList<T>::search(const T& what)
 	Box<T>* current = first;
 
 	while (current && current->item != what)
+	{
 		current = current->next;
+	}
 
 	return LinkedListIterator<T>(current, this);
 }
-
 
 template <class T>
 inline LinkedListIterator<T> LinkedList<T>::getIteratorToFirst()
@@ -218,13 +237,11 @@ inline LinkedListIterator<T> LinkedList<T>::getIteratorToFirst()
 	return LinkedListIterator<T>(first, this);
 }
 
-
 template <class T>
 inline LinkedListIterator<T> LinkedList<T>::getIteratorToLast()
 {
 	return LinkedListIterator<T>(last, this);
 }
-
 
 template <class T>
 void LinkedList<T>::empty()
@@ -233,13 +250,11 @@ void LinkedList<T>::empty()
 	nullifyMembers();
 }
 
-
 template <class T>
 inline bool LinkedList<T>::isEmpty() const
 {
 	return size == 0;
 }
-
 
 template <class T>
 inline size_t LinkedList<T>::getSize() const
@@ -247,26 +262,31 @@ inline size_t LinkedList<T>::getSize() const
 	return size;
 }
 
-
 template <class T>
 const T& LinkedList<T>::getFirst() const
 {
 	if (!isEmpty())
+	{
 		return first->item;
+	}
 	else
+	{
 		throw std::logic_error("The list is empty!");
+	}
 }
-
 
 template <class T>
 const T& LinkedList<T>::getLast() const
 {
 	if (!isEmpty())
+	{
 		return last->item;
+	}
 	else
+	{
 		throw std::logic_error("The list is empty!");
+	}
 }
-
 
 template <class T>
 void LinkedList<T>::appendChainFrom(LinkedList<T> source)
@@ -274,9 +294,13 @@ void LinkedList<T>::appendChainFrom(LinkedList<T> source)
 	if (!source.isEmpty())
 	{
 		if (!this->isEmpty())
+		{
 			this->last->next = source.first;
+		}
 		else
+		{
 			this->first = source.first;
+		}
 
 		this->last = source.last;
 
@@ -285,7 +309,6 @@ void LinkedList<T>::appendChainFrom(LinkedList<T> source)
 		source.nullifyMembers();
 	}
 }
-
 
 template <class T>
 void LinkedList<T>::insertAfter(Box<T>* iterator, const T& item)
@@ -296,9 +319,10 @@ void LinkedList<T>::insertAfter(Box<T>* iterator, const T& item)
 		++size;
 	}
 	else
+	{
 		addBack(item);
+	}
 }
-
 
 template <class T>
 void LinkedList<T>::insertBefore(Box<T>* iterator, const T& item)
@@ -306,11 +330,14 @@ void LinkedList<T>::insertBefore(Box<T>* iterator, const T& item)
 	Box<T>* previousBox = findBoxBefore(iterator);
 
 	if (previousBox)
+	{
 		insertAfter(previousBox, item);
+	}
 	else
+	{
 		addFront(item);
+	}
 }
-
 
 template <class T>
 void LinkedList<T>::removeAt(Box<T>* iterator)
@@ -318,32 +345,40 @@ void LinkedList<T>::removeAt(Box<T>* iterator)
 	Box<T>* previousBox = findBoxBefore(iterator);
 
 	if (previousBox)
+	{
 		previousBox->next = iterator->next;
+	}
 	else
+	{
 		first = iterator->next;
+	}
 
 	if (!iterator->next)
+	{
 		last = previousBox;
+	}
 
 	delete iterator;
 	--size;
 }
 
-
 template <class T>
 Box<T>* LinkedList<T>::findBoxBefore(const Box<T>* box) const
 {
-	if (box == first) 
+	if (box == first)
+	{
 		return nullptr;
+	}
 
 	Box<T>* current = first;
 
 	while (current && current->next != box)
+	{
 		current = current->next;
+	}
 
 	return current;
 }
-
 
 template <class T>
 void LinkedList<T>::copyFrom(const LinkedList<T>& source)
@@ -366,7 +401,6 @@ void LinkedList<T>::copyFrom(const LinkedList<T>& source)
 	}
 }
 
-
 template <class T>
 void LinkedList<T>::copyChainFrom(const LinkedList<T>& source)
 {
@@ -387,7 +421,6 @@ void LinkedList<T>::copyChainFrom(const LinkedList<T>& source)
 	last = writeAfter;
 }
 
-
 template <class T>
 void LinkedList<T>::swapContentsWith(LinkedList<T> temp)
 {
@@ -396,7 +429,6 @@ void LinkedList<T>::swapContentsWith(LinkedList<T> temp)
 	std::swap(size, temp.size);
 }
 
-
 template <class T>
 void LinkedList<T>::nullifyMembers()
 {
@@ -404,19 +436,19 @@ void LinkedList<T>::nullifyMembers()
 	size = 0;
 }
 
-
 template <class T>
 Box<T>* LinkedList<T>::findEndOfChain(Box<T>* current)
 {
 	if (current)
 	{
 		while (current->next)
+		{
 			current = current->next;
+		}
 	}
 
 	return current;
 }
-
 
 template <class T>
 void LinkedList<T>::destroyChain(Box<T>* first)

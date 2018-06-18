@@ -51,12 +51,13 @@ private:
 	Box<T>* findBoxBefore(const Box<T>* box) const;
 	void copyFrom(const LinkedList<T>& source);
 	void copyChainFrom(const LinkedList<T>& source);
-	void swapContentsWith(LinkedList<T> temp);
+	void swapContentsWith(LinkedList<T> list);
 	void nullifyMembers();
 
 private:
 	size_t size;
-	Box<T> *first, *last;
+	Box<T>* first;
+	Box<T>* last;
 };
 
 #include "LinkedList.hpp"
