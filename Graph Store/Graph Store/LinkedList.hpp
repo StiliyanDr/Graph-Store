@@ -1,5 +1,4 @@
-#include <stdexcept>
-#include <cassert>
+#include <assert.h>
 #include <utility>
 
 template <class T>
@@ -67,40 +66,36 @@ void LinkedList<T>::appendList(LinkedList<T>&& list)
 template <class T>
 void LinkedList<T>::insertAfter(LinkedListIterator<T>& iterator, const T& item)
 {
-	if (iterator.owner == this)
+	assert(isOwnerOf(iterator));
+
+	if (iterator)
 	{
-		if (iterator)
-		{
-			insertAfter(iterator.current, item);
-		}
-		else
-		{
-			addBack(item);
-		}
+		insertAfter(iterator.current, item);
 	}
 	else
 	{
-		throw std::invalid_argument("Iterator with a different owner!");
+		addBack(item);
 	}
+}
+
+template <class T>
+inline bool LinkedList<T>::isOwnerOf(const LinkedListIterator<T>& iterator) const
+{
+	return this == iterator.owner;
 }
 
 template <class T>
 void LinkedList<T>::insertBefore(LinkedListIterator<T>& iterator, const T& item)
 {
-	if (iterator.owner == this)
+	assert(isOwnerOf(iterator));
+
+	if (iterator)
 	{
-		if (iterator)
-		{
-			insertBefore(iterator.current, item);
-		}
-		else
-		{
-			addFront(item);
-		}
+		insertBefore(iterator.current, item);
 	}
 	else
 	{
-		throw std::invalid_argument("Iterator with a different owner!");
+		addFront(item);
 	}
 }
 
@@ -141,81 +136,56 @@ void LinkedList<T>::addBack(const T &item)
 template <class T>
 void LinkedList<T>::removeAt(LinkedListIterator<T>& iterator)
 {
-	if (iterator.owner == this)
+	assert(isOwnerOf(iterator));
+
+	if (iterator)
 	{
-		if (iterator)
-		{
-			removeAt(iterator.current);
-			iterator.current = nullptr;
-		}
-	}
-	else
-	{
-		throw std::invalid_argument("Iterator with a different owner!");
+		removeAt(iterator.current);
+		iterator.current = nullptr;
 	}
 }
 
 template <class T>
 void LinkedList<T>::removeAfter(LinkedListIterator<T>& iterator)
 {
-	if (iterator.owner == this)
+	assert(isOwnerOf(iterator));
+
+	if (iterator && iterator.current->next)
 	{
-		if (iterator && iterator.current->next)
-		{
-			removeAt(iterator.current->next);
-		}
-	}
-	else
-	{
-		throw std::invalid_argument("Iterator with a different owner!");
+		removeAt(iterator.current->next);
 	}
 }
 
 template <class T>
 void LinkedList<T>::removeBefore(LinkedListIterator<T>& iterator)
 {
-	if (iterator.owner == this)
-	{
-		if (iterator)
-		{
-			Box<T>* previousBox = findBoxBefore(iterator.current);
+	assert(isOwnerOf(iterator));
 
-			if (previousBox)
-			{
-				removeAt(previousBox);
-			}
-		}
-	}
-	else
+	if (iterator)
 	{
-		throw std::invalid_argument("Iterator with a different owner!");
+		Box<T>* previousBox = findBoxBefore(iterator.current);
+
+		if (previousBox)
+		{
+			removeAt(previousBox);
+		}
 	}
 }
 
 template <class T>
 void LinkedList<T>::removeFirst()
 {
-	if (!isEmpty())
-	{
-		removeAt(first);
-	}
-	else
-	{
-		throw std::logic_error("The list is empty!");
-	}
+	assert(!isEmpty());
+
+	removeAt(first);
 }
 
 template <class T>
 void LinkedList<T>::removeLast()
 {
-	if (!isEmpty())
-	{
-		removeAt(last);
-	}
-	else
-	{
-		throw std::logic_error("The list is empty!");
-	}
+	assert(!isEmpty());
+
+	removeAt(last);
 }
 
 template <class T>
@@ -265,27 +235,17 @@ inline size_t LinkedList<T>::getSize() const
 template <class T>
 const T& LinkedList<T>::getFirst() const
 {
-	if (!isEmpty())
-	{
-		return first->item;
-	}
-	else
-	{
-		throw std::logic_error("The list is empty!");
-	}
+	assert(!isEmpty());
+
+	return first->item;
 }
 
 template <class T>
 const T& LinkedList<T>::getLast() const
 {
-	if (!isEmpty())
-	{
-		return last->item;
-	}
-	else
-	{
-		throw std::logic_error("The list is empty!");
-	}
+	assert(!isEmpty());
+
+	return last->item;
 }
 
 template <class T>
