@@ -41,13 +41,13 @@ public:
 
 private:
 	static Box<T>* findEndOfChain(Box<T>* current);
-	static void destroyChain(Box<T>* first);
+	static void destroyChain(Box<T>* firstBox);
 
 private:
 	void appendChainFrom(LinkedList<T> source);
-	void insertAfter(Box<T>* iterator, const T& item);
-	void insertBefore(Box<T>* iterator, const T& item);
-	void removeAt(Box<T>* iterator);
+	void insertAfter(Box<T>* box, const T& item);
+	void insertBefore(Box<T>* box, const T& item);
+	void removeAt(Box<T>* box);
 	Box<T>* findBoxBefore(const Box<T>* box) const;
 	void copyFrom(const LinkedList<T>& source);
 	void copyChainFrom(const LinkedList<T>& source);

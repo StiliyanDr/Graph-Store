@@ -60,7 +60,7 @@ void LinkedList<T>::appendList(LinkedList<T>&& list)
 	if (this != &list)
 	{
 		appendChainFrom(std::move(list));
-	}	
+	}
 }
 
 template <class T>
@@ -251,31 +251,34 @@ const T& LinkedList<T>::getLast() const
 template <class T>
 void LinkedList<T>::appendChainFrom(LinkedList<T> source)
 {
-	if (!source.isEmpty())
+	if (source.isEmpty())
 	{
-		if (!this->isEmpty())
-		{
-			this->last->next = source.first;
-		}
-		else
-		{
-			this->first = source.first;
-		}
-
-		this->last = source.last;
-
-		this->size += source.size;
-
-		source.nullifyMembers();
+		return;
 	}
+
+	if (!this->isEmpty())
+	{
+		this->last->next = source.first;
+	}
+	else
+	{
+		this->first = source.first;
+	}
+
+	this->last = source.last;
+	this->size += source.size;
+	
+	source.nullifyMembers();
 }
 
 template <class T>
-void LinkedList<T>::insertAfter(Box<T>* iterator, const T& item)
+void LinkedList<T>::insertAfter(Box<T>* box, const T& item)
 {
-	if (iterator->next)
+	assert(box != nullptr);
+
+	if (box->next)
 	{
-		iterator->next = new Box<T>(item, iterator->next);
+		box->next = new Box<T>(item, box->next);
 		++size;
 	}
 	else
@@ -285,9 +288,9 @@ void LinkedList<T>::insertAfter(Box<T>* iterator, const T& item)
 }
 
 template <class T>
-void LinkedList<T>::insertBefore(Box<T>* iterator, const T& item)
+void LinkedList<T>::insertBefore(Box<T>* box, const T& item)
 {
-	Box<T>* previousBox = findBoxBefore(iterator);
+	Box<T>* previousBox = findBoxBefore(box);
 
 	if (previousBox)
 	{
@@ -300,31 +303,33 @@ void LinkedList<T>::insertBefore(Box<T>* iterator, const T& item)
 }
 
 template <class T>
-void LinkedList<T>::removeAt(Box<T>* iterator)
+void LinkedList<T>::removeAt(Box<T>* box)
 {
-	Box<T>* previousBox = findBoxBefore(iterator);
+	Box<T>* previousBox = findBoxBefore(box);
 
 	if (previousBox)
 	{
-		previousBox->next = iterator->next;
+		previousBox->next = box->next;
 	}
 	else
 	{
-		first = iterator->next;
+		first = box->next;
 	}
 
-	if (!iterator->next)
+	if (!box->next)
 	{
 		last = previousBox;
 	}
 
-	delete iterator;
+	delete box;
 	--size;
 }
 
 template <class T>
 Box<T>* LinkedList<T>::findBoxBefore(const Box<T>* box) const
 {
+	assert(box != nullptr);
+
 	if (box == first)
 	{
 		return nullptr;
@@ -382,11 +387,11 @@ void LinkedList<T>::copyChainFrom(const LinkedList<T>& source)
 }
 
 template <class T>
-void LinkedList<T>::swapContentsWith(LinkedList<T> temp)
+void LinkedList<T>::swapContentsWith(LinkedList<T> list)
 {
-	std::swap(first, temp.first);
-	std::swap(last, temp.last);
-	std::swap(size, temp.size);
+	std::swap(first, list.first);
+	std::swap(last, list.last);
+	std::swap(size, list.size);
 }
 
 template <class T>
@@ -411,14 +416,15 @@ Box<T>* LinkedList<T>::findEndOfChain(Box<T>* current)
 }
 
 template <class T>
-void LinkedList<T>::destroyChain(Box<T>* first)
+void LinkedList<T>::destroyChain(Box<T>* firstBox)
 {
-	Box<T>* next;
+	Box<T>* boxToDestroy = firstBox;
+	Box<T>* nextBox;
 
-	while (first)
+	while (boxToDestroy)
 	{
-		next = first->next;
-		delete first;
-		first = next;
+		nextBox = boxToDestroy->next;
+		delete boxToDestroy;
+		boxToDestroy = nextBox;
 	}
 }
