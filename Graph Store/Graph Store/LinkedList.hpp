@@ -189,19 +189,6 @@ void LinkedList<T>::removeLast()
 }
 
 template <class T>
-LinkedListIterator<T> LinkedList<T>::search(const T& what)
-{
-	Box<T>* current = first;
-
-	while (current && current->item != what)
-	{
-		current = current->next;
-	}
-
-	return LinkedListIterator<T>(current, this);
-}
-
-template <class T>
 inline LinkedListIterator<T> LinkedList<T>::getIteratorToFirst()
 {
 	return LinkedListIterator<T>(first, this);

@@ -28,7 +28,6 @@ public:
 	void removeFirst();
 	void removeLast();
 
-	LinkedListIterator<T> search(const T& what);
 	LinkedListIterator<T> getIteratorToFirst();
 	LinkedListIterator<T> getIteratorToLast();
 

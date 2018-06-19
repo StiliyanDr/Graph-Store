@@ -528,26 +528,6 @@ namespace LinkedListUnitTest
 			Assert::IsTrue(list.isEmpty());
 		}
 
-		TEST_METHOD(testSearchIsSuccessfullForAddedItems)
-		{
-			List list = createListFromRange(1, 5);
-
-			for (unsigned number = 1; number <= 5; ++number)
-			{
-				Iterator iterator = list.search(number);
-				Assert::AreEqual(number, *iterator);
-			}
-		}
-
-		TEST_METHOD(testUnsuccessfullSearchReturnsInvalidIterator)
-		{
-			List list = createListFromRange(1, 5);
-
-			Iterator iterator = list.search(100);
-
-			Assert::IsFalse(iterator.isValid());
-		}
-
 		TEST_METHOD(testEmptyANonEmptyList)
 		{
 			List list = createListFromRange(1, 5);
