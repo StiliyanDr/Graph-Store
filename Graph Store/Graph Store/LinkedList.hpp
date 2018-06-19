@@ -49,6 +49,13 @@ inline LinkedList<T>::~LinkedList()
 }
 
 template <class T>
+void LinkedList<T>::empty()
+{
+	destroyChain(first);
+	nullifyMembers();
+}
+
+template <class T>
 inline void LinkedList<T>::appendList(const LinkedList<T>& list)
 {
 	appendChainFrom(list);
@@ -79,12 +86,6 @@ void LinkedList<T>::insertAfter(LinkedListIterator<T>& iterator, const T& item)
 }
 
 template <class T>
-inline bool LinkedList<T>::isOwnerOf(const LinkedListIterator<T>& iterator) const
-{
-	return this == iterator.owner;
-}
-
-template <class T>
 void LinkedList<T>::insertBefore(LinkedListIterator<T>& iterator, const T& item)
 {
 	assert(isOwnerOf(iterator));
@@ -97,40 +98,6 @@ void LinkedList<T>::insertBefore(LinkedListIterator<T>& iterator, const T& item)
 	{
 		addFront(item);
 	}
-}
-
-template <class T>
-void LinkedList<T>::addFront(const T &item)
-{
-	Box<T>* newFirstBox = new Box<T>(item, first);
-
-	if (!first)
-	{
-		last = newFirstBox;
-	}
-
-	first = newFirstBox;
-
-	++size;
-}
-
-template <class T>
-void LinkedList<T>::addBack(const T &item)
-{
-	Box<T>* newLastBox = new Box<T>(item);
-
-	if (last)
-	{
-		last->next = newLastBox;
-	}
-	else
-	{
-		first = newLastBox;
-	}
-
-	last = newLastBox;
-
-	++size;
 }
 
 template <class T>
@@ -189,73 +156,18 @@ void LinkedList<T>::removeLast()
 }
 
 template <class T>
-inline LinkedListIterator<T> LinkedList<T>::getIteratorToFirst()
+void LinkedList<T>::insertBefore(Box<T>* box, const T& item)
 {
-	return LinkedListIterator<T>(first, this);
-}
+	Box<T>* previousBox = findBoxBefore(box);
 
-template <class T>
-inline LinkedListIterator<T> LinkedList<T>::getIteratorToLast()
-{
-	return LinkedListIterator<T>(last, this);
-}
-
-template <class T>
-void LinkedList<T>::empty()
-{
-	destroyChain(first);
-	nullifyMembers();
-}
-
-template <class T>
-inline bool LinkedList<T>::isEmpty() const
-{
-	return size == 0;
-}
-
-template <class T>
-inline size_t LinkedList<T>::getSize() const
-{
-	return size;
-}
-
-template <class T>
-const T& LinkedList<T>::getFirst() const
-{
-	assert(!isEmpty());
-
-	return first->item;
-}
-
-template <class T>
-const T& LinkedList<T>::getLast() const
-{
-	assert(!isEmpty());
-
-	return last->item;
-}
-
-template <class T>
-void LinkedList<T>::appendChainFrom(LinkedList<T> source)
-{
-	if (source.isEmpty())
+	if (previousBox)
 	{
-		return;
-	}
-
-	if (!this->isEmpty())
-	{
-		this->last->next = source.first;
+		insertAfter(previousBox, item);
 	}
 	else
 	{
-		this->first = source.first;
+		addFront(item);
 	}
-
-	this->last = source.last;
-	this->size += source.size;
-	
-	source.nullifyMembers();
 }
 
 template <class T>
@@ -275,18 +187,37 @@ void LinkedList<T>::insertAfter(Box<T>* box, const T& item)
 }
 
 template <class T>
-void LinkedList<T>::insertBefore(Box<T>* box, const T& item)
+void LinkedList<T>::addFront(const T &item)
 {
-	Box<T>* previousBox = findBoxBefore(box);
+	Box<T>* newFirstBox = new Box<T>(item, first);
 
-	if (previousBox)
+	if (!first)
 	{
-		insertAfter(previousBox, item);
+		last = newFirstBox;
+	}
+
+	first = newFirstBox;
+
+	++size;
+}
+
+template <class T>
+void LinkedList<T>::addBack(const T &item)
+{
+	Box<T>* newLastBox = new Box<T>(item);
+
+	if (last)
+	{
+		last->next = newLastBox;
 	}
 	else
 	{
-		addFront(item);
+		first = newLastBox;
 	}
+
+	last = newLastBox;
+
+	++size;
 }
 
 template <class T>
@@ -310,6 +241,29 @@ void LinkedList<T>::removeAt(Box<T>* box)
 
 	delete box;
 	--size;
+}
+
+template <class T>
+void LinkedList<T>::appendChainFrom(LinkedList<T> source)
+{
+	if (source.isEmpty())
+	{
+		return;
+	}
+
+	if (!this->isEmpty())
+	{
+		this->last->next = source.first;
+	}
+	else
+	{
+		this->first = source.first;
+	}
+
+	this->last = source.last;
+	this->size += source.size;
+
+	source.nullifyMembers();
 }
 
 template <class T>
@@ -374,21 +328,6 @@ void LinkedList<T>::copyChainFrom(const LinkedList<T>& source)
 }
 
 template <class T>
-void LinkedList<T>::swapContentsWith(LinkedList<T> list)
-{
-	std::swap(first, list.first);
-	std::swap(last, list.last);
-	std::swap(size, list.size);
-}
-
-template <class T>
-void LinkedList<T>::nullifyMembers()
-{
-	first = last = nullptr;
-	size = 0;
-}
-
-template <class T>
 void LinkedList<T>::destroyChain(Box<T>* firstBox)
 {
 	Box<T>* boxToDestroy = firstBox;
@@ -400,4 +339,65 @@ void LinkedList<T>::destroyChain(Box<T>* firstBox)
 		delete boxToDestroy;
 		boxToDestroy = nextBox;
 	}
+}
+
+template <class T>
+void LinkedList<T>::swapContentsWith(LinkedList<T> list)
+{
+	std::swap(first, list.first);
+	std::swap(last, list.last);
+	std::swap(size, list.size);
+}
+
+template <class T>
+inline LinkedListIterator<T> LinkedList<T>::getIteratorToFirst()
+{
+	return LinkedListIterator<T>(first, this);
+}
+
+template <class T>
+inline LinkedListIterator<T> LinkedList<T>::getIteratorToLast()
+{
+	return LinkedListIterator<T>(last, this);
+}
+
+template <class T>
+inline bool LinkedList<T>::isEmpty() const
+{
+	return size == 0;
+}
+
+template <class T>
+inline size_t LinkedList<T>::getSize() const
+{
+	return size;
+}
+
+template <class T>
+const T& LinkedList<T>::getFirst() const
+{
+	assert(!isEmpty());
+
+	return first->item;
+}
+
+template <class T>
+const T& LinkedList<T>::getLast() const
+{
+	assert(!isEmpty());
+
+	return last->item;
+}
+
+template <class T>
+inline void LinkedList<T>::nullifyMembers()
+{
+	first = last = nullptr;
+	size = 0;
+}
+
+template <class T>
+inline bool LinkedList<T>::isOwnerOf(const LinkedListIterator<T>& iterator) const
+{
+	return this == iterator.owner;
 }
