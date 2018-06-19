@@ -402,20 +402,6 @@ void LinkedList<T>::nullifyMembers()
 }
 
 template <class T>
-Box<T>* LinkedList<T>::findEndOfChain(Box<T>* current)
-{
-	if (current)
-	{
-		while (current->next)
-		{
-			current = current->next;
-		}
-	}
-
-	return current;
-}
-
-template <class T>
 void LinkedList<T>::destroyChain(Box<T>* firstBox)
 {
 	Box<T>* boxToDestroy = firstBox;
