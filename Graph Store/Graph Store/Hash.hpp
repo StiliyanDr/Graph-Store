@@ -81,7 +81,7 @@ Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
 {
 	long index = getIndexOfFirstItemWithKey(key);
 
-	return (index != SEARCH_MISS) ? table[index] : nullptr;
+	return (index != SEARCH_MISS_INDEX) ? table[index] : nullptr;
 }
 
 template <class Item, class Key, class KeyAccessor>
@@ -94,7 +94,7 @@ long Hash<Item, Key, KeyAccessor>::getIndexOfFirstItemWithKey(const Key& key)
 		index = getNextPositionToProbe(index);
 	}
 
-	return (table[index]) ? index : SEARCH_MISS;
+	return (table[index]) ? index : SEARCH_MISS_INDEX;
 }
 
 template <class Item, class Key, class KeyAccessor>
@@ -103,7 +103,7 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 	Item* removedItem = nullptr;
 	long index = getIndexOfFirstItemWithKey(key);
 
-	if (index != SEARCH_MISS)
+	if (index != SEARCH_MISS_INDEX)
 	{
 		assert(count > 0 && tableSize > count);
 		removedItem = emptySlotAndReturnItemAt(index);

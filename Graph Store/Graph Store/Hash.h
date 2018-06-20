@@ -49,7 +49,7 @@ private:
 private:
 	static const size_t GROWTH_RATE = 2;
 	static const size_t MIN_TABLE_SIZE = 3;
-	static const long SEARCH_MISS = -1;
+	static const long SEARCH_MISS_INDEX = -1;
 
 private:
 	size_t count;
