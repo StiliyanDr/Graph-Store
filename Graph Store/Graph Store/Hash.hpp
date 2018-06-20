@@ -79,13 +79,13 @@ inline void Hash<Item, Key, KeyAccessor>::extendIfFillingUp()
 template <class Item, class Key, class KeyAccessor>
 Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
 {
-	long index = searchAndGetIndex(key);
+	long index = getIndexOfFirstItemWithKey(key);
 
 	return (index != SEARCH_MISS) ? table[index] : nullptr;
 }
 
 template <class Item, class Key, class KeyAccessor>
-long Hash<Item, Key, KeyAccessor>::searchAndGetIndex(const Key& key)
+long Hash<Item, Key, KeyAccessor>::getIndexOfFirstItemWithKey(const Key& key)
 {
 	size_t index = computeIndexFromKey(key);
 
@@ -101,7 +101,7 @@ template <class Item, class Key, class KeyAccessor>
 Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 {
 	Item* removedItem = nullptr;
-	long index = searchAndGetIndex(key);
+	long index = getIndexOfFirstItemWithKey(key);
 
 	if (index != SEARCH_MISS)
 	{

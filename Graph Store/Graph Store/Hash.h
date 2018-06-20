@@ -31,7 +31,7 @@ private:
 	static size_t calculateTableSize(size_t expectedItemsCount);
 
 private:
-	long searchAndGetIndex(const Key& key);
+	long getIndexOfFirstItemWithKey(const Key& key);
 	size_t computeIndexFromKey(const Key& key);
 	void rehashClusterStartingAt(size_t index);
 	Item* emptySlotAndReturnItemAt(size_t index);
