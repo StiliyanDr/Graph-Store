@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "../../Graph Store/Graph Store/DynamicArray.h"
+#include <utility>
+#include <assert.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -17,12 +19,22 @@ namespace DynamicArrayUnitTest
 			return (arr.getSize() == 0 && arr.getCount() == 0);
 		}
 
-		void fillArrayFromTo(Array &arr, unsigned from, unsigned to)
+		void fillArrayWithNumbersFromTo(Array &arr, unsigned firstNumber, unsigned lastNumber)
 		{
-			for (unsigned i = from; i <= to; ++i)
+			for (unsigned number = firstNumber; number <= lastNumber; ++number)
 			{
-				arr.add(i);
+				arr.add(number);
 			}
+		}
+
+		Array createArrayFromRange(unsigned firstNumber, unsigned lastNumber)
+		{
+			assert(firstNumber <= lastNumber);
+
+			Array arr(lastNumber - firstNumber + 1);
+			fillArrayWithNumbersFromTo(arr, firstNumber, lastNumber);
+
+			return arr;
 		}
 
 		bool areEqual(const Array& lhs, const Array& rhs)
@@ -30,192 +42,244 @@ namespace DynamicArrayUnitTest
 			const size_t lhsCount = lhs.getCount();
 
 			if (lhsCount != rhs.getCount())
+			{
 				return false;
+			}
 
 			for (size_t i = 0; i < lhsCount; ++i)
 			{
 				if (lhs[i] != rhs[i])
+				{
 					return false;
+				}
 			}
 
 			return true;
 		}
 
-		bool arrayConsistsOfAllInRange(const Array& arr, unsigned start, unsigned end)
+		bool arrayConsistsOfNumbersInRange(const Array& arr, unsigned firstNumber, unsigned lastNumber)
 		{
-			unsigned rangeSize = end - start + 1;
+			assert(firstNumber <= lastNumber);
+			unsigned rangeSize = lastNumber - firstNumber + 1;
 
 			if (rangeSize != arr.getCount())
-				return false;
-
-			for (unsigned i = 0; i < rangeSize; ++i)
 			{
-				if (arr[i] != start++)
+				return false;
+			}
+
+			unsigned i = 0;
+
+			for (unsigned number = firstNumber; number <= lastNumber; ++number)
+			{
+				if (arr[i++] != number)
+				{
 					return false;
+				}
 			}
 
 			return true;
 		}
 
-		TEST_METHOD(defaultConstructor)
+		TEST_METHOD(testDefaultConstructorCreatesAnEmptyArray)
 		{
 			Array arr;
 
-			Assert::AreEqual(0u, arr.getSize());
-			Assert::AreEqual(0u, arr.getCount());
+			Assert::IsTrue(hasNullForCountAndSize(arr));
 			Assert::IsTrue(arr.isEmpty());
 		}
 
-		TEST_METHOD(constructor)
+		TEST_METHOD(testCtorFromSizeAllocatesSizeItems)
 		{
-			for (size_t size = 0; size <= 10; ++size)
-			{
-				for (size_t count = 0; count <= size; ++count)
-				{
-					Array arr(size, count);
+			size_t size = 10;
 
-					Assert::AreEqual(size, arr.getSize());
-					Assert::AreEqual(count, arr.getCount());
-					Assert::IsTrue(!arr.isEmpty() || count == 0);
-				}
+			Array arr(size);
+
+			Assert::AreEqual(size, arr.getSize());
+			Assert::IsTrue(arr.isEmpty());
+		}
+
+		TEST_METHOD(testCtorAllocatesSizeAndGivesAccessToCountItems)
+		{
+			size_t size = 10;
+			size_t count = 5;
+
+			Array arr(size, count);
+
+			Assert::AreEqual(size, arr.getSize());
+			Assert::AreEqual(count, arr.getCount());
+		}
+
+		TEST_METHOD(testCtorThrowsExceptionIfCountIsGreaterThanSize)
+		{
+			size_t size = 10;
+
+			try
+			{
+				Array arr(size, size + 1);
+				
+				Assert::Fail(L"Constructor did not throw an exception!");
+			}
+			catch (std::invalid_argument&)
+			{
 			}
 		}
 
-		TEST_METHOD(invalidCtorArguments)
+		TEST_METHOD(testMoveConstructorFromEmptyArray)
 		{
-			for (size_t size = 0; size <= 10; ++size)
-			{
-				try
-				{
-					Array arr(size, size + 1);
+			Array arrayToMove;
 
-					Assert::Fail(L"Invalid array created!");
-				}
-				catch (...)
-				{
-				}
-			}
+			Array movedInto(std::move(arrayToMove));
+
+			Assert::IsTrue(hasNullForCountAndSize(movedInto), L"The moved-into array did not become empty!");
+			Assert::IsTrue(hasNullForCountAndSize(arrayToMove), L"The moved-from array did not become empty!");
 		}
 
-		TEST_METHOD(moveCtorFromEmpty)
+		TEST_METHOD(testMoveConstructorFromNonEmptyArray)
 		{
-			Array emptyArray;
-			Array movedInto(std::move(emptyArray));
+			Array arrayToMove;
+			fillArrayWithNumbersFromTo(arrayToMove, 1, 5);
+			size_t size = arrayToMove.getSize();
 
-			Assert::IsTrue(hasNullForCountAndSize(movedInto));
-			Assert::IsTrue(hasNullForCountAndSize(emptyArray));
-		}
-
-		TEST_METHOD(moveCtorFromNonEmpty)
-		{
-			Array notEmpty(10);
-			fillArrayFromTo(notEmpty, 1, 5);
-
-			Array movedInto(std::move(notEmpty));
-			Assert::IsTrue(hasNullForCountAndSize(notEmpty));
-
-			Assert::AreEqual(5u, movedInto.getCount());
-			Assert::AreEqual(10u, movedInto.getSize());
-
-			Assert::IsTrue(arrayConsistsOfAllInRange(movedInto, 1, 5));
-		}
-
-		TEST_METHOD(copyConstructor)
-		{
-			const Array empty;
-
-			Array emptyCopy(empty);
-			Assert::IsTrue(hasNullForCountAndSize(emptyCopy));
-
-			Array notEmpty(10);
-			fillArrayFromTo(notEmpty, 1, 5);
-
-			Array notEmptyCopy(notEmpty);
+			Array movedInto(std::move(arrayToMove));
 			
-			Assert::AreEqual(notEmpty.getCount(), notEmptyCopy.getCount());
-			Assert::AreEqual(notEmpty.getSize(), notEmptyCopy.getSize());
-			Assert::IsTrue(areEqual(notEmpty, notEmptyCopy));
+			Assert::IsTrue(hasNullForCountAndSize(arrayToMove), L"The moved-from array did not become empty!");
+			Assert::AreEqual(size, movedInto.getSize(), L"The moved-into array should have the same size!");
+			Assert::IsTrue(arrayConsistsOfNumbersInRange(movedInto, 1, 5));
 		}
 
-		TEST_METHOD(copyAssignmentFromEmpty)
+		TEST_METHOD(testCopyConstructorFromEmptyArray)
 		{
-			const Array empty;
+			Array arrayToCopy;
 
-			Array emptyLhs; 
-			emptyLhs = empty;
-			Assert::IsTrue(hasNullForCountAndSize(emptyLhs));
+			Array copy(arrayToCopy);
 
-			Array notEmpty(10, 10);
-			notEmpty = empty;
-			Assert::IsTrue(hasNullForCountAndSize(notEmpty));
+			Assert::IsTrue(hasNullForCountAndSize(copy));
 		}
 
-		TEST_METHOD(copyAssignmentFromNonEmpty)
+		TEST_METHOD(testCopyConstructorFromNonEmptyArray)
 		{
-			const Array rhs(10, 10);
+			Array arrayToCopy = createArrayFromRange(1, 5);
 
-			Array emptyLhs;
-			emptyLhs = rhs;
-			Assert::AreEqual(10u, emptyLhs.getCount());
-			Assert::AreEqual(10u, emptyLhs.getSize());
-			Assert::IsTrue(areEqual(rhs, emptyLhs));
-
-			Array notEmptyLhs(4, 4);
-			notEmptyLhs = rhs;
-			Assert::AreEqual(10u, notEmptyLhs.getCount());
-			Assert::AreEqual(10u, notEmptyLhs.getSize());
-			Assert::IsTrue(areEqual(rhs, notEmptyLhs));
-		}
-
-		TEST_METHOD(moveAssignmentEmpty)
-		{
-			Array empty;
-
-			Array emptyLhs;
-			emptyLhs = std::move(empty);
-			Assert::IsTrue(hasNullForCountAndSize(emptyLhs));
-			Assert::IsTrue(hasNullForCountAndSize(empty));
+			Array copy(arrayToCopy);
 			
-			Array notEmptyLhs(10, 10);
-			notEmptyLhs = std::move(empty);
-			Assert::IsTrue(hasNullForCountAndSize(notEmptyLhs));
-			Assert::IsTrue(hasNullForCountAndSize(empty));
+			Assert::AreEqual(arrayToCopy.getSize(), copy.getSize());
+			Assert::IsTrue(areEqual(arrayToCopy, copy));
 		}
 
-		TEST_METHOD(moveAssignmentNonEmpty)
+		TEST_METHOD(testCopyAssignmentEmptyToEmptyArray)
 		{
-			Array rhs(10);
-			fillArrayFromTo(rhs, 1, 5);
-			Array copyOfRhs(rhs);
+			Array arrayToCopy;
+			Array arrayToChange;
 
-			Array emptyLhs;
-			emptyLhs = std::move(rhs);
-			Assert::AreEqual(10u, emptyLhs.getSize());
-			Assert::IsTrue(areEqual(copyOfRhs, emptyLhs));
-			Assert::IsTrue(hasNullForCountAndSize(rhs));
+			arrayToChange = arrayToCopy;
 
-			Array notEmptyLhs(4, 4);
-			notEmptyLhs = std::move(copyOfRhs);
-			Assert::IsTrue(hasNullForCountAndSize(copyOfRhs));
-			Assert::AreEqual(10u, notEmptyLhs.getSize());
-			Assert::IsTrue(areEqual(emptyLhs, notEmptyLhs));
+			Assert::IsTrue(hasNullForCountAndSize(arrayToChange));
+		}
+			
+		TEST_METHOD(testCopyAssignmentEmptyToNonEmptyArray)
+		{	
+			Array arrayToCopy;
+			Array arrayToChange = createArrayFromRange(1, 5);
+
+			arrayToChange = arrayToCopy;
+
+			Assert::IsTrue(hasNullForCountAndSize(arrayToChange));
 		}
 
-		TEST_METHOD(add)
+		TEST_METHOD(testCopyAssignmentNonEmptyToEmptyArray)
+		{
+			Array arrayToCopy = createArrayFromRange(1, 5);
+			Array arrayToChange;
+
+			arrayToChange = arrayToCopy;
+
+			Assert::AreEqual(arrayToCopy.getSize(), arrayToChange.getSize());
+			Assert::IsTrue(areEqual(arrayToCopy, arrayToChange));
+		}
+
+		TEST_METHOD(testCopyAssignmentNonEmptyToNonEmptyArray)
+		{
+			Array arrayToCopy = createArrayFromRange(1, 5);
+			Array arrayToChange = createArrayFromRange(10, 15);
+
+			arrayToChange = arrayToCopy;
+
+			Assert::AreEqual(arrayToCopy.getSize(), arrayToChange.getSize());
+			Assert::IsTrue(areEqual(arrayToCopy, arrayToChange));
+		}
+
+		TEST_METHOD(testMoveAssignmentEmptyToEmptyArray)
+		{
+			Array arrayToMove;
+			Array arrayToMoveInto;
+
+			arrayToMoveInto = std::move(arrayToMove);
+
+			Assert::IsTrue(hasNullForCountAndSize(arrayToMoveInto), L"The moved-into array did not become empty!");
+			Assert::IsTrue(hasNullForCountAndSize(arrayToMove), L"The moved-from array did not become empty!");
+		}
+
+		TEST_METHOD(testMoveAssignmentEmptyToNonEmptyArray)
+		{
+			Array arrayToMove;
+			Array arrayToMoveInto = createArrayFromRange(1, 5);
+
+			arrayToMoveInto = std::move(arrayToMove);
+
+			Assert::IsTrue(hasNullForCountAndSize(arrayToMoveInto), L"The moved-into array did not become empty!");
+			Assert::IsTrue(hasNullForCountAndSize(arrayToMove), L"The moved-from array did not become empty!");
+		}
+
+		TEST_METHOD(testMoveAssignmentNonEmptyToEmptyArray)
+		{
+			Array arrayToMove = createArrayFromRange(1, 5);
+			size_t movedArraySize = arrayToMove.getSize();
+			Array arrayToMoveInto;
+
+			arrayToMoveInto = std::move(arrayToMove);
+
+			Assert::IsTrue(hasNullForCountAndSize(arrayToMove), L"The moved-from array did not become empty!");
+			Assert::AreEqual(movedArraySize, arrayToMoveInto.getSize());
+			Assert::IsTrue(arrayConsistsOfNumbersInRange(arrayToMoveInto, 1, 5));
+		}
+
+		TEST_METHOD(testMoveAssignmentNonEmptyToNonEmptyArray)
+		{
+			Array arrayToMove = createArrayFromRange(10, 15);
+			Array arrayToMoveInto = createArrayFromRange(1, 5);
+			size_t movedArraySize = arrayToMove.getSize();
+
+			arrayToMoveInto = std::move(arrayToMove);
+
+			Assert::IsTrue(hasNullForCountAndSize(arrayToMove), L"The moved-from array did not become empty!");
+			Assert::AreEqual(movedArraySize, arrayToMoveInto.getSize());
+			Assert::IsTrue(arrayConsistsOfNumbersInRange(arrayToMoveInto, 10, 15));
+		}
+
+		TEST_METHOD(testAddAppendsTheItemToTheArray)
 		{
 			Array arr;
 
-			for (unsigned i = 1; i <= 30; ++i)
+			for (unsigned number = 1; number <= 10; ++number)
+			{
+				arr.add(number);
+			}
+
+			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr, 1, 10));
+		}
+
+		TEST_METHOD(testAddIncrementsCount)
+		{
+			Array arr;
+
+			for (unsigned i = 1; i <= 5; ++i)
 			{
 				arr.add(i);
 				Assert::AreEqual(i, arr.getCount());
 			}
-
-			for (unsigned i = 0; i < 30; ++i)
-				Assert::AreEqual(i + 1, arr[i]);
 		}
 
-		TEST_METHOD(removeAtInvalidIndex)
+		TEST_METHOD(testRemoveAtInvalidIndexThrowsException)
 		{
 			Array arr;
 
@@ -223,162 +287,119 @@ namespace DynamicArrayUnitTest
 			{
 				arr.remove(arr.getCount());
 
-				Assert::Fail(L"Removed an element at invalid index!");
+				Assert::Fail(L"Remove did not throw an exception!");
 			}
-			catch (...)
+			catch (std::out_of_range&)
 			{
 			}
 		}
 
-		TEST_METHOD(remove)
+		TEST_METHOD(testRemoveShiftsLeftTheElementsAfterRemovedItem)
 		{
-			Array arr;
-			fillArrayFromTo(arr, 0, 6);
+			Array arr = createArrayFromRange(0, 5);
 
-			for (int i = 5; i >= 1; i -= 2)
-				arr.remove(i);
+			arr.remove(0);
 
-			Assert::AreEqual(4u, arr.getCount());
-
-			for (unsigned i = 0; i <= 3; ++i)
-				Assert::AreEqual(2 * i, arr[i]);
+			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr, 1, 5));
 		}
 
-		TEST_METHOD(removeLastElement)
+		TEST_METHOD(testRemoveUpdatesTheElementsCount)
 		{
-			Array arr(10);
-			fillArrayFromTo(arr, 1, 10);
+			Array arr = createArrayFromRange(0, 6);
 
-			for (unsigned i = arr.getCount() - 1; i > 0; --i)
+			for (int index = 6; index >= 0; index -= 2)
 			{
-				arr.remove(i);
-				Assert::AreEqual(i, arr.getCount());
-				Assert::AreEqual(i, arr[arr.getCount() - 1]);
+				arr.remove(index);
 			}
+
+			Assert::AreEqual(3u, arr.getCount());
 		}
 
-		TEST_METHOD(search)
+		TEST_METHOD(testSearchReturnsTheIndexOfTheFirstMatchingItem)
 		{
-			Array arr;
-			fillArrayFromTo(arr, 0, 20);
+			Array arr = createArrayFromRange(0, 5);
 
-			for (long i = 0; i <= 20; ++i)
+			for (long i = 0; i <= 5; ++i)
+			{
 				Assert::AreEqual(i, arr.search(i));
-
-			for (unsigned i = 21; i <= 30; ++i)
-				Assert::AreEqual(-1L, arr.search(i));
-		}
-
-		TEST_METHOD(addAt)
-		{
-			Array arr(20);
-
-			for (unsigned i = 0; i <= 6; i += 2)
-				arr.add(i);
-
-			for (unsigned i = 1; i <= 5; i += 2)
-				arr.addAt(i, i);
-
-			Assert::IsTrue(arrayConsistsOfAllInRange(arr, 0, 6));
-		}
-
-		TEST_METHOD(addAtEnd)
-		{
-			Array arr(5);
-
-			for (size_t i = 1; i <= 10; ++i)
-			{
-				arr.addAt(arr.getCount(), i);
-				Assert::AreEqual(i, arr.getCount());
-				Assert::AreEqual(i, arr[arr.getCount() - 1]);
 			}
 		}
 
-		TEST_METHOD(ensureSize)
+		TEST_METHOD(testUnsuccessfullSearchReturnsMinusOne)
 		{
-			Array arr(10, 5);
+			Array arr = createArrayFromRange(1, 5);
 
-			for (size_t i = 0; i <= 10; ++i)
-			{
-				arr.ensureSize(i);
-				Assert::AreEqual(10u, arr.getSize());
-			}
-
-			for (size_t i = 11; i <= 20; ++i)
-			{
-				arr.ensureSize(i);
-				Assert::AreEqual(i, arr.getSize());
-				Assert::AreEqual(5u, arr.getCount());
-			}
+			Assert::AreEqual(-1L, arr.search(100));
 		}
 
-		TEST_METHOD(empty)
+		TEST_METHOD(testAddAtIndexShiftsRightTheNextElements)
 		{
-			for (size_t i = 0; i <= 10; ++i)
-			{
-				Array arr(i, i);
-				arr.empty();
+			Array arr = createArrayFromRange(11, 15);
 
-				Assert::AreEqual(0u, arr.getSize());
-				Assert::AreEqual(0u, arr.getCount());
-				Assert::IsTrue(arr.isEmpty());
-			}
+			arr.addAt(0, 10);
+
+			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr, 10, 15));
 		}
 
-		TEST_METHOD(isEmpty)
+		TEST_METHOD(testAddAtIndexAfterLastElement)
 		{
-			Array arr;
-			Assert::IsTrue(arr.isEmpty());
+			Array arr = createArrayFromRange(11, 15);
 
-			for (unsigned i = 1; i <= 5; ++i)
-			{
-				arr.add(i);
-				Assert::IsFalse(arr.isEmpty());
-			}
+			arr.addAt(arr.getCount(), 16);
+
+			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr, 11, 16));
 		}
 
-		TEST_METHOD(subscriptOperator)
+		TEST_METHOD(testAddAtIncrementsElementsCount)
 		{
-			Array arr;
-			fillArrayFromTo(arr, 0, 10);
+			Array arr = createArrayFromRange(0, 4);
 
-			for (unsigned i = 0; i <= 10; ++i)
+			for (int i = 1; i <= 3; ++i)
+			{
+				arr.addAt(5, 100);
+			}
+
+			Assert::AreEqual(8u, arr.getCount());
+		}
+
+		TEST_METHOD(testEnsureSizeExtendsTheArrayIfPassedAGreaterSize)
+		{
+			Array arr = createArrayFromRange(1, 10);
+			size_t size = arr.getSize();
+
+			arr.ensureSize(size + 1);
+
+			Assert::AreEqual(size + 1, arr.getSize());
+			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr, 1, 10),
+				L"Extending the array did not kepp its elements the same!");
+		}
+
+		TEST_METHOD(testEnsureSizeDoesNothingIfPassedNotGreaterSize)
+		{
+			Array arr(100);
+
+			arr.ensureSize(50);
+
+			Assert::AreEqual(100u, arr.getSize());
+		}
+
+		TEST_METHOD(testEmpty)
+		{
+			Array arr = createArrayFromRange(1, 10);
+
+			arr.empty();
+
+			Assert::IsTrue(hasNullForCountAndSize(arr));
+		}
+
+		TEST_METHOD(testSubscriptOperator)
+		{
+			Array arr = createArrayFromRange(0, 4);
+
+			for (unsigned i = 0; i <= 4; ++i)
+			{
 				Assert::AreEqual(i, arr[i]);
-
-			try
-			{
-				arr[arr.getCount()];
-
-				Assert::Fail(L"Accessed an element at invalid index!");
 			}
-			catch (...)
-			{
-			}
-		}
-
-		TEST_METHOD(elementAddOperator)
-		{
-			Array arr(10);
-
-			for (unsigned i = 1; i <= 10; ++i)
-			{
-				arr += i;
-				Assert::AreEqual(i, arr.getCount());
-			}
-
-			Assert::IsTrue(arrayConsistsOfAllInRange(arr, 1, 10));
-		}
-
-		TEST_METHOD(addWholeArrayOperator)
-		{
-			Array lhs, rhs;
-
-			fillArrayFromTo(lhs, 1, 10);
-			fillArrayFromTo(rhs, 11, 20);
-
-			lhs += rhs;
-
-			Assert::IsTrue(arrayConsistsOfAllInRange(lhs, 1, 20));
 		}
 	};
 }
