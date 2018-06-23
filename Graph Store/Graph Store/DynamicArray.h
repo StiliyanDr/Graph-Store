@@ -71,8 +71,7 @@ class DynamicArrayIterator : public Iterator<T>
 {
 	typedef long Position;
 
-	template <class T>
-	friend class DynamicArray;
+	friend class DynamicArray<T>;
 
 public:
 	virtual ~DynamicArrayIterator() = default;
