@@ -16,7 +16,7 @@ public:
 	virtual ~DynamicArray();
 
 	virtual void add(const T& item);
-	virtual void remove(size_t index);
+	virtual void removeAt(size_t index);
 	virtual long search(const T& what) const;
 
 	void addAt(size_t index, const T& item);
@@ -50,7 +50,8 @@ private:
 	void nullifyMembers();
 
 private:
-	size_t count, size;
+	size_t count;
+	size_t size;
 	T* items;
 };
 
@@ -58,10 +59,10 @@ template <class T>
 DynamicArray<T> operator+(const DynamicArray<T>& lhs, const DynamicArray<T>& rhs);
 
 template <class T>
-DynamicArray<T> operator+(const T& lhs, const DynamicArray<T>& rhs);
+DynamicArray<T> operator+(const T& item, const DynamicArray<T>& arr);
 
 template <class T>
-DynamicArray<T> operator+(const DynamicArray<T>& lhs, const T& rhs);
+DynamicArray<T> operator+(const DynamicArray<T>& arr, const T& item);
 
 #include "Iterator.h"
 

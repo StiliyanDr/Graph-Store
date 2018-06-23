@@ -100,7 +100,7 @@ void DynamicArray<T>::add(const T& item)
 
 
 template <class T>
-void DynamicArray<T>::remove(size_t index)
+void DynamicArray<T>::removeAt(size_t index)
 {
 	if (index < count)
 		shiftLeft(index + 1, --count);
