@@ -2,7 +2,6 @@
 #include <cassert>
 #include <utility>
 
-
 template <class T>
 DynamicArray<T> operator+(const DynamicArray<T>& lhs, const DynamicArray<T>& rhs)
 {
@@ -11,7 +10,6 @@ DynamicArray<T> operator+(const DynamicArray<T>& lhs, const DynamicArray<T>& rhs
 
 	return temp;
 }
-
 
 template <class T>
 DynamicArray<T> operator+(const T& lhs, const DynamicArray<T>& rhs)
@@ -23,7 +21,6 @@ DynamicArray<T> operator+(const T& lhs, const DynamicArray<T>& rhs)
 	return temp;
 }
 
-
 template <class T>
 DynamicArray<T> operator+(const DynamicArray<T>& lhs, const T& rhs)
 {
@@ -33,7 +30,6 @@ DynamicArray<T> operator+(const DynamicArray<T>& lhs, const T& rhs)
 	return temp;
 }
 
-
 template <class T>
 DynamicArray<T>::DynamicArray(size_t size, size_t count) :
 	size(size), items(nullptr)
@@ -41,9 +37,10 @@ DynamicArray<T>::DynamicArray(size_t size, size_t count) :
 	setCount(count);
 
 	if (size > 0)
+	{
 		items = new T[size];
+	}
 }
-
 
 template <class T>
 inline DynamicArray<T>::DynamicArray(DynamicArray<T>&& source) :
@@ -52,14 +49,12 @@ inline DynamicArray<T>::DynamicArray(DynamicArray<T>&& source) :
 	source.nullifyMembers();
 }
 
-
 template <class T>
 inline DynamicArray<T>::DynamicArray(const DynamicArray<T>& source)
 {
 	nullifyMembers();
 	copyFrom(source);
 }
-
 
 template <class T>
 DynamicArray<T>& DynamicArray<T>::operator=(DynamicArray<T>&& rhs)
@@ -71,7 +66,6 @@ DynamicArray<T>& DynamicArray<T>::operator=(DynamicArray<T>&& rhs)
 	return *this;
 }
 
-
 template <class T>
 DynamicArray<T>& DynamicArray<T>::operator=(const DynamicArray<T>& rhs)
 {
@@ -82,13 +76,11 @@ DynamicArray<T>& DynamicArray<T>::operator=(const DynamicArray<T>& rhs)
 	return *this;
 }
 
-
 template <class T>
 inline DynamicArray<T>::~DynamicArray()
 {
 	destroyItems();
 }
-
 
 template <class T>
 void DynamicArray<T>::add(const T& item)
@@ -98,16 +90,18 @@ void DynamicArray<T>::add(const T& item)
 	items[count++] = item;
 }
 
-
 template <class T>
 void DynamicArray<T>::removeAt(size_t index)
 {
 	if (index < count)
+	{
 		shiftLeft(index + 1, --count);
+	}
 	else
+	{
 		throw std::out_of_range("Index out of range!");
+	}
 }
-
 
 template <class T>
 long DynamicArray<T>::search(const T& what) const
@@ -115,12 +109,13 @@ long DynamicArray<T>::search(const T& what) const
 	for (size_t i = 0; i < count; ++i)
 	{
 		if (items[i] == what)
+		{
 			return i;
+		}
 	}
 
 	return -1;
 }
-
 
 template <class T>
 void DynamicArray<T>::addAt(size_t index, const T& item)
@@ -136,14 +131,14 @@ void DynamicArray<T>::addAt(size_t index, const T& item)
 		throw std::out_of_range("Index out of range!");
 }
 
-
 template <class T>
 inline void DynamicArray<T>::ensureSize(size_t size)
 {
 	if (size > this->size)
+	{
 		resize(size);
+	}
 }
-
 
 template <class T>
 void DynamicArray<T>::empty()
@@ -152,13 +147,11 @@ void DynamicArray<T>::empty()
 	nullifyMembers();
 }
 
-
 template <class T>
 inline bool DynamicArray<T>::isEmpty() const
 {
 	return count == 0;
 }
-
 
 template <class T>
 inline size_t DynamicArray<T>::getSize() const
@@ -166,13 +159,11 @@ inline size_t DynamicArray<T>::getSize() const
 	return size;
 }
 
-
 template <class T>
 inline size_t DynamicArray<T>::getCount() const
 {
 	return count;
 }
-
 
 template <class T>
 DynamicArrayIterator<T> DynamicArray<T>::getIteratorToFirst()
@@ -183,26 +174,31 @@ DynamicArrayIterator<T> DynamicArray<T>::getIteratorToFirst()
 	return DynamicArrayIterator<T>(position, this);
 }
 
-
 template <class T>
 T& DynamicArray<T>::operator[](size_t index)
 {
 	if (index < count)
+	{
 		return items[index];
+	}
 	else
+	{
 		throw std::out_of_range("Index out of range!");
+	}
 }
-
 
 template <class T>
 const T& DynamicArray<T>::operator[](size_t index) const
 {
 	if (index < count)
+	{
 		return items[index];
+	}
 	else
+	{
 		throw std::out_of_range("Index out of range!");
+	}
 }
-
 
 template <class T>
 DynamicArray<T>& DynamicArray<T>::operator+=(const T& item)
@@ -212,16 +208,16 @@ DynamicArray<T>& DynamicArray<T>::operator+=(const T& item)
 	return *this;
 }
 
-
 template <class T>
 DynamicArray<T>& DynamicArray<T>::operator+=(const DynamicArray<T>& rhs)
 {
 	for (size_t i = 0; i < rhs.count; ++i)
+	{
 		*this += rhs[i];
+	}
 
 	return *this;
 }
-
 
 template <class T>
 void DynamicArray<T>::shiftLeft(size_t first, size_t last)
@@ -229,9 +225,10 @@ void DynamicArray<T>::shiftLeft(size_t first, size_t last)
 	assert(first > 0 && last < size);
 
 	for (size_t i = first - 1; i < last; ++i)
+	{
 		items[i] = items[i + 1];
+	}
 }
-
 
 template <class T>
 void DynamicArray<T>::shiftRight(size_t first, size_t last)
@@ -239,9 +236,10 @@ void DynamicArray<T>::shiftRight(size_t first, size_t last)
 	assert(last + 1 < size);
 
 	for (size_t i = last + 1; i > first; --i)
+	{
 		items[i] = items[i - 1];
+	}
 }
-
 
 template <class T>
 void DynamicArray<T>::extendIfFull()
@@ -249,26 +247,29 @@ void DynamicArray<T>::extendIfFull()
 	assert(count <= size);
 
 	if (count >= size)
+	{
 		resize(size ? 2 * size : 2);
+	}
 }
-
 
 template <class T>
 void DynamicArray<T>::setCount(size_t newCount)
 {
 	if (newCount <= size)
+	{
 		count = newCount;
+	}
 	else
+	{
 		throw std::invalid_argument("Count can not be more than size!");
+	}
 }
-
 
 template <class T>
 inline T* DynamicArray<T>::getItems()
 {
 	return items;
 }
-
 
 template <class T>
 void DynamicArray<T>::resize(size_t newSize)
@@ -278,11 +279,12 @@ void DynamicArray<T>::resize(size_t newSize)
 	DynamicArray<T> temp(newSize, newCount);
 
 	for (size_t i = 0; i < newCount; ++i)
+	{
 		temp.items[i] = items[i];
+	}
 	
 	swapContentsWith(std::move(temp));
 }
-
 
 template <class T>
 void DynamicArray<T>::copyFrom(const DynamicArray<T>& source)
@@ -290,11 +292,12 @@ void DynamicArray<T>::copyFrom(const DynamicArray<T>& source)
 	DynamicArray<T> temp(source.size, source.count);
 
 	for (size_t i = 0; i < source.count; ++i)
+	{
 		temp.items[i] = source.items[i];
+	}
 
 	swapContentsWith(std::move(temp));
 }
-
 
 template <class T>
 void DynamicArray<T>::swapContentsWith(DynamicArray<T> temp)
@@ -304,13 +307,11 @@ void DynamicArray<T>::swapContentsWith(DynamicArray<T> temp)
 	std::swap(items, temp.items);
 }
 
-
 template <class T>
 inline void DynamicArray<T>::destroyItems()
 {
 	delete[] items;
 }
-
 
 template <class T>
 void DynamicArray<T>::nullifyMembers()
