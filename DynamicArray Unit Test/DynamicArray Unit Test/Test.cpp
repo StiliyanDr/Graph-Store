@@ -109,21 +109,6 @@ namespace DynamicArrayUnitTest
 			Assert::AreEqual(count, arr.getCount());
 		}
 
-		TEST_METHOD(testCtorThrowsExceptionIfCountIsGreaterThanSize)
-		{
-			size_t size = 10;
-
-			try
-			{
-				Array arr(size, size + 1);
-				
-				Assert::Fail(L"Constructor did not throw an exception!");
-			}
-			catch (std::invalid_argument&)
-			{
-			}
-		}
-
 		TEST_METHOD(testMoveConstructorFromEmptyArray)
 		{
 			Array arrayToMove;
@@ -276,21 +261,6 @@ namespace DynamicArrayUnitTest
 			{
 				arr.add(i);
 				Assert::AreEqual(i, arr.getCount());
-			}
-		}
-
-		TEST_METHOD(testRemoveAtInvalidIndexThrowsException)
-		{
-			Array arr;
-
-			try
-			{
-				arr.removeAt(arr.getCount());
-
-				Assert::Fail(L"Remove did not throw an exception!");
-			}
-			catch (std::out_of_range&)
-			{
 			}
 		}
 
