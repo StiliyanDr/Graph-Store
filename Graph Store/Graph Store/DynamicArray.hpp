@@ -1,5 +1,4 @@
-#include <stdexcept>
-#include <cassert>
+#include <assert.h>
 #include <utility>
 
 template <class T>
@@ -93,14 +92,9 @@ void DynamicArray<T>::add(const T& item)
 template <class T>
 void DynamicArray<T>::removeAt(size_t index)
 {
-	if (index < count)
-	{
-		shiftLeft(index + 1, --count);
-	}
-	else
-	{
-		throw std::out_of_range("Index out of range!");
-	}
+	assert(index < count);
+
+	shiftLeft(index + 1, --count);
 }
 
 template <class T>
@@ -120,15 +114,12 @@ long DynamicArray<T>::search(const T& what) const
 template <class T>
 void DynamicArray<T>::addAt(size_t index, const T& item)
 {
-	if (index <= count)
-	{
-		extendIfFull();
-		shiftRight(index, count - 1);
-		items[index] = item;
-		++count;
-	}
-	else
-		throw std::out_of_range("Index out of range!");
+	assert(index <= count);
+
+	extendIfFull();
+	shiftRight(index, count - 1);
+	items[index] = item;
+	++count;
 }
 
 template <class T>
@@ -177,27 +168,17 @@ DynamicArrayIterator<T> DynamicArray<T>::getIteratorToFirst()
 template <class T>
 T& DynamicArray<T>::operator[](size_t index)
 {
-	if (index < count)
-	{
-		return items[index];
-	}
-	else
-	{
-		throw std::out_of_range("Index out of range!");
-	}
+	assert(index < count);
+
+	return items[index];
 }
 
 template <class T>
 const T& DynamicArray<T>::operator[](size_t index) const
 {
-	if (index < count)
-	{
-		return items[index];
-	}
-	else
-	{
-		throw std::out_of_range("Index out of range!");
-	}
+	assert(index < count);
+
+	return items[index];
 }
 
 template <class T>
@@ -255,14 +236,9 @@ void DynamicArray<T>::extendIfFull()
 template <class T>
 void DynamicArray<T>::setCount(size_t newCount)
 {
-	if (newCount <= size)
-	{
-		count = newCount;
-	}
-	else
-	{
-		throw std::invalid_argument("Count can not be more than size!");
-	}
+	assert(newCount <= size);
+
+	count = newCount;
 }
 
 template <class T>
@@ -276,27 +252,27 @@ void DynamicArray<T>::resize(size_t newSize)
 {
 	size_t newCount = (newSize < count) ? newSize : count;
 	
-	DynamicArray<T> temp(newSize, newCount);
+	DynamicArray<T> newArray(newSize, newCount);
 
 	for (size_t i = 0; i < newCount; ++i)
 	{
-		temp.items[i] = items[i];
+		newArray.items[i] = items[i];
 	}
 	
-	swapContentsWith(std::move(temp));
+	swapContentsWith(std::move(newArray));
 }
 
 template <class T>
 void DynamicArray<T>::copyFrom(const DynamicArray<T>& source)
 {
-	DynamicArray<T> temp(source.size, source.count);
+	DynamicArray<T> theCopy(source.size, source.count);
 
 	for (size_t i = 0; i < source.count; ++i)
 	{
-		temp.items[i] = source.items[i];
+		theCopy.items[i] = source.items[i];
 	}
 
-	swapContentsWith(std::move(temp));
+	swapContentsWith(std::move(theCopy));
 }
 
 template <class T>
