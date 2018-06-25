@@ -50,6 +50,9 @@ private:
 	void nullifyMembers();
 
 private:
+	static const size_t GROWTH_RATE = 2;
+
+private:
 	size_t count;
 	size_t size;
 	T* items;

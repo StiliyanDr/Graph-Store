@@ -4,29 +4,29 @@
 template <class T>
 DynamicArray<T> operator+(const DynamicArray<T>& lhs, const DynamicArray<T>& rhs)
 {
-	DynamicArray<T> temp(lhs);
-	temp += rhs;
+	DynamicArray<T> newArray(lhs);
+	newArray += rhs;
 
-	return temp;
+	return newArray;
 }
 
 template <class T>
-DynamicArray<T> operator+(const T& lhs, const DynamicArray<T>& rhs)
+DynamicArray<T> operator+(const T& item, const DynamicArray<T>& arr)
 {
-	DynamicArray<T> temp(rhs.getCount() + 1);
-	temp += lhs;
-	temp += rhs;
+	DynamicArray<T> newArray(arr.getCount() + 1);
+	newArray += item;
+	newArray += arr;
 
-	return temp;
+	return newArray;
 }
 
 template <class T>
-DynamicArray<T> operator+(const DynamicArray<T>& lhs, const T& rhs)
+DynamicArray<T> operator+(const DynamicArray<T>& arr, const T& item)
 {
-	DynamicArray<T> temp(lhs);
-	temp += rhs;
+	DynamicArray<T> newArray(arr);
+	newArray += item;
 
-	return temp;
+	return newArray;
 }
 
 template <class T>
@@ -62,6 +62,7 @@ DynamicArray<T>& DynamicArray<T>::operator=(DynamicArray<T>&& rhs)
 	{
 		swapContentsWith(std::move(rhs));
 	}
+
 	return *this;
 }
 
@@ -72,6 +73,7 @@ DynamicArray<T>& DynamicArray<T>::operator=(const DynamicArray<T>& rhs)
 	{
 		swapContentsWith(rhs);
 	}
+
 	return *this;
 }
 
@@ -203,7 +205,8 @@ DynamicArray<T>& DynamicArray<T>::operator+=(const DynamicArray<T>& rhs)
 template <class T>
 void DynamicArray<T>::shiftLeft(size_t first, size_t last)
 {
-	assert(first > 0 && last < size);
+	assert(first > 0);
+	assert(last < size);
 
 	for (size_t i = first - 1; i < last; ++i)
 	{
@@ -229,7 +232,7 @@ void DynamicArray<T>::extendIfFull()
 
 	if (count >= size)
 	{
-		resize(size ? 2 * size : 2);
+		resize(size > 0 ? GROWTH_RATE * size : 2);
 	}
 }
 
