@@ -142,7 +142,7 @@ void GraphBase::removeVertexFromCollection(const Vertex& vertexToRemove)
 	
 	vertices[indexOfLastVertex]->index = vertexToRemove.index;
 	std::swap(vertices[indexOfLastVertex], vertices[vertexToRemove.index]);
-	vertices.remove(indexOfLastVertex);
+	vertices.removeAt(indexOfLastVertex);
 }
 
 void GraphBase::destroyVertex(Vertex* vertex) const

@@ -285,7 +285,7 @@ namespace DynamicArrayUnitTest
 
 			try
 			{
-				arr.remove(arr.getCount());
+				arr.removeAt(arr.getCount());
 
 				Assert::Fail(L"Remove did not throw an exception!");
 			}
@@ -298,7 +298,7 @@ namespace DynamicArrayUnitTest
 		{
 			Array arr = createArrayFromRange(0, 5);
 
-			arr.remove(0);
+			arr.removeAt(0);
 
 			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr, 1, 5));
 		}
@@ -309,7 +309,7 @@ namespace DynamicArrayUnitTest
 
 			for (int index = 6; index >= 0; index -= 2)
 			{
-				arr.remove(index);
+				arr.removeAt(index);
 			}
 
 			Assert::AreEqual(3u, arr.getCount());
