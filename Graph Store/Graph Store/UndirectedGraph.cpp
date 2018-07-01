@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "UndirectedGraph.h"
-#include <assert.h>
-#include <stdexcept>
+
+GraphRegistrator<UndirectedGraph> UndirectedGraph::registrator("undirected");
 
 UndirectedGraph::UndirectedGraph(const char* identifier) :
 	GraphBase(identifier)
