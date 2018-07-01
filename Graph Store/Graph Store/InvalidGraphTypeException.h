@@ -1,9 +1,9 @@
 #ifndef __INVALID_GRAPH_TYPE_EXCEPTION_HEADER_INCLUDED__
 #define __INVALID_GRAPH_TYPE_EXCEPTION_HEADER_INCLUDED__
 
-#include <stdexcept>
+#include "GraphException.h"
 
-class InvalidGraphTypeException : public std::runtime_error
+class InvalidGraphTypeException : public GraphException
 {
 public:
 	explicit InvalidGraphTypeException(const char* errorMessage);
