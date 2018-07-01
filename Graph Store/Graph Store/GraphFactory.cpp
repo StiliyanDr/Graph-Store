@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "GraphFactory.h"
+#include "InvalidGraphTypeException.h"
 
 std::unique_ptr<Graph> GraphFactory::createGraph(const char* criterion, const char* identifier)
 {
@@ -18,10 +19,7 @@ const GraphCreator& GraphFactory::getCreatorByCriterion(const String& criterion)
 	}
 	else
 	{
-		//
-		//TODO: replace with appropriate type of exception 
-		//
-		throw std::exception("No type of graph corresponds to the criterion: " + criterion);
+		throw InvalidGraphTypeException("No type of graph corresponds to the criterion: " + criterion);
 	}
 }
 
