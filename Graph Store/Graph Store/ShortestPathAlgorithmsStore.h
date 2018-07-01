@@ -4,6 +4,7 @@
 #include "ShortestPathAlgorithm.h"
 #include "IdentifierAccessor.h"
 #include "Hash.h"
+#include "HashFunctionStringSpecialization.h"
 
 class ShortestPathAlgorithmsStore
 {
