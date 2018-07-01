@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "DirectedGraph.h"
-#include <assert.h>
-#include <stdexcept>
+
+GraphRegistrator<DirectedGraph> DirectedGraph::registrator("directed");
 
 DirectedGraph::DirectedGraph(const char* identifier) :
 	GraphBase(identifier)
