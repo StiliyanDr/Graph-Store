@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "UndirectedGraph.h"
+#include "GraphException.h"
 
 GraphRegistrator<UndirectedGraph> UndirectedGraph::registrator("undirected");
 
@@ -20,7 +21,7 @@ void UndirectedGraph::addEdgeBetweenWithWeight(Vertex& startVertex, Vertex& endV
 	}
 	else
 	{
-		throw std::logic_error("There already is such an edge in the graph!");
+		throw GraphException("There already is such an edge in the graph!");
 	}
 }
 

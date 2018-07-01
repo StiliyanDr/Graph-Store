@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "DirectedGraph.h"
+#include "GraphException.h"
 
 GraphRegistrator<DirectedGraph> DirectedGraph::registrator("directed");
 
@@ -19,7 +20,7 @@ void DirectedGraph::addEdgeBetweenWithWeight(Vertex& startVertex, Vertex& endVer
 	}
 	else
 	{
-		throw std::logic_error("There already is such an edge in the graph!");
+		throw GraphException("There already is such an edge in the graph!");
 	}
 }
 

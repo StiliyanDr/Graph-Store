@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "GraphBase.h"
+#include "GraphException.h"
 
 GraphBase::GraphBase(String identifier) :
 	Graph(std::move(identifier)),
@@ -33,7 +34,7 @@ void GraphBase::addVertex(const char* identifier)
 	}
 	else
 	{
-		throw std::logic_error("There already is a vertex with that identifier in the graph!");
+		throw GraphException("There already is a vertex with that identifier in the graph!");
 	}
 }
 
@@ -81,7 +82,7 @@ void GraphBase::removeEdgesEndingIn(Vertex& vertex)
 		{
 			removeEdgeFromTo(*(*vertexIterator), vertex);
 		}
-		catch (std::logic_error&)
+		catch (GraphException&)
 		{
 			//Ok, there is no such edge.
 		}
@@ -100,7 +101,7 @@ void GraphBase::removeEdgeFromTo(Vertex& startVertex, const Vertex& endVertex)
 	}
 	else
 	{
-		throw std::logic_error("There is no such edge!");
+		throw GraphException("There is no such edge!");
 	}
 }
 

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Graph.h"
+#include "GraphException.h"
 
 Graph::Graph(String identifier)
 {
@@ -14,7 +15,7 @@ void Graph::setIdentifier(String identifier)
 	}
 	else
 	{
-		throw std::invalid_argument("Invalid graph identifier!");
+		throw GraphException("Invalid graph identifier: " + identifier);
 	}
 }
 

@@ -3,6 +3,8 @@
 
 class Vertex;
 
+#include "Box.h"
+
 class Edge
 {
 	friend class GraphBase;

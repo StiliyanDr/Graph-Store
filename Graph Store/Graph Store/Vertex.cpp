@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Vertex.h"
+#include "GraphException.h"
 
 Vertex::Vertex(String identifier, size_t index) :
 	index(index)
@@ -58,7 +59,7 @@ void Vertex::setIdentifier(String identifier)
 	}
 	else
 	{
-		throw std::invalid_argument("Invalid vertex identifier!");
+		throw GraphException("Invalid vertex identifier: " + identifier);
 	}
 }
 
