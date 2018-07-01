@@ -1,7 +1,5 @@
 #include "stdafx.h"
 #include "Graph.h"
-#include <utility>
-#include <stdexcept>
 
 Graph::Graph(String identifier)
 {

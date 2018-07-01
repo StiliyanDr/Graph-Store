@@ -1,7 +1,5 @@
 #include "stdafx.h"
 #include "Vertex.h"
-#include <utility>
-#include <stdexcept>
 
 Vertex::Vertex(String identifier, size_t index) :
 	index(index)

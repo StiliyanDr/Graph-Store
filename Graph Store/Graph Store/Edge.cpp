@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Edge.h"
 #include "Vertex.h"
-#include <stdexcept>
 
 Edge::Edge(Vertex* vertex, unsigned weight)
 {

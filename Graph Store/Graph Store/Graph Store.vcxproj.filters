@@ -79,6 +79,24 @@
     <Filter Include="Shortest Path Algorithms\Shortest Path Algorithms Store">
       <UniqueIdentifier>{64578d2a-b4d0-4f1f-8e7e-314661566a2d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graph Factory">
+      <UniqueIdentifier>{7f4b21a7-6dc9-46f8-917b-15682f11662f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph Factory\GraphFactory">
+      <UniqueIdentifier>{1a890c2c-7fd6-4288-9cb6-2b1c5682b0a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph Factory\GraphCreator">
+      <UniqueIdentifier>{ae2873a5-dc6a-435c-91ef-7aa3c5cf145a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph Factory\Concrete Graph Creator">
+      <UniqueIdentifier>{e0648eb7-a291-4f09-8758-b095802f93b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph Factory\GraphRegistrator">
+      <UniqueIdentifier>{32db5538-6b3a-41b9-b782-5d3be9cd9ea1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph Factory\Invalid Graph Type Exception">
+      <UniqueIdentifier>{4f368f69-176e-478a-934b-6996cc7f8c4a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -153,17 +171,47 @@
     <ClInclude Include="Graph.h">
       <Filter>Graph\Abstraction</Filter>
     </ClInclude>
+    <ClInclude Include="GraphFactory.h">
+      <Filter>Graph Factory\GraphFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphCreator.h">
+      <Filter>Graph Factory\GraphCreator</Filter>
+    </ClInclude>
+    <ClInclude Include="UndirectedGraph.h">
+      <Filter>Graph\Undirected Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="ConcreteGraphCreator.hpp">
+      <Filter>Graph Factory\Concrete Graph Creator</Filter>
+    </ClInclude>
+    <ClInclude Include="ConcreteGraphCreator.h">
+      <Filter>Graph Factory\Concrete Graph Creator</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphRegistrator.h">
+      <Filter>Graph Factory\GraphRegistrator</Filter>
+    </ClInclude>
+    <ClInclude Include="IdentifierAccessor.h">
+      <Filter>Graph\Identifier Accessor</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectedGraph.h">
+      <Filter>Graph\Directed Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="InvalidGraphTypeException.h">
+      <Filter>Graph Factory\Invalid Graph Type Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphBase.h">
+      <Filter>Graph\Graph Base</Filter>
+    </ClInclude>
     <ClInclude Include="ShortestPathAlgorithm.h">
       <Filter>Shortest Path Algorithms\Abstract class</Filter>
-    </ClInclude>
-    <ClInclude Include="ShortestPathAlgorithmsStore.h">
-      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
     </ClInclude>
     <ClInclude Include="BFS.h">
       <Filter>Shortest Path Algorithms\BFS</Filter>
     </ClInclude>
     <ClInclude Include="IterativeDeepeningDFS.h">
       <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
+    </ClInclude>
+    <ClInclude Include="ShortestPathAlgorithmsStore.h">
+      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -188,17 +236,35 @@
     <ClCompile Include="Graph.cpp">
       <Filter>Graph\Abstraction</Filter>
     </ClCompile>
+    <ClCompile Include="UndirectedGraph.cpp">
+      <Filter>Graph\Undirected Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphCreator.cpp">
+      <Filter>Graph Factory\GraphCreator</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphFactory.cpp">
+      <Filter>Graph Factory\GraphFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectedGraph.cpp">
+      <Filter>Graph\Directed Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="InvalidGraphTypeException.cpp">
+      <Filter>Graph Factory\Invalid Graph Type Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphBase.cpp">
+      <Filter>Graph\Graph Base</Filter>
+    </ClCompile>
     <ClCompile Include="ShortestPathAlgorithm.cpp">
       <Filter>Shortest Path Algorithms\Abstract class</Filter>
-    </ClCompile>
-    <ClCompile Include="ShortestPathAlgorithmsStore.cpp">
-      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
     </ClCompile>
     <ClCompile Include="BFS.cpp">
       <Filter>Shortest Path Algorithms\BFS</Filter>
     </ClCompile>
     <ClCompile Include="IterativeDeepeningDFS.cpp">
       <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
+    </ClCompile>
+    <ClCompile Include="ShortestPathAlgorithmsStore.cpp">
+      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

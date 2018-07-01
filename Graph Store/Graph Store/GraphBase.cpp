@@ -1,8 +1,5 @@
 #include "stdafx.h"
 #include "GraphBase.h"
-#include <stdexcept>
-#include <assert.h>
-#include <utility>
 
 GraphBase::GraphBase(String identifier) :
 	Graph(std::move(identifier)),
