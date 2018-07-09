@@ -94,8 +94,17 @@
     <Filter Include="Graph Factory\GraphRegistrator">
       <UniqueIdentifier>{32db5538-6b3a-41b9-b782-5d3be9cd9ea1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graph Factory\Invalid Graph Type Exception">
+    <Filter Include="Application">
+      <UniqueIdentifier>{2a308b1f-0e3d-42c5-949a-39263bff17b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph\Graph Exceptions">
+      <UniqueIdentifier>{ec3a4bb4-5c00-428f-a007-f6a8fbdd15c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph\Graph Exceptions\Invalid Graph Type Exception">
       <UniqueIdentifier>{4f368f69-176e-478a-934b-6996cc7f8c4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph\Graph Exceptions\Graph Exception">
+      <UniqueIdentifier>{c7a0463b-b61b-4582-b1d3-4c2238004bf0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -171,47 +180,53 @@
     <ClInclude Include="Graph.h">
       <Filter>Graph\Abstraction</Filter>
     </ClInclude>
-    <ClInclude Include="GraphFactory.h">
-      <Filter>Graph Factory\GraphFactory</Filter>
+    <ClInclude Include="Application.h">
+      <Filter>Application</Filter>
     </ClInclude>
-    <ClInclude Include="GraphCreator.h">
-      <Filter>Graph Factory\GraphCreator</Filter>
-    </ClInclude>
-    <ClInclude Include="UndirectedGraph.h">
-      <Filter>Graph\Undirected Graph</Filter>
-    </ClInclude>
-    <ClInclude Include="ConcreteGraphCreator.hpp">
-      <Filter>Graph Factory\Concrete Graph Creator</Filter>
-    </ClInclude>
-    <ClInclude Include="ConcreteGraphCreator.h">
-      <Filter>Graph Factory\Concrete Graph Creator</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphRegistrator.h">
-      <Filter>Graph Factory\GraphRegistrator</Filter>
-    </ClInclude>
-    <ClInclude Include="IdentifierAccessor.h">
-      <Filter>Graph\Identifier Accessor</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectedGraph.h">
-      <Filter>Graph\Directed Graph</Filter>
-    </ClInclude>
-    <ClInclude Include="InvalidGraphTypeException.h">
-      <Filter>Graph Factory\Invalid Graph Type Exception</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphBase.h">
-      <Filter>Graph\Graph Base</Filter>
-    </ClInclude>
-    <ClInclude Include="ShortestPathAlgorithm.h">
-      <Filter>Shortest Path Algorithms\Abstract class</Filter>
-    </ClInclude>
-    <ClInclude Include="BFS.h">
-      <Filter>Shortest Path Algorithms\BFS</Filter>
+    <ClInclude Include="ShortestPathAlgorithmsStore.h">
+      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
     </ClInclude>
     <ClInclude Include="IterativeDeepeningDFS.h">
       <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
     </ClInclude>
-    <ClInclude Include="ShortestPathAlgorithmsStore.h">
-      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
+    <ClInclude Include="BFS.h">
+      <Filter>Shortest Path Algorithms\BFS</Filter>
+    </ClInclude>
+    <ClInclude Include="ShortestPathAlgorithm.h">
+      <Filter>Shortest Path Algorithms\Abstract class</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphCreator.h">
+      <Filter>Graph Factory\GraphCreator</Filter>
+    </ClInclude>
+    <ClInclude Include="ConcreteGraphCreator.h">
+      <Filter>Graph Factory\Concrete Graph Creator</Filter>
+    </ClInclude>
+    <ClInclude Include="ConcreteGraphCreator.hpp">
+      <Filter>Graph Factory\Concrete Graph Creator</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphFactory.h">
+      <Filter>Graph Factory\GraphFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphRegistrator.h">
+      <Filter>Graph Factory\GraphRegistrator</Filter>
+    </ClInclude>
+    <ClInclude Include="InvalidGraphTypeException.h">
+      <Filter>Graph\Graph Exceptions\Invalid Graph Type Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="UndirectedGraph.h">
+      <Filter>Graph\Undirected Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="IdentifierAccessor.h">
+      <Filter>Graph\Identifier Accessor</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphBase.h">
+      <Filter>Graph\Graph Base</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectedGraph.h">
+      <Filter>Graph\Directed Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphException.h">
+      <Filter>Graph\Graph Exceptions\Graph Exception</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -236,8 +251,17 @@
     <ClCompile Include="Graph.cpp">
       <Filter>Graph\Abstraction</Filter>
     </ClCompile>
-    <ClCompile Include="UndirectedGraph.cpp">
-      <Filter>Graph\Undirected Graph</Filter>
+    <ClCompile Include="ShortestPathAlgorithmsStore.cpp">
+      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
+    </ClCompile>
+    <ClCompile Include="IterativeDeepeningDFS.cpp">
+      <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
+    </ClCompile>
+    <ClCompile Include="BFS.cpp">
+      <Filter>Shortest Path Algorithms\BFS</Filter>
+    </ClCompile>
+    <ClCompile Include="ShortestPathAlgorithm.cpp">
+      <Filter>Shortest Path Algorithms\Abstract class</Filter>
     </ClCompile>
     <ClCompile Include="GraphCreator.cpp">
       <Filter>Graph Factory\GraphCreator</Filter>
@@ -245,26 +269,20 @@
     <ClCompile Include="GraphFactory.cpp">
       <Filter>Graph Factory\GraphFactory</Filter>
     </ClCompile>
-    <ClCompile Include="DirectedGraph.cpp">
-      <Filter>Graph\Directed Graph</Filter>
-    </ClCompile>
     <ClCompile Include="InvalidGraphTypeException.cpp">
-      <Filter>Graph Factory\Invalid Graph Type Exception</Filter>
+      <Filter>Graph\Graph Exceptions\Invalid Graph Type Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="UndirectedGraph.cpp">
+      <Filter>Graph\Undirected Graph</Filter>
     </ClCompile>
     <ClCompile Include="GraphBase.cpp">
       <Filter>Graph\Graph Base</Filter>
     </ClCompile>
-    <ClCompile Include="ShortestPathAlgorithm.cpp">
-      <Filter>Shortest Path Algorithms\Abstract class</Filter>
+    <ClCompile Include="DirectedGraph.cpp">
+      <Filter>Graph\Directed Graph</Filter>
     </ClCompile>
-    <ClCompile Include="BFS.cpp">
-      <Filter>Shortest Path Algorithms\BFS</Filter>
-    </ClCompile>
-    <ClCompile Include="IterativeDeepeningDFS.cpp">
-      <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
-    </ClCompile>
-    <ClCompile Include="ShortestPathAlgorithmsStore.cpp">
-      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
+    <ClCompile Include="GraphException.cpp">
+      <Filter>Graph\Graph Exceptions\Graph Exception</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -10,6 +10,7 @@
 #include <assert.h>
 #include <stdexcept>
 #include <utility>
+#include <memory>
 
 #include "Graph.h"
 #include "Edge.h"
