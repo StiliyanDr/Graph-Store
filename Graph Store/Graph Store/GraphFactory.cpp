@@ -37,6 +37,8 @@ const GraphCreator* GraphFactory::searchForCreator(const String& criterion)
 		{
 			return creator;
 		}
+
+		creatorsIterator.advance();
 	}
 
 	return nullptr;
