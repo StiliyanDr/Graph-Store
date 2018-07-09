@@ -40,10 +40,24 @@ void GraphBase::addVertex(const char* identifier)
 
 bool GraphBase::hasVertexWithIdentifier(const char* identifier)
 {
-	return getVertexWithIdentifier(identifier) != nullptr;
+	return searchForVertexWithIdentifier(identifier) != nullptr;
 }
 
-Vertex* GraphBase::getVertexWithIdentifier(const char* identifier)
+Vertex& GraphBase::getVertexWithIdentifier(const char* identifier)
+{
+	Vertex* vertex = searchForVertexWithIdentifier(identifier);
+
+	if (vertex != nullptr)
+	{
+		return *vertex;
+	}
+	else
+	{
+		throw GraphException("There is no vertex with identifier: " + String(identifier));
+	}
+}
+
+Vertex* GraphBase::searchForVertexWithIdentifier(const char* identifier)
 {
 	return vertexSearchSet.search(identifier);
 }

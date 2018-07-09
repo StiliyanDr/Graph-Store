@@ -22,7 +22,7 @@ public:
 	virtual void addVertex(const char* identifier) override;
 	virtual void removeVertex(Vertex& vertexToRemove) override;
 
-	virtual Vertex* getVertexWithIdentifier(const char* identifier) override;
+	virtual Vertex& getVertexWithIdentifier(const char* identifier) override;
 	virtual VertexAbstractIterator getIteratorOfVertices() override;
 	virtual EdgeAbstractIterator getIteratorOfEdgesStartingFrom(Vertex& vertex) override;
 	virtual unsigned getVerticesCount() const override;
@@ -31,6 +31,7 @@ protected:
 	GraphBase(String identifier);
 
 	bool hasVertexWithIdentifier(const char* identifier);
+	Vertex* searchForVertexWithIdentifier(const char* identifier);
 	Vertex* createVertex(const char* identifier) const;
 	void addVertexToCollection(Vertex* vertex);
 	virtual void removeEdgesEndingIn(Vertex& vertex);

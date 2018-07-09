@@ -23,7 +23,7 @@ public:
 	virtual void addEdgeBetweenWithWeight(Vertex& startVertex, Vertex& endVertex, unsigned weight) = 0;
 	virtual void removeEdgeBetween(Vertex& startVertex, Vertex& endVertex) = 0;
 
-	virtual Vertex* getVertexWithIdentifier(const char* identifier) = 0;
+	virtual Vertex& getVertexWithIdentifier(const char* identifier) = 0;
 	virtual VertexAbstractIterator getIteratorOfVertices() = 0;
 	virtual EdgeAbstractIterator getIteratorOfEdgesStartingFrom(Vertex& vertex) = 0;
 	virtual unsigned getVerticesCount() const = 0;
