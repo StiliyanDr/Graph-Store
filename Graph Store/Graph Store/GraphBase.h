@@ -5,6 +5,7 @@
 #include "Hash.h"
 #include "HashFunctionStringSpecialization.h"
 #include "IdentifierAccessor.h"
+#include "Graph.h"
 
 class GraphBase : public Graph
 {
