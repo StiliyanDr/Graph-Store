@@ -32,8 +32,8 @@ protected:
 
 	bool hasVertexWithIdentifier(const char* identifier);
 	Vertex* searchForVertexWithIdentifier(const char* identifier);
-	Vertex* createVertex(const char* identifier) const;
-	void addVertexToCollection(Vertex* vertex);
+	std::unique_ptr<Vertex> createVertex(const char* identifier) const;
+	void addVertexToCollection(std::unique_ptr<Vertex> vertex);
 	virtual void removeEdgesEndingIn(Vertex& vertex);
 	virtual void removeEdgesStartingFrom(Vertex& vertex);
 	void removeVertexFromCollection(const Vertex& vertexToRemove);

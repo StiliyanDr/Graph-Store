@@ -29,8 +29,8 @@ void GraphBase::addVertex(const char* identifier)
 {
 	if (!hasVertexWithIdentifier(identifier))
 	{
-		Vertex* newVertex = createVertex(identifier);
-		addVertexToCollection(newVertex);
+		std::unique_ptr<Vertex> newVertex = createVertex(identifier);
+		addVertexToCollection(std::move(newVertex));
 	}
 	else
 	{
@@ -62,18 +62,29 @@ Vertex* GraphBase::searchForVertexWithIdentifier(const char* identifier)
 	return vertexSearchSet.search(identifier);
 }
 
-Vertex* GraphBase::createVertex(const char* identifier) const
+std::unique_ptr<Vertex> GraphBase::createVertex(const char* identifier) const
 {
-	return new Vertex(identifier, vertices.getCount());
+	return std::unique_ptr<Vertex>(new Vertex(identifier, vertices.getCount()));
 }
 
-void GraphBase::addVertexToCollection(Vertex* vertex)
+void GraphBase::addVertexToCollection(std::unique_ptr<Vertex> vertex)
 {
 	assert(vertex != nullptr);
 	assert(vertex->index == vertices.getCount());
 
-	vertices.add(vertex);
-	vertexSearchSet.add(*vertex);
+	vertices.add(vertex.get());
+	
+	try
+	{
+		vertexSearchSet.add(*vertex);
+	}
+	catch (std::bad_alloc&)
+	{
+		vertices.removeAt(vertex->index);
+		throw;
+	}
+
+	vertex.release();
 }
 
 void GraphBase::removeVertex(Vertex& vertexToRemove)
