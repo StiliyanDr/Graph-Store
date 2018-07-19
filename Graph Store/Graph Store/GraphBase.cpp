@@ -25,68 +25,6 @@ void GraphBase::destroyAllVertices()
 	}
 }
 
-void GraphBase::addVertex(const char* identifier)
-{
-	if (!hasVertexWithIdentifier(identifier))
-	{
-		std::unique_ptr<Vertex> newVertex = createVertex(identifier);
-		addVertexToCollection(std::move(newVertex));
-	}
-	else
-	{
-		throw GraphException("There already is a vertex with that identifier in the graph!");
-	}
-}
-
-bool GraphBase::hasVertexWithIdentifier(const char* identifier)
-{
-	return searchForVertexWithIdentifier(identifier) != nullptr;
-}
-
-Vertex& GraphBase::getVertexWithIdentifier(const char* identifier)
-{
-	Vertex* vertex = searchForVertexWithIdentifier(identifier);
-
-	if (vertex != nullptr)
-	{
-		return *vertex;
-	}
-	else
-	{
-		throw GraphException("There is no vertex with identifier: " + String(identifier));
-	}
-}
-
-Vertex* GraphBase::searchForVertexWithIdentifier(const char* identifier)
-{
-	return vertexSearchSet.search(identifier);
-}
-
-std::unique_ptr<Vertex> GraphBase::createVertex(const char* identifier) const
-{
-	return std::unique_ptr<Vertex>(new Vertex(identifier, vertices.getCount()));
-}
-
-void GraphBase::addVertexToCollection(std::unique_ptr<Vertex> vertex)
-{
-	assert(vertex != nullptr);
-	assert(vertex->index == vertices.getCount());
-
-	vertices.add(vertex.get());
-	
-	try
-	{
-		vertexSearchSet.add(*vertex);
-	}
-	catch (std::bad_alloc&)
-	{
-		vertices.removeAt(vertex->index);
-		throw;
-	}
-
-	vertex.release();
-}
-
 void GraphBase::removeVertex(Vertex& vertexToRemove)
 {
 	assert(isOwnerOf(vertexToRemove));
@@ -130,6 +68,13 @@ void GraphBase::removeEdgeFromTo(Vertex& startVertex, const Vertex& endVertex)
 	}
 }
 
+bool GraphBase::hasEdgeFromTo(Vertex& startVertex, const Vertex& endVertex)
+{
+	EdgeConcreteIterator iteratorToEdge = searchForEdgeFromTo(startVertex, endVertex);
+
+	return iteratorToEdge.isValid();
+}
+
 GraphBase::EdgeConcreteIterator GraphBase::searchForEdgeFromTo(Vertex& startVertex, const Vertex& endVertex)
 {
 	EdgeConcreteIterator edgeIterator = getConcreteIteratorOfEdgesStartingFrom(startVertex);
@@ -154,6 +99,39 @@ void GraphBase::removeEdgesStartingFrom(Vertex& vertex)
 	getEdgesStartingFrom(vertex).empty();
 }
 
+void GraphBase::addVertex(const char* identifier)
+{
+	if (!hasVertexWithIdentifier(identifier))
+	{
+		std::unique_ptr<Vertex> newVertex = createVertex(identifier);
+		addVertexToCollection(std::move(newVertex));
+	}
+	else
+	{
+		throw GraphException("There already is a vertex with that identifier in the graph!");
+	}
+}
+
+void GraphBase::addVertexToCollection(std::unique_ptr<Vertex> vertex)
+{
+	assert(vertex != nullptr);
+	assert(vertex->index == vertices.getCount());
+
+	vertices.add(vertex.get());
+
+	try
+	{
+		vertexSearchSet.add(*vertex);
+	}
+	catch (std::bad_alloc&)
+	{
+		vertices.removeAt(vertex->index);
+		throw;
+	}
+
+	vertex.release();
+}
+
 void GraphBase::removeVertexFromCollection(const Vertex& vertexToRemove)
 {
 	assert(vertices[vertexToRemove.index] == &vertexToRemove);
@@ -168,21 +146,43 @@ void GraphBase::removeVertexFromCollection(const Vertex& vertexToRemove)
 	vertices.removeAt(indexOfLastVertex);
 }
 
-void GraphBase::destroyVertex(Vertex* vertex) const
+Vertex& GraphBase::getVertexWithIdentifier(const char* identifier)
 {
-	delete vertex;
+	Vertex* vertex = searchForVertexWithIdentifier(identifier);
+
+	if (vertex != nullptr)
+	{
+		return *vertex;
+	}
+	else
+	{
+		throw GraphException("There is no vertex with identifier: " + String(identifier));
+	}
 }
 
-bool GraphBase::hasEdgeFromTo(Vertex& startVertex, const Vertex& endVertex)
+bool GraphBase::hasVertexWithIdentifier(const char* identifier)
 {
-	EdgeConcreteIterator iteratorToEdge = searchForEdgeFromTo(startVertex, endVertex);
+	return searchForVertexWithIdentifier(identifier) != nullptr;
+}
 
-	return iteratorToEdge.isValid();
+Vertex* GraphBase::searchForVertexWithIdentifier(const char* identifier)
+{
+	return vertexSearchSet.search(identifier);
 }
 
 void GraphBase::addEdgeFromToWithWeight(Vertex& startVertex, Vertex& endVertex, unsigned weight)
 {
 	getEdgesStartingFrom(startVertex).addFront(Edge(&endVertex, weight));
+}
+
+std::unique_ptr<Vertex> GraphBase::createVertex(const char* identifier) const
+{
+	return std::unique_ptr<Vertex>(new Vertex(identifier, vertices.getCount()));
+}
+
+void GraphBase::destroyVertex(Vertex* vertex) const
+{
+	delete vertex;
 }
 
 bool GraphBase::isOwnerOf(const Vertex& vertex) const
