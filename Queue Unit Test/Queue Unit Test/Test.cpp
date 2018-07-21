@@ -11,81 +11,47 @@ namespace QueueUnitTest
 		typedef Queue<int> Queue;
 
 	public:
+		Queue createQueueFromRange(int firstNumber, int lastNumber)
+		{
+			Queue queue;
 
-		TEST_METHOD(defaultConstructor)
+			for (int number = firstNumber; number <= lastNumber; ++number)
+			{
+				queue.enqueue(number);
+			}
+
+			return queue;
+		}
+
+		TEST_METHOD(testDefaultConstructorCreatesAnEmptyQueue)
 		{
 			Queue queue;
 
 			Assert::IsTrue(queue.isEmpty());
 		}
 
-		TEST_METHOD(isEmpty)
+		TEST_METHOD(testEnqueueAndDequeue)
 		{
 			Queue queue;
-			Assert::IsTrue(queue.isEmpty());
 
-			for (int i = 1; i <= 10; ++i)
+			for (int number = 1; number <= 10; ++number)
 			{
-				queue.enqueue(i);
-				Assert::IsFalse(queue.isEmpty());
+				queue.enqueue(number);
 			}
-		}
 
-		TEST_METHOD(enqueueAndDequeue)
-		{
-			Queue queue;
-
-			for (int i = 1; i <= 20; ++i)
-				queue.enqueue(i);
-
-			for (int i = 1; i <= 20; ++i)
-				Assert::AreEqual(i, queue.dequeue());
+			for (int number = 1; number <= 10; ++number)
+			{
+				Assert::AreEqual(number, queue.dequeue());
+			}
 
 			Assert::IsTrue(queue.isEmpty());
 		}
 
-		TEST_METHOD(dequeueAnEmptyQueue)
+		TEST_METHOD(testFirstReturnsTheHeadOfTheQueue)
 		{
-			Queue queue;
+			Queue queue = createQueueFromRange(1, 5);
 
-			try
-			{
-				queue.dequeue();
-
-				Assert::Fail(L"Dequeued an empty queue!");
-			}
-			catch (...)
-			{
-			}
-		}
-
-		TEST_METHOD(first)
-		{
-			Queue queue;
-
-			for (int i = 1; i <= 10; ++i)
-				queue.enqueue(i);
-
-			for (int i = 1; i <= 10; ++i)
-			{
-				Assert::AreEqual(i, queue.first());
-				queue.dequeue();
-			}
-		}
-
-		TEST_METHOD(firstInEmptyQueue)
-		{
-			Queue queue;
-
-			try
-			{
-				queue.first();
-
-				Assert::Fail(L"Got a copy of the first element in an empty queue!");
-			}
-			catch (...)
-			{
-			}
+			Assert::AreEqual(1, queue.first());
 		}
 	};
 }
