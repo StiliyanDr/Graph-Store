@@ -106,6 +106,9 @@
     <Filter Include="Graph\Graph Exceptions\Graph Exception">
       <UniqueIdentifier>{c7a0463b-b61b-4582-b1d3-4c2238004bf0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Priority Queue">
+      <UniqueIdentifier>{16f98096-8d6c-4f77-b27a-5c0ba608f732}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -180,14 +183,14 @@
     <ClInclude Include="Graph.h">
       <Filter>Graph\Abstraction</Filter>
     </ClInclude>
-    <ClInclude Include="GraphBase.h">
-      <Filter>Graph\Graph Base</Filter>
+    <ClInclude Include="PriorityQueue.h">
+      <Filter>Priority Queue</Filter>
     </ClInclude>
-    <ClInclude Include="DirectedGraph.h">
-      <Filter>Graph\Directed Graph</Filter>
+    <ClInclude Include="PriorityQueue.hpp">
+      <Filter>Priority Queue</Filter>
     </ClInclude>
-    <ClInclude Include="UndirectedGraph.h">
-      <Filter>Graph\Undirected Graph</Filter>
+    <ClInclude Include="Handle.hpp">
+      <Filter>Priority Queue</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -211,15 +214,6 @@
     </ClCompile>
     <ClCompile Include="Graph.cpp">
       <Filter>Graph\Abstraction</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphBase.cpp">
-      <Filter>Graph\Graph Base</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectedGraph.cpp">
-      <Filter>Graph\Directed Graph</Filter>
-    </ClCompile>
-    <ClCompile Include="UndirectedGraph.cpp">
-      <Filter>Graph\Undirected Graph</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
