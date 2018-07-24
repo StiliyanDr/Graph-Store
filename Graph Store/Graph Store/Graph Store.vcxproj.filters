@@ -109,6 +109,9 @@
     <Filter Include="Priority Queue">
       <UniqueIdentifier>{16f98096-8d6c-4f77-b27a-5c0ba608f732}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Priority Queue\Priority Queue Handle">
+      <UniqueIdentifier>{48e4da2f-6c66-44ce-bf60-595e9285875e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -189,8 +192,8 @@
     <ClInclude Include="PriorityQueue.hpp">
       <Filter>Priority Queue</Filter>
     </ClInclude>
-    <ClInclude Include="Handle.hpp">
-      <Filter>Priority Queue</Filter>
+    <ClInclude Include="PriorityQueueHandle.h">
+      <Filter>Priority Queue\Priority Queue Handle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -214,6 +217,9 @@
     </ClCompile>
     <ClCompile Include="Graph.cpp">
       <Filter>Graph\Abstraction</Filter>
+    </ClCompile>
+    <ClCompile Include="PriorityQueueHandle.cpp">
+      <Filter>Priority Queue\Priority Queue Handle</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -3,6 +3,7 @@
 
 #include "DynamicArray.h"
 #include "Iterator.h"
+#include "PriorityQueueHandle.h"
 
 template <class Item, class Key, class HandleUpdator>
 class PriorityQueue
@@ -18,19 +19,6 @@ public:
 		Key key;
 	};
 
-	class Handle
-	{
-	public:
-		Handle();
-	
-	private:
-		Handle(long index);
-		bool isValid() const;
-
-	private:
-		long index;
-	};
-
 public:
 	PriorityQueue();
 	PriorityQueue(Iterator<Element<Item, Key>>& elementsIterator, size_t elementsCount);
@@ -43,7 +31,7 @@ public:
 	void insert(const Element<Item, Key>& element);
 	Element<Item, Key> extractMinElement();
 	Element<Item, Key> getMinElement() const;
-	void decreaseKey(const Handle& handleToElement, const Key& newKey);
+	void decreaseKey(const PriorityQueueHandle& handleToElement, const Key& newKey);
 	bool isEmpty() const;
 
 private:
@@ -58,7 +46,7 @@ private:
 	void insertAtEnd(const Element<Item, Key>& newElement);
 	void setElementAtWith(size_t index, const Element<Item, Key>& element);
 	void invalidateHandleOfElementAt(size_t index);
-	void setHandleOfElementAtWith(size_t index, const Handle& handle);
+	void setHandleOfElementAtWith(size_t index, const PriorityQueueHandle& handle);
 	void setKeyAtWith(size_t index, const Key& newKey);
 	size_t computeIndexOfMinKeySuccessor(size_t leftSuccessor) const;
 	bool isIndexWithinHeap(size_t index) const;
@@ -71,7 +59,6 @@ private:
 	HandleUpdator handleUpdator;
 };
 
-#include "Handle.hpp"
 #include "PriorityQueue.hpp"
 
 #endif //__PRIORITY_QUEUE_HEADER_INCLUDED__
