@@ -28,7 +28,7 @@ public:
 	PriorityQueue<Item, Key, HandleUpdator>& operator=(PriorityQueue<Item, Key, HandleUpdator>&& rhs);
 	~PriorityQueue() = default;
 
-	void insert(const Element<Item, Key>& element);
+	void add(const Element<Item, Key>& element);
 	Element<Item, Key> extractMinElement();
 	Element<Item, Key> getMinElement() const;
 	void decreaseKey(const PriorityQueueHandle& handleToElement, const Key& newKey);
@@ -43,7 +43,7 @@ private:
 	void buildHeap();
 	void siftDownElementAt(size_t index);
 	void siftUpElementAt(size_t index);
-	void insertAtEnd(const Element<Item, Key>& newElement);
+	void addAtEnd(const Element<Item, Key>& newElement);
 	void setElementAtWith(size_t index, const Element<Item, Key>& element);
 	void invalidateHandleOfElementAt(size_t index);
 	void setHandleOfElementAtWith(size_t index, const PriorityQueueHandle& handle);

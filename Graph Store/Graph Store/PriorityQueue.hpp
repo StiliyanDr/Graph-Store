@@ -96,16 +96,16 @@ void PriorityQueue<Item, Key, HandleUpdator>::setKeyAtWith(size_t index, const K
 }
 
 template <class Item, class Key, class HandleUpdator>
-void PriorityQueue<Item, Key, HandleUpdator>::insert(const Element<Item, Key>& element)
+void PriorityQueue<Item, Key, HandleUpdator>::add(const Element<Item, Key>& element)
 {
 	assert(element.item != nullptr);
 	
-	insertAtEnd(element);
+	addAtEnd(element);
 	siftUpElementAt(elementsCount - 1);
 }
 
 template <class Item, class Key, class HandleUpdator>
-void PriorityQueue<Item, Key, HandleUpdator>::insertAtEnd(const Element<Item, Key>& newElement)
+void PriorityQueue<Item, Key, HandleUpdator>::addAtEnd(const Element<Item, Key>& newElement)
 {
 	if (elementsCount < elements.getCount())
 	{
