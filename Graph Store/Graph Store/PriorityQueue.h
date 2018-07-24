@@ -63,6 +63,7 @@ private:
 	size_t computeIndexOfMinKeySuccessor(size_t leftSuccessor) const;
 	bool isIndexWithinHeap(size_t index) const;
 	void copyElements(Iterator<Element<Item, Key>>& elementsIterator, size_t elementsCount);
+	void swapContentsWith(PriorityQueue<Item, Key, HandleUpdator> priorityQueue);
 
 private:
 	DynamicArray<Element<Item, Key>> elements;

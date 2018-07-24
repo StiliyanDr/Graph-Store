@@ -1,3 +1,4 @@
+#include <utility>
 
 template <class Item, class Key, class HandleUpdator>
 PriorityQueue<Item, Key, HandleUpdator>::PriorityQueue() :
@@ -12,6 +13,35 @@ PriorityQueue<Item, Key, HandleUpdator>::PriorityQueue(Iterator<Element<Item, Ke
 {
 	copyElements(elementsIterator, elementsCount);
 	buildHeap();
+}
+
+template <class Item, class Key, class HandleUpdator>
+PriorityQueue<Item, Key, HandleUpdator>::PriorityQueue(PriorityQueue<Item, Key, HandleUpdator>&& source) :
+	elements(std::move(source.elements)),
+	elementsCount(source.elementsCount),
+	handleUpdator(std::move(source.handleUpdator))
+{
+	source.elementsCount = 0;
+}
+
+template <class Item, class Key, class HandleUpdator>
+PriorityQueue<Item, Key, HandleUpdator>&
+PriorityQueue<Item, Key, HandleUpdator>::operator=(PriorityQueue<Item, Key, HandleUpdator>&& rhs)
+{
+	if (this != &rhs)
+	{
+		swapContentsWith(std::move(rhs));
+	}
+
+	return *this;
+}
+
+template <class Item, class Key, class HandleUpdator>
+void PriorityQueue<Item, Key, HandleUpdator>::swapContentsWith(PriorityQueue<Item, Key, HandleUpdator> priorityQueue)
+{
+	std::swap(elements, priorityQueue.elements);
+	std::swap(elementsCount, priorityQueue.elementsCount);
+	std::swap(handleUpdator, priorityQueue.handleUpdator);
 }
 
 template <class Item, class Key, class HandleUpdator>
