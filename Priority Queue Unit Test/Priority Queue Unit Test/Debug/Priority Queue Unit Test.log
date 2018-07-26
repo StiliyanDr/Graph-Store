@@ -1,0 +1,19 @@
+﻿  stdafx.cpp
+  Test.cpp
+d:\repositories\graph-store\graph store\graph store\dynamicarrayiterator.hpp(35): warning C4018: '<': signed/unsigned mismatch
+  d:\repositories\graph-store\graph store\graph store\dynamicarrayiterator.hpp(28): note: while compiling class template member function 'void DynamicArrayIterator<T>::advance(void)'
+          with
+          [
+              T=PriorityQueue<Item,unsigned int,HandleUpdator>::Element<Item,unsigned int>
+          ]
+  d:\repositories\graph-store\priority queue unit test\priority queue unit test\test.cpp(112): note: see reference to class template instantiation 'DynamicArrayIterator<T>' being compiled
+          with
+          [
+              T=PriorityQueue<Item,unsigned int,HandleUpdator>::Element<Item,unsigned int>
+          ]
+d:\repositories\graph-store\graph store\graph store\dynamicarrayiterator.hpp(39): warning C4018: '>=': signed/unsigned mismatch
+  PriorityQueueHandle.cpp
+  Generating Code...
+     Creating library D:\Repositories\Graph-Store\Priority Queue Unit Test\Debug\Priority Queue Unit Test.lib and object D:\Repositories\Graph-Store\Priority Queue Unit Test\Debug\Priority Queue Unit Test.exp
+  Priority Queue Unit Test.vcxproj -> D:\Repositories\Graph-Store\Priority Queue Unit Test\Debug\Priority Queue Unit Test.dll
+  Priority Queue Unit Test.vcxproj -> D:\Repositories\Graph-Store\Priority Queue Unit Test\Debug\Priority Queue Unit Test.pdb (Partial PDB)
