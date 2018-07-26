@@ -17,7 +17,6 @@ public:
 
 	virtual void add(const T& item);
 	virtual void removeAt(size_t index);
-	virtual long search(const T& what) const;
 
 	void addAt(size_t index, const T& item);
 	void ensureSize(size_t size);

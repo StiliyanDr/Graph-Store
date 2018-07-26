@@ -285,23 +285,6 @@ namespace DynamicArrayUnitTest
 			Assert::AreEqual(3u, arr.getCount());
 		}
 
-		TEST_METHOD(testSearchReturnsTheIndexOfTheFirstMatchingItem)
-		{
-			Array arr = createArrayFromRange(0, 5);
-
-			for (long i = 0; i <= 5; ++i)
-			{
-				Assert::AreEqual(i, arr.search(i));
-			}
-		}
-
-		TEST_METHOD(testUnsuccessfullSearchReturnsMinusOne)
-		{
-			Array arr = createArrayFromRange(1, 5);
-
-			Assert::AreEqual(-1L, arr.search(100));
-		}
-
 		TEST_METHOD(testAddAtIndexShiftsRightTheNextElements)
 		{
 			Array arr = createArrayFromRange(11, 15);

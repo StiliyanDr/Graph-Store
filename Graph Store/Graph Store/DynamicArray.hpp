@@ -130,20 +130,6 @@ inline void DynamicArray<T>::removeAt(size_t index)
 }
 
 template <class T>
-long DynamicArray<T>::search(const T& what) const
-{
-	for (size_t i = 0; i < count; ++i)
-	{
-		if (items[i] == what)
-		{
-			return i;
-		}
-	}
-
-	return -1;
-}
-
-template <class T>
 inline T& DynamicArray<T>::operator[](size_t index)
 {
 	assert(index < count);
