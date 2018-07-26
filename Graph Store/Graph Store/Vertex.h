@@ -11,6 +11,8 @@ class Vertex
 	friend class GraphBase;
 
 public:
+	~Vertex() = default;
+
 	bool isMarkedAsVisited() const;
 	void markAsVisited();
 	void markAsNotVisited();
@@ -28,7 +30,6 @@ private:
 	Vertex(String identifier, size_t index);
 	Vertex(const Vertex&) = delete;
 	Vertex& operator=(const Vertex&) = delete;
-	~Vertex() = default;
 
 private:
 	String identifier;
