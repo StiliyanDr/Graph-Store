@@ -12,6 +12,7 @@ public:
 	template <class Item, class Key>
 	struct Element
 	{
+		Element() = default;
 		Element(Item* item, const Key& key) :
 			item(item), key(key) { }
 
