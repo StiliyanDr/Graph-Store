@@ -254,6 +254,94 @@ namespace PriorityQueueUnitTest
 			Assert::IsTrue(queueConsistsOfItemsInRange(queue, 0, ARRAY_SIZE / 2));
 		}
 
+		TEST_METHOD(testAddMaintainsOrderOfPriority)
+		{
+			PriorityQueue queue;
+			size_t middle = ARRAY_SIZE / 2;
+
+			fillQueueWithElementsInRange(queue, middle, ARRAY_SIZE - 1);
+			fillQueueWithElementsInRange(queue, 0, middle - 1);
+
+			Element minElement = queue.getMinElement();
+			Assert::IsTrue(elementCorrespondsToItem(minElement, items[0]));
+		}
+
+		TEST_METHOD(testExtractingTheOnlyElementLeavesTheQueueEmpty)
+		{
+			PriorityQueue queue = createQueueFromItemsInRange(0, 0);
+
+			queue.extractMinElement();
+
+			Assert::IsTrue(queue.isEmpty());
+		}
+
+		TEST_METHOD(testExtractMinElementMaintainsOrderOfPriority)
+		{
+			PriorityQueue queue = createQueueFromItemsInRange(0, ARRAY_SIZE / 2);
+
+			Element minElement = queue.extractMinElement();
+
+			Assert::IsTrue(elementCorrespondsToItem(minElement, items[0]),
+						   L"The method did not extract the element with min key!");
+			Assert::IsTrue(elementCorrespondsToItem(queue.getMinElement(), items[1]));
+		}
+
+		TEST_METHOD(testGetMinElement)
+		{
+			PriorityQueue queue = createQueueFromItemsInRange(0, ARRAY_SIZE / 2);
+
+			Element minElement = queue.getMinElement();
+
+			Assert::IsTrue(elementCorrespondsToItem(minElement, items[0]));
+		}
+
+		TEST_METHOD(testDecreaseKeyWithNewMinKeyUpdatesTheMinElement)
+		{
+			PriorityQueue queue = createQueueFromItemsInRange(ARRAY_SIZE / 2, ARRAY_SIZE - 1);
+			Item& itemWithMaxKey = items[ARRAY_SIZE - 1];
+			PriorityQueueHandle handleToMaxElement = itemWithMaxKey.handle;
+
+			queue.decreaseKey(handleToMaxElement, 0);
+
+			Element minElement = queue.getMinElement();
+			Assert::AreEqual(0u, minElement.key);
+		}
+
+		TEST_METHOD(testDecreaseKeyOfTheMinElement)
+		{
+			PriorityQueue queue = createQueueFromItemsInRange(ARRAY_SIZE / 2, ARRAY_SIZE - 1);
+			Item& itemWithMinKey = items[ARRAY_SIZE / 2];
+			PriorityQueueHandle handleToMinElement = itemWithMinKey.handle;
+
+			queue.decreaseKey(handleToMinElement, 0);
+
+			Element minElement = queue.getMinElement();
+			Assert::AreEqual(0u, minElement.key);
+		}
+
+		TEST_METHOD(testDecreaseKeyOfNonMinElementWithNonMinKey)
+		{
+			PriorityQueue queue = createQueueFromItemsInRange(0, ARRAY_SIZE / 2);
+			Item& itemWithNonMinKey = items[ARRAY_SIZE / 2];
+			PriorityQueueHandle handle = itemWithNonMinKey.handle;
+
+			queue.decreaseKey(handle, 1);
+
+			Element minElement = queue.getMinElement();
+			Assert::IsTrue(elementCorrespondsToItem(minElement, items[0]));
+		}
+
+		TEST_METHOD(testAddAndExtractAllElements)
+		{
+			PriorityQueue queue;
+			size_t middle = ARRAY_SIZE / 2;
+
+			fillQueueWithElementsInRange(queue, middle, ARRAY_SIZE - 1);
+			fillQueueWithElementsInRange(queue, 0, middle - 1);
+
+			Assert::IsTrue(queueConsistsOfItemsInRange(queue, 0, ARRAY_SIZE - 1));
+		}
+
 	};
 
 	DynamicArray<Item> PriorityQueueTest::items(ARRAY_SIZE);
