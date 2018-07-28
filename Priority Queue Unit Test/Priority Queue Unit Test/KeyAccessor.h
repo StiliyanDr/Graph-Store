@@ -7,11 +7,11 @@ class KeyAccessor
 public:
 	unsigned getKeyOf(const Item& item) const
 	{
-		return item.number;
+		return item.key;
 	}
 
-	void setKeyOfWith(Item& item, unsigned newNumber) const
+	void setKeyOfWith(Item& item, unsigned newKey) const
 	{
-		item.number = newNumber;
+		item.key = newKey;
 	}
 };

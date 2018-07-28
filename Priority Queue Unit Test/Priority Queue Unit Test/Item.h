@@ -4,9 +4,9 @@
 
 struct Item
 {
-	Item(unsigned number = 0) :
-		number(number) { }
+	Item(unsigned key = 0) :
+		key(key) { }
 
-	unsigned number;
+	unsigned key;
 	PriorityQueueHandle handle;
 };

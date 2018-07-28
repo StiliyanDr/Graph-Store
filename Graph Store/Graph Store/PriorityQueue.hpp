@@ -2,56 +2,55 @@
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
 inline PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::PriorityQueue() :
-	elementsCount(0)
+	itemsCount(0)
 {
 }
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
-PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::PriorityQueue(Iterator<Element<Item, Key>>& elementsIterator,
-																	size_t elementsCount) :
-	elements(elementsCount, elementsCount)
+PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::PriorityQueue(Iterator<Item*>& itemsIterator, size_t itemsCount) :
+	items(itemsCount, itemsCount)
 {
-	copyElements(elementsIterator, elementsCount);
+	copyItems(itemsIterator, itemsCount);
 	buildHeap();
 }
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
-void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::copyElements(Iterator<Element<Item, Key>>& elementsIterator,
-																		size_t elementsCount)
+void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::copyItems(Iterator<Item*>& itemsIterator, size_t itemsCount)
 {
-	assert(elements.getCount() == elementsCount);
+	assert(items.getCount() == itemsCount);
+	Item* item;
 
-	for (size_t index = 0; index < elementsCount; ++index)
+	for (size_t index = 0; index < itemsCount; ++index)
 	{
-		assert(elementsIterator.isValid());
-		const Element<Item, Key>& element = elementsIterator.getCurrentItem();
+		assert(itemsIterator.isValid());
+		item = itemsIterator.getCurrentItem();
 
-		assert(element.item != nullptr);
-		setElementAtWith(index, element);
+		assert(item != nullptr);
+		setItemAtWith(index, item);
 
-		elementsIterator.advance();
+		itemsIterator.advance();
 	}
 
-	this->elementsCount = elementsCount;
+	this->itemsCount = itemsCount;
 }
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
 void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::buildHeap()
 {
-	for (long nonLeaf = (elementsCount / 2) - 1; nonLeaf >= 0; --nonLeaf)
+	for (long nonLeaf = (itemsCount / 2) - 1; nonLeaf >= 0; --nonLeaf)
 	{
-		siftDownElementAt(nonLeaf);
+		siftDownItemAt(nonLeaf);
 	}
 }
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
 PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::PriorityQueue(PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>&& source) :
-	elements(std::move(source.elements)),
-	elementsCount(source.elementsCount),
+	items(std::move(source.items)),
+	itemsCount(source.itemsCount),
 	handleUpdator(std::move(source.handleUpdator)),
 	keyAccessor(std::move(source.keyAccessor))
 {
-	source.elementsCount = 0;
+	source.itemsCount = 0;
 }
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
@@ -69,76 +68,71 @@ PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::operator=(PriorityQueue<It
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
 void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::swapContentsWith(PriorityQueue<Item, Key, HandleUpdator, KeyAccessor> priorityQueue)
 {
-	std::swap(elements, priorityQueue.elements);
-	std::swap(elementsCount, priorityQueue.elementsCount);
+	std::swap(items, priorityQueue.items);
+	std::swap(itemsCount, priorityQueue.itemsCount);
 	std::swap(handleUpdator, priorityQueue.handleUpdator);
 	std::swap(keyAccessor, priorityQueue.keyAccessor);
 }
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
-void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::decreaseKey(const PriorityQueueHandle& handleToElement,
+void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::decreaseKey(const PriorityQueueHandle& handleToItem,
 																	   const Key& newKey)
 {
-	assert(handleToElement.isValid());
+	assert(handleToItem.isValid());
 	
-	size_t index = handleToElement.index;
-	assert(isIndexWithinHeap(index));
+	size_t index = handleToItem.index;
+	assert(isWithinHeap(index));
 
 	setKeyAtWith(index, newKey);
-	siftUpElementAt(index);
+	siftUpItemAt(index);
 }
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
 void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::setKeyAtWith(size_t index, const Key& newKey)
 {
-	Element<Item, Key>& element = elements[index];
-
-	assert(!(element.key < newKey));
-	element.key = newKey;
-
-	Item& item = *element.item;
+	Item& item = *items[index];
 
 	assert(!(keyAccessor.getKeyOf(item) < newKey));
 	keyAccessor.setKeyOfWith(item, newKey);
 }
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
-void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::add(const Element<Item, Key>& element)
+void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::add(Item* item)
 {
-	assert(element.item != nullptr);
+	assert(item != nullptr);
 	
-	addAtEnd(element);
-	siftUpElementAt(elementsCount - 1);
+	addAtEnd(item);
+	siftUpItemAt(itemsCount - 1);
 }
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
-void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::addAtEnd(const Element<Item, Key>& newElement)
+void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::addAtEnd(Item* newItem)
 {
-	if (elementsCount < elements.getCount())
+	if (itemsCount < items.getCount())
 	{
-		elements[elementsCount] = newElement;
+		items[itemsCount] = newItem;
 	}
 	else
 	{
-		elements.add(newElement);
+		items.add(newItem);
 	}
 
-	++elementsCount;
+	++itemsCount;
 }
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
-void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::siftUpElementAt(size_t index)
+void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::siftUpItemAt(size_t index)
 {
-	const Element<Item, Key> elementToMove(elements[index]);
+	Item* itemToMove = items[index];
 	size_t parent;
 
 	while (!isRoot(index))
 	{
 		parent = computeParentOf(index);
 
-		if (compare(*(elementToMove.item), *(elements[parent].item)))
+		if (compare(*itemToMove, *items[parent]))
 		{
-			setElementAtWith(index, elements[parent]);
+			setItemAtWith(index, items[parent]);
 			index = parent;
 		}
 		else
@@ -147,51 +141,49 @@ void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::siftUpElementAt(size_
 		}
 	}
 
-	setElementAtWith(index, elementToMove);
+	setItemAtWith(index, itemToMove);
 }
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
-inline typename PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::Element<Item, Key>
-PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::getMinElement() const
+inline const Item* PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::getMin() const
 {
 	assert(!isEmpty());
 
-	return elements[0];
+	return items[0];
 }
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
-typename PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::Element<Item, Key>
-PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::extractMinElement()
+Item* PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::extractMin()
 {
 	assert(!isEmpty());
 
-	invalidateHandleOfElementAt(0);
+	invalidateHandleAt(0);
 
-	Element<Item, Key> minElement = elements[0];
-	--elementsCount;
+	Item* min = items[0];
+	--itemsCount;
 
 	if (!isEmpty())
 	{
-		setElementAtWith(0, elements[elementsCount]);
-		siftDownElementAt(0);
+		setItemAtWith(0, items[itemsCount]);
+		siftDownItemAt(0);
 	}
 
-	return minElement;
+	return min;
 }
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
-void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::siftDownElementAt(size_t index)
+void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::siftDownItemAt(size_t index)
 {
-	const Element<Item, Key> elementToMove(elements[index]);
+	Item* itemToMove = items[index];
 	size_t successor = computeLeftChildOf(index);
 
-	while (isIndexWithinHeap(successor))
+	while (isWithinHeap(successor))
 	{
-		successor = computeIndexOfMinKeySuccessor(successor);
+		successor = computeMinKeySuccessor(successor);
 
-		if (compare(*(elements[successor].item), *(elementToMove.item)))
+		if (compare(*items[successor], *itemToMove))
 		{
-			setElementAtWith(index, elements[successor]);
+			setItemAtWith(index, items[successor]);
 			index = successor;
 		}
 		else
@@ -202,17 +194,17 @@ void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::siftDownElementAt(siz
 		successor = computeLeftChildOf(index);
 	}
 
-	setElementAtWith(index, elementToMove);
+	setItemAtWith(index, itemToMove);
 }
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
-size_t PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::computeIndexOfMinKeySuccessor(size_t leftSuccessor) const
+size_t PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::computeMinKeySuccessor(size_t leftSuccessor) const
 {
-	assert(isIndexWithinHeap(leftSuccessor));
+	assert(isWithinHeap(leftSuccessor));
 	size_t rightSuccessor = leftSuccessor + 1;
 
-	if (isIndexWithinHeap(rightSuccessor)
-		&& compare(*(elements[rightSuccessor].item), *(elements[leftSuccessor].item)))
+	if (isWithinHeap(rightSuccessor)
+		&& compare(*items[rightSuccessor], *items[leftSuccessor]))
 	{
 		return rightSuccessor;
 	}
@@ -223,25 +215,23 @@ size_t PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::computeIndexOfMinKe
 }
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
-inline void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::setElementAtWith(size_t index,
-																				   const Element<Item, Key>& element)
+inline void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::setItemAtWith(size_t index, Item* item)
 {
-	elements[index] = element;
-	setKeyAtWith(index, element.key);
-	setHandleOfElementAtWith(index, PriorityQueueHandle(index));
+	items[index] = item;
+	setHandleAtWith(index, PriorityQueueHandle(index));
 }
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
-inline void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::invalidateHandleOfElementAt(size_t index)
+inline void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::invalidateHandleAt(size_t index)
 {
-	setHandleOfElementAtWith(index, PriorityQueueHandle(-1));
+	setHandleAtWith(index, PriorityQueueHandle(-1));
 }
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
-inline void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::setHandleOfElementAtWith(size_t index,
-																						   const PriorityQueueHandle& handle)
+inline void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::setHandleAtWith(size_t index,
+																				  const PriorityQueueHandle& handle)
 {
-	handleUpdator(*(elements[index].item), handle);
+	handleUpdator(*items[index], handle);
 }
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
@@ -253,13 +243,13 @@ inline bool PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::compare(const 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
 inline bool PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::isEmpty() const
 {
-	return elementsCount == 0;
+	return itemsCount == 0;
 }
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
-inline bool PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::isIndexWithinHeap(size_t index) const
+inline bool PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::isWithinHeap(size_t index) const
 {
-	return index < elementsCount;
+	return index < itemsCount;
 }
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>

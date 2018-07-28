@@ -14,23 +14,22 @@ namespace PriorityQueueUnitTest
 	TEST_CLASS(PriorityQueueTest)
 	{
 		typedef PriorityQueue<Item, unsigned, HandleUpdator, KeyAccessor> PriorityQueue;
-		typedef PriorityQueue::Element<Item, unsigned> Element;
 
 	private:
 		static const size_t ARRAY_SIZE = 8;
 		static DynamicArray<Item> items;
 
 	private:
-		static DynamicArray<Element> createReversedArrayOfElementsFromItems()
+		static DynamicArray<Item*> createReversedArrayOfItems()
 		{
-			DynamicArray<Element> elements(ARRAY_SIZE);
+			DynamicArray<Item*> itemsReversed(ARRAY_SIZE);
 
 			for (int i = ARRAY_SIZE - 1; i >= 0; --i)
 			{
-				elements.add(createElementFromItem(items[i]));
+				itemsReversed.add(&items[i]);
 			}
 
-			return elements;
+			return itemsReversed;
 		}
 
 		static bool queueConsistsOfItemsInRange(PriorityQueue& queue,
@@ -38,14 +37,14 @@ namespace PriorityQueueUnitTest
 												unsigned lastNumber)
 		{
 			assert(isValidRange(firstNumber, lastNumber));
-			Element element;
+			Item* item;
 
 			for (unsigned i = firstNumber; i <= lastNumber; ++i)
 			{
 				assert(!queue.isEmpty());
-				element = queue.extractMinElement();
+				item = queue.extractMin();
 				
-				if (!elementCorrespondsToItem(element, items[i]))
+				if (item != &items[i])
 				{
 					return false;
 				}
@@ -54,36 +53,25 @@ namespace PriorityQueueUnitTest
 			return queue.isEmpty();
 		}
 
-		static bool elementCorrespondsToItem(const Element& element, const Item& item)
-		{
-			return element.item == &item
-				   && element.key == item.number;
-		}
-
 		static PriorityQueue createQueueFromItemsInRange(unsigned firstNumber,
 														 unsigned lastNumber)
 		{
 			PriorityQueue queue;
-			fillQueueWithElementsInRange(queue, firstNumber, lastNumber);
+			fillQueueWithItemsInRange(queue, firstNumber, lastNumber);
 
 			return queue;
 		}
 
-		static void fillQueueWithElementsInRange(PriorityQueue& queue,
-												 unsigned firstNumber,
-												 unsigned lastNumber)
+		static void fillQueueWithItemsInRange(PriorityQueue& queue,
+											  unsigned firstNumber,
+											  unsigned lastNumber)
 		{
 			assert(isValidRange(firstNumber, lastNumber));
 
 			for (unsigned i = firstNumber; i <= lastNumber; ++i)
 			{
-				queue.add(createElementFromItem(items[i]));
+				queue.add(&items[i]);
 			}
-		}
-
-		static Element createElementFromItem(Item& item)
-		{
-			return Element(&item, item.number);
 		}
 
 		static bool isValidRange(unsigned firstNumber, unsigned lastNumber)
@@ -109,21 +97,21 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testCtorFromIteratorAndCountInsertsFirstCountElements)
 		{
-			DynamicArray<Element> elements = createReversedArrayOfElementsFromItems();
-			DynamicArrayIterator<Element> elementsIterator = elements.getIteratorToFirst();
-			size_t numberOfElementsToInsert = elements.getCount();
+			DynamicArray<Item*> itemsReversed = createReversedArrayOfItems();
+			DynamicArrayIterator<Item*> iterator = itemsReversed.getIteratorToFirst();
+			size_t numberOfItemsToInsert = itemsReversed.getCount();
 			
-			PriorityQueue queue(elementsIterator, numberOfElementsToInsert);
+			PriorityQueue queue(iterator, numberOfItemsToInsert);
 
 			Assert::IsTrue(queueConsistsOfItemsInRange(queue, 0, ARRAY_SIZE - 1));
 		}
 
 		TEST_METHOD(testCtorFromIteratorAndNullCreatesAnEmptyQueue)
 		{
-			DynamicArray<Element> elements;
-			DynamicArrayIterator<Element> elementsIterator = elements.getIteratorToFirst();
+			DynamicArray<Item*> items;
+			DynamicArrayIterator<Item*> iterator = items.getIteratorToFirst();
 
-			PriorityQueue queue(elementsIterator, 0);
+			PriorityQueue queue(iterator, 0);
 
 			Assert::IsTrue(queue.isEmpty());
 		}
@@ -201,7 +189,7 @@ namespace PriorityQueueUnitTest
 		TEST_METHOD(testMoveCtorFromNonEmptyQueue)
 		{
 			PriorityQueue queueToMove;
-			fillQueueWithElementsInRange(queueToMove, 0, ARRAY_SIZE / 2);
+			fillQueueWithItemsInRange(queueToMove, 0, ARRAY_SIZE / 2);
 
 			PriorityQueue queue(std::move(queueToMove));
 
@@ -260,67 +248,68 @@ namespace PriorityQueueUnitTest
 			PriorityQueue queue;
 			size_t middle = ARRAY_SIZE / 2;
 
-			fillQueueWithElementsInRange(queue, middle, ARRAY_SIZE - 1);
-			fillQueueWithElementsInRange(queue, 0, middle - 1);
+			fillQueueWithItemsInRange(queue, middle, ARRAY_SIZE - 1);
+			fillQueueWithItemsInRange(queue, 0, middle - 1);
 
-			Element minElement = queue.getMinElement();
-			Assert::IsTrue(elementCorrespondsToItem(minElement, items[0]));
+			const Item* minItem = queue.getMin();
+			Assert::IsTrue(minItem == &items[0]);
 		}
 
-		TEST_METHOD(testExtractingTheOnlyElementLeavesTheQueueEmpty)
+		TEST_METHOD(testExtractingTheOnlyItemLeavesTheQueueEmpty)
 		{
 			PriorityQueue queue = createQueueFromItemsInRange(0, 0);
 
-			queue.extractMinElement();
+			queue.extractMin();
 
 			Assert::IsTrue(queue.isEmpty());
 		}
 
-		TEST_METHOD(testExtractMinElementMaintainsOrderOfPriority)
+		TEST_METHOD(testExtractMinMaintainsOrderOfPriority)
 		{
 			PriorityQueue queue = createQueueFromItemsInRange(0, ARRAY_SIZE / 2);
 
-			Element minElement = queue.extractMinElement();
+			Item* minItem = queue.extractMin();
 
-			Assert::IsTrue(elementCorrespondsToItem(minElement, items[0]),
-						   L"The method did not extract the element with min key!");
-			Assert::IsTrue(elementCorrespondsToItem(queue.getMinElement(), items[1]));
+			Assert::IsTrue(minItem == &items[0], L"The method did not extract the item with min key!");
+			Assert::IsTrue(queue.getMin() == &items[1]);
 		}
 
-		TEST_METHOD(testGetMinElement)
+		TEST_METHOD(testGetMin)
 		{
 			PriorityQueue queue = createQueueFromItemsInRange(0, ARRAY_SIZE / 2);
 
-			Element minElement = queue.getMinElement();
+			const Item* minItem = queue.getMin();
 
-			Assert::IsTrue(elementCorrespondsToItem(minElement, items[0]));
+			Assert::IsTrue(minItem == &items[0]);
 		}
 
-		TEST_METHOD(testDecreaseKeyWithNewMinKeyUpdatesTheMinElement)
+		TEST_METHOD(testDecreaseKeyWithNewMinKeyUpdatesMinItem)
 		{
 			PriorityQueue queue = createQueueFromItemsInRange(ARRAY_SIZE / 2, ARRAY_SIZE - 1);
 			Item& itemWithMaxKey = items[ARRAY_SIZE - 1];
-			PriorityQueueHandle handleToMaxElement = itemWithMaxKey.handle;
+			PriorityQueueHandle handle = itemWithMaxKey.handle;
 
-			queue.decreaseKey(handleToMaxElement, 0);
+			queue.decreaseKey(handle, 0);
 
-			Element minElement = queue.getMinElement();
-			Assert::AreEqual(0u, minElement.key);
+			const Item* minItem = queue.getMin();
+			Assert::AreEqual(0u, minItem->key);
+			Assert::IsTrue(minItem == &itemWithMaxKey);
 		}
 
-		TEST_METHOD(testDecreaseKeyOfTheMinElement)
+		TEST_METHOD(testDecreaseKeyOfMinItem)
 		{
 			PriorityQueue queue = createQueueFromItemsInRange(ARRAY_SIZE / 2, ARRAY_SIZE - 1);
 			Item& itemWithMinKey = items[ARRAY_SIZE / 2];
-			PriorityQueueHandle handleToMinElement = itemWithMinKey.handle;
+			PriorityQueueHandle handle = itemWithMinKey.handle;
 
-			queue.decreaseKey(handleToMinElement, 0);
+			queue.decreaseKey(handle, 0);
 
-			Element minElement = queue.getMinElement();
-			Assert::AreEqual(0u, minElement.key);
+			const Item* minItem = queue.getMin();
+			Assert::AreEqual(0u, minItem->key);
+			Assert::IsTrue(minItem == &itemWithMinKey);
 		}
 
-		TEST_METHOD(testDecreaseKeyOfNonMinElementWithNonMinKey)
+		TEST_METHOD(testDecreaseKeyOfNonMinItemWithNonMinKey)
 		{
 			PriorityQueue queue = createQueueFromItemsInRange(0, ARRAY_SIZE / 2);
 			Item& itemWithNonMinKey = items[ARRAY_SIZE / 2];
@@ -328,17 +317,16 @@ namespace PriorityQueueUnitTest
 
 			queue.decreaseKey(handle, 1);
 
-			Element minElement = queue.getMinElement();
-			Assert::IsTrue(elementCorrespondsToItem(minElement, items[0]));
+			Assert::IsTrue(queue.getMin() == &items[0]);
 		}
 
-		TEST_METHOD(testAddAndExtractAllElements)
+		TEST_METHOD(testAddAndExtractAllItems)
 		{
 			PriorityQueue queue;
 			size_t middle = ARRAY_SIZE / 2;
 
-			fillQueueWithElementsInRange(queue, middle, ARRAY_SIZE - 1);
-			fillQueueWithElementsInRange(queue, 0, middle - 1);
+			fillQueueWithItemsInRange(queue, middle, ARRAY_SIZE - 1);
+			fillQueueWithItemsInRange(queue, 0, middle - 1);
 
 			Assert::IsTrue(queueConsistsOfItemsInRange(queue, 0, ARRAY_SIZE - 1));
 		}
