@@ -3,7 +3,7 @@
 
 class PriorityQueueHandle
 {
-	template <class Item, class Key, class HandleUpdator>
+	template <class Item, class Key, class HandleUpdator, class KeyAccessor>
 	friend class PriorityQueue;
 
 public:

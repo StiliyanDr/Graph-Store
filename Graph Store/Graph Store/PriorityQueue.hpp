@@ -1,23 +1,23 @@
 #include <utility>
 
-template <class Item, class Key, class HandleUpdator>
-inline PriorityQueue<Item, Key, HandleUpdator>::PriorityQueue() :
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+inline PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::PriorityQueue() :
 	elementsCount(0)
 {
 }
 
-template <class Item, class Key, class HandleUpdator>
-PriorityQueue<Item, Key, HandleUpdator>::PriorityQueue(Iterator<Element<Item, Key>>& elementsIterator,
-													   size_t elementsCount) :
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::PriorityQueue(Iterator<Element<Item, Key>>& elementsIterator,
+																	size_t elementsCount) :
 	elements(elementsCount, elementsCount)
 {
 	copyElements(elementsIterator, elementsCount);
 	buildHeap();
 }
 
-template <class Item, class Key, class HandleUpdator>
-void PriorityQueue<Item, Key, HandleUpdator>::copyElements(Iterator<Element<Item, Key>>& elementsIterator,
-														   size_t elementsCount)
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::copyElements(Iterator<Element<Item, Key>>& elementsIterator,
+																		size_t elementsCount)
 {
 	assert(elements.getCount() == elementsCount);
 
@@ -35,8 +35,8 @@ void PriorityQueue<Item, Key, HandleUpdator>::copyElements(Iterator<Element<Item
 	this->elementsCount = elementsCount;
 }
 
-template <class Item, class Key, class HandleUpdator>
-void PriorityQueue<Item, Key, HandleUpdator>::buildHeap()
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::buildHeap()
 {
 	for (long nonLeaf = (elementsCount / 2) - 1; nonLeaf >= 0; --nonLeaf)
 	{
@@ -44,18 +44,19 @@ void PriorityQueue<Item, Key, HandleUpdator>::buildHeap()
 	}
 }
 
-template <class Item, class Key, class HandleUpdator>
-PriorityQueue<Item, Key, HandleUpdator>::PriorityQueue(PriorityQueue<Item, Key, HandleUpdator>&& source) :
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::PriorityQueue(PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>&& source) :
 	elements(std::move(source.elements)),
 	elementsCount(source.elementsCount),
-	handleUpdator(std::move(source.handleUpdator))
+	handleUpdator(std::move(source.handleUpdator)),
+	keyAccessor(std::move(source.keyAccessor))
 {
 	source.elementsCount = 0;
 }
 
-template <class Item, class Key, class HandleUpdator>
-PriorityQueue<Item, Key, HandleUpdator>&
-PriorityQueue<Item, Key, HandleUpdator>::operator=(PriorityQueue<Item, Key, HandleUpdator>&& rhs)
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>&
+PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::operator=(PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>&& rhs)
 {
 	if (this != &rhs)
 	{
@@ -65,17 +66,18 @@ PriorityQueue<Item, Key, HandleUpdator>::operator=(PriorityQueue<Item, Key, Hand
 	return *this;
 }
 
-template <class Item, class Key, class HandleUpdator>
-void PriorityQueue<Item, Key, HandleUpdator>::swapContentsWith(PriorityQueue<Item, Key, HandleUpdator> priorityQueue)
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::swapContentsWith(PriorityQueue<Item, Key, HandleUpdator, KeyAccessor> priorityQueue)
 {
 	std::swap(elements, priorityQueue.elements);
 	std::swap(elementsCount, priorityQueue.elementsCount);
 	std::swap(handleUpdator, priorityQueue.handleUpdator);
+	std::swap(keyAccessor, priorityQueue.keyAccessor);
 }
 
-template <class Item, class Key, class HandleUpdator>
-void PriorityQueue<Item, Key, HandleUpdator>::decreaseKey(const PriorityQueueHandle& handleToElement,
-														  const Key& newKey)
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::decreaseKey(const PriorityQueueHandle& handleToElement,
+																	   const Key& newKey)
 {
 	assert(handleToElement.isValid());
 	
@@ -86,17 +88,22 @@ void PriorityQueue<Item, Key, HandleUpdator>::decreaseKey(const PriorityQueueHan
 	siftUpElementAt(index);
 }
 
-template <class Item, class Key, class HandleUpdator>
-void PriorityQueue<Item, Key, HandleUpdator>::setKeyAtWith(size_t index, const Key& newKey)
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::setKeyAtWith(size_t index, const Key& newKey)
 {
 	Element<Item, Key>& element = elements[index];
 
 	assert(!(element.key < newKey));
 	element.key = newKey;
+
+	Item& item = *element.item;
+
+	assert(!(keyAccessor.getKeyOf(item) < newKey));
+	keyAccessor.setKeyOfWith(item, newKey);
 }
 
-template <class Item, class Key, class HandleUpdator>
-void PriorityQueue<Item, Key, HandleUpdator>::add(const Element<Item, Key>& element)
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::add(const Element<Item, Key>& element)
 {
 	assert(element.item != nullptr);
 	
@@ -104,8 +111,8 @@ void PriorityQueue<Item, Key, HandleUpdator>::add(const Element<Item, Key>& elem
 	siftUpElementAt(elementsCount - 1);
 }
 
-template <class Item, class Key, class HandleUpdator>
-void PriorityQueue<Item, Key, HandleUpdator>::addAtEnd(const Element<Item, Key>& newElement)
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::addAtEnd(const Element<Item, Key>& newElement)
 {
 	if (elementsCount < elements.getCount())
 	{
@@ -119,8 +126,8 @@ void PriorityQueue<Item, Key, HandleUpdator>::addAtEnd(const Element<Item, Key>&
 	++elementsCount;
 }
 
-template <class Item, class Key, class HandleUpdator>
-void PriorityQueue<Item, Key, HandleUpdator>::siftUpElementAt(size_t index)
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::siftUpElementAt(size_t index)
 {
 	const Element<Item, Key> elementToMove(elements[index]);
 	size_t parent;
@@ -129,7 +136,7 @@ void PriorityQueue<Item, Key, HandleUpdator>::siftUpElementAt(size_t index)
 	{
 		parent = computeParentOf(index);
 
-		if (elementToMove.key < elements[parent].key)
+		if (compare(*(elementToMove.item), *(elements[parent].item)))
 		{
 			setElementAtWith(index, elements[parent]);
 			index = parent;
@@ -143,18 +150,18 @@ void PriorityQueue<Item, Key, HandleUpdator>::siftUpElementAt(size_t index)
 	setElementAtWith(index, elementToMove);
 }
 
-template <class Item, class Key, class HandleUpdator>
-inline typename PriorityQueue<Item, Key, HandleUpdator>::Element<Item, Key>
-PriorityQueue<Item, Key, HandleUpdator>::getMinElement() const
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+inline typename PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::Element<Item, Key>
+PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::getMinElement() const
 {
 	assert(!isEmpty());
 
 	return elements[0];
 }
 
-template <class Item, class Key, class HandleUpdator>
-typename PriorityQueue<Item, Key, HandleUpdator>::Element<Item, Key>
-PriorityQueue<Item, Key, HandleUpdator>::extractMinElement()
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+typename PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::Element<Item, Key>
+PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::extractMinElement()
 {
 	assert(!isEmpty());
 
@@ -172,8 +179,8 @@ PriorityQueue<Item, Key, HandleUpdator>::extractMinElement()
 	return minElement;
 }
 
-template <class Item, class Key, class HandleUpdator>
-void PriorityQueue<Item, Key, HandleUpdator>::siftDownElementAt(size_t index)
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::siftDownElementAt(size_t index)
 {
 	const Element<Item, Key> elementToMove(elements[index]);
 	size_t successor = computeLeftChildOf(index);
@@ -182,7 +189,7 @@ void PriorityQueue<Item, Key, HandleUpdator>::siftDownElementAt(size_t index)
 	{
 		successor = computeIndexOfMinKeySuccessor(successor);
 
-		if (elements[successor].key < elementToMove.key)
+		if (compare(*(elements[successor].item), *(elementToMove.item)))
 		{
 			setElementAtWith(index, elements[successor]);
 			index = successor;
@@ -198,14 +205,14 @@ void PriorityQueue<Item, Key, HandleUpdator>::siftDownElementAt(size_t index)
 	setElementAtWith(index, elementToMove);
 }
 
-template <class Item, class Key, class HandleUpdator>
-size_t PriorityQueue<Item, Key, HandleUpdator>::computeIndexOfMinKeySuccessor(size_t leftSuccessor) const
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+size_t PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::computeIndexOfMinKeySuccessor(size_t leftSuccessor) const
 {
 	assert(isIndexWithinHeap(leftSuccessor));
 	size_t rightSuccessor = leftSuccessor + 1;
 
 	if (isIndexWithinHeap(rightSuccessor)
-		&& elements[rightSuccessor].key < elements[leftSuccessor].key)
+		&& compare(*(elements[rightSuccessor].item), *(elements[leftSuccessor].item)))
 	{
 		return rightSuccessor;
 	}
@@ -215,53 +222,60 @@ size_t PriorityQueue<Item, Key, HandleUpdator>::computeIndexOfMinKeySuccessor(si
 	}
 }
 
-template <class Item, class Key, class HandleUpdator>
-inline void PriorityQueue<Item, Key, HandleUpdator>::setElementAtWith(size_t index,
-																	  const Element<Item, Key>& element)
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+inline void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::setElementAtWith(size_t index,
+																				   const Element<Item, Key>& element)
 {
 	elements[index] = element;
+	setKeyAtWith(index, element.key);
 	setHandleOfElementAtWith(index, PriorityQueueHandle(index));
 }
 
-template <class Item, class Key, class HandleUpdator>
-inline void PriorityQueue<Item, Key, HandleUpdator>::invalidateHandleOfElementAt(size_t index)
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+inline void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::invalidateHandleOfElementAt(size_t index)
 {
 	setHandleOfElementAtWith(index, PriorityQueueHandle(-1));
 }
 
-template <class Item, class Key, class HandleUpdator>
-inline void PriorityQueue<Item, Key, HandleUpdator>::setHandleOfElementAtWith(size_t index,
-																			  const PriorityQueueHandle& handle)
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+inline void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::setHandleOfElementAtWith(size_t index,
+																						   const PriorityQueueHandle& handle)
 {
 	handleUpdator(*(elements[index].item), handle);
 }
 
-template <class Item, class Key, class HandleUpdator>
-inline bool PriorityQueue<Item, Key, HandleUpdator>::isEmpty() const
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+inline bool PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::compare(const Item& lhs, const Item& rhs) const
+{
+	return keyAccessor.getKeyOf(lhs) < keyAccessor.getKeyOf(rhs);
+}
+
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+inline bool PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::isEmpty() const
 {
 	return elementsCount == 0;
 }
 
-template <class Item, class Key, class HandleUpdator>
-inline bool PriorityQueue<Item, Key, HandleUpdator>::isIndexWithinHeap(size_t index) const
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+inline bool PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::isIndexWithinHeap(size_t index) const
 {
 	return index < elementsCount;
 }
 
-template <class Item, class Key, class HandleUpdator>
-inline size_t PriorityQueue<Item, Key, HandleUpdator>::computeLeftChildOf(size_t index)
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+inline size_t PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::computeLeftChildOf(size_t index)
 {
 	return (2 * index) + 1;
 }
 
-template <class Item, class Key, class HandleUpdator>
-inline size_t PriorityQueue<Item, Key, HandleUpdator>::computeParentOf(size_t index)
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+inline size_t PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::computeParentOf(size_t index)
 {
 	return (index - 1) / 2;
 }
 
-template <class Item, class Key, class HandleUpdator>
-inline bool PriorityQueue<Item, Key, HandleUpdator>::isRoot(size_t index)
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+inline bool PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::isRoot(size_t index)
 {
 	return index == 0;
 }

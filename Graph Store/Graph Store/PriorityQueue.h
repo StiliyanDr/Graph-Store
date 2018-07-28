@@ -5,7 +5,7 @@
 #include "Iterator.h"
 #include "PriorityQueueHandle.h"
 
-template <class Item, class Key, class HandleUpdator>
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
 class PriorityQueue
 {
 public:
@@ -23,10 +23,12 @@ public:
 public:
 	PriorityQueue();
 	PriorityQueue(Iterator<Element<Item, Key>>& elementsIterator, size_t elementsCount);
-	PriorityQueue(const PriorityQueue<Item, Key, HandleUpdator>&) = default;
-	PriorityQueue(PriorityQueue<Item, Key, HandleUpdator>&& source);
-	PriorityQueue<Item, Key, HandleUpdator>& operator=(const PriorityQueue<Item, Key, HandleUpdator>&) = default;
-	PriorityQueue<Item, Key, HandleUpdator>& operator=(PriorityQueue<Item, Key, HandleUpdator>&& rhs);
+	PriorityQueue(const PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>&) = default;
+	PriorityQueue(PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>&& source);
+	PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>&
+		operator=(const PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>&) = default;
+	PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>&
+		operator=(PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>&& rhs);
 	~PriorityQueue() = default;
 
 	void add(const Element<Item, Key>& element);
@@ -50,14 +52,16 @@ private:
 	void setHandleOfElementAtWith(size_t index, const PriorityQueueHandle& handle);
 	void setKeyAtWith(size_t index, const Key& newKey);
 	size_t computeIndexOfMinKeySuccessor(size_t leftSuccessor) const;
+	bool compare(const Item& lhs, const Item& rhs) const;
 	bool isIndexWithinHeap(size_t index) const;
 	void copyElements(Iterator<Element<Item, Key>>& elementsIterator, size_t elementsCount);
-	void swapContentsWith(PriorityQueue<Item, Key, HandleUpdator> priorityQueue);
+	void swapContentsWith(PriorityQueue<Item, Key, HandleUpdator, KeyAccessor> priorityQueue);
 
 private:
 	DynamicArray<Element<Item, Key>> elements;
 	size_t elementsCount;
 	HandleUpdator handleUpdator;
+	KeyAccessor keyAccessor;
 };
 
 #include "PriorityQueue.hpp"

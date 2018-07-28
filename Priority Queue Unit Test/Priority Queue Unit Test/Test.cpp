@@ -4,6 +4,7 @@
 #include "../../Graph Store/Graph Store/PriorityQueue.h"
 #include "../../Graph Store/Graph Store/DynamicArray.h"
 #include "HandleUpdator.h"
+#include "KeyAccessor.h"
 #include "Item.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -12,7 +13,7 @@ namespace PriorityQueueUnitTest
 {		
 	TEST_CLASS(PriorityQueueTest)
 	{
-		typedef PriorityQueue<Item, unsigned, HandleUpdator> PriorityQueue;
+		typedef PriorityQueue<Item, unsigned, HandleUpdator, KeyAccessor> PriorityQueue;
 		typedef PriorityQueue::Element<Item, unsigned> Element;
 
 	private:
@@ -91,11 +92,11 @@ namespace PriorityQueueUnitTest
 		}
 
 	public:
-		TEST_CLASS_INITIALIZE(initialiseItems)
+		TEST_METHOD_INITIALIZE(initialiseItems)
 		{
-			for (size_t number = 0; number < ARRAY_SIZE; ++number)
+			for (size_t i = 0; i < ARRAY_SIZE; ++i)
 			{
-				items.add(Item(number));
+				items[i] = Item(i);
 			}
 		}
 
@@ -344,5 +345,5 @@ namespace PriorityQueueUnitTest
 
 	};
 
-	DynamicArray<Item> PriorityQueueTest::items(ARRAY_SIZE);
+	DynamicArray<Item> PriorityQueueTest::items(ARRAY_SIZE, ARRAY_SIZE);
 }
