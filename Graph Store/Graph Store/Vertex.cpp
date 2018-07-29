@@ -46,6 +46,16 @@ const Distance& Vertex::getDistance() const
 	return distance;
 }
 
+void Vertex::setPriorityQueueHandle(const PriorityQueueHandle& handle)
+{
+	this->handle = handle;
+}
+
+const PriorityQueueHandle& Vertex::getPriorityQueueHandle() const
+{
+	return handle;
+}
+
 const String& Vertex::getIdentifier() const
 {
 	return identifier;

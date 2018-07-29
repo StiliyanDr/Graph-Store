@@ -5,6 +5,7 @@
 #include "LinkedList.h"
 #include "Distance.h"
 #include "Edge.h"
+#include "PriorityQueueHandle.h"
 
 class Vertex
 {
@@ -23,6 +24,9 @@ public:
 	void setDistance(const Distance& distance);
 	const Distance& getDistance() const;
 
+	void setPriorityQueueHandle(const PriorityQueueHandle& handle);
+	const PriorityQueueHandle& getPriorityQueueHandle() const;
+
 	const String& getIdentifier() const;
 	void setIdentifier(String identifier);
 
@@ -36,6 +40,7 @@ private:
 	size_t index;
 	LinkedList<Edge> edges;
 	Vertex* parent;
+	PriorityQueueHandle handle;
 	Distance distance;
 	bool isVisited;
 };
