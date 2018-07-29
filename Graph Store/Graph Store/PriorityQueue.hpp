@@ -75,6 +75,29 @@ void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::swapContentsWith(Prio
 }
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+inline PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::~PriorityQueue()
+{
+	invalidateAllHandles();
+}
+
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::invalidateAllHandles()
+{
+	for (size_t index = 0; index < itemsCount; ++index)
+	{
+		invalidateHandleAt(index);
+	}
+}
+
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::empty()
+{
+	invalidateAllHandles();
+	items.empty();
+	itemsCount = 0;
+}
+
+template <class Item, class Key, class HandleUpdator, class KeyAccessor>
 void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::decreaseKey(const PriorityQueueHandle& handleToItem,
 																	   const Key& newKey)
 {

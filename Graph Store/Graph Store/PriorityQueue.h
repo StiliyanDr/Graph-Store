@@ -17,12 +17,13 @@ public:
 		operator=(const PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>&) = default;
 	PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>&
 		operator=(PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>&& rhs);
-	~PriorityQueue() = default;
+	~PriorityQueue();
 
 	void add(Item* item);
 	Item* extractMin();
 	const Item* getMin() const;
 	void decreaseKey(const PriorityQueueHandle& handleToItem, const Key& newKey);
+	void empty();
 	bool isEmpty() const;
 
 private:
@@ -36,6 +37,7 @@ private:
 	void siftUpItemAt(size_t index);
 	void addAtEnd(Item* newItem);
 	void setItemAtWith(size_t index, Item* item);
+	void invalidateAllHandles();
 	void invalidateHandleAt(size_t index);
 	void setHandleAtWith(size_t index, const PriorityQueueHandle& handle);
 	void setKeyAtWith(size_t index, const Key& newKey);
