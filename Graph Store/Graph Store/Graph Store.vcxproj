@@ -142,6 +142,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BFS.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="Distance.h" />
     <ClInclude Include="DynamicArray.h" />
@@ -153,6 +154,7 @@
     <ClInclude Include="Hash.hpp" />
     <ClInclude Include="HashFunction.h" />
     <ClInclude Include="HashFunctionStringSpecialization.h" />
+    <ClInclude Include="IterativeDeepeningDFS.h" />
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="LinkedList.hpp" />
@@ -160,16 +162,20 @@
     <ClInclude Include="LinkedListIterator.hpp" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Queue.hpp" />
+    <ClInclude Include="ShortestPathAlgorithm.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="String.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BFS.cpp" />
     <ClCompile Include="Distance.cpp" />
     <ClCompile Include="Edge.cpp" />
     <ClCompile Include="Graph Store.cpp" />
     <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="IterativeDeepeningDFS.cpp" />
+    <ClCompile Include="ShortestPathAlgorithm.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

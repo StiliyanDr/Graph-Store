@@ -1,14 +1,9 @@
 #include "stdafx.h"
 #include "ShortestPathAlgorithm.h"
-#include "Graph.h"
-#include "Vertex.h"
-#include "ShortestPathAlgorithmsStore.h"
 
 ShortestPathAlgorithm::ShortestPathAlgorithm(const char* identifier)
 {
 	setIdentifier(identifier);
-
-	ShortestPathAlgorithmsStore::instance().addAlgorithm(*this);
 }
 
 void ShortestPathAlgorithm::setIdentifier(const char* identifier)
@@ -41,4 +36,9 @@ void ShortestPathAlgorithm::initialiseVertex(Vertex& vertex) const
 	vertex.markAsNotVisited();
 	vertex.setParent(nullptr);
 	vertex.setDistance(Distance::getInfinity());
+}
+
+void ShortestPathAlgorithm::initialiseSource(Vertex& source) const
+{
+	source.setDistance(0);
 }

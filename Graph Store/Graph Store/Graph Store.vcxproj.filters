@@ -186,14 +186,14 @@
     <ClInclude Include="Graph.h">
       <Filter>Graph\Abstraction</Filter>
     </ClInclude>
-    <ClInclude Include="PriorityQueue.h">
-      <Filter>Priority Queue</Filter>
+    <ClInclude Include="ShortestPathAlgorithm.h">
+      <Filter>Shortest Path Algorithms\Abstract class</Filter>
     </ClInclude>
-    <ClInclude Include="PriorityQueue.hpp">
-      <Filter>Priority Queue</Filter>
+    <ClInclude Include="BFS.h">
+      <Filter>Shortest Path Algorithms\BFS</Filter>
     </ClInclude>
-    <ClInclude Include="PriorityQueueHandle.h">
-      <Filter>Priority Queue\Priority Queue Handle</Filter>
+    <ClInclude Include="IterativeDeepeningDFS.h">
+      <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -218,8 +218,14 @@
     <ClCompile Include="Graph.cpp">
       <Filter>Graph\Abstraction</Filter>
     </ClCompile>
-    <ClCompile Include="PriorityQueueHandle.cpp">
-      <Filter>Priority Queue\Priority Queue Handle</Filter>
+    <ClCompile Include="ShortestPathAlgorithm.cpp">
+      <Filter>Shortest Path Algorithms\Abstract class</Filter>
+    </ClCompile>
+    <ClCompile Include="BFS.cpp">
+      <Filter>Shortest Path Algorithms\BFS</Filter>
+    </ClCompile>
+    <ClCompile Include="IterativeDeepeningDFS.cpp">
+      <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
