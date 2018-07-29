@@ -112,6 +112,15 @@
     <Filter Include="Priority Queue\Priority Queue Handle">
       <UniqueIdentifier>{48e4da2f-6c66-44ce-bf60-595e9285875e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shortest Path Algorithms\Dijkstra Algorithm">
+      <UniqueIdentifier>{995cdfae-2ec8-46ab-a87d-2cde847bc999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shortest Path Algorithms\Dijkstra Algorithm\Distance Accessor">
+      <UniqueIdentifier>{2e9855c9-c979-4095-b41c-32acc4295268}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shortest Path Algorithms\Dijkstra Algorithm\Handle Updator">
+      <UniqueIdentifier>{f7e7e327-7eba-4cd5-b13a-2b7ed3e00222}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -195,6 +204,24 @@
     <ClInclude Include="IterativeDeepeningDFS.h">
       <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
     </ClInclude>
+    <ClInclude Include="DijkstraAlgorithm.h">
+      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="PriorityQueueHandle.h">
+      <Filter>Priority Queue\Priority Queue Handle</Filter>
+    </ClInclude>
+    <ClInclude Include="DistanceAccessor.h">
+      <Filter>Shortest Path Algorithms\Dijkstra Algorithm\Distance Accessor</Filter>
+    </ClInclude>
+    <ClInclude Include="HandleUpdator.h">
+      <Filter>Shortest Path Algorithms\Dijkstra Algorithm\Handle Updator</Filter>
+    </ClInclude>
+    <ClInclude Include="PriorityQueue.h">
+      <Filter>Priority Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="PriorityQueue.hpp">
+      <Filter>Priority Queue</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -226,6 +253,12 @@
     </ClCompile>
     <ClCompile Include="IterativeDeepeningDFS.cpp">
       <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
+    </ClCompile>
+    <ClCompile Include="DijkstraAlgorithm.cpp">
+      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="PriorityQueueHandle.cpp">
+      <Filter>Priority Queue\Priority Queue Handle</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -144,12 +144,15 @@
   <ItemGroup>
     <ClInclude Include="BFS.h" />
     <ClInclude Include="Box.h" />
+    <ClInclude Include="DijkstraAlgorithm.h" />
     <ClInclude Include="Distance.h" />
+    <ClInclude Include="DistanceAccessor.h" />
     <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="DynamicArray.hpp" />
     <ClInclude Include="DynamicArrayIterator.hpp" />
     <ClInclude Include="Edge.h" />
     <ClInclude Include="Graph.h" />
+    <ClInclude Include="HandleUpdator.h" />
     <ClInclude Include="Hash.h" />
     <ClInclude Include="Hash.hpp" />
     <ClInclude Include="HashFunction.h" />
@@ -160,6 +163,9 @@
     <ClInclude Include="LinkedList.hpp" />
     <ClInclude Include="LinkedListIterator.h" />
     <ClInclude Include="LinkedListIterator.hpp" />
+    <ClInclude Include="PriorityQueue.h" />
+    <ClInclude Include="PriorityQueue.hpp" />
+    <ClInclude Include="PriorityQueueHandle.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Queue.hpp" />
     <ClInclude Include="ShortestPathAlgorithm.h" />
@@ -170,11 +176,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BFS.cpp" />
+    <ClCompile Include="DijkstraAlgorithm.cpp" />
     <ClCompile Include="Distance.cpp" />
     <ClCompile Include="Edge.cpp" />
     <ClCompile Include="Graph Store.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="IterativeDeepeningDFS.cpp" />
+    <ClCompile Include="PriorityQueueHandle.cpp" />
     <ClCompile Include="ShortestPathAlgorithm.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
