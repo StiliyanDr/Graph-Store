@@ -6,37 +6,36 @@
 
 class BFS : public ShortestPathAlgorithm
 {
-	static BFS theOnlyInstance;
-
 public:
-	BFS(const BFS&) = delete;
-	BFS& operator=(const BFS&) = delete;
-
-	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& destination) override;
-
-protected:
-	BFS(const char* algorithmIdentifier);
+	BFS(const char* identifier);
+	BFS(const BFS&) = default;
+	BFS& operator=(const BFS&) = default;
+	BFS(BFS&&) = delete;
+	BFS& operator=(BFS&&) = delete;
 	virtual ~BFS() = default;
 
+	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& target) override;
+
+protected:
 	virtual void initialiseVertex(Vertex& vertex) const override;
-	virtual void initialiseSource(Vertex& source) const;
+	virtual void initialiseSource(Vertex& source) const override;
 	virtual void visitVertex(Vertex& vertex, Vertex& predecessor) const;
 
 private:
 	static void buildTrivialPathStartingFrom(Vertex& vertex);
 
 private:
-	void initialiseAlgorithm(Graph& graph, Vertex& source, const Vertex& destination);
+	void initialiseAlgorithm(Graph& graph, Vertex& source, const Vertex& target);
 	void cleanUpAlgorithmState();
 	void exploreEdge(Vertex& predecessor, Vertex& successor);
-	void checkIfDestination(const Vertex& vertex);
+	void checkIfTarget(const Vertex& vertex);
 	void addVertexToFrontier(Vertex& vertex);
 	Vertex* getNextVertexFromFrontier();
 	bool theFrontierIsEmpty() const;
-	void setDestination(const Vertex& destination);
+	void setTarget(const Vertex& target);
 
 private:
-	const Vertex* destination;
+	const Vertex* target;
 	Queue<Vertex*> queue;
 	bool hasFoundAShortestPath;
 };

@@ -1,16 +1,14 @@
 #include "stdafx.h"
 #include "BFS.h"
 
-BFS BFS::theOnlyInstance("bfs");
-
-BFS::BFS(const char* algorithmIdentifier) :
-	ShortestPathAlgorithm(algorithmIdentifier)
+BFS::BFS(const char* identifier) :
+	ShortestPathAlgorithm(identifier)
 {
 }
 
-void BFS::findShortestPath(Graph& graph, Vertex& source, Vertex& destination)
+void BFS::findShortestPath(Graph& graph, Vertex& source, Vertex& target)
 {
-	initialiseAlgorithm(graph, source, destination);
+	initialiseAlgorithm(graph, source, target);
 
 	Vertex* vertex;
 	std::unique_ptr<Iterator<Edge>> edgesIterator;
@@ -30,14 +28,14 @@ void BFS::findShortestPath(Graph& graph, Vertex& source, Vertex& destination)
 	cleanUpAlgorithmState();
 }
 
-void BFS::initialiseAlgorithm(Graph& graph, Vertex& source, const Vertex& destination)
+void BFS::initialiseAlgorithm(Graph& graph, Vertex& source, const Vertex& target)
 {
 	assert(theFrontierIsEmpty());
 
-	if (source != destination)
+	if (source != target)
 	{
 		hasFoundAShortestPath = false;
-		setDestination(destination);
+		setTarget(target);
 		initialiseVerticesOf(graph);
 		initialiseSource(source);
 		addVertexToFrontier(source);
@@ -49,6 +47,23 @@ void BFS::initialiseAlgorithm(Graph& graph, Vertex& source, const Vertex& destin
 	}
 }
 
+void BFS::initialiseVertex(Vertex& vertex) const
+{
+	ShortestPathAlgorithm::initialiseVertex(vertex);
+}
+
+void BFS::initialiseSource(Vertex& source) const
+{
+	source.markAsVisited();
+	ShortestPathAlgorithm::initialiseSource(source);
+}
+
+void BFS::buildTrivialPathStartingFrom(Vertex& vertex)
+{
+	vertex.setParent(nullptr);
+	vertex.setDistance(0);
+}
+
 void BFS::exploreEdge(Vertex& predecessor, Vertex& successor)
 {
 	if (successor.isMarkedAsVisited())
@@ -58,7 +73,7 @@ void BFS::exploreEdge(Vertex& predecessor, Vertex& successor)
 
 	visitVertex(successor, predecessor);
 	addVertexToFrontier(successor);
-	checkIfDestination(successor);
+	checkIfTarget(successor);
 }
 
 void BFS::visitVertex(Vertex& vertex, Vertex& predecessor) const
@@ -70,21 +85,19 @@ void BFS::visitVertex(Vertex& vertex, Vertex& predecessor) const
 	vertex.setDistance(predecessor.getDistance() + 1);
 }
 
-void BFS::initialiseVertex(Vertex& vertex) const
+void BFS::checkIfTarget(const Vertex& vertex)
 {
-	ShortestPathAlgorithm::initialiseVertex(vertex);
+	if (vertex == *target)
+	{
+		assert(!hasFoundAShortestPath);
+
+		hasFoundAShortestPath = true;
+	}
 }
 
-void BFS::initialiseSource(Vertex& source) const
+void BFS::addVertexToFrontier(Vertex& vertex)
 {
-	source.markAsVisited();
-	source.setDistance(0);
-}
-
-void BFS::buildTrivialPathStartingFrom(Vertex& vertex)
-{
-	vertex.setParent(nullptr);
-	vertex.setDistance(0);
+	queue.enqueue(&vertex);
 }
 
 bool BFS::theFrontierIsEmpty() const
@@ -97,27 +110,12 @@ Vertex* BFS::getNextVertexFromFrontier()
 	return queue.dequeue();
 }
 
-void BFS::addVertexToFrontier(Vertex& vertex)
-{
-	queue.enqueue(&vertex);
-}
-
 void BFS::cleanUpAlgorithmState()
 {
 	queue.empty();
 }
 
-void BFS::setDestination(const Vertex& destination)
+void BFS::setTarget(const Vertex& target)
 {
-	this->destination = &destination;
-}
-
-void BFS::checkIfDestination(const Vertex& vertex)
-{
-	if (vertex == *destination)
-	{
-		assert(!hasFoundAShortestPath);
-
-		hasFoundAShortestPath = true;
-	}
+	this->target = &target;
 }
