@@ -5,33 +5,31 @@
 
 class IterativeDeepeningDFS : public ShortestPathAlgorithm
 {
-	static IterativeDeepeningDFS theOnlyInstance;
-
 public:
-	IterativeDeepeningDFS(const IterativeDeepeningDFS&) = delete;
-	IterativeDeepeningDFS& operator=(const IterativeDeepeningDFS&) = delete;
-
-	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& destination) override;
-
-protected:
 	IterativeDeepeningDFS(const char* identifier);
+	IterativeDeepeningDFS(const IterativeDeepeningDFS&) = default;
+	IterativeDeepeningDFS& operator=(const IterativeDeepeningDFS&) = default;
+	IterativeDeepeningDFS(IterativeDeepeningDFS&&) = delete;
+	IterativeDeepeningDFS& operator=(IterativeDeepeningDFS&&) = delete;
 	virtual ~IterativeDeepeningDFS() = default;
 
+	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& target) override;
+
+protected:
 	virtual void initialiseVertex(Vertex& vertex) const override;
-	virtual void initialiseSource(Vertex& source) const;
 	virtual void visitVertex(Vertex& vertex, Vertex& predecessor) const;
 
 private:
-	void initialiseAlgorithm(Graph& graph, Vertex& source, const Vertex& destination);
+	void initialiseAlgorithm(Graph& graph, Vertex& source, const Vertex& target);
 	void depthLimitedSearch(Vertex& vertex, unsigned depth);
 	void expandSearch(Vertex& vertex, unsigned depth);
-	void checkIfDestination(const Vertex& vertex);
-	void setDestination(const Vertex& destination);
+	void checkIfTarget(const Vertex& vertex);
+	void setTarget(const Vertex& target);
 	void setGraph(Graph& graph);
 
 private:
 	Graph* graph;
-	const Vertex* destination;
+	const Vertex* target;
 	bool hasFoundAShortestPath;
 };
 

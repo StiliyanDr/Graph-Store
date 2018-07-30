@@ -1,18 +1,14 @@
 #include "stdafx.h"
 #include "IterativeDeepeningDFS.h"
-#include "Graph.h"
-#include "Vertex.h"
-
-IterativeDeepeningDFS IterativeDeepeningDFS::theOnlyInstance("dfs-shortest");
 
 IterativeDeepeningDFS::IterativeDeepeningDFS(const char* identifier) :
 	ShortestPathAlgorithm(identifier)
 {
 }
 
-void IterativeDeepeningDFS::findShortestPath(Graph& graph, Vertex& source, Vertex& destination)
+void IterativeDeepeningDFS::findShortestPath(Graph& graph, Vertex& source, Vertex& target)
 {
-	initialiseAlgorithm(graph, source, destination);
+	initialiseAlgorithm(graph, source, target);
 
 	unsigned maxLengthOfShortestPath = graph.getVerticesCount() - 1;
 	unsigned depth = 0;
@@ -24,12 +20,12 @@ void IterativeDeepeningDFS::findShortestPath(Graph& graph, Vertex& source, Verte
 	}
 }
 
-void IterativeDeepeningDFS::initialiseAlgorithm(Graph& graph, Vertex& source, const Vertex& destination)
+void IterativeDeepeningDFS::initialiseAlgorithm(Graph& graph, Vertex& source, const Vertex& target)
 {
 	initialiseVerticesOf(graph);
 	initialiseSource(source);
 	setGraph(graph);
-	setDestination(destination);
+	setTarget(target);
 	hasFoundAShortestPath = false;
 }
 
@@ -38,18 +34,13 @@ void IterativeDeepeningDFS::initialiseVertex(Vertex& vertex) const
 	ShortestPathAlgorithm::initialiseVertex(vertex);
 }
 
-void IterativeDeepeningDFS::initialiseSource(Vertex& source) const
-{
-	source.setDistance(0);
-}
-
 void IterativeDeepeningDFS::depthLimitedSearch(Vertex& vertex, unsigned depth)
 {
 	vertex.markAsVisited();
 
 	if (depth == 0) 
 	{
-		checkIfDestination(vertex);
+		checkIfTarget(vertex);
 	}
 	else
 	{
@@ -59,9 +50,9 @@ void IterativeDeepeningDFS::depthLimitedSearch(Vertex& vertex, unsigned depth)
 	vertex.markAsNotVisited();
 }
 
-void IterativeDeepeningDFS::checkIfDestination(const Vertex& vertex)
+void IterativeDeepeningDFS::checkIfTarget(const Vertex& vertex)
 {
-	if (vertex == *destination)
+	if (vertex == *target)
 	{
 		assert(!hasFoundAShortestPath);
 
@@ -93,9 +84,9 @@ void IterativeDeepeningDFS::visitVertex(Vertex& vertex, Vertex& predecessor) con
 	vertex.setDistance(predecessor.getDistance() + 1);
 }
 
-void IterativeDeepeningDFS::setDestination(const Vertex& destination)
+void IterativeDeepeningDFS::setTarget(const Vertex& target)
 {
-	this->destination = &destination;
+	this->target = &target;
 }
 
 void IterativeDeepeningDFS::setGraph(Graph& graph)
