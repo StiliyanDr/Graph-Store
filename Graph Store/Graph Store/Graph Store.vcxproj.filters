@@ -121,6 +121,9 @@
     <Filter Include="Shortest Path Algorithms\Dijkstra Algorithm\Handle Updator">
       <UniqueIdentifier>{f7e7e327-7eba-4cd5-b13a-2b7ed3e00222}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shortest Path Algorithms\Unsupported Algorithm Exception">
+      <UniqueIdentifier>{67ab741e-39dc-4359-a299-aa7727dca3ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -222,6 +225,15 @@
     <ClInclude Include="PriorityQueue.hpp">
       <Filter>Priority Queue</Filter>
     </ClInclude>
+    <ClInclude Include="ShortestPathAlgorithmsStore.h">
+      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
+    </ClInclude>
+    <ClInclude Include="UnsupportedAlgorithmException.h">
+      <Filter>Shortest Path Algorithms\Unsupported Algorithm Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphException.h">
+      <Filter>Graph\Graph Exceptions\Graph Exception</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -259,6 +271,15 @@
     </ClCompile>
     <ClCompile Include="PriorityQueueHandle.cpp">
       <Filter>Priority Queue\Priority Queue Handle</Filter>
+    </ClCompile>
+    <ClCompile Include="ShortestPathAlgorithmsStore.cpp">
+      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphException.cpp">
+      <Filter>Graph\Graph Exceptions\Graph Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="UnsupportedAlgorithmException.cpp">
+      <Filter>Shortest Path Algorithms\Unsupported Algorithm Exception</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

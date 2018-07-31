@@ -8,22 +8,19 @@
 
 class ShortestPathAlgorithmsStore
 {
-	friend class ShortestPathAlgorithm;
-
 	typedef Hash<ShortestPathAlgorithm, String, IdentifierAccessor> Collection;
 
 public:
 	static ShortestPathAlgorithmsStore& instance();
 
 	ShortestPathAlgorithm& searchForAlgorithm(const String& identifier);
+	void addAlgorithm(ShortestPathAlgorithm& algorithm);
 
 private:
 	ShortestPathAlgorithmsStore();
 	ShortestPathAlgorithmsStore(const ShortestPathAlgorithmsStore&);
-	void operator=(const ShortestPathAlgorithmsStore&);
+	ShortestPathAlgorithmsStore& operator=(const ShortestPathAlgorithmsStore&);
 	~ShortestPathAlgorithmsStore() = default;
-
-	void addAlgorithm(ShortestPathAlgorithm& algorithm);
 
 private:
 	static const size_t INITIAL_COLLECTION_SIZE = 4;

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ShortestPathAlgorithmsStore.h"
+#include "UnsupportedAlgorithmException.h"
 
 ShortestPathAlgorithmsStore::ShortestPathAlgorithmsStore() :
 	algorithms(INITIAL_COLLECTION_SIZE)
@@ -9,6 +10,7 @@ ShortestPathAlgorithmsStore::ShortestPathAlgorithmsStore() :
 ShortestPathAlgorithmsStore& ShortestPathAlgorithmsStore::instance()
 {
 	static ShortestPathAlgorithmsStore theOnlyInstance;
+	
 	return theOnlyInstance;
 }
 
@@ -22,10 +24,7 @@ ShortestPathAlgorithm& ShortestPathAlgorithmsStore::searchForAlgorithm(const Str
 	}
 	else
 	{
-		//
-		//TODO: put an appropriate exception type here.
-		//
-		throw std::invalid_argument(identifier + " is not one of the supported algorithms!");
+		throw UnsupportedAlgorithmException(identifier + " is not one of the supported algorithms!");
 	}
 }
 
