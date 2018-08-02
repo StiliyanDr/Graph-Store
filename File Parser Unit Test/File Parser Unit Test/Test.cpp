@@ -210,7 +210,7 @@ namespace FileParserUnitTest
 			}
 			catch (FileParserException& ex)
 			{
-				Assert::IsTrue(areEqual("Nothing left on the current line! Error at line 1",
+				Assert::IsTrue(areEqual("No more characters left in the file! Error at line 1",
 										ex.what()));
 			}
 		}
