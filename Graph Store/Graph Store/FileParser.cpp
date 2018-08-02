@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "FileParser.h"
-#include <exception>
+#include "FileParserException.h"
 #include <string>
 
 FileParser::FileParser() :
@@ -67,7 +67,7 @@ void FileParser::throwExceptionIfFailedToOpen(const String& fileName) const
 {
 	if (!hasOpenedAFile())
 	{
-		throw std::exception("Could not open file for reading, name: " + fileName);
+		throw FileParserException("Could not open file for reading, name: " + fileName);
 	}
 }
 
@@ -101,7 +101,7 @@ void FileParser::throwExceptionIfInErrorState(const char* message) const
 	if (file.fail())
 	{
 		std::string suffix = " Error at line " + std::to_string(lineNumber);
-		throw std::runtime_error(message + suffix);
+		throw FileParserException(message + suffix);
 	}
 }
 

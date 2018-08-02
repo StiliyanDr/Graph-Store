@@ -127,6 +127,9 @@
     <Filter Include="File Parser">
       <UniqueIdentifier>{8b59dc09-3a6c-4677-9b12-3c9b7eb741dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="File Parser\File Parser Exception">
+      <UniqueIdentifier>{933c051a-8555-458c-8242-f2a81598128e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -234,6 +237,12 @@
     <ClInclude Include="FileParser.hpp">
       <Filter>File Parser</Filter>
     </ClInclude>
+    <ClInclude Include="FileParserException.h">
+      <Filter>File Parser\File Parser Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphException.h">
+      <Filter>Graph\Graph Exceptions\Graph Exception</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -274,6 +283,12 @@
     </ClCompile>
     <ClCompile Include="FileParser.cpp">
       <Filter>File Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphException.cpp">
+      <Filter>Graph\Graph Exceptions\Graph Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="FileParserException.cpp">
+      <Filter>File Parser\File Parser Exception</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
