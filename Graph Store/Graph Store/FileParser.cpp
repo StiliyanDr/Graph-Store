@@ -41,7 +41,7 @@ void FileParser::openFile(const char* fileName)
 {
 	assert(fileName != nullptr);
 
-	if (hasOpenedAFile())
+	if (hasOpenedFile())
 	{
 		closeFile();
 	}
@@ -51,14 +51,14 @@ void FileParser::openFile(const char* fileName)
 	lineNumber = 1;
 }
 
-bool FileParser::hasOpenedAFile() const
+bool FileParser::hasOpenedFile() const
 {
 	return file.is_open();
 }
 
 void FileParser::closeFile()
 {
-	if (hasOpenedAFile())
+	if (hasOpenedFile())
 	{
 		file.close();
 		lineNumber = 0;
@@ -67,7 +67,7 @@ void FileParser::closeFile()
 
 void FileParser::throwExceptionIfFailedToOpen(const String& fileName) const
 {
-	if (!hasOpenedAFile())
+	if (!hasOpenedFile())
 	{
 		throw FileParserException("Could not open file for reading, name: " + fileName);
 	}
@@ -86,14 +86,14 @@ String FileParser::readLine()
 
 void FileParser::assertValidState() const
 {
-	assert(hasOpenedAFile());
+	assert(hasOpenedFile());
 	assert(!hasReachedEnd());
 	assert(!file.fail());
 }
 
 bool FileParser::hasReachedEnd() const
 {
-	assert(hasOpenedAFile());
+	assert(hasOpenedFile());
 
 	return file.eof();
 }

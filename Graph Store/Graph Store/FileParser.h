@@ -21,7 +21,7 @@ public:
 	void openFile(const char* fileName);
 	void closeFile();
 	bool hasReachedEnd() const;
-	bool hasOpenedAFile() const;
+	bool hasOpenedFile() const;
 
 	String readLine();
 	unsigned parseUnsigned();

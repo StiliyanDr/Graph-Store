@@ -40,7 +40,7 @@ namespace FileParserUnitTest
 		{
 			FileParser parser;
 
-			Assert::IsFalse(parser.hasOpenedAFile());
+			Assert::IsFalse(parser.hasOpenedFile());
 		}
 
 		TEST_METHOD(testMoveCtorWithOpenedFile)
@@ -50,9 +50,9 @@ namespace FileParserUnitTest
 
 			FileParser parser(std::move(parserToMove));
 
-			Assert::IsFalse(parserToMove.hasOpenedAFile(),
+			Assert::IsFalse(parserToMove.hasOpenedFile(),
 							L"The moved-from parser should not still be associated with the file!");
-			Assert::IsTrue(parser.hasOpenedAFile());
+			Assert::IsTrue(parser.hasOpenedFile());
 			Assert::AreEqual('@', parser.peek());
 		}
 
@@ -62,8 +62,8 @@ namespace FileParserUnitTest
 
 			FileParser parser(std::move(parserToMove));
 
-			Assert::IsFalse(parserToMove.hasOpenedAFile());
-			Assert::IsFalse(parser.hasOpenedAFile(),
+			Assert::IsFalse(parserToMove.hasOpenedFile());
+			Assert::IsFalse(parser.hasOpenedFile(),
 							L"The moved-into parser should not be associated with a file!");
 		}
 
@@ -74,8 +74,8 @@ namespace FileParserUnitTest
 
 			parser = std::move(parserToMove);
 			
-			Assert::IsFalse(parserToMove.hasOpenedAFile());
-			Assert::IsFalse(parser.hasOpenedAFile(),
+			Assert::IsFalse(parserToMove.hasOpenedFile());
+			Assert::IsFalse(parser.hasOpenedFile(),
 							L"The moved-into parser should not be associated with a file!");
 		}
 
@@ -86,8 +86,8 @@ namespace FileParserUnitTest
 
 			parser = std::move(parserToMove);
 
-			Assert::IsFalse(parserToMove.hasOpenedAFile());
-			Assert::IsFalse(parser.hasOpenedAFile(),
+			Assert::IsFalse(parserToMove.hasOpenedFile());
+			Assert::IsFalse(parser.hasOpenedFile(),
 							L"The moved-into parser should not be associated with a file!");
 		}
 
@@ -99,9 +99,9 @@ namespace FileParserUnitTest
 
 			parser = std::move(parserToMove);
 
-			Assert::IsFalse(parserToMove.hasOpenedAFile(),
+			Assert::IsFalse(parserToMove.hasOpenedFile(),
 							L"The moved-from parser should not be associated with a file!");
-			Assert::IsTrue(parser.hasOpenedAFile());
+			Assert::IsTrue(parser.hasOpenedFile());
 			Assert::AreEqual('@', parser.peek());
 		}
 
@@ -114,9 +114,9 @@ namespace FileParserUnitTest
 
 			parser = std::move(parserToMove);
 
-			Assert::IsFalse(parserToMove.hasOpenedAFile(),
+			Assert::IsFalse(parserToMove.hasOpenedFile(),
 							L"The moved-from parser should not be associated with a file!");
-			Assert::IsTrue(parser.hasOpenedAFile());
+			Assert::IsTrue(parser.hasOpenedFile());
 			Assert::AreEqual('@', parser.peek());
 		}
 
@@ -124,7 +124,7 @@ namespace FileParserUnitTest
 		{
 			FileParser parser(firstTestFileName);
 
-			Assert::IsTrue(parser.hasOpenedAFile());
+			Assert::IsTrue(parser.hasOpenedFile());
 		}
 
 		TEST_METHOD(testCtorWithNonExistentFileThrowsException)
@@ -147,7 +147,7 @@ namespace FileParserUnitTest
 
 			parser.openFile(firstTestFileName);
 
-			Assert::IsTrue(parser.hasOpenedAFile());
+			Assert::IsTrue(parser.hasOpenedFile());
 		}
 
 		TEST_METHOD(testOpenFileThrowsExceptionIfItFails)
@@ -174,7 +174,7 @@ namespace FileParserUnitTest
 
 			parser.openFile(secondTestFileName);
 
-			Assert::IsTrue(parser.hasOpenedAFile());
+			Assert::IsTrue(parser.hasOpenedFile());
 			Assert::AreEqual('@', parser.peek());
 		}
 
@@ -184,7 +184,7 @@ namespace FileParserUnitTest
 
 			parser.closeFile();
 
-			Assert::IsFalse(parser.hasOpenedAFile());
+			Assert::IsFalse(parser.hasOpenedFile());
 		}
 
 		TEST_METHOD(testReadLineReturnsACopyOfTheRestOfTheCurrentLine)
