@@ -78,7 +78,7 @@ String FileParser::readLine()
 	assertValidState();
 
 	file.getline(buffer, BUFFER_SIZE);
-	throwExceptionIfInErrorState("Empty line!");
+	throwExceptionIfInErrorState("Nothing left on the current line!");
 	++lineNumber;
 
 	return buffer;
