@@ -39,6 +39,8 @@ FileParser::FileParser(const char* fileName) :
 
 void FileParser::openFile(const char* fileName)
 {
+	assert(fileName != nullptr);
+
 	if (hasOpenedAFile())
 	{
 		closeFile();
@@ -98,6 +100,8 @@ bool FileParser::hasReachedEnd() const
 
 void FileParser::throwExceptionIfInErrorState(const char* message) const
 {
+	assert(message != nullptr);
+
 	if (file.fail())
 	{
 		std::string suffix = " Error at line " + std::to_string(lineNumber);
