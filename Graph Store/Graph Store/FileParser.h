@@ -7,12 +7,15 @@
 class FileParser
 {
 public:
+	static char endOfFileSymbol();
+
+public:
 	FileParser();
-	FileParser(const char* fileName);
+	explicit FileParser(const char* fileName);
 	FileParser(const FileParser&) = delete;
 	FileParser& operator=(const FileParser&) = delete;
-	FileParser(FileParser&&);
-	FileParser& operator=(FileParser&&);
+	FileParser(FileParser&& source);
+	FileParser& operator=(FileParser&& rhs);
 	~FileParser() = default;
 
 	void openFile(const char* fileName);
@@ -22,6 +25,7 @@ public:
 
 	String readLine();
 	unsigned parseUnsigned();
+	char peek();
 	void skipUntil(char symbol);
 
 private:
@@ -31,9 +35,11 @@ private:
 	void throwExceptionIfFailedToOpen(const String& fileName) const;
 	void throwExceptionIfInErrorState(const char* message) const;
 	void assertValidState() const;
+	void swapContentsWith(FileParser parser);
 
 private:
 	static const size_t BUFFER_SIZE = 512;
+	static const char NEW_LINE_SYMBOL = '\n';
 
 private:
 	unsigned lineNumber;
