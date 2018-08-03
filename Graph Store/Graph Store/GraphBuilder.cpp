@@ -6,8 +6,16 @@
 
 std::unique_ptr<Graph> GraphBuilder::buildFromFile(const char* fileName)
 {
-	tryToParse(fileName);
-	buildResultFromParsedFile();
+	try
+	{
+		tryToParse(fileName);
+		buildResultFromParsedFile();
+	}
+	catch (std::bad_alloc&)
+	{
+		dealWithBadAllocWhileWorkingWith(fileName);
+	}
+
 	clean();
 
 	return std::move(graph);
@@ -137,6 +145,16 @@ void GraphBuilder::addEdge(const RawEdge& rawEdge)
 	Vertex& startVertex = graph->getVertexWithIdentifier(startVertexID);
 	Vertex& endVertex = graph->getVertexWithIdentifier(endVertexID);
 	graph->addEdgeBetweenWithWeight(startVertex, endVertex, rawEdge.weight);
+}
+
+void GraphBuilder::dealWithBadAllocWhileWorkingWith(const char* fileName)
+{
+	assert(fileName != nullptr);
+
+	graph = nullptr;
+	clean();
+
+	throw GraphBuilderException("Not enough memory to load graph in " + String(fileName));
 }
 
 void GraphBuilder::clean()

@@ -40,6 +40,7 @@ private:
 	void addEdges();
 	void addEdge(const RawEdge& rawEdge);
 	void clean();
+	void dealWithBadAllocWhileWorkingWith(const char* fileName);
 
 private:
 	static const char LEFT_PARENTHESIS = '(';
