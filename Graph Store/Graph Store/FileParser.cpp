@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "FileParser.h"
 #include "FileParserException.h"
+#include "OpenFileFailException.h"
 #include <string>
 
 FileParser::FileParser() :
@@ -69,7 +70,7 @@ void FileParser::throwExceptionIfFailedToOpen(const String& fileName) const
 {
 	if (!hasOpenedFile())
 	{
-		throw FileParserException("Could not open file for reading, name: " + fileName);
+		throw OpenFileFailException("Could not open file for reading, name: " + fileName);
 	}
 }
 

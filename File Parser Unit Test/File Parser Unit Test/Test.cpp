@@ -2,6 +2,7 @@
 #include "CppUnitTest.h"
 #include "../../Graph Store/Graph Store/FileParser.h"
 #include "../../Graph Store/Graph Store/FileParserException.h"
+#include "../../Graph Store/Graph Store/OpenFileFailException.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -134,7 +135,7 @@ namespace FileParserUnitTest
 				FileParser parser(nonExistentFileName);
 				Assert::Fail(L"Constructor did not throw an exception!");
 			}
-			catch (FileParserException& ex)
+			catch (OpenFileFailException& ex)
 			{
 				Assert::IsTrue(areEqual("Could not open file for reading, name: " + nonExistentFileName,
 										ex.what()));
@@ -159,7 +160,7 @@ namespace FileParserUnitTest
 				parser.openFile(nonExistentFileName);
 				Assert::Fail(L"The method did not throw an exception!");
 			}
-			catch (FileParserException& ex)
+			catch (OpenFileFailException& ex)
 			{
 				Assert::IsTrue(areEqual("Could not open file for reading, name: " + nonExistentFileName,
 										ex.what()));

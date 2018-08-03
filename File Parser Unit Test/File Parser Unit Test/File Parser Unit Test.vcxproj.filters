@@ -35,5 +35,11 @@
     <ClCompile Include="..\..\Graph Store\Graph Store\String.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Graph Store\Graph Store\FileParserException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Graph Store\Graph Store\OpenFileFailException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
