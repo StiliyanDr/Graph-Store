@@ -243,20 +243,14 @@
     <ClInclude Include="GraphBuilderException.h">
       <Filter>Graph Builder\Graph Builder Exception</Filter>
     </ClInclude>
-    <ClInclude Include="GraphException.h">
-      <Filter>Graph\Graph Exceptions\Graph Exception</Filter>
-    </ClInclude>
-    <ClInclude Include="FileParser.h">
-      <Filter>File Parser</Filter>
+    <ClInclude Include="GraphBuilder.h">
+      <Filter>Graph Builder</Filter>
     </ClInclude>
     <ClInclude Include="FileParser.hpp">
       <Filter>File Parser</Filter>
     </ClInclude>
-    <ClInclude Include="FileParserException.h">
-      <Filter>File Parser\File Parser Exception</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenFileFailException.h">
-      <Filter>File Parser\Open File Fail Exception</Filter>
+    <ClInclude Include="FileParser.h">
+      <Filter>File Parser</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -296,20 +290,14 @@
     <ClCompile Include="PriorityQueueHandle.cpp">
       <Filter>Priority Queue\Priority Queue Handle</Filter>
     </ClCompile>
-    <ClCompile Include="GraphException.cpp">
-      <Filter>Graph\Graph Exceptions\Graph Exception</Filter>
-    </ClCompile>
     <ClCompile Include="GraphBuilderException.cpp">
       <Filter>Graph Builder\Graph Builder Exception</Filter>
     </ClCompile>
+    <ClCompile Include="GraphBuilder.cpp">
+      <Filter>Graph Builder</Filter>
+    </ClCompile>
     <ClCompile Include="FileParser.cpp">
       <Filter>File Parser</Filter>
-    </ClCompile>
-    <ClCompile Include="FileParserException.cpp">
-      <Filter>File Parser\File Parser Exception</Filter>
-    </ClCompile>
-    <ClCompile Include="OpenFileFailException.cpp">
-      <Filter>File Parser\Open File Fail Exception</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
