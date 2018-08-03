@@ -130,6 +130,15 @@
     <Filter Include="File Parser\File Parser Exception">
       <UniqueIdentifier>{933c051a-8555-458c-8242-f2a81598128e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graph Builder">
+      <UniqueIdentifier>{9461d20c-7e0b-4829-80b3-028baca54d4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph Builder\Graph Builder Exception">
+      <UniqueIdentifier>{4b4f94e3-88bd-4eb3-bc17-61e13e67b4a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File Parser\Open File Fail Exception">
+      <UniqueIdentifier>{9d41ae01-97fa-482d-a9a2-266bd486fb8c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -231,6 +240,12 @@
     <ClInclude Include="PriorityQueue.hpp">
       <Filter>Priority Queue</Filter>
     </ClInclude>
+    <ClInclude Include="GraphBuilderException.h">
+      <Filter>Graph Builder\Graph Builder Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphException.h">
+      <Filter>Graph\Graph Exceptions\Graph Exception</Filter>
+    </ClInclude>
     <ClInclude Include="FileParser.h">
       <Filter>File Parser</Filter>
     </ClInclude>
@@ -240,8 +255,8 @@
     <ClInclude Include="FileParserException.h">
       <Filter>File Parser\File Parser Exception</Filter>
     </ClInclude>
-    <ClInclude Include="GraphException.h">
-      <Filter>Graph\Graph Exceptions\Graph Exception</Filter>
+    <ClInclude Include="OpenFileFailException.h">
+      <Filter>File Parser\Open File Fail Exception</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -281,14 +296,20 @@
     <ClCompile Include="PriorityQueueHandle.cpp">
       <Filter>Priority Queue\Priority Queue Handle</Filter>
     </ClCompile>
-    <ClCompile Include="FileParser.cpp">
-      <Filter>File Parser</Filter>
-    </ClCompile>
     <ClCompile Include="GraphException.cpp">
       <Filter>Graph\Graph Exceptions\Graph Exception</Filter>
     </ClCompile>
+    <ClCompile Include="GraphBuilderException.cpp">
+      <Filter>Graph Builder\Graph Builder Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="FileParser.cpp">
+      <Filter>File Parser</Filter>
+    </ClCompile>
     <ClCompile Include="FileParserException.cpp">
       <Filter>File Parser\File Parser Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenFileFailException.cpp">
+      <Filter>File Parser\Open File Fail Exception</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
