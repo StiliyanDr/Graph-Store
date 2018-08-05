@@ -43,9 +43,6 @@
     <Filter Include="Graph\Edge">
       <UniqueIdentifier>{c0659991-9b71-46fa-90d2-47f145771c0c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graph\Distance">
-      <UniqueIdentifier>{0c351ac3-f56d-447f-91f4-077beead836b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graph\Vertex">
       <UniqueIdentifier>{7bf2074e-861c-4488-adc3-7ac67a9ded77}</UniqueIdentifier>
     </Filter>
@@ -54,9 +51,6 @@
     </Filter>
     <Filter Include="Graph\Graph Base">
       <UniqueIdentifier>{b512bb41-d138-4d52-8abd-8ddd386f8827}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graph\Identifier Accessor">
-      <UniqueIdentifier>{22075870-293d-4918-9d93-c583698928bf}</UniqueIdentifier>
     </Filter>
     <Filter Include="Graph\Directed Graph">
       <UniqueIdentifier>{8872f1e2-a4d7-4bd2-8a3d-6b4ff9b80eea}</UniqueIdentifier>
@@ -100,12 +94,6 @@
     <Filter Include="Graph\Graph Exceptions">
       <UniqueIdentifier>{ec3a4bb4-5c00-428f-a007-f6a8fbdd15c4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graph\Graph Exceptions\Invalid Graph Type Exception">
-      <UniqueIdentifier>{4f368f69-176e-478a-934b-6996cc7f8c4a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graph\Graph Exceptions\Graph Exception">
-      <UniqueIdentifier>{c7a0463b-b61b-4582-b1d3-4c2238004bf0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Priority Queue">
       <UniqueIdentifier>{16f98096-8d6c-4f77-b27a-5c0ba608f732}</UniqueIdentifier>
     </Filter>
@@ -114,15 +102,6 @@
     </Filter>
     <Filter Include="Shortest Path Algorithms\Dijkstra Algorithm">
       <UniqueIdentifier>{995cdfae-2ec8-46ab-a87d-2cde847bc999}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shortest Path Algorithms\Dijkstra Algorithm\Distance Accessor">
-      <UniqueIdentifier>{2e9855c9-c979-4095-b41c-32acc4295268}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shortest Path Algorithms\Dijkstra Algorithm\Handle Updator">
-      <UniqueIdentifier>{f7e7e327-7eba-4cd5-b13a-2b7ed3e00222}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shortest Path Algorithms\Unsupported Algorithm Exception">
-      <UniqueIdentifier>{67ab741e-39dc-4359-a299-aa7727dca3ff}</UniqueIdentifier>
     </Filter>
     <Filter Include="File Parser">
       <UniqueIdentifier>{8b59dc09-3a6c-4677-9b12-3c9b7eb741dc}</UniqueIdentifier>
@@ -139,165 +118,255 @@
     <Filter Include="File Parser\Open File Fail Exception">
       <UniqueIdentifier>{9d41ae01-97fa-482d-a9a2-266bd486fb8c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Distance">
+      <UniqueIdentifier>{0c351ac3-f56d-447f-91f4-077beead836b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph Factory\Invalid Graph Type Exception">
+      <UniqueIdentifier>{4f368f69-176e-478a-934b-6996cc7f8c4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph\Graph Exceptions\Graph Exception">
+      <UniqueIdentifier>{c7a0463b-b61b-4582-b1d3-4c2238004bf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hashing\Identifier Accessor">
+      <UniqueIdentifier>{22075870-293d-4918-9d93-c583698928bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Linked List\Linked List Iterator">
+      <UniqueIdentifier>{83ea48e5-b1be-4bcd-ac4c-dcea9eb25cca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Priority Queue\Distance Accessor">
+      <UniqueIdentifier>{8f02e380-421d-43d2-96a8-264327784475}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Priority Queue\Handle Updator">
+      <UniqueIdentifier>{edbb3fca-b0ba-407b-95c9-972ce6951d7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shortest Path Algorithms\Shortest Path Algorithms Store\Unsupported Algorithm Exception">
+      <UniqueIdentifier>{67ab741e-39dc-4359-a299-aa7727dca3ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
-    <Text Include="Hash.txt">
-      <Filter>Hashing\Hash</Filter>
-    </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="String.h">
-      <Filter>String</Filter>
-    </ClInclude>
-    <ClInclude Include="Hash.h">
-      <Filter>Hashing\Hash</Filter>
-    </ClInclude>
-    <ClInclude Include="Hash.hpp">
-      <Filter>Hashing\Hash</Filter>
-    </ClInclude>
-    <ClInclude Include="HashFunction.h">
-      <Filter>Hashing\Hash Function</Filter>
-    </ClInclude>
-    <ClInclude Include="HashFunctionStringSpecialization.h">
-      <Filter>Hashing\Hash Function</Filter>
-    </ClInclude>
-    <ClInclude Include="DynamicArray.h">
+    <ClInclude Include="Dynamic Array\DynamicArray.h">
       <Filter>Dynamic Array</Filter>
     </ClInclude>
-    <ClInclude Include="DynamicArray.hpp">
+    <ClInclude Include="Dynamic Array\DynamicArray.hpp">
       <Filter>Dynamic Array</Filter>
     </ClInclude>
-    <ClInclude Include="LinkedList.h">
-      <Filter>Linked List</Filter>
-    </ClInclude>
-    <ClInclude Include="LinkedList.hpp">
-      <Filter>Linked List</Filter>
-    </ClInclude>
-    <ClInclude Include="Box.h">
-      <Filter>Linked List</Filter>
-    </ClInclude>
-    <ClInclude Include="LinkedListIterator.h">
-      <Filter>Linked List</Filter>
-    </ClInclude>
-    <ClInclude Include="LinkedListIterator.hpp">
-      <Filter>Linked List</Filter>
-    </ClInclude>
-    <ClInclude Include="Iterator.h">
-      <Filter>Iterator</Filter>
-    </ClInclude>
-    <ClInclude Include="DynamicArrayIterator.hpp">
+    <ClInclude Include="Dynamic Array\DynamicArrayIterator.hpp">
       <Filter>Dynamic Array</Filter>
     </ClInclude>
-    <ClInclude Include="Queue.h">
-      <Filter>Queue</Filter>
+    <ClInclude Include="File Parser\File Parser Exception\FileParserException.h">
+      <Filter>File Parser\File Parser Exception</Filter>
     </ClInclude>
-    <ClInclude Include="Queue.hpp">
-      <Filter>Queue</Filter>
+    <ClInclude Include="File Parser\Open File Fail Exception\OpenFileFailException.h">
+      <Filter>File Parser\Open File Fail Exception</Filter>
     </ClInclude>
-    <ClInclude Include="Distance.h">
-      <Filter>Graph\Distance</Filter>
+    <ClInclude Include="File Parser\FileParser.h">
+      <Filter>File Parser</Filter>
     </ClInclude>
-    <ClInclude Include="Vertex.h">
-      <Filter>Graph\Vertex</Filter>
+    <ClInclude Include="File Parser\FileParser.hpp">
+      <Filter>File Parser</Filter>
     </ClInclude>
-    <ClInclude Include="Edge.h">
-      <Filter>Graph\Edge</Filter>
-    </ClInclude>
-    <ClInclude Include="Graph.h">
+    <ClInclude Include="Graph\Abstract class\Graph.h">
       <Filter>Graph\Abstraction</Filter>
     </ClInclude>
-    <ClInclude Include="ShortestPathAlgorithm.h">
-      <Filter>Shortest Path Algorithms\Abstract class</Filter>
+    <ClInclude Include="Graph\Directed Graph\DirectedGraph.h">
+      <Filter>Graph\Directed Graph</Filter>
     </ClInclude>
-    <ClInclude Include="BFS.h">
-      <Filter>Shortest Path Algorithms\BFS</Filter>
+    <ClInclude Include="Distance\Distance.h">
+      <Filter>Distance</Filter>
     </ClInclude>
-    <ClInclude Include="IterativeDeepeningDFS.h">
-      <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
+    <ClInclude Include="Graph\Edge\Edge.h">
+      <Filter>Graph\Edge</Filter>
     </ClInclude>
-    <ClInclude Include="DijkstraAlgorithm.h">
-      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
+    <ClInclude Include="Graph\GraphBase\GraphBase.h">
+      <Filter>Graph\Graph Base</Filter>
     </ClInclude>
-    <ClInclude Include="PriorityQueueHandle.h">
-      <Filter>Priority Queue\Priority Queue Handle</Filter>
+    <ClInclude Include="Graph\Graph Exception\GraphException.h">
+      <Filter>Graph\Graph Exceptions\Graph Exception</Filter>
     </ClInclude>
-    <ClInclude Include="DistanceAccessor.h">
-      <Filter>Shortest Path Algorithms\Dijkstra Algorithm\Distance Accessor</Filter>
+    <ClInclude Include="Graph\Undirected Graph\UndirectedGraph.h">
+      <Filter>Graph\Undirected Graph</Filter>
     </ClInclude>
-    <ClInclude Include="HandleUpdator.h">
-      <Filter>Shortest Path Algorithms\Dijkstra Algorithm\Handle Updator</Filter>
+    <ClInclude Include="Graph\Vertex\Vertex.h">
+      <Filter>Graph\Vertex</Filter>
     </ClInclude>
-    <ClInclude Include="PriorityQueue.h">
-      <Filter>Priority Queue</Filter>
-    </ClInclude>
-    <ClInclude Include="PriorityQueue.hpp">
-      <Filter>Priority Queue</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphBuilderException.h">
+    <ClInclude Include="Graph Builder\Graph Builder Exception\GraphBuilderException.h">
       <Filter>Graph Builder\Graph Builder Exception</Filter>
     </ClInclude>
-    <ClInclude Include="GraphBuilder.h">
+    <ClInclude Include="Graph Builder\GraphBuilder.h">
       <Filter>Graph Builder</Filter>
     </ClInclude>
-    <ClInclude Include="FileParser.hpp">
-      <Filter>File Parser</Filter>
+    <ClInclude Include="Graph Factory\Graph Creator\ConcreteGraphCreator.h">
+      <Filter>Graph Factory\Concrete Graph Creator</Filter>
     </ClInclude>
-    <ClInclude Include="FileParser.h">
-      <Filter>File Parser</Filter>
+    <ClInclude Include="Graph Factory\Graph Creator\ConcreteGraphCreator.hpp">
+      <Filter>Graph Factory\Concrete Graph Creator</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph Factory\Graph Creator\GraphCreator.h">
+      <Filter>Graph Factory\GraphCreator</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph Factory\GraphFactory.h">
+      <Filter>Graph Factory\GraphFactory</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph Factory\Graph Registrator\GraphRegistrator.h">
+      <Filter>Graph Factory\GraphRegistrator</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph Factory\Invalid Graph Type Exception\InvalidGraphTypeException.h">
+      <Filter>Graph Factory\Invalid Graph Type Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="Hash\Hash.h">
+      <Filter>Hashing\Hash</Filter>
+    </ClInclude>
+    <ClInclude Include="Hash\Hash.hpp">
+      <Filter>Hashing\Hash</Filter>
+    </ClInclude>
+    <ClInclude Include="Hash\Hash Function\HashFunction.h">
+      <Filter>Hashing\Hash Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Hash\Hash Function\HashFunctionStringSpecialization.h">
+      <Filter>Hashing\Hash Function</Filter>
+    </ClInclude>
+    <ClInclude Include="Hash\Identifier Accessor\IdentifierAccessor.h">
+      <Filter>Hashing\Identifier Accessor</Filter>
+    </ClInclude>
+    <ClInclude Include="Iterator\Iterator.h">
+      <Filter>Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="Linked List\Box.h">
+      <Filter>Linked List</Filter>
+    </ClInclude>
+    <ClInclude Include="Linked List\LinkedList.h">
+      <Filter>Linked List</Filter>
+    </ClInclude>
+    <ClInclude Include="Linked List\LinkedList.hpp">
+      <Filter>Linked List</Filter>
+    </ClInclude>
+    <ClInclude Include="Linked List\Linked List Iterator\LinkedListIterator.h">
+      <Filter>Linked List\Linked List Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="Linked List\Linked List Iterator\LinkedListIterator.hpp">
+      <Filter>Linked List\Linked List Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="Priority Queue\PriorityQueue.h">
+      <Filter>Priority Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Priority Queue\PriorityQueue.hpp">
+      <Filter>Priority Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Priority Queue\Handle\PriorityQueueHandle.h">
+      <Filter>Priority Queue\Priority Queue Handle</Filter>
+    </ClInclude>
+    <ClInclude Include="Priority Queue\Distance Accessor\DistanceAccessor.h">
+      <Filter>Priority Queue\Distance Accessor</Filter>
+    </ClInclude>
+    <ClInclude Include="Priority Queue\Handle Updator\HandleUpdator.h">
+      <Filter>Priority Queue\Handle Updator</Filter>
+    </ClInclude>
+    <ClInclude Include="Queue\Queue.h">
+      <Filter>Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Queue\Queue.hpp">
+      <Filter>Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\Abstract class\ShortestPathAlgorithm.h">
+      <Filter>Shortest Path Algorithms\Abstract class</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\BFS\BFS.h">
+      <Filter>Shortest Path Algorithms\BFS</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.h">
+      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.h">
+      <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\Store\ShortestPathAlgorithmsStore.h">
+      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\Store\Unsupported Alogirhtm Exception\UnsupportedAlgorithmException.h">
+      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store\Unsupported Algorithm Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="String\String.h">
+      <Filter>String</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="File Parser\File Parser Exception\FileParserException.cpp">
+      <Filter>File Parser\File Parser Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="File Parser\Open File Fail Exception\OpenFileFailException.cpp">
+      <Filter>File Parser\Open File Fail Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="File Parser\FileParser.cpp">
+      <Filter>File Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\Abstract class\Graph.cpp">
+      <Filter>Graph\Abstraction</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\Directed Graph\DirectedGraph.cpp">
+      <Filter>Graph\Directed Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Distance\Distance.cpp">
+      <Filter>Distance</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\Edge\Edge.cpp">
+      <Filter>Graph\Edge</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\GraphBase\GraphBase.cpp">
+      <Filter>Graph\Graph Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\Graph Exception\GraphException.cpp">
+      <Filter>Graph\Graph Exceptions\Graph Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\Undirected Graph\UndirectedGraph.cpp">
+      <Filter>Graph\Undirected Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\Vertex\Vertex.cpp">
+      <Filter>Graph\Vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph Builder\Graph Builder Exception\GraphBuilderException.cpp">
+      <Filter>Graph Builder\Graph Builder Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph Builder\GraphBuilder.cpp">
+      <Filter>Graph Builder</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph Factory\Graph Creator\GraphCreator.cpp">
+      <Filter>Graph Factory\GraphCreator</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph Factory\GraphFactory.cpp">
+      <Filter>Graph Factory\GraphFactory</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph Factory\Invalid Graph Type Exception\InvalidGraphTypeException.cpp">
+      <Filter>Graph Factory\Invalid Graph Type Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="Priority Queue\Handle\PriorityQueueHandle.cpp">
+      <Filter>Priority Queue\Priority Queue Handle</Filter>
+    </ClCompile>
+    <ClCompile Include="Shortest Path Algorithms\Abstract class\ShortestPathAlgorithm.cpp">
+      <Filter>Shortest Path Algorithms\Abstract class</Filter>
+    </ClCompile>
+    <ClCompile Include="Shortest Path Algorithms\BFS\BFS.cpp">
+      <Filter>Shortest Path Algorithms\BFS</Filter>
+    </ClCompile>
+    <ClCompile Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.cpp">
+      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.cpp">
+      <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
+    </ClCompile>
+    <ClCompile Include="Shortest Path Algorithms\Store\ShortestPathAlgorithmsStore.cpp">
+      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
+    </ClCompile>
+    <ClCompile Include="Shortest Path Algorithms\Store\Unsupported Alogirhtm Exception\UnsupportedAlgorithmException.cpp">
+      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store\Unsupported Algorithm Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="String\String.cpp">
+      <Filter>String</Filter>
     </ClCompile>
     <ClCompile Include="Graph Store.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="String.cpp">
-      <Filter>String</Filter>
-    </ClCompile>
-    <ClCompile Include="Distance.cpp">
-      <Filter>Graph\Distance</Filter>
-    </ClCompile>
-    <ClCompile Include="Edge.cpp">
-      <Filter>Graph\Edge</Filter>
-    </ClCompile>
-    <ClCompile Include="Vertex.cpp">
-      <Filter>Graph\Vertex</Filter>
-    </ClCompile>
-    <ClCompile Include="Graph.cpp">
-      <Filter>Graph\Abstraction</Filter>
-    </ClCompile>
-    <ClCompile Include="ShortestPathAlgorithm.cpp">
-      <Filter>Shortest Path Algorithms\Abstract class</Filter>
-    </ClCompile>
-    <ClCompile Include="BFS.cpp">
-      <Filter>Shortest Path Algorithms\BFS</Filter>
-    </ClCompile>
-    <ClCompile Include="IterativeDeepeningDFS.cpp">
-      <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
-    </ClCompile>
-    <ClCompile Include="DijkstraAlgorithm.cpp">
-      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
-    </ClCompile>
-    <ClCompile Include="PriorityQueueHandle.cpp">
-      <Filter>Priority Queue\Priority Queue Handle</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphBuilderException.cpp">
-      <Filter>Graph Builder\Graph Builder Exception</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphBuilder.cpp">
-      <Filter>Graph Builder</Filter>
-    </ClCompile>
-    <ClCompile Include="FileParser.cpp">
-      <Filter>File Parser</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

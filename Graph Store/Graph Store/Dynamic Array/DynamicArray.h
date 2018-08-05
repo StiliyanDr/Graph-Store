@@ -1,0 +1,112 @@
+#ifndef __DYNAMIC_ARRAY_HEADER_INCLUDED__
+#define __DYNAMIC_ARRAY_HEADER_INCLUDED__
+
+template <class T>
+class DynamicArrayIterator;
+
+template <class T>
+class DynamicArray
+{
+public:
+	explicit DynamicArray(size_t size = 0, size_t count = 0);
+	DynamicArray(DynamicArray<T>&& source);
+	DynamicArray(const DynamicArray<T>& source);
+	DynamicArray<T>& operator=(DynamicArray<T>&& rhs);
+	DynamicArray<T>& operator=(const DynamicArray<T>& rhs);
+	virtual ~DynamicArray();
+
+	virtual void add(const T& item);
+	virtual void removeAt(size_t index);
+
+	void addAt(size_t index, const T& item);
+	void ensureSize(size_t size);
+	void empty();
+	bool isEmpty() const;
+
+	size_t getSize() const;
+	size_t getCount() const;
+
+	DynamicArrayIterator<T> getIteratorToFirst();
+
+public:
+	T& operator[](size_t index);
+	const T& operator[](size_t index) const;
+	DynamicArray<T>& operator+=(const T& item);
+	DynamicArray<T>& operator+=(const DynamicArray<T>& rhs);
+
+protected:
+	void extendIfFull();
+	void shiftLeft(size_t first, size_t last);
+	void shiftRight(size_t first, size_t last);
+	void setCount(size_t newCount);
+	T* getItems();
+
+private:
+	void resize(size_t newSize);
+	void copyFrom(const DynamicArray<T>& source);
+	void swapContentsWith(DynamicArray<T> temp);
+	void destroyItems();
+	void nullifyMembers();
+
+private:
+	static const size_t GROWTH_RATE = 2;
+
+private:
+	size_t count;
+	size_t size;
+	T* items;
+};
+
+template <class T>
+DynamicArray<T> operator+(const DynamicArray<T>& lhs, const DynamicArray<T>& rhs);
+
+template <class T>
+DynamicArray<T> operator+(const T& item, const DynamicArray<T>& arr);
+
+template <class T>
+DynamicArray<T> operator+(const DynamicArray<T>& arr, const T& item);
+
+#include "../Iterator/Iterator.h"
+
+template <class T>
+class DynamicArrayIterator : public Iterator<T>
+{
+	typedef long Position;
+
+	friend class DynamicArray<T>;
+
+public:
+	virtual ~DynamicArrayIterator() = default;
+
+	virtual void advance() override;
+	virtual T& getCurrentItem() override;
+	virtual bool isValid() const override;
+
+	DynamicArrayIterator<T>& operator++();
+	DynamicArrayIterator<T> operator++(int);
+
+	T& operator*();
+	bool operator!() const;
+	operator bool() const;
+
+	template <class T>
+	friend bool operator==(const DynamicArrayIterator<T>& lhs, const DynamicArrayIterator<T>& rhs);
+
+	template <class T>
+	friend bool operator!=(const DynamicArrayIterator<T>& lhs, const DynamicArrayIterator<T>& rhs);
+
+private:
+	DynamicArrayIterator(Position currentPosition, DynamicArray<T>* owner);
+
+private:
+	static const Position INVALID_POSITION = -1;
+
+private:
+	Position currentPosition;
+	DynamicArray<T>* owner;
+};
+
+#include "DynamicArrayIterator.hpp"
+#include "DynamicArray.hpp"
+
+#endif //__DYNAMIC_ARRAY_HEADER_INCLUDED__

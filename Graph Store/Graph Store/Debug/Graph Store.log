@@ -1,6 +1,40 @@
 ﻿  String.cpp
+  stdafx.cpp
+  UnsupportedAlgorithmException.cpp
+  ShortestPathAlgorithmsStore.cpp
+  IterativeDeepeningDFS.cpp
+  DijkstraAlgorithm.cpp
+  BFS.cpp
+  ShortestPathAlgorithm.cpp
+  PriorityQueueHandle.cpp
+  Vertex.cpp
+  UndirectedGraph.cpp
+  GraphBase.cpp
+d:\repositories\graph-store\graph store\graph store\dynamic array\dynamicarrayiterator.hpp(35): warning C4018: '<': signed/unsigned mismatch
+  d:\repositories\graph-store\graph store\graph store\dynamic array\dynamicarrayiterator.hpp(28): note: while compiling class template member function 'void DynamicArrayIterator<Vertex *>::advance(void)'
+  d:\repositories\graph-store\graph store\graph store\graph\graphbase\graphbase.cpp(18): note: see reference to class template instantiation 'DynamicArrayIterator<Vertex *>' being compiled
+d:\repositories\graph-store\graph store\graph store\dynamic array\dynamicarrayiterator.hpp(39): warning C4018: '>=': signed/unsigned mismatch
+  GraphException.cpp
+  Edge.cpp
+  DirectedGraph.cpp
+  Graph.cpp
   Graph Store.cpp
+  InvalidGraphTypeException.cpp
+  GraphFactory.cpp
+d:\repositories\graph-store\graph store\graph store\dynamic array\dynamicarrayiterator.hpp(35): warning C4018: '<': signed/unsigned mismatch
+  d:\repositories\graph-store\graph store\graph store\dynamic array\dynamicarrayiterator.hpp(28): note: while compiling class template member function 'void DynamicArrayIterator<const GraphCreator *>::advance(void)'
+  d:\repositories\graph-store\graph store\graph store\graph factory\graphfactory.cpp(40): note: see reference to function template instantiation 'void DynamicArrayIterator<const GraphCreator *>::advance(void)' being compiled
+  d:\repositories\graph-store\graph store\graph store\graph factory\graphfactory.cpp(28): note: see reference to class template instantiation 'DynamicArrayIterator<const GraphCreator *>' being compiled
+d:\repositories\graph-store\graph store\graph store\dynamic array\dynamicarrayiterator.hpp(39): warning C4018: '>=': signed/unsigned mismatch
+  GraphCreator.cpp
   Generating Code...
-  LINK : D:\Repositories\Graph-Store\Graph Store\Debug\Graph Store.exe not found or not built by the last incremental link; performing full link
+  Compiling...
+  GraphBuilder.cpp
+  GraphBuilderException.cpp
+  OpenFileFailException.cpp
+  FileParser.cpp
+  FileParserException.cpp
+  Distance.cpp
+  Generating Code...
   Graph Store.vcxproj -> D:\Repositories\Graph-Store\Graph Store\Debug\Graph Store.exe
   Graph Store.vcxproj -> D:\Repositories\Graph-Store\Graph Store\Debug\Graph Store.pdb (Full PDB)

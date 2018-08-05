@@ -12,7 +12,7 @@
 #include <utility>
 #include <memory>
 
-#include "Graph.h"
-#include "Edge.h"
-#include "Vertex.h"
-#include "String.h"
+#include "../Graph Store/Graph/Abstract class/Graph.h"
+#include "../Graph Store/Graph/Edge/Edge.h"
+#include "../Graph Store/Graph/Vertex/Vertex.h"
+#include "../Graph Store/String/String.h"

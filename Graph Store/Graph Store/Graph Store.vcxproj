@@ -83,7 +83,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -138,60 +138,84 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="Hash.txt" />
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BFS.h" />
-    <ClInclude Include="Box.h" />
-    <ClInclude Include="DijkstraAlgorithm.h" />
-    <ClInclude Include="Distance.h" />
-    <ClInclude Include="DistanceAccessor.h" />
-    <ClInclude Include="DynamicArray.h" />
-    <ClInclude Include="DynamicArray.hpp" />
-    <ClInclude Include="DynamicArrayIterator.hpp" />
-    <ClInclude Include="Edge.h" />
-    <ClInclude Include="Graph.h" />
-    <ClInclude Include="HandleUpdator.h" />
-    <ClInclude Include="Hash.h" />
-    <ClInclude Include="Hash.hpp" />
-    <ClInclude Include="HashFunction.h" />
-    <ClInclude Include="HashFunctionStringSpecialization.h" />
-    <ClInclude Include="IterativeDeepeningDFS.h" />
-    <ClInclude Include="Iterator.h" />
-    <ClInclude Include="LinkedList.h" />
-    <ClInclude Include="LinkedList.hpp" />
-    <ClInclude Include="LinkedListIterator.h" />
-    <ClInclude Include="LinkedListIterator.hpp" />
-    <ClInclude Include="PriorityQueue.h" />
-    <ClInclude Include="PriorityQueue.hpp" />
-    <ClInclude Include="PriorityQueueHandle.h" />
-    <ClInclude Include="Queue.h" />
-    <ClInclude Include="Queue.hpp" />
-    <ClInclude Include="ShortestPathAlgorithm.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="String.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="Vertex.h" />
+    <ClInclude Include="Distance\Distance.h" />
+    <ClInclude Include="Dynamic Array\DynamicArray.h" />
+    <ClInclude Include="Dynamic Array\DynamicArray.hpp" />
+    <ClInclude Include="Dynamic Array\DynamicArrayIterator.hpp" />
+    <ClInclude Include="File Parser\File Parser Exception\FileParserException.h" />
+    <ClInclude Include="File Parser\FileParser.h" />
+    <ClInclude Include="File Parser\FileParser.hpp" />
+    <ClInclude Include="File Parser\Open File Fail Exception\OpenFileFailException.h" />
+    <ClInclude Include="Graph Builder\Graph Builder Exception\GraphBuilderException.h" />
+    <ClInclude Include="Graph Builder\GraphBuilder.h" />
+    <ClInclude Include="Graph Factory\Graph Creator\ConcreteGraphCreator.h" />
+    <ClInclude Include="Graph Factory\Graph Creator\ConcreteGraphCreator.hpp" />
+    <ClInclude Include="Graph Factory\Graph Creator\GraphCreator.h" />
+    <ClInclude Include="Graph Factory\Graph Registrator\GraphRegistrator.h" />
+    <ClInclude Include="Graph Factory\GraphFactory.h" />
+    <ClInclude Include="Graph Factory\Invalid Graph Type Exception\InvalidGraphTypeException.h" />
+    <ClInclude Include="Graph\Abstract class\Graph.h" />
+    <ClInclude Include="Graph\Directed Graph\DirectedGraph.h" />
+    <ClInclude Include="Graph\Edge\Edge.h" />
+    <ClInclude Include="Graph\Graph Exception\GraphException.h" />
+    <ClInclude Include="Graph\GraphBase\GraphBase.h" />
+    <ClInclude Include="Graph\Undirected Graph\UndirectedGraph.h" />
+    <ClInclude Include="Graph\Vertex\Vertex.h" />
+    <ClInclude Include="Hash\Hash Function\HashFunction.h" />
+    <ClInclude Include="Hash\Hash Function\HashFunctionStringSpecialization.h" />
+    <ClInclude Include="Hash\Hash.h" />
+    <ClInclude Include="Hash\Hash.hpp" />
+    <ClInclude Include="Hash\Identifier Accessor\IdentifierAccessor.h" />
+    <ClInclude Include="Iterator\Iterator.h" />
+    <ClInclude Include="Linked List\Box.h" />
+    <ClInclude Include="Linked List\Linked List Iterator\LinkedListIterator.h" />
+    <ClInclude Include="Linked List\Linked List Iterator\LinkedListIterator.hpp" />
+    <ClInclude Include="Linked List\LinkedList.h" />
+    <ClInclude Include="Linked List\LinkedList.hpp" />
+    <ClInclude Include="Priority Queue\Distance Accessor\DistanceAccessor.h" />
+    <ClInclude Include="Priority Queue\Handle Updator\HandleUpdator.h" />
+    <ClInclude Include="Priority Queue\Handle\PriorityQueueHandle.h" />
+    <ClInclude Include="Priority Queue\PriorityQueue.h" />
+    <ClInclude Include="Priority Queue\PriorityQueue.hpp" />
+    <ClInclude Include="Queue\Queue.h" />
+    <ClInclude Include="Queue\Queue.hpp" />
+    <ClInclude Include="Shortest Path Algorithms\Abstract class\ShortestPathAlgorithm.h" />
+    <ClInclude Include="Shortest Path Algorithms\BFS\BFS.h" />
+    <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.h" />
+    <ClInclude Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.h" />
+    <ClInclude Include="Shortest Path Algorithms\Store\ShortestPathAlgorithmsStore.h" />
+    <ClInclude Include="Shortest Path Algorithms\Store\Unsupported Alogirhtm Exception\UnsupportedAlgorithmException.h" />
+    <ClInclude Include="String\String.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BFS.cpp" />
-    <ClCompile Include="DijkstraAlgorithm.cpp" />
-    <ClCompile Include="Distance.cpp" />
-    <ClCompile Include="Edge.cpp" />
+    <ClCompile Include="Distance\Distance.cpp" />
+    <ClCompile Include="File Parser\File Parser Exception\FileParserException.cpp" />
+    <ClCompile Include="File Parser\FileParser.cpp" />
+    <ClCompile Include="File Parser\Open File Fail Exception\OpenFileFailException.cpp" />
+    <ClCompile Include="Graph Builder\Graph Builder Exception\GraphBuilderException.cpp" />
+    <ClCompile Include="Graph Builder\GraphBuilder.cpp" />
+    <ClCompile Include="Graph Factory\Graph Creator\GraphCreator.cpp" />
+    <ClCompile Include="Graph Factory\GraphFactory.cpp" />
+    <ClCompile Include="Graph Factory\Invalid Graph Type Exception\InvalidGraphTypeException.cpp" />
     <ClCompile Include="Graph Store.cpp" />
-    <ClCompile Include="Graph.cpp" />
-    <ClCompile Include="IterativeDeepeningDFS.cpp" />
-    <ClCompile Include="PriorityQueueHandle.cpp" />
-    <ClCompile Include="ShortestPathAlgorithm.cpp" />
-    <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="String.cpp" />
-    <ClCompile Include="Vertex.cpp" />
+    <ClCompile Include="Graph\Abstract class\Graph.cpp" />
+    <ClCompile Include="Graph\Directed Graph\DirectedGraph.cpp" />
+    <ClCompile Include="Graph\Edge\Edge.cpp" />
+    <ClCompile Include="Graph\Graph Exception\GraphException.cpp" />
+    <ClCompile Include="Graph\GraphBase\GraphBase.cpp" />
+    <ClCompile Include="Graph\Undirected Graph\UndirectedGraph.cpp" />
+    <ClCompile Include="Graph\Vertex\Vertex.cpp" />
+    <ClCompile Include="Priority Queue\Handle\PriorityQueueHandle.cpp" />
+    <ClCompile Include="Shortest Path Algorithms\Abstract class\ShortestPathAlgorithm.cpp" />
+    <ClCompile Include="Shortest Path Algorithms\BFS\BFS.cpp" />
+    <ClCompile Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.cpp" />
+    <ClCompile Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.cpp" />
+    <ClCompile Include="Shortest Path Algorithms\Store\ShortestPathAlgorithmsStore.cpp" />
+    <ClCompile Include="Shortest Path Algorithms\Store\Unsupported Alogirhtm Exception\UnsupportedAlgorithmException.cpp" />
+    <ClCompile Include="String\String.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
