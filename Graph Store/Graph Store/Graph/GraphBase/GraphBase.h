@@ -19,10 +19,10 @@ public:
 	GraphBase& operator=(const GraphBase&) = delete;
 	virtual ~GraphBase();
 
-	virtual void addVertex(const char* identifier) override;
+	virtual void addVertex(const String& identifier) override;
 	virtual void removeVertex(Vertex& vertexToRemove) override;
 
-	virtual Vertex& getVertexWithIdentifier(const char* identifier) override;
+	virtual Vertex& getVertexWithIdentifier(const String& identifier) override;
 	virtual VertexAbstractIterator getIteratorOfVertices() override;
 	virtual EdgeAbstractIterator getIteratorOfEdgesStartingFrom(Vertex& vertex) override;
 	virtual unsigned getVerticesCount() const override;
@@ -30,9 +30,9 @@ public:
 protected:
 	GraphBase(String identifier);
 
-	bool hasVertexWithIdentifier(const char* identifier);
-	Vertex* searchForVertexWithIdentifier(const char* identifier);
-	std::unique_ptr<Vertex> createVertex(const char* identifier) const;
+	bool hasVertexWithIdentifier(const String& identifier);
+	Vertex* searchForVertexWithIdentifier(const String& identifier);
+	std::unique_ptr<Vertex> createVertex(const String& identifier) const;
 	void addVertexToCollection(std::unique_ptr<Vertex> vertex);
 	virtual void removeEdgesEndingIn(Vertex& vertex);
 	virtual void removeEdgesStartingFrom(Vertex& vertex);

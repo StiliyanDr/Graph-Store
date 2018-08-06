@@ -7,7 +7,7 @@
 class DirectedGraph : public GraphBase
 {
 public:
-	DirectedGraph(const char* identifier);
+	DirectedGraph(const String& identifier);
 	DirectedGraph(const DirectedGraph&) = delete;
 	DirectedGraph& operator=(const DirectedGraph&) = delete;
 	virtual ~DirectedGraph() = default;

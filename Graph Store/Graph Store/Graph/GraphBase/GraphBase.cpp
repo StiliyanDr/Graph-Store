@@ -98,7 +98,7 @@ void GraphBase::removeEdgesStartingFrom(Vertex& vertex)
 	getEdgesStartingFrom(vertex).empty();
 }
 
-void GraphBase::addVertex(const char* identifier)
+void GraphBase::addVertex(const String& identifier)
 {
 	if (!hasVertexWithIdentifier(identifier))
 	{
@@ -145,7 +145,7 @@ void GraphBase::removeVertexFromCollection(const Vertex& vertexToRemove)
 	vertices.removeAt(indexOfLastVertex);
 }
 
-Vertex& GraphBase::getVertexWithIdentifier(const char* identifier)
+Vertex& GraphBase::getVertexWithIdentifier(const String& identifier)
 {
 	Vertex* vertex = searchForVertexWithIdentifier(identifier);
 
@@ -155,16 +155,16 @@ Vertex& GraphBase::getVertexWithIdentifier(const char* identifier)
 	}
 	else
 	{
-		throw GraphException("There is no vertex with identifier: " + String(identifier));
+		throw GraphException("There is no vertex with identifier: " + identifier);
 	}
 }
 
-bool GraphBase::hasVertexWithIdentifier(const char* identifier)
+bool GraphBase::hasVertexWithIdentifier(const String& identifier)
 {
 	return searchForVertexWithIdentifier(identifier) != nullptr;
 }
 
-Vertex* GraphBase::searchForVertexWithIdentifier(const char* identifier)
+Vertex* GraphBase::searchForVertexWithIdentifier(const String& identifier)
 {
 	return vertexSearchSet.search(identifier);
 }
@@ -174,7 +174,7 @@ void GraphBase::addEdgeFromToWithWeight(Vertex& startVertex, Vertex& endVertex, 
 	getEdgesStartingFrom(startVertex).addFront(Edge(&endVertex, weight));
 }
 
-std::unique_ptr<Vertex> GraphBase::createVertex(const char* identifier) const
+std::unique_ptr<Vertex> GraphBase::createVertex(const String& identifier) const
 {
 	return std::unique_ptr<Vertex>(new Vertex(identifier, vertices.getCount()));
 }

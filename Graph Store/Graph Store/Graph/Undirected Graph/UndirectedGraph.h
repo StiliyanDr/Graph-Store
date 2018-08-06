@@ -7,7 +7,7 @@
 class UndirectedGraph : public GraphBase
 {
 public:
-	UndirectedGraph(const char* identifier);
+	UndirectedGraph(const String& identifier);
 	UndirectedGraph(const UndirectedGraph&) = delete;
 	UndirectedGraph& operator=(const UndirectedGraph&) = delete;
 	virtual ~UndirectedGraph() = default;

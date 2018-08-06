@@ -18,12 +18,12 @@ public:
 	Graph& operator=(const Graph&) = delete;
 	virtual ~Graph() = default;
 
-	virtual void addVertex(const char* identifier) = 0;
+	virtual void addVertex(const String& identifier) = 0;
 	virtual void removeVertex(Vertex& vertexToRemove) = 0;
 	virtual void addEdgeBetweenWithWeight(Vertex& startVertex, Vertex& endVertex, unsigned weight) = 0;
 	virtual void removeEdgeBetween(Vertex& startVertex, Vertex& endVertex) = 0;
 
-	virtual Vertex& getVertexWithIdentifier(const char* identifier) = 0;
+	virtual Vertex& getVertexWithIdentifier(const String& identifier) = 0;
 	virtual VertexAbstractIterator getIteratorOfVertices() = 0;
 	virtual EdgeAbstractIterator getIteratorOfEdgesStartingFrom(Vertex& vertex) = 0;
 	virtual unsigned getVerticesCount() const = 0;
