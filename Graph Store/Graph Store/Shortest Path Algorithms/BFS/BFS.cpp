@@ -1,5 +1,8 @@
 #include "BFS.h"
 #include "../../Graph/Abstract class/Graph.h"
+#include "../Algorithm Registrator/ShortestPathAlgorithmRegistrator.h"
+
+static ShortestPathAlgorithmRegistrator<BFS> registrator("bfs");
 
 BFS::BFS(const char* identifier) :
 	ShortestPathAlgorithm(identifier)
