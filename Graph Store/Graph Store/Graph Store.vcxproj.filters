@@ -145,6 +145,9 @@
     <Filter Include="Directory Files Iterator">
       <UniqueIdentifier>{638b980e-e128-446e-9b85-252309cab386}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shortest Path Algorithms\Shortest Path Algorithm Registrator">
+      <UniqueIdentifier>{92e258eb-cd58-4f59-86b2-713805b2aada}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -294,8 +297,17 @@
     <ClInclude Include="String\String.h">
       <Filter>String</Filter>
     </ClInclude>
+    <ClInclude Include="DirectoryFilesIterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Directory Files Iterator\DirectoryFilesIterator.h">
       <Filter>Directory Files Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\Algorithm Registrator\ShortestPathAlgorithmRegistrator.h">
+      <Filter>Shortest Path Algorithms\Shortest Path Algorithm Registrator</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\Algorithm Registrator\ShortestPathAlgorithmRegistrator.hpp">
+      <Filter>Shortest Path Algorithms\Shortest Path Algorithm Registrator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
