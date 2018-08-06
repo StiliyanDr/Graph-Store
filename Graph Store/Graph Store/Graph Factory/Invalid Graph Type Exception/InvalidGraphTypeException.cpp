@@ -1,11 +1,11 @@
 #include "InvalidGraphTypeException.h"
 
 InvalidGraphTypeException::InvalidGraphTypeException(const char* errorMessage) :
-	GraphException(errorMessage)
+	runtime_error(errorMessage)
 {
 }
 
 InvalidGraphTypeException::InvalidGraphTypeException(const std::string& errorMessage) :
-	GraphException(errorMessage)
+	runtime_error(errorMessage)
 {
 }
