@@ -294,7 +294,7 @@
     <ClInclude Include="String\String.h">
       <Filter>String</Filter>
     </ClInclude>
-    <ClInclude Include="DirectoryFilesIterator.h">
+    <ClInclude Include="Directory Files Iterator\DirectoryFilesIterator.h">
       <Filter>Directory Files Iterator</Filter>
     </ClInclude>
   </ItemGroup>
@@ -374,7 +374,7 @@
     <ClCompile Include="Graph Store.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DirectoryFilesIterator.cpp">
+    <ClCompile Include="Directory Files Iterator\DirectoryFilesIterator.cpp">
       <Filter>Directory Files Iterator</Filter>
     </ClCompile>
   </ItemGroup>

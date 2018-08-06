@@ -2,7 +2,7 @@
 #define __DIRECTORY_FILES_ITERATOR_HEADER_INCLUDED__
 
 #include <windows.h>
-#include "../Graph Store/String/String.h"
+#include "../String/String.h"
 
 class DirectoryFilesIterator
 {
