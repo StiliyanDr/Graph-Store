@@ -1,6 +1,18 @@
 #include "GraphFactory.h"
 #include "Invalid Graph Type Exception/InvalidGraphTypeException.h"
 
+GraphFactory::GraphFactory() :
+	creators(INITIAL_COLLECTION_SIZE)
+{
+}
+
+GraphFactory& GraphFactory::instance()
+{
+	static GraphFactory theInstance;
+	
+	return theInstance;
+}
+
 std::unique_ptr<Graph> GraphFactory::createGraph(const String& criterion, const String& identifier)
 {
 	const GraphCreator& creator = getCreatorByCriterion(criterion);
@@ -24,20 +36,19 @@ const GraphCreator& GraphFactory::getCreatorByCriterion(const String& criterion)
 
 const GraphCreator* GraphFactory::searchForCreator(const String& criterion)
 {
-	Collection& creators = getCreators();
-	Iterator creatorsIterator = creators.getIteratorToFirst();
+	Iterator iterator = creators.getIteratorToFirst();
 	const GraphCreator* creator;
 
-	while (creatorsIterator.isValid())
+	while (iterator.isValid())
 	{
-		creator = *creatorsIterator;
+		creator = *iterator;
 
 		if (creator->getCriterion() == criterion)
 		{
 			return creator;
 		}
 
-		creatorsIterator.advance();
+		iterator.advance();
 	}
 
 	return nullptr;
@@ -45,14 +56,7 @@ const GraphCreator* GraphFactory::searchForCreator(const String& criterion)
 
 void GraphFactory::addCreator(const GraphCreator& creator)
 {
-	assert(!searchForCreator(creator.getCriterion()));
+	assert(searchForCreator(creator.getCriterion()) == nullptr);
 
-	getCreators().add(&creator);
-}
-
-GraphFactory::Collection& GraphFactory::getCreators()
-{
-	static Collection creators(INITIAL_COLLECTION_SIZE);
-	
-	return creators;
+	creators.add(&creator);
 }

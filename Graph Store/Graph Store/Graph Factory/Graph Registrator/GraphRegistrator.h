@@ -11,7 +11,7 @@ public:
 	GraphRegistrator(const char* graphType) :
 		graphCreator(graphType)
 	{
-		GraphFactory::addCreator(graphCreator);
+		GraphFactory::instance().addCreator(graphCreator);
 	}
 
 private:

@@ -114,7 +114,7 @@ void GraphBuilder::buildResultFromParsedFile()
 
 void GraphBuilder::createGraph()
 {
-	graph = GraphFactory::createGraph(graphType, graphID);
+	graph = GraphFactory::instance().createGraph(graphType, graphID);
 }
 
 void GraphBuilder::addVertices()

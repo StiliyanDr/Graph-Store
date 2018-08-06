@@ -14,16 +14,28 @@ class GraphFactory
 	typedef DynamicArrayIterator<const GraphCreator*> Iterator;
 
 public:
-	static std::unique_ptr<Graph> createGraph(const String& criterion, const String& identifier);
+	static GraphFactory& instance();
+
+public:
+	std::unique_ptr<Graph> createGraph(const String& criterion, const String& identifier);
 
 private:
-	static const GraphCreator& getCreatorByCriterion(const String& criterion);
-	static const GraphCreator* searchForCreator(const String& criterion);
-	static void addCreator(const GraphCreator& creator);
-	static Collection& getCreators();
+	GraphFactory();
+	GraphFactory(const GraphFactory&);
+	GraphFactory& operator=(const GraphFactory&);
+	GraphFactory(GraphFactory&&);
+	GraphFactory& operator=(GraphFactory&&);
+	~GraphFactory() = default;
+
+	const GraphCreator& getCreatorByCriterion(const String& criterion);
+	const GraphCreator* searchForCreator(const String& criterion);
+	void addCreator(const GraphCreator& creator);
 
 private:
 	static const size_t INITIAL_COLLECTION_SIZE = 4;
+
+private:
+	Collection creators;
 };
 
 #endif //__GRAPH_FACTORY_HEADER_INCLUDED__
