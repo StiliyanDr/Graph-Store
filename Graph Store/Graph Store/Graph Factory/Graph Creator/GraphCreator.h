@@ -12,7 +12,7 @@ public:
 	GraphCreator& operator=(const GraphCreator&) = delete;
 	virtual ~GraphCreator() = default;
 
-	virtual std::unique_ptr<Graph> createGraph(const char* identifier) const = 0;
+	virtual std::unique_ptr<Graph> createGraph(const String& identifier) const = 0;
 	const String& getCriterion() const;
 
 protected:

@@ -6,7 +6,7 @@ inline ConcreteGraphCreator<ConcreteGraph>::ConcreteGraphCreator(const char* cri
 }
 
 template <class ConcreteGraph>
-inline std::unique_ptr<Graph> ConcreteGraphCreator<ConcreteGraph>::createGraph(const char* identifier) const
+inline std::unique_ptr<Graph> ConcreteGraphCreator<ConcreteGraph>::createGraph(const String& identifier) const
 {
 	return std::unique_ptr<Graph>(new ConcreteGraph(identifier));
 }

@@ -1,7 +1,7 @@
 #include "GraphFactory.h"
 #include "Invalid Graph Type Exception/InvalidGraphTypeException.h"
 
-std::unique_ptr<Graph> GraphFactory::createGraph(const char* criterion, const char* identifier)
+std::unique_ptr<Graph> GraphFactory::createGraph(const String& criterion, const String& identifier)
 {
 	const GraphCreator& creator = getCreatorByCriterion(criterion);
 
