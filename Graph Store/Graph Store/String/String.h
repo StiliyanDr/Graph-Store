@@ -4,8 +4,9 @@
 class String
 {
 public:
+	String();
 	String(char symbol);
-	String(const char* string = "");
+	String(const char* string);
 	String(String&& source);
 	String(const String& source);
 	String& operator=(const String &rhs);

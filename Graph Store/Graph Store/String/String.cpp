@@ -55,6 +55,11 @@ String operator+(char lhs, const String &rhs)
 	return newString;
 }
 
+String::String() :
+	string(nullptr)
+{
+}
+
 String::String(char symbol) :
 	string(nullptr)
 {
