@@ -142,6 +142,9 @@
     <Filter Include="Shortest Path Algorithms\Shortest Path Algorithms Store\Unsupported Algorithm Exception">
       <UniqueIdentifier>{67ab741e-39dc-4359-a299-aa7727dca3ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Directory Files Iterator">
+      <UniqueIdentifier>{638b980e-e128-446e-9b85-252309cab386}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -291,6 +294,9 @@
     <ClInclude Include="String\String.h">
       <Filter>String</Filter>
     </ClInclude>
+    <ClInclude Include="DirectoryFilesIterator.h">
+      <Filter>Directory Files Iterator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\File Parser Exception\FileParserException.cpp">
@@ -367,6 +373,9 @@
     </ClCompile>
     <ClCompile Include="Graph Store.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectoryFilesIterator.cpp">
+      <Filter>Directory Files Iterator</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
