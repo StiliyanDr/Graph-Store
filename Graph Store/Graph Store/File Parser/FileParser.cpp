@@ -32,16 +32,14 @@ void FileParser::swapContentsWith(FileParser parser)
 	std::swap(file, parser.file);
 }
 
-FileParser::FileParser(const char* fileName) :
+FileParser::FileParser(const String& fileName) :
 	FileParser()
 {
 	openFile(fileName);
 }
 
-void FileParser::openFile(const char* fileName)
+void FileParser::openFile(const String& fileName)
 {
-	assert(fileName != nullptr);
-
 	if (hasOpenedFile())
 	{
 		closeFile();

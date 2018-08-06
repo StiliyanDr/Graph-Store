@@ -23,11 +23,11 @@ public:
 	GraphBuilder& operator=(GraphBuilder&&) = delete;
 	~GraphBuilder() = default;
 
-	std::unique_ptr<Graph> buildFromFile(const char* fileName);
+	std::unique_ptr<Graph> buildFromFile(const String& fileName);
 
 private:
-	void tryToParse(const char* fileName);
-	void parse(const char* fileName);
+	void tryToParse(const String& fileName);
+	void parse(const String& fileName);
 	void parseTypeAndID();
 	void parseComponents();
 	DynamicArray<String> readIdentifiers();
@@ -40,7 +40,7 @@ private:
 	void addEdges();
 	void addEdge(const RawEdge& rawEdge);
 	void clean();
-	void dealWithBadAllocWhileWorkingWith(const char* fileName);
+	void dealWithBadAllocWhileWorkingWith(const String& fileName);
 
 private:
 	static const char LEFT_PARENTHESIS = '(';

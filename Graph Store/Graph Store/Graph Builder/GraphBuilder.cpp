@@ -3,7 +3,7 @@
 #include "../Graph Builder/Graph Builder Exception/GraphBuilderException.h"
 #include "../Graph Factory/GraphFactory.h"
 
-std::unique_ptr<Graph> GraphBuilder::buildFromFile(const char* fileName)
+std::unique_ptr<Graph> GraphBuilder::buildFromFile(const String& fileName)
 {
 	try
 	{
@@ -20,7 +20,7 @@ std::unique_ptr<Graph> GraphBuilder::buildFromFile(const char* fileName)
 	return std::move(graph);
 }
 
-void GraphBuilder::tryToParse(const char* fileName)
+void GraphBuilder::tryToParse(const String& fileName)
 {
 	try
 	{
@@ -33,12 +33,12 @@ void GraphBuilder::tryToParse(const char* fileName)
 	catch (FileParserException& ex)
 	{
 		clean();
-		String message = "Error in file " + String(fileName) + "! ";
+		String message = "Error in file " + fileName + "! ";
 		throw GraphBuilderException(message + ex.what());
 	}
 }
 
-void GraphBuilder::parse(const char* fileName)
+void GraphBuilder::parse(const String& fileName)
 {
 	fileParser.openFile(fileName);
 	parseTypeAndID();
@@ -146,14 +146,12 @@ void GraphBuilder::addEdge(const RawEdge& rawEdge)
 	graph->addEdgeBetweenWithWeight(startVertex, endVertex, rawEdge.weight);
 }
 
-void GraphBuilder::dealWithBadAllocWhileWorkingWith(const char* fileName)
+void GraphBuilder::dealWithBadAllocWhileWorkingWith(const String& fileName)
 {
-	assert(fileName != nullptr);
-
 	graph = nullptr;
 	clean();
 
-	throw GraphBuilderException("Not enough memory to load graph in " + String(fileName));
+	throw GraphBuilderException("Not enough memory to load graph in " + fileName);
 }
 
 void GraphBuilder::clean()

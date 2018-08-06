@@ -11,14 +11,14 @@ public:
 
 public:
 	FileParser();
-	explicit FileParser(const char* fileName);
+	explicit FileParser(const String& fileName);
 	FileParser(const FileParser&) = delete;
 	FileParser& operator=(const FileParser&) = delete;
 	FileParser(FileParser&& source);
 	FileParser& operator=(FileParser&& rhs);
 	~FileParser() = default;
 
-	void openFile(const char* fileName);
+	void openFile(const String& fileName);
 	void closeFile();
 	bool hasReachedEnd() const;
 	bool hasOpenedFile() const;
