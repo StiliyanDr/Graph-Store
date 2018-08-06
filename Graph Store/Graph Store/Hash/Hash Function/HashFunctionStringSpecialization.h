@@ -6,7 +6,7 @@
 #ifndef __HASH_FUNCTION_STRING_SPECIALIZATION_HEADER_INCLUDED__
 #define __HASH_FUNCTION_STRING_SPECIALIZATION_HEADER_INCLUDED__
 
-#include "../Hash Function/HashFunction.h"
+#include "HashFunction.h"
 #include "../../String/String.h"
 
 template <>

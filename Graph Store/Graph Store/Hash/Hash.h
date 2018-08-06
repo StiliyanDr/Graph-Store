@@ -2,7 +2,7 @@
 #define __HASH_HEADER_INCLUDED__
 
 #include "../Dynamic Array/DynamicArray.h"
-#include "../Hash/Hash Function/HashFunction.h"
+#include "Hash Function/HashFunction.h"
 
 template <class Item, class Key, class KeyAccessor>
 class Hash

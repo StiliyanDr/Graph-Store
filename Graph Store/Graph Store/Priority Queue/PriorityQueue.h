@@ -3,7 +3,7 @@
 
 #include "../Dynamic Array/DynamicArray.h"
 #include "../Iterator/Iterator.h"
-#include "../Priority Queue/Handle/PriorityQueueHandle.h"
+#include "Handle/PriorityQueueHandle.h"
 
 template <class Item, class Key, class HandleUpdator, class KeyAccessor>
 class PriorityQueue

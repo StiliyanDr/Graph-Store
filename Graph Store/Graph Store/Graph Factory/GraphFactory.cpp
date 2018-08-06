@@ -1,5 +1,5 @@
 #include "GraphFactory.h"
-#include "../Graph Factory/Invalid Graph Type Exception/InvalidGraphTypeException.h"
+#include "Invalid Graph Type Exception/InvalidGraphTypeException.h"
 
 std::unique_ptr<Graph> GraphFactory::createGraph(const char* criterion, const char* identifier)
 {

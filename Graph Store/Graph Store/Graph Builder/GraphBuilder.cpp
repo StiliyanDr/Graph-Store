@@ -1,5 +1,5 @@
 #include "GraphBuilder.h"
-#include "../../Graph Store/File Parser/Open File Fail Exception/OpenFileFailException.h"
+#include "../File Parser/Open File Fail Exception/OpenFileFailException.h"
 #include "../Graph Builder/Graph Builder Exception/GraphBuilderException.h"
 #include "../Graph Factory/GraphFactory.h"
 

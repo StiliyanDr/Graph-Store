@@ -1,5 +1,5 @@
 #include "ShortestPathAlgorithmsStore.h"
-#include "../Store/Unsupported Alogirhtm Exception/UnsupportedAlgorithmException.h"
+#include "Unsupported Alogirhtm Exception/UnsupportedAlgorithmException.h"
 
 ShortestPathAlgorithmsStore::ShortestPathAlgorithmsStore() :
 	algorithms(INITIAL_COLLECTION_SIZE)

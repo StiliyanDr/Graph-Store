@@ -1,7 +1,7 @@
 #ifndef __LINKED_LIST_HEADER_INCLUDED__
 #define __LINKED_LIST_HEADER_INCLUDED__
 
-#include "../Linked List/Linked List Iterator/LinkedListIterator.h"
+#include "Linked List Iterator/LinkedListIterator.h"
 
 template <class T>
 class LinkedList
