@@ -12,6 +12,10 @@ class Vertex
 	friend class GraphBase;
 
 public:
+	Vertex(const Vertex&) = delete;
+	Vertex& operator=(const Vertex&) = delete;
+	Vertex(Vertex&&) = delete;
+	Vertex& operator=(Vertex&&) = delete;
 	~Vertex() = default;
 
 	bool isMarkedAsVisited() const;
@@ -28,12 +32,11 @@ public:
 	const PriorityQueueHandle& getPriorityQueueHandle() const;
 
 	const String& getIdentifier() const;
-	void setIdentifier(String identifier);
 
 private:
 	Vertex(String identifier, size_t index);
-	Vertex(const Vertex&) = delete;
-	Vertex& operator=(const Vertex&) = delete;
+	
+	void setIdentifier(String identifier);
 
 private:
 	String identifier;
