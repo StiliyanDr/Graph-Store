@@ -8,8 +8,10 @@
 class GraphCreator
 {
 public:
-	GraphCreator(const GraphCreator&) = default;
+	GraphCreator(const GraphCreator&) = delete;
 	GraphCreator& operator=(const GraphCreator&) = delete;
+	GraphCreator(GraphCreator&&) = delete;
+	GraphCreator& operator=(GraphCreator&&) = delete;
 	virtual ~GraphCreator() = default;
 
 	virtual std::unique_ptr<Graph> createGraph(const String& identifier) const = 0;

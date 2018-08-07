@@ -8,8 +8,10 @@ class ConcreteGraphCreator : public GraphCreator
 {
 public:
 	ConcreteGraphCreator(const char* criterion);
-	ConcreteGraphCreator(const ConcreteGraphCreator<ConcreteGraph>&) = default;
+	ConcreteGraphCreator(const ConcreteGraphCreator<ConcreteGraph>&) = delete;
 	ConcreteGraphCreator<ConcreteGraph>& operator=(const ConcreteGraphCreator<ConcreteGraph>&) = delete;
+	ConcreteGraphCreator(ConcreteGraphCreator<ConcreteGraph>&&) = delete;
+	ConcreteGraphCreator<ConcreteGraph>& operator=(ConcreteGraphCreator<ConcreteGraph>&&) = delete;
 	virtual ~ConcreteGraphCreator() = default;
 
 	virtual std::unique_ptr<Graph> createGraph(const String& identifier) const override;
