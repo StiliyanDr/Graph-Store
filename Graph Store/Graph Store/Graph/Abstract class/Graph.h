@@ -14,14 +14,14 @@ protected:
 	typedef std::unique_ptr<Iterator<Edge>> EdgeAbstractIterator;
 
 public:
-	Graph(const Graph&) = delete;
-	Graph& operator=(const Graph&) = delete;
+	Graph(Graph&&) = delete;
+	Graph& operator=(Graph&&) = delete;
 	virtual ~Graph() = default;
 
 	virtual void addVertex(const String& identifier) = 0;
-	virtual void removeVertex(Vertex& vertexToRemove) = 0;
-	virtual void addEdgeBetweenWithWeight(Vertex& startVertex, Vertex& endVertex, unsigned weight) = 0;
-	virtual void removeEdgeBetween(Vertex& startVertex, Vertex& endVertex) = 0;
+	virtual void removeVertex(Vertex& vertex) = 0;
+	virtual void addEdgeBetweenWithWeight(Vertex& start, Vertex& end, unsigned weight) = 0;
+	virtual void removeEdgeBetween(Vertex& start, Vertex& end) = 0;
 
 	virtual Vertex& getVertexWithIdentifier(const String& identifier) = 0;
 	virtual VertexAbstractIterator getIteratorOfVertices() = 0;
@@ -29,12 +29,12 @@ public:
 	virtual unsigned getVerticesCount() const = 0;
 
 	const String& getIdentifier() const;
+	void setIdentifier(String identifier);
 
 protected:
 	Graph(String identifier);
-
-private:
-	void setIdentifier(String identifier);
+	Graph(const Graph&) = default;
+	Graph& operator=(const Graph&) = default;
 
 private:
 	String identifier;
