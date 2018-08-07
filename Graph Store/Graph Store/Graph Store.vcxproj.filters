@@ -309,6 +309,9 @@
     <ClInclude Include="Directory Files Iterator\Directory Files Iterator Exception\DirectoryFilesIteratorException.h">
       <Filter>Directory Files Iterator\Directory Files Iterator Exception</Filter>
     </ClInclude>
+    <ClInclude Include="Graph Factory\Graph Registrator\GraphRegistrator.hpp">
+      <Filter>Graph Factory\GraphRegistrator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\File Parser Exception\FileParserException.cpp">
