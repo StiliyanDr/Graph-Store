@@ -118,7 +118,7 @@ void FileParser::skipUntil(char symbol)
 	{
 		extractedSymbol = file.get();
 
-		if (extractedSymbol == NEW_LINE_SYMBOL)
+		if (extractedSymbol == '\n')
 		{
 			++lineNumber;
 		}

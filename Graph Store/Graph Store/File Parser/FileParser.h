@@ -39,7 +39,6 @@ private:
 
 private:
 	static const size_t BUFFER_SIZE = 512;
-	static const char NEW_LINE_SYMBOL = '\n';
 
 private:
 	unsigned lineNumber;
