@@ -88,10 +88,10 @@ GraphBuilder::RawEdge GraphBuilder::parseEdge()
 {
 	RawEdge edge;
 
-	fileParser.skipUntil(LEFT_PARENTHESIS);
-	edge.startIDIndex = parseUnsignedAndSkipUntil(COMMA);
-	edge.endIDIndex = parseUnsignedAndSkipUntil(COMMA);
-	edge.weight = parseUnsignedAndSkipUntil(RIGHT_PARENTHESIS);
+	fileParser.skipUntil(EDGE_START);
+	edge.startIDIndex = parseUnsignedAndSkipUntil(EDGE_ATTRIBUTE_SEPARATOR);
+	edge.endIDIndex = parseUnsignedAndSkipUntil(EDGE_ATTRIBUTE_SEPARATOR);
+	edge.weight = parseUnsignedAndSkipUntil(EDGE_END);
 	fileParser.skipUntil(NEW_LINE);
 
 	return edge;

@@ -43,9 +43,9 @@ private:
 	void dealWithBadAllocWhileWorkingWith(const String& fileName);
 
 private:
-	static const char LEFT_PARENTHESIS = '(';
-	static const char RIGHT_PARENTHESIS = ')';
-	static const char COMMA = ',';
+	static const char EDGE_START = '(';
+	static const char EDGE_END = ')';
+	static const char EDGE_ATTRIBUTE_SEPARATOR = ',';
 	static const char NEW_LINE = '\n';
 
 private:
