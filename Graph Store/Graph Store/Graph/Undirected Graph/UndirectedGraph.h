@@ -2,7 +2,6 @@
 #define __UNDIRECTED_GRAPH_HEADER_INCLUDED__
 
 #include "../GraphBase/GraphBase.h"
-#include "../../Graph Factory/Graph Registrator/GraphRegistrator.h"
 
 class UndirectedGraph : public GraphBase
 {
@@ -17,9 +16,6 @@ public:
 
 protected:
 	virtual void removeEdgesEndingIn(Vertex& vertex) override;
-
-private:
-	static GraphRegistrator<UndirectedGraph> registrator;
 };
 
 #endif //__UNDIRECTED_GRAPH_HEADER_INCLUDED__

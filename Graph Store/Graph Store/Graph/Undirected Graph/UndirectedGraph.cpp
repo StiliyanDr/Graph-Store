@@ -1,7 +1,8 @@
 #include "UndirectedGraph.h"
 #include "../Graph Exception/GraphException.h"
+#include "../../Graph Factory/Graph Registrator/GraphRegistrator.h"
 
-GraphRegistrator<UndirectedGraph> UndirectedGraph::registrator("undirected");
+static GraphRegistrator<UndirectedGraph> registrator("undirected");
 
 UndirectedGraph::UndirectedGraph(const String& identifier) :
 	GraphBase(identifier)
