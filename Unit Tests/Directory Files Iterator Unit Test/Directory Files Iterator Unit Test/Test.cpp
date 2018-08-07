@@ -1,5 +1,6 @@
 #include "CppUnitTest.h"
 #include "../../../Graph Store/Graph Store/Directory Files Iterator/DirectoryFilesIterator.h"
+#include "../../../Graph Store/Graph Store/Directory Files Iterator/Directory Files Iterator Exception/DirectoryFilesIteratorException.h"
 #include "File.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -100,7 +101,7 @@ namespace DirectoryFilesIteratorUnitTest
 				DirectoryFilesIterator iterator(NONEXISTENT_DIRECTORY_NAME);
 				Assert::Fail(L"Constructor did not throw an exception!");
 			}
-			catch (std::exception& ex)
+			catch (DirectoryFilesIteratorException& ex)
 			{
 				Assert::IsTrue(areEqual("Could not open directory: " + NONEXISTENT_DIRECTORY_NAME,
 										ex.what()));

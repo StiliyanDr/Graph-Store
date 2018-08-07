@@ -150,6 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Graph Store\Graph Store\Directory Files Iterator\Directory Files Iterator Exception\DirectoryFilesIteratorException.cpp" />
     <ClCompile Include="..\..\..\Graph Store\Graph Store\Directory Files Iterator\DirectoryFilesIterator.cpp" />
     <ClCompile Include="..\..\..\Graph Store\Graph Store\String\String.cpp" />
     <ClCompile Include="Test.cpp" />

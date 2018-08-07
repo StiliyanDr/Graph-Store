@@ -141,6 +141,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Directory Files Iterator\Directory Files Iterator Exception\DirectoryFilesIteratorException.h" />
+    <ClInclude Include="Directory Files Iterator\DirectoryFilesIterator.h" />
     <ClInclude Include="DirectoryFilesIterator.h" />
     <ClInclude Include="Distance\Distance.h" />
     <ClInclude Include="Dynamic Array\DynamicArray.h" />
@@ -192,6 +194,8 @@
     <ClInclude Include="String\String.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Directory Files Iterator\Directory Files Iterator Exception\DirectoryFilesIteratorException.cpp" />
+    <ClCompile Include="Directory Files Iterator\DirectoryFilesIterator.cpp" />
     <ClCompile Include="DirectoryFilesIterator.cpp" />
     <ClCompile Include="Distance\Distance.cpp" />
     <ClCompile Include="File Parser\File Parser Exception\FileParserException.cpp" />

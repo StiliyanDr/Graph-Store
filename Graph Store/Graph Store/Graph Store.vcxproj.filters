@@ -148,6 +148,9 @@
     <Filter Include="Shortest Path Algorithms\Shortest Path Algorithm Registrator">
       <UniqueIdentifier>{92e258eb-cd58-4f59-86b2-713805b2aada}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Directory Files Iterator\Directory Files Iterator Exception">
+      <UniqueIdentifier>{2b12b12d-3964-4900-a0f8-9dfe48f41c5b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -303,11 +306,8 @@
     <ClInclude Include="Directory Files Iterator\DirectoryFilesIterator.h">
       <Filter>Directory Files Iterator</Filter>
     </ClInclude>
-    <ClInclude Include="Shortest Path Algorithms\Algorithm Registrator\ShortestPathAlgorithmRegistrator.h">
-      <Filter>Shortest Path Algorithms\Shortest Path Algorithm Registrator</Filter>
-    </ClInclude>
-    <ClInclude Include="Shortest Path Algorithms\Algorithm Registrator\ShortestPathAlgorithmRegistrator.hpp">
-      <Filter>Shortest Path Algorithms\Shortest Path Algorithm Registrator</Filter>
+    <ClInclude Include="Directory Files Iterator\Directory Files Iterator Exception\DirectoryFilesIteratorException.h">
+      <Filter>Directory Files Iterator\Directory Files Iterator Exception</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -386,8 +386,14 @@
     <ClCompile Include="Graph Store.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DirectoryFilesIterator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Directory Files Iterator\DirectoryFilesIterator.cpp">
       <Filter>Directory Files Iterator</Filter>
+    </ClCompile>
+    <ClCompile Include="Directory Files Iterator\Directory Files Iterator Exception\DirectoryFilesIteratorException.cpp">
+      <Filter>Directory Files Iterator\Directory Files Iterator Exception</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

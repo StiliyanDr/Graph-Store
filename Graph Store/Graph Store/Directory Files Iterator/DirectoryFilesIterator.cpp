@@ -1,6 +1,6 @@
 #include "DirectoryFilesIterator.h"
 #include <assert.h>
-#include <stdexcept>
+#include "Directory Files Iterator Exception\DirectoryFilesIteratorException.h"
 
 const String DirectoryFilesIterator::pattern = "*.txt";
 
@@ -54,7 +54,7 @@ void DirectoryFilesIterator::throwExceptionIfFailedToOpenDirectory(const String&
 {
 	if (failedToOpenDirectory())
 	{
-		throw std::runtime_error("Could not open directory: " + path);
+		throw DirectoryFilesIteratorException("Could not open directory: " + path);
 	}
 }
 
