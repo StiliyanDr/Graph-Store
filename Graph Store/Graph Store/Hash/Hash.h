@@ -12,7 +12,7 @@ class Hash
 public:
 	explicit Hash(size_t expectedItemsCount);
 	Hash(Hash<Item, Key, KeyAccessor>&& source);
-	Hash(const Hash<Item, Key, KeyAccessor>& source) = default;
+	Hash(const Hash<Item, Key, KeyAccessor>&) = default;
 	Hash<Item, Key, KeyAccessor>& operator=(Hash<Item, Key, KeyAccessor>&& rhs);
 	Hash<Item, Key, KeyAccessor>& operator=(const Hash<Item, Key, KeyAccessor>& rhs);
 	~Hash() = default;
@@ -43,7 +43,7 @@ private:
 	bool isFillingUp() const;
 	void makeTableEmptyWithSize(size_t size);
 	void setTable(Table table);
-	void swapContentsWith(Hash<Item, Key, KeyAccessor> temp);
+	void swapContentsWith(Hash<Item, Key, KeyAccessor> hash);
 	size_t getNextPositionToProbe(size_t currentPosition) const;
 
 private:

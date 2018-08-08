@@ -1,4 +1,4 @@
-#include <cassert>
+#include <assert.h>
 #include <utility>
 #include <stdexcept>
 
@@ -6,6 +6,65 @@ template <class Item, class Key, class KeyAccessor>
 inline Hash<Item, Key, KeyAccessor>::Hash(size_t expectedItemsCount)
 {
 	makeTableEmptyWithSize(calculateTableSize(expectedItemsCount));
+}
+
+///
+/// With this expression, when expectedItemsCount items are inserted into the
+/// table, the load factor will be 2 / 3. 
+/// Adding MIN_TABLE_SIZE prevents from inappropriate table size for small values 
+/// of expectedItemsCount.
+///
+template <class Item, class Key, class KeyAccessor>
+size_t Hash<Item, Key, KeyAccessor>::calculateTableSize(size_t expectedItemsCount)
+{
+	if (expectedItemsCount > 0)
+	{
+		return ((3 * expectedItemsCount) / 2) + MIN_TABLE_SIZE;
+	}
+	else
+	{
+		throw std::invalid_argument("The expected items count must be positive!");
+	}
+}
+
+template <class Item, class Key, class KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::makeTableEmptyWithSize(size_t size)
+{
+	setTable(createEmptyTableWithSize(size));
+	count = 0;
+}
+
+template <class Item, class Key, class KeyAccessor>
+typename Hash<Item, Key, KeyAccessor>::Table Hash<Item, Key, KeyAccessor>::createEmptyTableWithSize(size_t size)
+{
+	assert(size >= MIN_TABLE_SIZE);
+
+	Table table(size, size);
+	table = emptyAllSlotsIn(std::move(table));
+
+	return table;
+}
+
+template <class Item, class Key, class KeyAccessor>
+typename Hash<Item, Key, KeyAccessor>::Table Hash<Item, Key, KeyAccessor>::emptyAllSlotsIn(Table table)
+{
+	size_t size = table.getCount();
+
+	for (size_t i = 0; i < size; ++i)
+	{
+		table[i] = nullptr;
+	}
+
+	return table;
+}
+
+template <class Item, class Key, class KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::setTable(Table table)
+{
+	this->table = std::move(table);
+	this->tableSize = this->table.getCount();
+
+	assert(tableSize >= MIN_TABLE_SIZE);
 }
 
 template <class Item, class Key, class KeyAccessor>
@@ -29,6 +88,16 @@ Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(Hash<Item,
 	}
 
 	return *this;
+}
+
+template <class Item, class Key, class KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::swapContentsWith(Hash<Item, Key, KeyAccessor> hash)
+{
+	std::swap(count, hash.count);
+	std::swap(tableSize, hash.tableSize);
+	std::swap(table, hash.table);
+	std::swap(keyAccessor, hash.keyAccessor);
+	std::swap(hashFunction, hash.hashFunction);
 }
 
 template <class Item, class Key, class KeyAccessor>
@@ -73,6 +142,46 @@ inline void Hash<Item, Key, KeyAccessor>::extendIfFillingUp()
 	if (isFillingUp())
 	{
 		resize(GROWTH_RATE * tableSize);
+	}
+}
+
+template <class Item, class Key, class KeyAccessor>
+inline bool Hash<Item, Key, KeyAccessor>::isFillingUp() const
+{
+	return 3 * count >= 2 * tableSize;
+}
+
+template <class Item, class Key, class KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::resize(size_t newSize)
+{
+	assert(newSize >= MIN_TABLE_SIZE && newSize > count);
+
+	Table oldTable = std::move(table);
+
+	try
+	{
+		makeTableEmptyWithSize(newSize);
+	}
+	catch (std::bad_alloc&)
+	{
+		table = std::move(oldTable);
+		throw;
+	}
+
+	addAllItemsFrom(oldTable);
+}
+
+template <class Item, class Key, class KeyAccessor>
+void Hash<Item, Key, KeyAccessor>::addAllItemsFrom(Table& table)
+{
+	size_t size = table.getCount();
+
+	for (size_t i = 0; i < size; ++i)
+	{
+		if (table[i])
+		{
+			add(*table[i]);
+		}
 	}
 }
 
@@ -122,37 +231,17 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 }
 
 template <class Item, class Key, class KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::resize(size_t newSize)
+Item* Hash<Item, Key, KeyAccessor>::emptySlotAndReturnItemAt(size_t index)
 {
-	assert(newSize >= MIN_TABLE_SIZE && newSize > count);
+	assert(index < tableSize);
+	assert(table[index]);
 
-	Table oldTable = std::move(table);
+	Item* removedItem = table[index];
+	table[index] = nullptr;
 
-	try
-	{
-		makeTableEmptyWithSize(newSize);
-	}
-	catch (std::bad_alloc&)
-	{
-		table = std::move(oldTable);
-		throw;
-	}
+	--count;
 
-	addAllItemsFrom(oldTable);
-}
-
-template <class Item, class Key, class KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::addAllItemsFrom(Table& table)
-{
-	size_t size = table.getCount();
-
-	for (size_t i = 0; i < size; ++i)
-	{
-		if (table[i])
-		{
-			add(*table[i]);
-		}
-	}
+	return removedItem;
 }
 
 template <class Item, class Key, class KeyAccessor>
@@ -171,66 +260,6 @@ void Hash<Item, Key, KeyAccessor>::rehashClusterStartingAt(size_t index)
 }
 
 template <class Item, class Key, class KeyAccessor>
-Item* Hash<Item, Key, KeyAccessor>::emptySlotAndReturnItemAt(size_t index)
-{
-	assert(index < tableSize);
-	assert(table[index]);
-
-	Item* removedItem = table[index];
-	table[index] = nullptr;
-
-	--count;
-
-	return removedItem;
-}
-
-template <class Item, class Key, class KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::makeTableEmptyWithSize(size_t size)
-{
-	setTable(createEmptyTableWithSize(size));
-	count = 0;
-}
-
-template <class Item, class Key, class KeyAccessor>
-typename Hash<Item, Key, KeyAccessor>::Table Hash<Item, Key, KeyAccessor>::createEmptyTableWithSize(size_t size)
-{
-	assert(size >= MIN_TABLE_SIZE);
-
-	Table table(size, size);
-	table = emptyAllSlotsIn(std::move(table));
-
-	return table;
-}
-
-template <class Item, class Key, class KeyAccessor>
-typename Hash<Item, Key, KeyAccessor>::Table Hash<Item, Key, KeyAccessor>::emptyAllSlotsIn(Table table)
-{
-	size_t size = table.getCount();
-
-	for (size_t i = 0; i < size; ++i)
-	{
-		table[i] = nullptr;
-	}
-
-	return table;
-}
-
-template <class Item, class Key, class KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::setTable(Table table)
-{
-	this->table = std::move(table);
-	this->tableSize = this->table.getCount();
-
-	assert(tableSize >= MIN_TABLE_SIZE);
-}
-
-template <class Item, class Key, class KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::isFillingUp() const
-{
-	return 3 * count >= 2 * tableSize;
-}
-
-template <class Item, class Key, class KeyAccessor>
 inline bool Hash<Item, Key, KeyAccessor>::hasTooManyEmptySlots() const
 {
 	return 6 * count <= tableSize;
@@ -240,18 +269,6 @@ template <class Item, class Key, class KeyAccessor>
 inline bool Hash<Item, Key, KeyAccessor>::tableCanBeShrinked() const
 {
 	return (tableSize / GROWTH_RATE) >= MIN_TABLE_SIZE;
-}
-
-template <class Item, class Key, class KeyAccessor>
-inline size_t Hash<Item, Key, KeyAccessor>::getCount() const
-{
-	return count;
-}
-
-template <class Item, class Key, class KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::isEmpty() const
-{
-	return count == 0;
 }
 
 template <class Item, class Key, class KeyAccessor>
@@ -267,30 +284,13 @@ inline size_t Hash<Item, Key, KeyAccessor>::getNextPositionToProbe(size_t curren
 }
 
 template <class Item, class Key, class KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::swapContentsWith(Hash<Item, Key, KeyAccessor> hash)
+inline size_t Hash<Item, Key, KeyAccessor>::getCount() const
 {
-	std::swap(count, hash.count);
-	std::swap(tableSize, hash.tableSize);
-	std::swap(table, hash.table);
-	std::swap(keyAccessor, hash.keyAccessor);
-	std::swap(hashFunction, hash.hashFunction);
+	return count;
 }
 
-///
-/// With this expression, when expectedItemsCount items are inserted into the
-/// table, the load factor will be 2 / 3. 
-/// Adding MIN_TABLE_SIZE prevents from inappropriate table size for small values 
-/// of expectedItemsCount.
-///
 template <class Item, class Key, class KeyAccessor>
-size_t Hash<Item, Key, KeyAccessor>::calculateTableSize(size_t expectedItemsCount)
+inline bool Hash<Item, Key, KeyAccessor>::isEmpty() const
 {
-	if (expectedItemsCount > 0)
-	{
-		return ((3 * expectedItemsCount) / 2) + MIN_TABLE_SIZE;
-	}
-	else
-	{
-		throw std::invalid_argument("The expected items count must be positive!");
-	}
+	return count == 0;
 }
