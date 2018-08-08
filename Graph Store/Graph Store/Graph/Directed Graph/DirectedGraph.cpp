@@ -9,14 +9,14 @@ DirectedGraph::DirectedGraph(const String& identifier) :
 {
 }
 
-void DirectedGraph::addEdgeBetweenWithWeight(Vertex& startVertex, Vertex& endVertex, unsigned weight)
+void DirectedGraph::addEdgeBetweenWithWeight(Vertex& start, Vertex& end, unsigned weight)
 {
-	assert(isOwnerOf(startVertex));
-	assert(isOwnerOf(endVertex));
+	assert(isOwnerOf(start));
+	assert(isOwnerOf(end));
 
-	if (!hasEdgeFromTo(startVertex, endVertex))
+	if (!hasEdgeFromTo(start, end))
 	{
-		addEdgeFromToWithWeight(startVertex, endVertex, weight);
+		addEdgeFromToWithWeight(start, end, weight);
 	}
 	else
 	{
@@ -24,10 +24,10 @@ void DirectedGraph::addEdgeBetweenWithWeight(Vertex& startVertex, Vertex& endVer
 	}
 }
 
-void DirectedGraph::removeEdgeBetween(Vertex& startVertex, Vertex& endVertex)
+void DirectedGraph::removeEdgeBetween(Vertex& start, Vertex& end)
 {
-	assert(isOwnerOf(startVertex));
-	assert(isOwnerOf(endVertex));
+	assert(isOwnerOf(start));
+	assert(isOwnerOf(end));
 
-	removeEdgeFromTo(startVertex, endVertex);
+	removeEdgeFromTo(start, end);
 }

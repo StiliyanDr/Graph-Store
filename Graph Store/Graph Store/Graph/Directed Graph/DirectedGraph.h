@@ -9,10 +9,12 @@ public:
 	DirectedGraph(const String& identifier);
 	DirectedGraph(const DirectedGraph&) = delete;
 	DirectedGraph& operator=(const DirectedGraph&) = delete;
+	DirectedGraph(DirectedGraph&&) = delete;
+	DirectedGraph& operator=(DirectedGraph&&) = delete;
 	virtual ~DirectedGraph() = default;
 
-	virtual void addEdgeBetweenWithWeight(Vertex& startVertex, Vertex& endVertex, unsigned weight) override;
-	virtual void removeEdgeBetween(Vertex& startVertex, Vertex& endVertex) override;
+	virtual void addEdgeBetweenWithWeight(Vertex& start, Vertex& end, unsigned weight) override;
+	virtual void removeEdgeBetween(Vertex& start, Vertex& end) override;
 };
 
 #endif //__DIRECTED_GRAPH_HEADER_INCLUDED__
