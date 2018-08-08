@@ -9,10 +9,12 @@ public:
 	UndirectedGraph(const String& identifier);
 	UndirectedGraph(const UndirectedGraph&) = delete;
 	UndirectedGraph& operator=(const UndirectedGraph&) = delete;
+	UndirectedGraph(UndirectedGraph&&) = delete;
+	UndirectedGraph& operator=(UndirectedGraph&&) = delete;
 	virtual ~UndirectedGraph() = default;
 
-	virtual void addEdgeBetweenWithWeight(Vertex& startVertex, Vertex& endVertex, unsigned weight) override;
-	virtual void removeEdgeBetween(Vertex& startVertex, Vertex& endVertex) override;
+	virtual void addEdgeBetweenWithWeight(Vertex& start, Vertex& end, unsigned weight) override;
+	virtual void removeEdgeBetween(Vertex& start, Vertex& end) override;
 
 protected:
 	virtual void removeEdgesEndingIn(Vertex& vertex) override;

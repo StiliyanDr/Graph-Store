@@ -9,15 +9,15 @@ UndirectedGraph::UndirectedGraph(const String& identifier) :
 {
 }
 
-void UndirectedGraph::addEdgeBetweenWithWeight(Vertex& startVertex, Vertex& endVertex, unsigned weight)
+void UndirectedGraph::addEdgeBetweenWithWeight(Vertex& start, Vertex& end, unsigned weight)
 {
-	assert(isOwnerOf(startVertex));
-	assert(isOwnerOf(endVertex));
+	assert(isOwnerOf(start));
+	assert(isOwnerOf(end));
 
-	if (!hasEdgeFromTo(startVertex, endVertex))
+	if (!hasEdgeFromTo(start, end))
 	{
-		addEdgeFromToWithWeight(startVertex, endVertex, weight);
-		addEdgeFromToWithWeight(endVertex, startVertex, weight);
+		addEdgeFromToWithWeight(start, end, weight);
+		addEdgeFromToWithWeight(end, start, weight);
 	}
 	else
 	{
@@ -25,23 +25,26 @@ void UndirectedGraph::addEdgeBetweenWithWeight(Vertex& startVertex, Vertex& endV
 	}
 }
 
-void UndirectedGraph::removeEdgeBetween(Vertex& startVertex, Vertex& endVertex)
+void UndirectedGraph::removeEdgeBetween(Vertex& start, Vertex& end)
 {
-	assert(isOwnerOf(startVertex));
-	assert(isOwnerOf(endVertex));
+	assert(isOwnerOf(start));
+	assert(isOwnerOf(end));
 
-	removeEdgeFromTo(startVertex, endVertex);
-	removeEdgeFromTo(endVertex, startVertex);
+	removeEdgeFromTo(start, end);
+	removeEdgeFromTo(end, start);
 }
 
 void UndirectedGraph::removeEdgesEndingIn(Vertex& vertex)
 {
-	EdgeAbstractIterator edgeIterator = getIteratorOfEdgesStartingFrom(vertex);
+	EdgeAbstractIterator iterator = getIteratorOfEdgesStartingFrom(vertex);
 
-	while (edgeIterator->isValid())
+	while (iterator->isValid())
 	{
-		Vertex& endOfEdge = edgeIterator->getCurrentItem().getVertex();
+		Edge& edge = iterator->getCurrentItem();
+		Vertex& endOfEdge = edge.getVertex();
+		
 		removeEdgeFromTo(endOfEdge, vertex);
-		edgeIterator->advance();
+		
+		iterator->advance();
 	}
 }
