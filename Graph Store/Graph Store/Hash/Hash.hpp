@@ -1,6 +1,5 @@
 #include <assert.h>
 #include <utility>
-#include <stdexcept>
 
 template <class Item, class Key, class KeyAccessor>
 inline Hash<Item, Key, KeyAccessor>::Hash(size_t expectedItemsCount)
@@ -15,16 +14,11 @@ inline Hash<Item, Key, KeyAccessor>::Hash(size_t expectedItemsCount)
 /// of expectedItemsCount.
 ///
 template <class Item, class Key, class KeyAccessor>
-size_t Hash<Item, Key, KeyAccessor>::calculateTableSize(size_t expectedItemsCount)
+inline size_t Hash<Item, Key, KeyAccessor>::calculateTableSize(size_t expectedItemsCount)
 {
-	if (expectedItemsCount > 0)
-	{
-		return ((3 * expectedItemsCount) / 2) + MIN_TABLE_SIZE;
-	}
-	else
-	{
-		throw std::invalid_argument("The expected items count must be positive!");
-	}
+	assert(expectedItemsCount > 0);
+
+	return ((3 * expectedItemsCount) / 2) + MIN_TABLE_SIZE;
 }
 
 template <class Item, class Key, class KeyAccessor>
@@ -154,7 +148,8 @@ inline bool Hash<Item, Key, KeyAccessor>::isFillingUp() const
 template <class Item, class Key, class KeyAccessor>
 void Hash<Item, Key, KeyAccessor>::resize(size_t newSize)
 {
-	assert(newSize >= MIN_TABLE_SIZE && newSize > count);
+	assert(newSize >= MIN_TABLE_SIZE);
+	assert(newSize > count);
 
 	Table oldTable = std::move(table);
 

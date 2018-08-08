@@ -72,19 +72,6 @@ namespace HashUnitTest
 			Assert::IsTrue(hash.isEmpty());
 		}
 
-		TEST_METHOD(testConstructorFromNilThrowsException)
-		{
-			try
-			{
-				Hash hash(0);
-
-				Assert::Fail(L"Constructor should have thrown an exception!");
-			}
-			catch (std::invalid_argument&)
-			{
-			}
-		}
-
 		TEST_METHOD(testMoveConstructorFromEmptyHash)
 		{
 			Hash emptyHash(1);
