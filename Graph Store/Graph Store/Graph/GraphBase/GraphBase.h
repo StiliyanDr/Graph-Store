@@ -17,10 +17,12 @@ class GraphBase : public Graph
 public:
 	GraphBase(const GraphBase&) = delete;
 	GraphBase& operator=(const GraphBase&) = delete;
+	GraphBase(GraphBase&&) = delete;
+	GraphBase& operator=(GraphBase&&) = delete;
 	virtual ~GraphBase();
 
 	virtual void addVertex(const String& identifier) override;
-	virtual void removeVertex(Vertex& vertexToRemove) override;
+	virtual void removeVertex(Vertex& vertex) override;
 
 	virtual Vertex& getVertexWithIdentifier(const String& identifier) override;
 	virtual VertexAbstractIterator getIteratorOfVertices() override;
@@ -30,25 +32,25 @@ public:
 protected:
 	GraphBase(String identifier);
 
-	bool hasVertexWithIdentifier(const String& identifier);
-	Vertex* searchForVertexWithIdentifier(const String& identifier);
-	std::unique_ptr<Vertex> createVertex(const String& identifier) const;
-	void addVertexToCollection(std::unique_ptr<Vertex> vertex);
 	virtual void removeEdgesEndingIn(Vertex& vertex);
 	virtual void removeEdgesStartingFrom(Vertex& vertex);
-	void removeVertexFromCollection(const Vertex& vertexToRemove);
-	void destroyVertex(Vertex* vertex) const;
-	bool hasEdgeFromTo(Vertex& startVertex, const Vertex& endVertex);
-	void addEdgeFromToWithWeight(Vertex& startVertex, Vertex& endVertex, unsigned weight);
-	void removeEdgeFromTo(Vertex& startVertex, const Vertex& endVertex);
+	void removeEdgeFromTo(Vertex& start, const Vertex& end);
+	void addEdgeFromToWithWeight(Vertex& start, Vertex& end, unsigned weight);
+	bool hasEdgeFromTo(Vertex& start, const Vertex& end);
+	bool hasVertexWithIdentifier(const String& identifier);
+	Vertex* searchForVertexWithIdentifier(const String& identifier);
 	bool isOwnerOf(const Vertex& vertex) const;
 
 private:
-	EdgeConcreteIterator searchForEdgeFromTo(Vertex& startVertex, const Vertex& endVertex);
+	void addVertexToCollection(std::unique_ptr<Vertex> vertex);
+	void removeVertexFromCollection(const Vertex& vertex);
+	EdgeConcreteIterator searchForEdgeFromTo(Vertex& start, const Vertex& end);
 	EdgeConcreteIterator getConcreteIteratorOfEdgesStartingFrom(Vertex& vertex);
 	LinkedList<Edge>& getEdgesStartingFrom(Vertex& vertex);
 	VertexConcreteIterator getConcreteIteratorOfVertices();
+	std::unique_ptr<Vertex> createVertex(const String& identifier) const;
 	void destroyAllVertices();
+	void destroyVertex(Vertex* vertex) const;
 
 private:
 	static const size_t INITIAL_COLLECTION_SIZE = 16;
