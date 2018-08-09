@@ -44,7 +44,7 @@ protected:
 private:
 	void resize(size_t newSize);
 	void copyFrom(const DynamicArray<T>& source);
-	void swapContentsWith(DynamicArray<T> temp);
+	void swapContentsWith(DynamicArray<T> other);
 	void destroyItems();
 	void nullifyMembers();
 

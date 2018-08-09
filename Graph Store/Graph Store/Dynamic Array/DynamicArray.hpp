@@ -14,6 +14,14 @@ DynamicArray<T>::DynamicArray(size_t size, size_t count) :
 }
 
 template <class T>
+inline void DynamicArray<T>::setCount(size_t newCount)
+{
+	assert(newCount <= size);
+
+	count = newCount;
+}
+
+template <class T>
 inline DynamicArray<T>::DynamicArray(DynamicArray<T>&& source) :
 	count(source.count), size(source.size), items(source.items)
 {
@@ -25,6 +33,27 @@ inline DynamicArray<T>::DynamicArray(const DynamicArray<T>& source)
 {
 	nullifyMembers();
 	copyFrom(source);
+}
+
+template <class T>
+void DynamicArray<T>::copyFrom(const DynamicArray<T>& source)
+{
+	DynamicArray<T> theCopy(source.size, source.count);
+
+	for (size_t i = 0; i < source.count; ++i)
+	{
+		theCopy.items[i] = source.items[i];
+	}
+
+	swapContentsWith(std::move(theCopy));
+}
+
+template <class T>
+void DynamicArray<T>::swapContentsWith(DynamicArray<T> other)
+{
+	std::swap(count, other.count);
+	std::swap(size, other.size);
+	std::swap(items, other.items);
 }
 
 template <class T>
@@ -111,6 +140,32 @@ inline void DynamicArray<T>::add(const T& item)
 }
 
 template <class T>
+void DynamicArray<T>::extendIfFull()
+{
+	assert(count <= size);
+
+	if (count >= size)
+	{
+		resize(size > 0 ? GROWTH_RATE * size : 2);
+	}
+}
+
+template <class T>
+void DynamicArray<T>::resize(size_t newSize)
+{
+	size_t newCount = (newSize < count) ? newSize : count;
+
+	DynamicArray<T> newArray(newSize, newCount);
+
+	for (size_t i = 0; i < newCount; ++i)
+	{
+		newArray.items[i] = items[i];
+	}
+
+	swapContentsWith(std::move(newArray));
+}
+
+template <class T>
 void DynamicArray<T>::addAt(size_t index, const T& item)
 {
 	assert(index <= count);
@@ -122,11 +177,34 @@ void DynamicArray<T>::addAt(size_t index, const T& item)
 }
 
 template <class T>
+void DynamicArray<T>::shiftRight(size_t first, size_t last)
+{
+	assert(last + 1 < size);
+
+	for (size_t i = last + 1; i > first; --i)
+	{
+		items[i] = items[i - 1];
+	}
+}
+
+template <class T>
 inline void DynamicArray<T>::removeAt(size_t index)
 {
 	assert(index < count);
 
 	shiftLeft(index + 1, --count);
+}
+
+template <class T>
+void DynamicArray<T>::shiftLeft(size_t first, size_t last)
+{
+	assert(first > 0);
+	assert(last < size);
+
+	for (size_t i = first - 1; i < last; ++i)
+	{
+		items[i] = items[i + 1];
+	}
 }
 
 template <class T>
@@ -162,76 +240,6 @@ inline void DynamicArray<T>::empty()
 }
 
 template <class T>
-void DynamicArray<T>::shiftLeft(size_t first, size_t last)
-{
-	assert(first > 0);
-	assert(last < size);
-
-	for (size_t i = first - 1; i < last; ++i)
-	{
-		items[i] = items[i + 1];
-	}
-}
-
-template <class T>
-void DynamicArray<T>::shiftRight(size_t first, size_t last)
-{
-	assert(last + 1 < size);
-
-	for (size_t i = last + 1; i > first; --i)
-	{
-		items[i] = items[i - 1];
-	}
-}
-
-template <class T>
-void DynamicArray<T>::extendIfFull()
-{
-	assert(count <= size);
-
-	if (count >= size)
-	{
-		resize(size > 0 ? GROWTH_RATE * size : 2);
-	}
-}
-
-template <class T>
-void DynamicArray<T>::resize(size_t newSize)
-{
-	size_t newCount = (newSize < count) ? newSize : count;
-	
-	DynamicArray<T> newArray(newSize, newCount);
-
-	for (size_t i = 0; i < newCount; ++i)
-	{
-		newArray.items[i] = items[i];
-	}
-	
-	swapContentsWith(std::move(newArray));
-}
-
-template <class T>
-void DynamicArray<T>::copyFrom(const DynamicArray<T>& source)
-{
-	DynamicArray<T> theCopy(source.size, source.count);
-
-	for (size_t i = 0; i < source.count; ++i)
-	{
-		theCopy.items[i] = source.items[i];
-	}
-
-	swapContentsWith(std::move(theCopy));
-}
-
-template <class T>
-void DynamicArray<T>::swapContentsWith(DynamicArray<T> temp)
-{
-	std::swap(count, temp.count);
-	std::swap(size, temp.size);
-	std::swap(items, temp.items);
-}
-
-template <class T>
 DynamicArrayIterator<T> DynamicArray<T>::getIteratorToFirst()
 {
 	DynamicArrayIterator<T>::Position position;
@@ -263,14 +271,6 @@ template <class T>
 inline size_t DynamicArray<T>::getCount() const
 {
 	return count;
-}
-
-template <class T>
-inline void DynamicArray<T>::setCount(size_t newCount)
-{
-	assert(newCount <= size);
-
-	count = newCount;
 }
 
 template <class T>
