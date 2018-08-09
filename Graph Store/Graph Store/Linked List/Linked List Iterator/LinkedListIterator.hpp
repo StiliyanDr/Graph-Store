@@ -9,10 +9,10 @@ inline LinkedListIterator<T>::LinkedListIterator(Box<T>* current, const LinkedLi
 template <class T>
 LinkedListIterator<T> LinkedListIterator<T>::operator++(int)
 {
-	LinkedListIterator<T> temp(*this);
+	LinkedListIterator<T> iterator(*this);
 	++(*this);
 
-	return temp;
+	return iterator;
 }
 
 template <class T>
@@ -26,24 +26,18 @@ LinkedListIterator<T>& LinkedListIterator<T>::operator++()
 template <class T>
 void LinkedListIterator<T>::advance()
 {
-	if (current)
+	if (!isValid())
 	{
-		current = current->next;
+		return;
 	}
+
+	current = current->next;
 }
 
 template <class T>
-inline T& LinkedListIterator<T>::operator*()
+inline bool LinkedListIterator<T>::isValid() const
 {
-	return getCurrentItem();
-}
-
-template <class T>
-inline T& LinkedListIterator<T>::getCurrentItem()
-{
-	assert(isValid());
-
-	return current->item;
+	return current != nullptr;
 }
 
 template <class T>
@@ -59,9 +53,17 @@ inline LinkedListIterator<T>::operator bool() const
 }
 
 template <class T>
-inline bool LinkedListIterator<T>::isValid() const
+inline T& LinkedListIterator<T>::operator*()
 {
-	return current != nullptr;
+	return getCurrentItem();
+}
+
+template <class T>
+inline T& LinkedListIterator<T>::getCurrentItem()
+{
+	assert(isValid());
+
+	return current->item;
 }
 
 template <class T>
