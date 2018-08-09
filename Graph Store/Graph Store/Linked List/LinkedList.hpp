@@ -45,7 +45,7 @@ template <class T>
 void LinkedList<T>::copyChainFrom(const LinkedList<T>& source)
 {
 	assert(!source.isEmpty());
-	assert(first == nullptr);
+	assert(isEmpty());
 
 	first = new Box<T>(source.first->item);
 	const Box<T>* readFrom = source.first->next;
