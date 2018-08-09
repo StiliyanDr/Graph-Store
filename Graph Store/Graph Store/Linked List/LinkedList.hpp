@@ -103,7 +103,7 @@ void LinkedList<T>::destroyChain(Box<T>* firstBox)
 	Box<T>* boxToDestroy = firstBox;
 	Box<T>* nextBox;
 
-	while (boxToDestroy)
+	while (boxToDestroy != nullptr)
 	{
 		nextBox = boxToDestroy->next;
 		delete boxToDestroy;
@@ -176,7 +176,7 @@ void LinkedList<T>::insertAfter(Box<T>* box, const T& item)
 {
 	assert(box != nullptr);
 
-	if (box->next)
+	if (box->next != nullptr)
 	{
 		box->next = new Box<T>(item, box->next);
 		++size;
@@ -192,7 +192,7 @@ void LinkedList<T>::addBack(const T &item)
 {
 	Box<T>* newLastBox = new Box<T>(item);
 
-	if (last)
+	if (last != nullptr)
 	{
 		last->next = newLastBox;
 	}
@@ -226,7 +226,7 @@ void LinkedList<T>::insertBefore(Box<T>* box, const T& item)
 {
 	Box<T>* previousBox = findBoxBefore(box);
 
-	if (previousBox)
+	if (previousBox != nullptr)
 	{
 		insertAfter(previousBox, item);
 	}
@@ -248,7 +248,7 @@ Box<T>* LinkedList<T>::findBoxBefore(const Box<T>* box) const
 
 	Box<T>* current = first;
 
-	while (current && current->next != box)
+	while (current != nullptr && current->next != box)
 	{
 		current = current->next;
 	}
@@ -261,7 +261,7 @@ void LinkedList<T>::addFront(const T &item)
 {
 	Box<T>* newFirstBox = new Box<T>(item, first);
 
-	if (!first)
+	if (first == nullptr)
 	{
 		last = newFirstBox;
 	}
@@ -288,7 +288,7 @@ void LinkedList<T>::removeAt(Box<T>* box)
 {
 	Box<T>* previousBox = findBoxBefore(box);
 
-	if (previousBox)
+	if (previousBox != nullptr)
 	{
 		previousBox->next = box->next;
 	}
@@ -297,7 +297,7 @@ void LinkedList<T>::removeAt(Box<T>* box)
 		first = box->next;
 	}
 
-	if (!box->next)
+	if (box->next == nullptr)
 	{
 		last = previousBox;
 	}
@@ -311,7 +311,7 @@ void LinkedList<T>::removeAfter(LinkedListIterator<T>& iterator)
 {
 	assert(isOwnerOf(iterator));
 
-	if (iterator.isValid() && iterator.current->next)
+	if (iterator.isValid() && iterator.current->next != nullptr)
 	{
 		removeAt(iterator.current->next);
 	}
@@ -326,7 +326,7 @@ void LinkedList<T>::removeBefore(LinkedListIterator<T>& iterator)
 	{
 		Box<T>* previousBox = findBoxBefore(iterator.current);
 
-		if (previousBox)
+		if (previousBox != nullptr)
 		{
 			removeAt(previousBox);
 		}
