@@ -143,6 +143,8 @@
   <ItemGroup>
     <ClInclude Include="Directory Files Iterator\Directory Files Iterator Exception\DirectoryFilesIteratorException.h" />
     <ClInclude Include="Directory Files Iterator\DirectoryFilesIterator.h" />
+    <ClInclude Include="Directory Loader\DirectoryLoader.h" />
+    <ClInclude Include="Directory Loader\DirectoryLoader.hpp" />
     <ClInclude Include="DirectoryFilesIterator.h" />
     <ClInclude Include="Distance\Distance.h" />
     <ClInclude Include="Dynamic Array\DynamicArray.h" />
@@ -179,6 +181,7 @@
     <ClInclude Include="Linked List\Linked List Iterator\LinkedListIterator.hpp" />
     <ClInclude Include="Linked List\LinkedList.h" />
     <ClInclude Include="Linked List\LinkedList.hpp" />
+    <ClInclude Include="Logger\Logger.h" />
     <ClInclude Include="Priority Queue\Distance Accessor\DistanceAccessor.h" />
     <ClInclude Include="Priority Queue\Handle Updator\HandleUpdator.h" />
     <ClInclude Include="Priority Queue\Handle\PriorityQueueHandle.h" />
@@ -197,6 +200,7 @@
   <ItemGroup>
     <ClCompile Include="Directory Files Iterator\Directory Files Iterator Exception\DirectoryFilesIteratorException.cpp" />
     <ClCompile Include="Directory Files Iterator\DirectoryFilesIterator.cpp" />
+    <ClCompile Include="Directory Loader\DirectoryLoader.cpp" />
     <ClCompile Include="DirectoryFilesIterator.cpp" />
     <ClCompile Include="Distance\Distance.cpp" />
     <ClCompile Include="File Parser\File Parser Exception\FileParserException.cpp" />
