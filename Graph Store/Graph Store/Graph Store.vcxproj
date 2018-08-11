@@ -145,7 +145,6 @@
     <ClInclude Include="Directory Files Iterator\DirectoryFilesIterator.h" />
     <ClInclude Include="Directory Loader\DirectoryLoader.h" />
     <ClInclude Include="Directory Loader\DirectoryLoader.hpp" />
-    <ClInclude Include="DirectoryFilesIterator.h" />
     <ClInclude Include="Distance\Distance.h" />
     <ClInclude Include="Dynamic Array\DynamicArray.h" />
     <ClInclude Include="Dynamic Array\DynamicArray.hpp" />
@@ -195,6 +194,7 @@
     <ClInclude Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.h" />
     <ClInclude Include="Shortest Path Algorithms\Store\ShortestPathAlgorithmsStore.h" />
     <ClInclude Include="Shortest Path Algorithms\Store\Unsupported Alogirhtm Exception\UnsupportedAlgorithmException.h" />
+    <ClInclude Include="String Cutter\StringCutter.h" />
     <ClInclude Include="String\String.h" />
   </ItemGroup>
   <ItemGroup>
@@ -225,6 +225,7 @@
     <ClCompile Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Store\ShortestPathAlgorithmsStore.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Store\Unsupported Alogirhtm Exception\UnsupportedAlgorithmException.cpp" />
+    <ClCompile Include="String Cutter\StringCutter.cpp" />
     <ClCompile Include="String\String.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

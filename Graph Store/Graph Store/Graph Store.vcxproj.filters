@@ -157,6 +157,9 @@
     <Filter Include="Logger">
       <UniqueIdentifier>{92bf67f7-66d4-4d16-aaac-35a442db257f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="String Cutter">
+      <UniqueIdentifier>{25639148-6b66-424f-812e-0c09c0bea8bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -306,9 +309,6 @@
     <ClInclude Include="String\String.h">
       <Filter>String</Filter>
     </ClInclude>
-    <ClInclude Include="DirectoryFilesIterator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Directory Files Iterator\DirectoryFilesIterator.h">
       <Filter>Directory Files Iterator</Filter>
     </ClInclude>
@@ -326,6 +326,9 @@
     </ClInclude>
     <ClInclude Include="Directory Loader\DirectoryLoader.hpp">
       <Filter>Directory Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="String Cutter\StringCutter.h">
+      <Filter>String Cutter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -412,6 +415,9 @@
     </ClCompile>
     <ClCompile Include="Directory Loader\DirectoryLoader.cpp">
       <Filter>Directory Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="String Cutter\StringCutter.cpp">
+      <Filter>String Cutter</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
