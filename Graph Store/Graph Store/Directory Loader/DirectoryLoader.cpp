@@ -31,7 +31,7 @@ std::unique_ptr<Graph> DirectoryLoader::loadCurrentFile()
 
 	try
 	{
-		return graphBuilder.buildFromFile(directoryIterator.getNameOfCurrentFile());
+		return graphBuilder.buildFromFile(directoryIterator.getPathOfCurrentFile());
 	}
 	catch (GraphBuilderException& e)
 	{
