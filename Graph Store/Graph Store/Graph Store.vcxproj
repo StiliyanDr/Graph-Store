@@ -201,7 +201,6 @@
     <ClCompile Include="Directory Files Iterator\Directory Files Iterator Exception\DirectoryFilesIteratorException.cpp" />
     <ClCompile Include="Directory Files Iterator\DirectoryFilesIterator.cpp" />
     <ClCompile Include="Directory Loader\DirectoryLoader.cpp" />
-    <ClCompile Include="DirectoryFilesIterator.cpp" />
     <ClCompile Include="Distance\Distance.cpp" />
     <ClCompile Include="File Parser\File Parser Exception\FileParserException.cpp" />
     <ClCompile Include="File Parser\FileParser.cpp" />

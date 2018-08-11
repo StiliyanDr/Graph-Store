@@ -22,13 +22,13 @@ public:
 	void advance();
 	bool isValid() const;
 	String getNameOfCurrentFile() const;
-
-private:
-	static String appendPatternTo(const String& path);
+	String getPathOfCurrentFile() const;
 
 private:
 	void endIteration();
 	void invalidateHandle();
+	void setPath(const String& path);
+	String getPathWithAppendedPattern() const;
 	void throwExceptionIfFailedToOpenDirectory(const String& path) const;
 	bool failedToOpenDirectory() const;
 
@@ -36,6 +36,7 @@ private:
 	static const String pattern;
 
 private:
+	String path;
 	SearchHandle handle;
 	File file;
 };

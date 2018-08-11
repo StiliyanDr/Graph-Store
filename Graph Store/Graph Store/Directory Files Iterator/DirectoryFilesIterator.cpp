@@ -27,7 +27,8 @@ void DirectoryFilesIterator::startIterationIn(const String& path)
 		endIteration();
 	}
 
-	String pathWithPattern = appendPatternTo(path);
+	setPath(path);
+	String pathWithPattern = getPathWithAppendedPattern();
 	handle = FindFirstFile(pathWithPattern, &file);
 	throwExceptionIfFailedToOpenDirectory(path);
 }
@@ -45,9 +46,14 @@ void DirectoryFilesIterator::endIteration()
 	invalidateHandle();
 }
 
-String DirectoryFilesIterator::appendPatternTo(const String& path)
+void DirectoryFilesIterator::setPath(const String& path)
 {
-	return path + '\\' + pattern;
+	this->path = path + '\\';
+}
+
+String DirectoryFilesIterator::getPathWithAppendedPattern() const
+{
+	return path + pattern;
 }
 
 void DirectoryFilesIterator::throwExceptionIfFailedToOpenDirectory(const String& path) const
@@ -91,4 +97,11 @@ String DirectoryFilesIterator::getNameOfCurrentFile() const
 	assert(isValid());
 
 	return file.cFileName;
+}
+
+String DirectoryFilesIterator::getPathOfCurrentFile() const
+{
+	assert(isValid());
+
+	return path + file.cFileName;
 }

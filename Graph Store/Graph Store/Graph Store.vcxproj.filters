@@ -404,9 +404,6 @@
     <ClCompile Include="Graph Store.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DirectoryFilesIterator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Directory Files Iterator\DirectoryFilesIterator.cpp">
       <Filter>Directory Files Iterator</Filter>
     </ClCompile>
