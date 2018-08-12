@@ -4,7 +4,7 @@
 
 namespace Logger
 {
-	void logError(const std::exception& e)
+	inline void logError(const std::exception& e)
 	{
 		std::cerr << e.what() << '\n';
 	}
