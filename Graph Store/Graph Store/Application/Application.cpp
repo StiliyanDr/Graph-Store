@@ -25,6 +25,7 @@ void Application::addExitCommand()
 {
 	addCommand("EXIT", "Terminates the program", [&](args::Subparser& parser)
 	{
+		parser.Parse();
 		receivedExitCommand = true;
 	});
 }
@@ -33,6 +34,7 @@ void Application::addHelpCommand()
 {
 	addCommand("HELP", "Prints the supported commands", [&](args::Subparser& parser)
 	{
+		parser.Parse();
 		std::cout << Application::parser << std::endl;
 	});
 }
@@ -77,7 +79,7 @@ void Application::invokeCommand(char* commandLine)
 
 	try
 	{
-		parser.ParseArgs(arguments.cbegin(), arguments.cend());
+		parser.ParseArgs(arguments);
 	}
 	catch (std::runtime_error& e)
 	{
