@@ -155,6 +155,7 @@
     <ClInclude Include="File Parser\Open File Fail Exception\OpenFileFailException.h" />
     <ClInclude Include="Graph Builder\Graph Builder Exception\GraphBuilderException.h" />
     <ClInclude Include="Graph Builder\GraphBuilder.h" />
+    <ClInclude Include="Graph Collection\GraphCollection.h" />
     <ClInclude Include="Graph Factory\Graph Creator\ConcreteGraphCreator.h" />
     <ClInclude Include="Graph Factory\Graph Creator\ConcreteGraphCreator.hpp" />
     <ClInclude Include="Graph Factory\Graph Creator\GraphCreator.h" />
@@ -207,6 +208,7 @@
     <ClCompile Include="File Parser\Open File Fail Exception\OpenFileFailException.cpp" />
     <ClCompile Include="Graph Builder\Graph Builder Exception\GraphBuilderException.cpp" />
     <ClCompile Include="Graph Builder\GraphBuilder.cpp" />
+    <ClCompile Include="Graph Collection\GraphCollection.cpp" />
     <ClCompile Include="Graph Factory\Graph Creator\GraphCreator.cpp" />
     <ClCompile Include="Graph Factory\GraphFactory.cpp" />
     <ClCompile Include="Graph Factory\Invalid Graph Type Exception\InvalidGraphTypeException.cpp" />

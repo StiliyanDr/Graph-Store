@@ -160,6 +160,9 @@
     <Filter Include="String Cutter">
       <UniqueIdentifier>{25639148-6b66-424f-812e-0c09c0bea8bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GraphCollection">
+      <UniqueIdentifier>{d940fada-2ce0-4fa6-a1a2-937695596080}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -330,6 +333,9 @@
     <ClInclude Include="String Cutter\StringCutter.h">
       <Filter>String Cutter</Filter>
     </ClInclude>
+    <ClInclude Include="Graph Collection\GraphCollection.h">
+      <Filter>GraphCollection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\File Parser Exception\FileParserException.cpp">
@@ -418,6 +424,9 @@
     </ClCompile>
     <ClCompile Include="String Cutter\StringCutter.cpp">
       <Filter>String Cutter</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph Collection\GraphCollection.cpp">
+      <Filter>GraphCollection</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
