@@ -141,6 +141,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Application\Application.h" />
+    <ClInclude Include="Command\Abstract class\Command.h" />
     <ClInclude Include="Directory Files Iterator\Directory Files Iterator Exception\DirectoryFilesIteratorException.h" />
     <ClInclude Include="Directory Files Iterator\DirectoryFilesIterator.h" />
     <ClInclude Include="Directory Loader\DirectoryLoader.h" />
@@ -199,6 +201,7 @@
     <ClInclude Include="String\String.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Application\Application.cpp" />
     <ClCompile Include="Directory Files Iterator\Directory Files Iterator Exception\DirectoryFilesIteratorException.cpp" />
     <ClCompile Include="Directory Files Iterator\DirectoryFilesIterator.cpp" />
     <ClCompile Include="Directory Loader\DirectoryLoader.cpp" />

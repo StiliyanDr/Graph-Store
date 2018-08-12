@@ -163,6 +163,12 @@
     <Filter Include="GraphCollection">
       <UniqueIdentifier>{d940fada-2ce0-4fa6-a1a2-937695596080}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Command">
+      <UniqueIdentifier>{8f717d5a-4b8a-461c-aa75-f1f62e961471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Command\Abstract class">
+      <UniqueIdentifier>{3584f2d8-abdf-4480-b77e-74ade76b13e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -336,6 +342,12 @@
     <ClInclude Include="Graph Collection\GraphCollection.h">
       <Filter>GraphCollection</Filter>
     </ClInclude>
+    <ClInclude Include="Application\Application.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Command\Abstract class\Command.h">
+      <Filter>Command\Abstract class</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\File Parser Exception\FileParserException.cpp">
@@ -427,6 +439,9 @@
     </ClCompile>
     <ClCompile Include="Graph Collection\GraphCollection.cpp">
       <Filter>GraphCollection</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Application.cpp">
+      <Filter>Application</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
