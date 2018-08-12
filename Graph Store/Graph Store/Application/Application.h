@@ -2,7 +2,7 @@
 #define __APPLICATION_HEADER_INCLUDED__
 
 #include "../../../../args-master/args-master/args.hxx"
-#include "../Linked List/LinkedList.h"
+#include <forward_list>
 
 class Command;
 
@@ -33,7 +33,7 @@ private:
 private:
 	args::ArgumentParser parser;
 	args::Group commandsGroup;
-	LinkedList<args::Command> commands;
+	std::forward_list<args::Command> commands;
 	bool receivedExitCommand;
 };
 

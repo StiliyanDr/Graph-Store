@@ -44,7 +44,7 @@ void Application::addCommand(const char* name,
 	assert(name != nullptr);
 	assert(description != nullptr);
 
-	commands.addFront(args::Command(commandsGroup, name, description, function));
+	commands.emplace_front(commandsGroup, name, description, function);
 }
 
 void Application::addCommand(const char* name,
