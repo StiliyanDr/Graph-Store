@@ -181,6 +181,9 @@
     <Filter Include="Command\List Graphs Command">
       <UniqueIdentifier>{a74eaf88-5688-425e-b38e-b1b7c4d67715}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Command\Print Graph Command">
+      <UniqueIdentifier>{d919b882-558f-4573-a1c1-55fb9599a22a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -375,6 +378,9 @@
     <ClInclude Include="Command\List Graphs Command\ListGraphsCommand.h">
       <Filter>Command\List Graphs Command</Filter>
     </ClInclude>
+    <ClInclude Include="Command\Print Graph Command\PrintGraphCommand.h">
+      <Filter>Command\Print Graph Command</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\File Parser Exception\FileParserException.cpp">
@@ -478,6 +484,9 @@
     </ClCompile>
     <ClCompile Include="Command\List Graphs Command\ListGraphsCommand.cpp">
       <Filter>Command\List Graphs Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\Print Graph Command\PrintGraphCommand.cpp">
+      <Filter>Command\Print Graph Command</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
