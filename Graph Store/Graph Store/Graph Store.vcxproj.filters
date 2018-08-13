@@ -169,6 +169,9 @@
     <Filter Include="Command\Abstract class">
       <UniqueIdentifier>{3584f2d8-abdf-4480-b77e-74ade76b13e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Command\CommandRegistrator">
+      <UniqueIdentifier>{c18f47e0-aee0-45a9-a189-46d373775263}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -347,6 +350,12 @@
     </ClInclude>
     <ClInclude Include="Command\Abstract class\Command.h">
       <Filter>Command\Abstract class</Filter>
+    </ClInclude>
+    <ClInclude Include="Command\Command Registrator\CommandRegistrator.hpp">
+      <Filter>Command\CommandRegistrator</Filter>
+    </ClInclude>
+    <ClInclude Include="Command\Command Registrator\CommandRegistrator.h">
+      <Filter>Command\CommandRegistrator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

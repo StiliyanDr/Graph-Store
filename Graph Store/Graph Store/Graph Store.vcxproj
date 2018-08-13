@@ -143,6 +143,8 @@
   <ItemGroup>
     <ClInclude Include="Application\Application.h" />
     <ClInclude Include="Command\Abstract class\Command.h" />
+    <ClInclude Include="Command\Command Registrator\CommandRegistrator.h" />
+    <ClInclude Include="Command\Command Registrator\CommandRegistrator.hpp" />
     <ClInclude Include="Directory Files Iterator\Directory Files Iterator Exception\DirectoryFilesIteratorException.h" />
     <ClInclude Include="Directory Files Iterator\DirectoryFilesIterator.h" />
     <ClInclude Include="Directory Loader\DirectoryLoader.h" />

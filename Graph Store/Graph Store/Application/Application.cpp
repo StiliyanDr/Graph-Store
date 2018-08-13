@@ -32,10 +32,24 @@ void Application::addExitCommand()
 
 void Application::addHelpCommand()
 {
-	addCommand("HELP", "Prints the supported commands", [&](args::Subparser& parser)
+	addCommand("HELP", "Lists the supported commands", [&](args::Subparser& parser)
 	{
 		parser.Parse();
-		std::cout << Application::parser << std::endl;
+		
+		std::cout << "Supported commands:\n";
+
+		auto iterator = commands.cbegin();
+		auto invalidIterator = commands.cend();
+
+		while (iterator != invalidIterator)
+		{
+			const args::Command& command = *iterator;
+
+			std::cout << '\t' << command.Name()
+					  << "\t\t" << command.Help() << '\n';
+
+			++iterator;
+		}
 	});
 }
 
