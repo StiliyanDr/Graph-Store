@@ -15,10 +15,10 @@ public:
 	~DirectoryLoader() = default;
 
 	template <class Function>
-	void loadApplyingFunctionToEachGraph(const char* path, const Function& function);
+	void loadApplyingFunctionToEachGraph(const String& path, const Function& function);
 
 private:
-	void openDirectory(const char* path);
+	void openDirectory(const String& path);
 	bool thereAreFilesLeftToLoad() const;
 	std::unique_ptr<Graph> loadCurrentFile();
 	void goToNextFile();

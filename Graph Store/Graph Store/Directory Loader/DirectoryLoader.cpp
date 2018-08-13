@@ -4,9 +4,8 @@
 #include "../Directory Files Iterator/Directory Files Iterator Exception/DirectoryFilesIteratorException.h"
 #include "../Logger/Logger.h"
 
-void DirectoryLoader::openDirectory(const char* path)
+void DirectoryLoader::openDirectory(const String& path)
 {
-	assert(path != nullptr);
 	assert(!directoryIterator.isValid());
 
 	try

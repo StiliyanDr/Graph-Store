@@ -1,6 +1,6 @@
 
 template <class Function>
-void DirectoryLoader::loadApplyingFunctionToEachGraph(const char* path, const Function& function)
+void DirectoryLoader::loadApplyingFunctionToEachGraph(const String& path, const Function& function)
 {
 	openDirectory(path);
 	
