@@ -149,6 +149,7 @@
     <ClInclude Include="Command\Load Command\LoadCommand.h" />
     <ClInclude Include="Command\Print Graph Command\PrintGraphCommand.h" />
     <ClInclude Include="Command\String Reader\StringReader.h" />
+    <ClInclude Include="Command\Use Graph Command\UseGraphCommand.h" />
     <ClInclude Include="Directory Files Iterator\Directory Files Iterator Exception\DirectoryFilesIteratorException.h" />
     <ClInclude Include="Directory Files Iterator\DirectoryFilesIterator.h" />
     <ClInclude Include="Directory Loader\DirectoryLoader.h" />
@@ -212,6 +213,7 @@
     <ClCompile Include="Command\List Graphs Command\ListGraphsCommand.cpp" />
     <ClCompile Include="Command\Load Command\LoadCommand.cpp" />
     <ClCompile Include="Command\Print Graph Command\PrintGraphCommand.cpp" />
+    <ClCompile Include="Command\Use Graph Command\UseGraphCommand.cpp" />
     <ClCompile Include="Directory Files Iterator\Directory Files Iterator Exception\DirectoryFilesIteratorException.cpp" />
     <ClCompile Include="Directory Files Iterator\DirectoryFilesIterator.cpp" />
     <ClCompile Include="Directory Loader\DirectoryLoader.cpp" />
