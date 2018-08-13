@@ -1,8 +1,8 @@
-// Graph Store.cpp : Defines the entry point for the console application.
-//
+#include "Application\Application.h"
 
 int main()
 {
+	Application::instance().run();
 
     return 0;
 }
