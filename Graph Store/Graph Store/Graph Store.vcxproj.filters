@@ -187,6 +187,9 @@
     <Filter Include="Command\Use Graph Command">
       <UniqueIdentifier>{04eb1f3f-5e65-4673-842a-e8360846a901}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Command\Add Graph Command">
+      <UniqueIdentifier>{2ef6a9c1-4222-4931-a702-f007fb8bd5b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -387,6 +390,9 @@
     <ClInclude Include="Command\Use Graph Command\UseGraphCommand.h">
       <Filter>Command\Use Graph Command</Filter>
     </ClInclude>
+    <ClInclude Include="Command\Add Graph Command\AddGraphCommand.h">
+      <Filter>Command\Add Graph Command</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\File Parser Exception\FileParserException.cpp">
@@ -496,6 +502,9 @@
     </ClCompile>
     <ClCompile Include="Command\Use Graph Command\UseGraphCommand.cpp">
       <Filter>Command\Use Graph Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\Add Graph Command\AddGraphCommand.cpp">
+      <Filter>Command\Add Graph Command</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
