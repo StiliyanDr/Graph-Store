@@ -34,13 +34,13 @@ GraphCollection::~GraphCollection()
 	destroyAllGraphs();
 }
 
-void GraphCollection::add(std::unique_ptr<Graph> graph)
+void GraphCollection::add(Graph& graph)
 {
-	const String& id = graph->getIdentifier();
+	const String& id = graph.getIdentifier();
 
 	if (!hasGraphWithID(id))
 	{
-		tryToAdd(std::move(graph));
+		tryToAdd(graph);
 	}
 	else
 	{
@@ -63,18 +63,16 @@ bool GraphCollection::hasGraphWithID(const String& id) const
 	return false;
 }
 
-void GraphCollection::tryToAdd(std::unique_ptr<Graph> graph)
+void GraphCollection::tryToAdd(Graph& graph)
 {
 	try
 	{
-		graphs.add(graph.get());
+		graphs.add(&graph);
 	}
 	catch (std::bad_alloc&)
 	{
 		throw std::runtime_error("Not enough memory to add a graph!");
 	}
-
-	graph.release();
 }
 
 std::unique_ptr<Graph> GraphCollection::remove(const String& graphID)

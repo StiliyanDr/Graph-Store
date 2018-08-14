@@ -18,7 +18,7 @@ public:
 	GraphCollection& operator=(GraphCollection&& rhs);
 	~GraphCollection();
 
-	void add(std::unique_ptr<Graph> graph);
+	void add(Graph& graph);
 	std::unique_ptr<Graph> remove(const String& graphID);
 	Graph& getGraphWithID(const String& id);
 	
@@ -29,7 +29,7 @@ public:
 
 private:
 	bool hasGraphWithID(const String& id) const;
-	void tryToAdd(std::unique_ptr<Graph> graph);
+	void tryToAdd(Graph& graph);
 	size_t getIndexOfGraphWithID(const String& id) const;
 	void destroyAllGraphs();
 
