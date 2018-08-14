@@ -43,10 +43,13 @@ void LoadCommand::tryToAddGraph(std::unique_ptr<Graph> graph)
 
 	try
 	{
-		graphs.add(std::move(graph));
+		graphs.add(*graph);
 	}
 	catch (std::runtime_error& e)
 	{
 		Logger::logError(e);
+		return;
 	}
+
+	graph.release();
 }
