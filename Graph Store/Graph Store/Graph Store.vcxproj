@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClInclude Include="Application\Application.h" />
     <ClInclude Include="Command\Abstract class\Command.h" />
+    <ClInclude Include="Command\Add Edge Command\AddEdgeCommand.h" />
     <ClInclude Include="Command\Add Graph Command\AddGraphCommand.h" />
     <ClInclude Include="Command\Add Vertex Command\AddVertexCommand.h" />
     <ClInclude Include="Command\Command Registrator\CommandRegistrator.h" />
@@ -214,6 +215,7 @@
   <ItemGroup>
     <ClCompile Include="Application\Application.cpp" />
     <ClCompile Include="Command\Abstract class\Command.cpp" />
+    <ClCompile Include="Command\Add Edge Command\AddEdgeCommand.cpp" />
     <ClCompile Include="Command\Add Graph Command\AddGraphCommand.cpp" />
     <ClCompile Include="Command\Add Vertex Command\AddVertexCommand.cpp" />
     <ClCompile Include="Command\List Graphs Command\ListGraphsCommand.cpp" />

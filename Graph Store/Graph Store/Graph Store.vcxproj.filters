@@ -199,6 +199,9 @@
     <Filter Include="Command\Remove Vertex Command">
       <UniqueIdentifier>{6a8c37bd-9b0d-467a-9cbc-77ceb202985b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Command\Add Edge Command">
+      <UniqueIdentifier>{166d4588-afa9-4723-834d-a727a2993405}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -411,6 +414,9 @@
     <ClInclude Include="Command\Remove Vertex Command\RemoveVertexCommand.h">
       <Filter>Command\Remove Vertex Command</Filter>
     </ClInclude>
+    <ClInclude Include="Command\Add Edge Command\AddEdgeCommand.h">
+      <Filter>Command\Add Edge Command</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\File Parser Exception\FileParserException.cpp">
@@ -532,6 +538,9 @@
     </ClCompile>
     <ClCompile Include="Command\Remove Vertex Command\RemoveVertexCommand.cpp">
       <Filter>Command\Remove Vertex Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\Add Edge Command\AddEdgeCommand.cpp">
+      <Filter>Command\Add Edge Command</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
