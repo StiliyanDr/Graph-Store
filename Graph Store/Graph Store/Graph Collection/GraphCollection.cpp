@@ -77,11 +77,14 @@ void GraphCollection::tryToAdd(std::unique_ptr<Graph> graph)
 	graph.release();
 }
 
-void GraphCollection::remove(const String& graphID)
+std::unique_ptr<Graph> GraphCollection::remove(const String& graphID)
 {
 	size_t index = getIndexOfGraphWithID(graphID);
-	delete graphs[index];
+	
+	std::unique_ptr<Graph> graph(graphs[index]);
 	graphs.removeAt(index);
+
+	return graph;
 }
 
 size_t GraphCollection::getIndexOfGraphWithID(const String& id) const

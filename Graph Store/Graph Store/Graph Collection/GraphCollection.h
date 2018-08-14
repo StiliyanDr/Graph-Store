@@ -19,7 +19,7 @@ public:
 	~GraphCollection();
 
 	void add(std::unique_ptr<Graph> graph);
-	void remove(const String& graphID);
+	std::unique_ptr<Graph> remove(const String& graphID);
 	Graph& getGraphWithID(const String& id);
 	
 	std::unique_ptr<Iterator<Graph*>> getIterator();
