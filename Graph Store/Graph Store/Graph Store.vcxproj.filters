@@ -193,6 +193,12 @@
     <Filter Include="Command\Remove Graph Command">
       <UniqueIdentifier>{767ad5a7-7714-43c2-bb46-bd9dac68a66e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Command\Add Vertex Command">
+      <UniqueIdentifier>{c3f0950a-318f-41f6-926b-19143b7f62d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Command\Remove Vertex Command">
+      <UniqueIdentifier>{6a8c37bd-9b0d-467a-9cbc-77ceb202985b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -399,6 +405,12 @@
     <ClInclude Include="Command\Remove Graph Command\RemoveGraphCommand.h">
       <Filter>Command\Remove Graph Command</Filter>
     </ClInclude>
+    <ClInclude Include="Command\Add Vertex Command\AddVertexCommand.h">
+      <Filter>Command\Add Vertex Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Command\Remove Vertex Command\RemoveVertexCommand.h">
+      <Filter>Command\Remove Vertex Command</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\File Parser Exception\FileParserException.cpp">
@@ -514,6 +526,12 @@
     </ClCompile>
     <ClCompile Include="Command\Remove Graph Command\RemoveGraphCommand.cpp">
       <Filter>Command\Remove Graph Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\Add Vertex Command\AddVertexCommand.cpp">
+      <Filter>Command\Add Vertex Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\Remove Vertex Command\RemoveVertexCommand.cpp">
+      <Filter>Command\Remove Vertex Command</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

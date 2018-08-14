@@ -144,12 +144,14 @@
     <ClInclude Include="Application\Application.h" />
     <ClInclude Include="Command\Abstract class\Command.h" />
     <ClInclude Include="Command\Add Graph Command\AddGraphCommand.h" />
+    <ClInclude Include="Command\Add Vertex Command\AddVertexCommand.h" />
     <ClInclude Include="Command\Command Registrator\CommandRegistrator.h" />
     <ClInclude Include="Command\Command Registrator\CommandRegistrator.hpp" />
     <ClInclude Include="Command\List Graphs Command\ListGraphsCommand.h" />
     <ClInclude Include="Command\Load Command\LoadCommand.h" />
     <ClInclude Include="Command\Print Graph Command\PrintGraphCommand.h" />
     <ClInclude Include="Command\Remove Graph Command\RemoveGraphCommand.h" />
+    <ClInclude Include="Command\Remove Vertex Command\RemoveVertexCommand.h" />
     <ClInclude Include="Command\String Reader\StringReader.h" />
     <ClInclude Include="Command\Use Graph Command\UseGraphCommand.h" />
     <ClInclude Include="Directory Files Iterator\Directory Files Iterator Exception\DirectoryFilesIteratorException.h" />
@@ -213,10 +215,12 @@
     <ClCompile Include="Application\Application.cpp" />
     <ClCompile Include="Command\Abstract class\Command.cpp" />
     <ClCompile Include="Command\Add Graph Command\AddGraphCommand.cpp" />
+    <ClCompile Include="Command\Add Vertex Command\AddVertexCommand.cpp" />
     <ClCompile Include="Command\List Graphs Command\ListGraphsCommand.cpp" />
     <ClCompile Include="Command\Load Command\LoadCommand.cpp" />
     <ClCompile Include="Command\Print Graph Command\PrintGraphCommand.cpp" />
     <ClCompile Include="Command\Remove Graph Command\RemoveGraphCommand.cpp" />
+    <ClCompile Include="Command\Remove Vertex Command\RemoveVertexCommand.cpp" />
     <ClCompile Include="Command\Use Graph Command\UseGraphCommand.cpp" />
     <ClCompile Include="Directory Files Iterator\Directory Files Iterator Exception\DirectoryFilesIteratorException.cpp" />
     <ClCompile Include="Directory Files Iterator\DirectoryFilesIterator.cpp" />
