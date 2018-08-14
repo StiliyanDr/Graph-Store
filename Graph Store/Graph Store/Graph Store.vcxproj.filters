@@ -202,6 +202,9 @@
     <Filter Include="Command\Add Edge Command">
       <UniqueIdentifier>{166d4588-afa9-4723-834d-a727a2993405}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Command\Remove Edge Command">
+      <UniqueIdentifier>{4bd68261-a175-4abc-80c4-c50cc15d76ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -417,6 +420,9 @@
     <ClInclude Include="Command\Add Edge Command\AddEdgeCommand.h">
       <Filter>Command\Add Edge Command</Filter>
     </ClInclude>
+    <ClInclude Include="Command\Remove Edge Command\RemoveEdgeCommand.h">
+      <Filter>Command\Remove Edge Command</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\File Parser Exception\FileParserException.cpp">
@@ -541,6 +547,9 @@
     </ClCompile>
     <ClCompile Include="Command\Add Edge Command\AddEdgeCommand.cpp">
       <Filter>Command\Add Edge Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\Remove Edge Command\RemoveEdgeCommand.cpp">
+      <Filter>Command\Remove Edge Command</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

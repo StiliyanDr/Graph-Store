@@ -151,6 +151,7 @@
     <ClInclude Include="Command\List Graphs Command\ListGraphsCommand.h" />
     <ClInclude Include="Command\Load Command\LoadCommand.h" />
     <ClInclude Include="Command\Print Graph Command\PrintGraphCommand.h" />
+    <ClInclude Include="Command\Remove Edge Command\RemoveEdgeCommand.h" />
     <ClInclude Include="Command\Remove Graph Command\RemoveGraphCommand.h" />
     <ClInclude Include="Command\Remove Vertex Command\RemoveVertexCommand.h" />
     <ClInclude Include="Command\String Reader\StringReader.h" />
@@ -221,6 +222,7 @@
     <ClCompile Include="Command\List Graphs Command\ListGraphsCommand.cpp" />
     <ClCompile Include="Command\Load Command\LoadCommand.cpp" />
     <ClCompile Include="Command\Print Graph Command\PrintGraphCommand.cpp" />
+    <ClCompile Include="Command\Remove Edge Command\RemoveEdgeCommand.cpp" />
     <ClCompile Include="Command\Remove Graph Command\RemoveGraphCommand.cpp" />
     <ClCompile Include="Command\Remove Vertex Command\RemoveVertexCommand.cpp" />
     <ClCompile Include="Command\Use Graph Command\UseGraphCommand.cpp" />
