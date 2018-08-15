@@ -1,5 +1,6 @@
 #include "PrintGraphCommand.h"
 #include "../Command Registrator/CommandRegistrator.h"
+#include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 #include <iostream>
 
 static CommandRegistrator<PrintGraphCommand> registrator("PRINT-GRAPH", "Prints a specified graph");
@@ -25,7 +26,7 @@ void PrintGraphCommand::setGraphID(args::Positional<String, StringReader>& graph
 	}
 	else
 	{
-		throw std::runtime_error("Missing argument: [" + graphID.Name() + "]!");
+		throw MissingArgumentException(graphID.Name());
 	}
 }
 

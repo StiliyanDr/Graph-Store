@@ -211,6 +211,15 @@
     <Filter Include="Shortest Path Algorithms\Path Printing">
       <UniqueIdentifier>{cba0ae12-4028-4534-9747-94d4fa38845e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Command\Exceptions">
+      <UniqueIdentifier>{d1644408-9074-4aa1-8027-33a6c62e4198}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Command\Exceptions\Command Exception">
+      <UniqueIdentifier>{a3c5b94f-d072-4c7f-b240-61ffe5a3059b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Command\Exceptions\Missing Argument Exception">
+      <UniqueIdentifier>{c7dccb6a-ae70-40ff-86a3-3dbc26ffe6f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -441,6 +450,12 @@
     <ClInclude Include="Shortest Path Algorithms\Path Printing\PathPrinting.h">
       <Filter>Shortest Path Algorithms\Path Printing</Filter>
     </ClInclude>
+    <ClInclude Include="Command\Exceptions\Command Exception\CommandException.h">
+      <Filter>Command\Exceptions\Command Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="Command\Exceptions\Missing Argument Exception\MissingArgumentException.h">
+      <Filter>Command\Exceptions\Missing Argument Exception</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\File Parser Exception\FileParserException.cpp">
@@ -574,6 +589,12 @@
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\Path Printing\PathPrinting.cpp">
       <Filter>Shortest Path Algorithms\Path Printing</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\Exceptions\Command Exception\CommandException.cpp">
+      <Filter>Command\Exceptions\Command Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\Exceptions\Missing Argument Exception\MissingArgumentException.cpp">
+      <Filter>Command\Exceptions\Missing Argument Exception</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

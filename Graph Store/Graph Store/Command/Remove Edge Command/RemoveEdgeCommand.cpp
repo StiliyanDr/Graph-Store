@@ -1,5 +1,6 @@
 #include "RemoveEdgeCommand.h"
 #include "../Command Registrator/CommandRegistrator.h"
+#include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 
 static CommandRegistrator<RemoveEdgeCommand> registrator("REMOVE-EDGE",
 														 "Removes the edge between two specified vertices");
@@ -29,7 +30,7 @@ void RemoveEdgeCommand::setStartVertexID(args::Positional<String, StringReader>&
 	}
 	else
 	{
-		throw std::runtime_error("Missing argument: [" + id.Name() + "]!");
+		throw MissingArgumentException(id.Name());
 	}
 }
 
@@ -41,7 +42,7 @@ void RemoveEdgeCommand::setEndVertexID(args::Positional<String, StringReader>& i
 	}
 	else
 	{
-		throw std::runtime_error("Missing argument: [" + id.Name() + "]!");
+		throw MissingArgumentException(id.Name());
 	}
 }
 

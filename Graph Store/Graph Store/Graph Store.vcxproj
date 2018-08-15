@@ -148,6 +148,8 @@
     <ClInclude Include="Command\Add Vertex Command\AddVertexCommand.h" />
     <ClInclude Include="Command\Command Registrator\CommandRegistrator.h" />
     <ClInclude Include="Command\Command Registrator\CommandRegistrator.hpp" />
+    <ClInclude Include="Command\Exceptions\Command Exception\CommandException.h" />
+    <ClInclude Include="Command\Exceptions\Missing Argument Exception\MissingArgumentException.h" />
     <ClInclude Include="Command\List Graphs Command\ListGraphsCommand.h" />
     <ClInclude Include="Command\Load Command\LoadCommand.h" />
     <ClInclude Include="Command\Print Graph Command\PrintGraphCommand.h" />
@@ -223,6 +225,8 @@
     <ClCompile Include="Command\Add Edge Command\AddEdgeCommand.cpp" />
     <ClCompile Include="Command\Add Graph Command\AddGraphCommand.cpp" />
     <ClCompile Include="Command\Add Vertex Command\AddVertexCommand.cpp" />
+    <ClCompile Include="Command\Exceptions\Command Exception\CommandException.cpp" />
+    <ClCompile Include="Command\Exceptions\Missing Argument Exception\MissingArgumentException.cpp" />
     <ClCompile Include="Command\List Graphs Command\ListGraphsCommand.cpp" />
     <ClCompile Include="Command\Load Command\LoadCommand.cpp" />
     <ClCompile Include="Command\Print Graph Command\PrintGraphCommand.cpp" />

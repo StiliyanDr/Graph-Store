@@ -1,5 +1,6 @@
 #include "RemoveGraphCommand.h"
 #include "../Command Registrator/CommandRegistrator.h"
+#include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 
 static CommandRegistrator<RemoveGraphCommand> registrator("REMOVE-GRAPH", "Removes a specified graph");
 
@@ -24,7 +25,7 @@ void RemoveGraphCommand::setGraphID(args::Positional<String, StringReader>& id)
 	}
 	else
 	{
-		throw std::runtime_error("Missing argument: [" + id.Name() + "]!");
+		throw MissingArgumentException(id.Name());
 	}
 }
 

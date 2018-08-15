@@ -2,6 +2,7 @@
 #include "../../Shortest Path Algorithms/Store/ShortestPathAlgorithmsStore.h"
 #include "../Command Registrator/CommandRegistrator.h"
 #include "../../Shortest Path Algorithms/Path Printing/PathPrinting.h"
+#include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 
 static CommandRegistrator<SearchCommand> registrator("SEARCH", "Finds a shortest path between two vertices");
 
@@ -33,7 +34,7 @@ void SearchCommand::setSourceID(args::Positional<String, StringReader>& id)
 	}
 	else
 	{
-		throw std::runtime_error("Missing argument: [" + id.Name() + "]!");
+		throw MissingArgumentException(id.Name());
 	}
 }
 
@@ -45,7 +46,7 @@ void SearchCommand::setTargetID(args::Positional<String, StringReader>& id)
 	}
 	else
 	{
-		throw std::runtime_error("Missing argument: [" + id.Name() + "]!");
+		throw MissingArgumentException(id.Name());
 	}
 }
 
@@ -57,7 +58,7 @@ void SearchCommand::setAlgorithmID(args::Positional<String, StringReader>& id)
 	}
 	else
 	{
-		throw std::runtime_error("Missing argument: [" + id.Name() + "]!");
+		throw MissingArgumentException(id.Name());
 	}
 }
 

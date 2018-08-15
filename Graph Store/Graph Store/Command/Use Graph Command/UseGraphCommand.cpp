@@ -1,5 +1,6 @@
 #include "UseGraphCommand.h"
 #include "../Command Registrator/CommandRegistrator.h"
+#include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 
 static CommandRegistrator<UseGraphCommand> registrator("USE-GRAPH", "Sets a specified graph as the used one");
 
@@ -24,7 +25,7 @@ void UseGraphCommand::setGraphID(args::Positional<String, StringReader>& graphID
 	}
 	else
 	{
-		throw std::runtime_error("Missing argument: [" + graphID.Name() + "]!");
+		throw MissingArgumentException(graphID.Name());
 	}
 }
 

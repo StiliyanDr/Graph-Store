@@ -1,6 +1,7 @@
 #include "AddGraphCommand.h"
 #include "../../Graph Factory/GraphFactory.h"
 #include "../Command Registrator/CommandRegistrator.h"
+#include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 
 static CommandRegistrator<AddGraphCommand> registrator("ADD-GRAPH", "Adds a graph with specified identifier and type");
 
@@ -31,7 +32,7 @@ void AddGraphCommand::setGraphID(args::Positional<String, StringReader>& id)
 	}
 	else
 	{
-		throw std::runtime_error("Missing argument: [" + id.Name() + "]!");
+		throw MissingArgumentException(id.Name());
 	}
 }
 

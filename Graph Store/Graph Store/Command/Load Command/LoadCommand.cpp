@@ -2,6 +2,7 @@
 #include "../../Logger/Logger.h"
 #include "../../Directory Loader/DirectoryLoader.h"
 #include "../Command Registrator/CommandRegistrator.h"
+#include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 
 static CommandRegistrator<LoadCommand> registrator("LOAD", "Loads files in a specified directory");
 
@@ -26,7 +27,7 @@ void LoadCommand::setPath(args::Positional<String, StringReader>& path)
 	}
 	else
 	{
-		throw std::runtime_error("Missing argument: [" + path.Name() + "]!");
+		throw MissingArgumentException(path.Name());
 	}
 }
 

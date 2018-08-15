@@ -1,5 +1,6 @@
 #include "RemoveVertexCommand.h"
 #include "../Command Registrator/CommandRegistrator.h"
+#include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 
 static CommandRegistrator<RemoveVertexCommand> registrator("REMOVE-VERTEX",
 														   "Removes a vertex with a specified identifier");
@@ -25,7 +26,7 @@ void RemoveVertexCommand::setVertexID(args::Positional<String, StringReader>& id
 	}
 	else
 	{
-		throw std::runtime_error("Missing argument: [" + id.Name() + "]!");
+		throw MissingArgumentException(id.Name());
 	}
 }
 

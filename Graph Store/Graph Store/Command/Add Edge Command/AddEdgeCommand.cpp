@@ -1,5 +1,6 @@
 #include "AddEdgeCommand.h"
 #include "../Command Registrator/CommandRegistrator.h"
+#include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 
 static CommandRegistrator<AddEdgeCommand> registrator("ADD-EDGE",
 													  "Adds an edge between two vertices with a specified weight");
@@ -31,7 +32,7 @@ void AddEdgeCommand::setStartVertexID(args::Positional<String, StringReader>& id
 	}
 	else
 	{
-		throw std::runtime_error("Missing argument: [" + id.Name() + "]!");
+		throw MissingArgumentException(id.Name());
 	}
 }
 
@@ -43,7 +44,7 @@ void AddEdgeCommand::setEndVertexID(args::Positional<String, StringReader>& id)
 	}
 	else
 	{
-		throw std::runtime_error("Missing argument: [" + id.Name() + "]!");
+		throw MissingArgumentException(id.Name());
 	}
 }
 
