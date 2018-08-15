@@ -24,7 +24,7 @@ void UseGraphCommand::setGraphID(args::Positional<String, StringReader>& graphID
 	}
 	else
 	{
-		throw std::runtime_error("Missing argument: [graph id]!");
+		throw std::runtime_error("Missing argument: [" + graphID.Name() + "]!");
 	}
 }
 

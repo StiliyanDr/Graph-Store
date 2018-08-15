@@ -24,7 +24,7 @@ void AddVertexCommand::setVertexID(args::Positional<String, StringReader>& id)
 	}
 	else
 	{
-		throw std::runtime_error("Missing argument: [vertex id]!");
+		throw std::runtime_error("Missing argument: [" + id.Name() + "]!");
 	}
 }
 

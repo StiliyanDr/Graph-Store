@@ -29,7 +29,7 @@ void RemoveEdgeCommand::setStartVertexID(args::Positional<String, StringReader>&
 	}
 	else
 	{
-		throw std::runtime_error("Missing argument: [start vertex id]!");
+		throw std::runtime_error("Missing argument: [" + id.Name() + "]!");
 	}
 }
 
@@ -41,7 +41,7 @@ void RemoveEdgeCommand::setEndVertexID(args::Positional<String, StringReader>& i
 	}
 	else
 	{
-		throw std::runtime_error("Missing argument: [end vertex id]!");
+		throw std::runtime_error("Missing argument: [" + id.Name() + "]!");
 	}
 }
 

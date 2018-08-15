@@ -26,7 +26,7 @@ void LoadCommand::setPath(args::Positional<String, StringReader>& path)
 	}
 	else
 	{
-		throw std::runtime_error("Missing argument: [path]!");
+		throw std::runtime_error("Missing argument: [" + path.Name() + "]!");
 	}
 }
 
