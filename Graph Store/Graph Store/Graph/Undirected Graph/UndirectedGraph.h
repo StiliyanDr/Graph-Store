@@ -6,7 +6,7 @@
 class UndirectedGraph : public GraphBase
 {
 public:
-	UndirectedGraph(const String& identifier);
+	explicit UndirectedGraph(const String& identifier);
 	UndirectedGraph(const UndirectedGraph&) = delete;
 	UndirectedGraph& operator=(const UndirectedGraph&) = delete;
 	UndirectedGraph(UndirectedGraph&&) = delete;

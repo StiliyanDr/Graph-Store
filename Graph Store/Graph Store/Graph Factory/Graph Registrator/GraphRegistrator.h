@@ -7,7 +7,7 @@ template <class ConcreteGraph>
 class GraphRegistrator
 {
 public:
-	GraphRegistrator(const char* graphType);
+	explicit GraphRegistrator(const char* graphType);
 	GraphRegistrator(const GraphRegistrator<ConcreteGraph>&) = delete;
 	GraphRegistrator<ConcreteGraph>& operator=(const GraphRegistrator<ConcreteGraph>&) = delete;
 	GraphRegistrator(GraphRegistrator<ConcreteGraph>&&) = delete;

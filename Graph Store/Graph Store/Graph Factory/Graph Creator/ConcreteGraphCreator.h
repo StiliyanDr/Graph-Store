@@ -7,7 +7,7 @@ template <class ConcreteGraph>
 class ConcreteGraphCreator : public GraphCreator
 {
 public:
-	ConcreteGraphCreator(const char* criterion);
+	explicit ConcreteGraphCreator(const char* criterion);
 	ConcreteGraphCreator(const ConcreteGraphCreator<ConcreteGraph>&) = delete;
 	ConcreteGraphCreator<ConcreteGraph>& operator=(const ConcreteGraphCreator<ConcreteGraph>&) = delete;
 	ConcreteGraphCreator(ConcreteGraphCreator<ConcreteGraph>&&) = delete;

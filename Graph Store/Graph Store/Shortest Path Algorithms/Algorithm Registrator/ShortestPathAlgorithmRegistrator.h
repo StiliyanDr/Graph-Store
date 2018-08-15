@@ -5,7 +5,7 @@ template <class Algorithm>
 class ShortestPathAlgorithmRegistrator
 {
 public:
-	ShortestPathAlgorithmRegistrator(const char* algorithmIdentifier);
+	explicit ShortestPathAlgorithmRegistrator(const char* algorithmIdentifier);
 	ShortestPathAlgorithmRegistrator(const ShortestPathAlgorithmRegistrator<Algorithm>&) = delete;
 	ShortestPathAlgorithmRegistrator<Algorithm>& operator=(const ShortestPathAlgorithmRegistrator<Algorithm>&) = delete;
 	ShortestPathAlgorithmRegistrator(ShortestPathAlgorithmRegistrator<Algorithm>&&) = delete;

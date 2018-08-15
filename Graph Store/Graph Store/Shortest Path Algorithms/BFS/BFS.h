@@ -7,7 +7,7 @@
 class BFS : public ShortestPathAlgorithm
 {
 public:
-	BFS(const char* identifier);
+	explicit BFS(const char* identifier);
 	BFS(const BFS&) = default;
 	BFS& operator=(const BFS&) = default;
 	BFS(BFS&&) = delete;

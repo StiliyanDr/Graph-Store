@@ -11,7 +11,7 @@ class DirectoryFilesIterator
 
 public:
 	DirectoryFilesIterator();
-	DirectoryFilesIterator(const String& path);
+	explicit DirectoryFilesIterator(const String& path);
 	DirectoryFilesIterator(const DirectoryFilesIterator&) = delete;
 	DirectoryFilesIterator& operator=(const DirectoryFilesIterator&) = delete;
 	DirectoryFilesIterator(DirectoryFilesIterator&&) = delete;
