@@ -24,6 +24,7 @@ public:
 
 	void setParent(Vertex* parent);
 	Vertex* getParent();
+	const Vertex* getParent() const;
 
 	void setDistance(const Distance& distance);
 	const Distance& getDistance() const;

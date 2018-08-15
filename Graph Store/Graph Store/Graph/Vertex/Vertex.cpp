@@ -35,6 +35,11 @@ Vertex* Vertex::getParent()
 	return parent;
 }
 
+const Vertex* Vertex::getParent() const
+{
+	return parent;
+}
+
 void Vertex::setDistance(const Distance& distance)
 {
 	this->distance = distance;
