@@ -208,8 +208,8 @@
     <Filter Include="Command\Search Command">
       <UniqueIdentifier>{345f5ef0-9704-4fcf-bff6-1f857d50ce3f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shortest Path Algorithms\Path Printer">
-      <UniqueIdentifier>{88e0cb38-f86f-477a-b5e0-59d452cb31e8}</UniqueIdentifier>
+    <Filter Include="Shortest Path Algorithms\Path Printing">
+      <UniqueIdentifier>{cba0ae12-4028-4534-9747-94d4fa38845e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -438,8 +438,8 @@
     <ClInclude Include="Shortest Path Algorithms\Algorithm Registrator\ShortestPathAlgorithmRegistrator.hpp">
       <Filter>Shortest Path Algorithms\Shortest Path Algorithm Registrator</Filter>
     </ClInclude>
-    <ClInclude Include="Shortest Path Algorithms\Path Printer\PathPrinter.h">
-      <Filter>Shortest Path Algorithms\Path Printer</Filter>
+    <ClInclude Include="Shortest Path Algorithms\Path Printing\PathPrinting.h">
+      <Filter>Shortest Path Algorithms\Path Printing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -571,6 +571,9 @@
     </ClCompile>
     <ClCompile Include="Command\Search Command\SearchCommand.cpp">
       <Filter>Command\Search Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Shortest Path Algorithms\Path Printing\PathPrinting.cpp">
+      <Filter>Shortest Path Algorithms\Path Printing</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 #include "SearchCommand.h"
 #include "../../Shortest Path Algorithms/Store/ShortestPathAlgorithmsStore.h"
 #include "../Command Registrator/CommandRegistrator.h"
+#include "../../Shortest Path Algorithms/Path Printing/PathPrinting.h"
 
 static CommandRegistrator<SearchCommand> registrator("SEARCH", "Finds a shortest path between two vertices");
 
@@ -8,7 +9,7 @@ void SearchCommand::execute(args::Subparser& parser)
 {
 	parseArguments(parser);
 	PathEnds ends = findShortestPath(sourceID, targetID, algorithmID);
-	printPath(ends.source, ends.target);
+	printPathAndItsLength(ends.source, ends.target);
 }
 
 void SearchCommand::parseArguments(args::Subparser& parser)
