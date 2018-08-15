@@ -9,10 +9,10 @@ class LoadCommand : public Command
 {
 public:
 	LoadCommand() = default;
-	LoadCommand(const LoadCommand&) = default;
-	LoadCommand& operator=(const LoadCommand&) = default;
-	LoadCommand(LoadCommand&&) = default;
-	LoadCommand& operator=(LoadCommand&&) = default;
+	LoadCommand(const LoadCommand&) = delete;
+	LoadCommand& operator=(const LoadCommand&) = delete;
+	LoadCommand(LoadCommand&&) = delete;
+	LoadCommand& operator=(LoadCommand&&) = delete;
 	virtual ~LoadCommand() = default;
 
 	virtual void execute(args::Subparser& parser) override;

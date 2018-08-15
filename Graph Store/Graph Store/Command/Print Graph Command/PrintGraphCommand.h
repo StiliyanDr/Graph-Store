@@ -8,10 +8,10 @@ class PrintGraphCommand : public Command
 {
 public:
 	PrintGraphCommand() = default;
-	PrintGraphCommand(const PrintGraphCommand&) = default;
-	PrintGraphCommand& operator=(const PrintGraphCommand&) = default;
-	PrintGraphCommand(PrintGraphCommand&&) = default;
-	PrintGraphCommand& operator=(PrintGraphCommand&&) = default;
+	PrintGraphCommand(const PrintGraphCommand&) = delete;
+	PrintGraphCommand& operator=(const PrintGraphCommand&) = delete;
+	PrintGraphCommand(PrintGraphCommand&&) = delete;
+	PrintGraphCommand& operator=(PrintGraphCommand&&) = delete;
 	virtual ~PrintGraphCommand() = default;
 
 	virtual void execute(args::Subparser& parser) override;

@@ -7,10 +7,10 @@ class ListGraphsCommand : public Command
 {
 public:
 	ListGraphsCommand() = default;
-	ListGraphsCommand(const ListGraphsCommand&) = default;
-	ListGraphsCommand& operator=(const ListGraphsCommand&) = default;
-	ListGraphsCommand(ListGraphsCommand&&) = default;
-	ListGraphsCommand& operator=(ListGraphsCommand&&) = default;
+	ListGraphsCommand(const ListGraphsCommand&) = delete;
+	ListGraphsCommand& operator=(const ListGraphsCommand&) = delete;
+	ListGraphsCommand(ListGraphsCommand&&) = delete;
+	ListGraphsCommand& operator=(ListGraphsCommand&&) = delete;
 	virtual ~ListGraphsCommand() = default;
 
 	virtual void execute(args::Subparser& parser) override;
