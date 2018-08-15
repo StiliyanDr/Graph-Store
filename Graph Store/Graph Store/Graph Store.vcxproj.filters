@@ -208,6 +208,9 @@
     <Filter Include="Command\Search Command">
       <UniqueIdentifier>{345f5ef0-9704-4fcf-bff6-1f857d50ce3f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shortest Path Algorithms\Path Printer">
+      <UniqueIdentifier>{88e0cb38-f86f-477a-b5e0-59d452cb31e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -428,6 +431,15 @@
     </ClInclude>
     <ClInclude Include="Command\Search Command\SearchCommand.h">
       <Filter>Command\Search Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\Algorithm Registrator\ShortestPathAlgorithmRegistrator.h">
+      <Filter>Shortest Path Algorithms\Shortest Path Algorithm Registrator</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\Algorithm Registrator\ShortestPathAlgorithmRegistrator.hpp">
+      <Filter>Shortest Path Algorithms\Shortest Path Algorithm Registrator</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\Path Printer\PathPrinter.h">
+      <Filter>Shortest Path Algorithms\Path Printer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -206,9 +206,12 @@
     <ClInclude Include="Queue\Queue.h" />
     <ClInclude Include="Queue\Queue.hpp" />
     <ClInclude Include="Shortest Path Algorithms\Abstract class\ShortestPathAlgorithm.h" />
+    <ClInclude Include="Shortest Path Algorithms\Algorithm Registrator\ShortestPathAlgorithmRegistrator.h" />
+    <ClInclude Include="Shortest Path Algorithms\Algorithm Registrator\ShortestPathAlgorithmRegistrator.hpp" />
     <ClInclude Include="Shortest Path Algorithms\BFS\BFS.h" />
     <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.h" />
     <ClInclude Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.h" />
+    <ClInclude Include="Shortest Path Algorithms\Path Printer\PathPrinter.h" />
     <ClInclude Include="Shortest Path Algorithms\Store\ShortestPathAlgorithmsStore.h" />
     <ClInclude Include="Shortest Path Algorithms\Store\Unsupported Alogirhtm Exception\UnsupportedAlgorithmException.h" />
     <ClInclude Include="String Cutter\StringCutter.h" />
