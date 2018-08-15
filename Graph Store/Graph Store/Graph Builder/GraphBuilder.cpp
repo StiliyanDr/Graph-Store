@@ -5,10 +5,11 @@
 
 std::unique_ptr<Graph> GraphBuilder::buildFromFile(const String& fileName)
 {
+	openFile(fileName);
+	
 	try
 	{
-		tryToParse(fileName);
-		buildResultFromParsedFile();
+		buildAGraph();
 	}
 	catch (std::bad_alloc&)
 	{
@@ -20,68 +21,65 @@ std::unique_ptr<Graph> GraphBuilder::buildFromFile(const String& fileName)
 	return std::move(graph);
 }
 
-void GraphBuilder::tryToParse(const String& fileName)
+void GraphBuilder::openFile(const String& name)
 {
+	assert(!fileParser.hasOpenedFile());
+
 	try
 	{
-		parse(fileName);
+		fileParser.openFile(name);
 	}
-	catch (OpenFileFailException& ex)
+	catch (OpenFileFailException& e)
 	{
-		throw GraphBuilderException(ex.what());
-	}
-	catch (FileParserException& ex)
-	{
-		clean();
-		String message = "Error in file " + fileName + "! ";
-		throw GraphBuilderException(message + ex.what());
+		throw GraphBuilderException(e.what());
 	}
 }
 
-void GraphBuilder::parse(const String& fileName)
+void GraphBuilder::buildAGraph()
 {
-	fileParser.openFile(fileName);
-	parseTypeAndID();
-	parseComponents();
-	fileParser.closeFile();
+	createEmptyGraph();
+	addVerticesToTheCreatedGraph();
+	addEdgesHavingAddedVertices();
 }
 
-void GraphBuilder::parseTypeAndID()
+void GraphBuilder::createEmptyGraph()
 {
-	graphType = fileParser.readLine();
-	graphID = fileParser.readLine();
+	assert(graph == nullptr);
+
+	String id = fileParser.readLine();
+	String type = fileParser.readLine();
+
+	graph = GraphFactory::instance().createGraph(type, id);
 }
 
-void GraphBuilder::parseComponents()
+void GraphBuilder::addVerticesToTheCreatedGraph()
 {
-	identifiers = readIdentifiers();
-	rawEdges = parseEdges();
-}
+	assert(graph != nullptr);
+	assert(identifiers.isEmpty());
 
-DynamicArray<String> GraphBuilder::readIdentifiers()
-{
 	unsigned identifiersCount = parseUnsignedAndSkipUntil(NEW_LINE);
-	DynamicArray<String> identifiers(identifiersCount, identifiersCount);
+	identifiers.ensureSize(identifiersCount);
 
-	for (size_t i = 0; i < identifiersCount; ++i)
+	for (unsigned i = 0; i < identifiersCount; ++i)
 	{
-		identifiers[i] = fileParser.readLine();
-	}
+		identifiers.add(fileParser.readLine());
 
-	return identifiers;
+		graph->addVertex(identifiers[i]);
+	}
 }
 
-DynamicArray<GraphBuilder::RawEdge> GraphBuilder::parseEdges()
+void GraphBuilder::addEdgesHavingAddedVertices()
 {
+	assert(graph != nullptr);
+
 	unsigned edgesCount = parseUnsignedAndSkipUntil(NEW_LINE);
-	DynamicArray<RawEdge> edges(edgesCount, edgesCount);
+	RawEdge rawEdge;
 
-	for (size_t i = 0; i < edgesCount; ++i)
+	for (unsigned i = 1; i <= edgesCount; ++i)
 	{
-		edges[i] = parseEdge();
+		rawEdge = parseEdge();
+		addEdge(rawEdge);
 	}
-
-	return edges;
 }
 
 GraphBuilder::RawEdge GraphBuilder::parseEdge()
@@ -105,45 +103,15 @@ unsigned GraphBuilder::parseUnsignedAndSkipUntil(char symbol)
 	return result;
 }
 
-void GraphBuilder::buildResultFromParsedFile()
+void GraphBuilder::addEdge(const RawEdge& edge)
 {
-	createGraph();
-	addVertices();
-	addEdges();
-}
+	String& startID = identifiers[edge.startIDIndex];
+	String& endID = identifiers[edge.endIDIndex];
 
-void GraphBuilder::createGraph()
-{
-	graph = GraphFactory::instance().createGraph(graphType, graphID);
-}
+	Vertex& start = graph->getVertexWithIdentifier(startID);
+	Vertex& end = graph->getVertexWithIdentifier(endID);
 
-void GraphBuilder::addVertices()
-{
-	size_t identifiersCount = identifiers.getCount();
-
-	for (size_t i = 0; i < identifiersCount; ++i)
-	{
-		graph->addVertex(identifiers[i]);
-	}
-}
-
-void GraphBuilder::addEdges()
-{
-	size_t edgesCount = rawEdges.getCount();
-
-	for (size_t i = 0; i < edgesCount; ++i)
-	{
-		addEdge(rawEdges[i]);
-	}
-}
-
-void GraphBuilder::addEdge(const RawEdge& rawEdge)
-{
-	String& startVertexID = identifiers[rawEdge.startIDIndex];
-	String& endVertexID = identifiers[rawEdge.endIDIndex];
-	Vertex& startVertex = graph->getVertexWithIdentifier(startVertexID);
-	Vertex& endVertex = graph->getVertexWithIdentifier(endVertexID);
-	graph->addEdgeBetweenWithWeight(startVertex, endVertex, rawEdge.weight);
+	graph->addEdgeBetweenWithWeight(start, end, edge.weight);
 }
 
 void GraphBuilder::dealWithBadAllocWhileWorkingWith(const String& fileName)
@@ -151,14 +119,11 @@ void GraphBuilder::dealWithBadAllocWhileWorkingWith(const String& fileName)
 	graph = nullptr;
 	clean();
 
-	throw GraphBuilderException("Not enough memory to load graph in " + fileName);
+	throw GraphBuilderException("Not enough memory to load " + fileName);
 }
 
 void GraphBuilder::clean()
 {
-	graphType = "";
-	graphID = "";
 	identifiers.empty();
-	rawEdges.empty();
 	fileParser.closeFile();
 }
