@@ -12,20 +12,20 @@ void UseGraphCommand::execute(args::Subparser& parser)
 
 void UseGraphCommand::parseArguments(args::Subparser& parser)
 {
-	args::Positional<String, StringReader> graphID(parser, "graph id", "The identifier of the graph to use");
+	args::Positional<String, StringReader> id(parser, "graph id", "The identifier of the graph to use");
 	parser.Parse();
-	setGraphID(graphID);
+	setGraphID(id);
 }
 
-void UseGraphCommand::setGraphID(args::Positional<String, StringReader>& graphID)
+void UseGraphCommand::setGraphID(args::Positional<String, StringReader>& id)
 {
-	if (graphID.Matched())
+	if (id.Matched())
 	{
-		this->graphID = args::get(graphID);
+		graphID = args::get(id);
 	}
 	else
 	{
-		throw MissingArgumentException(graphID.Name());
+		throw MissingArgumentException(id.Name());
 	}
 }
 

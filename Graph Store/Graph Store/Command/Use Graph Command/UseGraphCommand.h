@@ -21,7 +21,7 @@ private:
 
 private:
 	void parseArguments(args::Subparser& parser);
-	void setGraphID(args::Positional<String, StringReader>& graphID);
+	void setGraphID(args::Positional<String, StringReader>& id);
 
 private:
 	String graphID;

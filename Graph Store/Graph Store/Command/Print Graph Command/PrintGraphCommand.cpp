@@ -13,27 +13,27 @@ void PrintGraphCommand::execute(args::Subparser& parser)
 
 void PrintGraphCommand::parseArguments(args::Subparser& parser)
 {
-	args::Positional<String, StringReader> graphID(parser, "graph id", "The identifier of the graph to print");
+	args::Positional<String, StringReader> id(parser, "graph id", "The identifier of the graph to print");
 	parser.Parse();
-	setGraphID(graphID);
+	setGraphID(id);
 }
 
-void PrintGraphCommand::setGraphID(args::Positional<String, StringReader>& graphID)
+void PrintGraphCommand::setGraphID(args::Positional<String, StringReader>& id)
 {
-	if (graphID.Matched())
+	if (id.Matched())
 	{
-		this->graphID = args::get(graphID);
+		graphID = args::get(id);
 	}
 	else
 	{
-		throw MissingArgumentException(graphID.Name());
+		throw MissingArgumentException(id.Name());
 	}
 }
 
-void PrintGraphCommand::printGraph(const String& graphID)
+void PrintGraphCommand::printGraph(const String& id)
 {
 	GraphCollection& graphs = getGraphs();
-	Graph& graph = graphs.getGraphWithID(graphID);
+	Graph& graph = graphs.getGraphWithID(id);
 
 	std::unique_ptr<Iterator<Vertex*>> iterator = graph.getIteratorOfVertices();
 	Vertex* vertex;

@@ -17,13 +17,13 @@ public:
 	virtual void execute(args::Subparser& parser) override;
 
 private:
-	static void printGraph(const String& graphID);
+	static void printGraph(const String& id);
 	static void printEdgesLeaving(Vertex& vertex, Graph& graph);
 	static void printEdge(Edge& edge);
 
 private:
 	void parseArguments(args::Subparser& parser);
-	void setGraphID(args::Positional<String, StringReader>& graphID);
+	void setGraphID(args::Positional<String, StringReader>& id);
 
 private:
 	String graphID;
