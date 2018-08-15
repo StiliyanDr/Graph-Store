@@ -2,6 +2,9 @@
 #include "../../Graph/Vertex/Vertex.h"
 #include <iostream>
 
+void printPath(const Vertex& start, const Vertex& end);
+void printLength(const Vertex& end);
+
 void printPathAndItsLength(const Vertex& start, const Vertex& end)
 {
 	printPath(start, end);
