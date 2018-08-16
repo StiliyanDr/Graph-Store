@@ -42,6 +42,7 @@ protected:
 	bool isOwnerOf(const Vertex& vertex) const;
 
 private:
+	void tryToAddNewVertex(const String& id);
 	void addVertexToCollection(std::unique_ptr<Vertex> vertex);
 	void removeVertexFromCollection(const Vertex& vertex);
 	EdgeConcreteIterator searchForEdgeFromTo(Vertex& start, const Vertex& end);

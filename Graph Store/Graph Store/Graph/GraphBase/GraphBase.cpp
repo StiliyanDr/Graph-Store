@@ -116,8 +116,7 @@ void GraphBase::addVertex(const String& identifier)
 {
 	if (!hasVertexWithIdentifier(identifier))
 	{
-		std::unique_ptr<Vertex> newVertex = createVertex(identifier);
-		addVertexToCollection(std::move(newVertex));
+		tryToAddNewVertex(identifier);
 	}
 	else
 	{
@@ -133,6 +132,19 @@ bool GraphBase::hasVertexWithIdentifier(const String& identifier)
 Vertex* GraphBase::searchForVertexWithIdentifier(const String& identifier)
 {
 	return vertexSearchSet.search(identifier);
+}
+
+void GraphBase::tryToAddNewVertex(const String& identifier)
+{
+	try
+	{
+		std::unique_ptr<Vertex> newVertex = createVertex(identifier);
+		addVertexToCollection(std::move(newVertex));
+	}
+	catch (std::bad_alloc&)
+	{
+		throw GraphException("Not enough memory for a new vertex!");
+	}
 }
 
 std::unique_ptr<Vertex> GraphBase::createVertex(const String& identifier) const
