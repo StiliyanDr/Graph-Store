@@ -21,24 +21,24 @@ public:
 	GraphBase& operator=(GraphBase&&) = delete;
 	virtual ~GraphBase();
 
-	virtual void addVertex(const String& identifier) override;
+	virtual void addVertex(const String& id) override;
 	virtual void removeVertex(Vertex& vertex) override;
 
-	virtual Vertex& getVertexWithIdentifier(const String& identifier) override;
+	virtual Vertex& getVertexWithID(const String& id) override;
 	virtual VertexAbstractIterator getIteratorOfVertices() override;
 	virtual EdgeAbstractIterator getIteratorOfEdgesStartingFrom(Vertex& vertex) override;
 	virtual unsigned getVerticesCount() const override;
 
 protected:
-	GraphBase(String identifier);
+	GraphBase(String id);
 
 	virtual void removeEdgesEndingIn(Vertex& vertex);
 	virtual void removeEdgesStartingFrom(Vertex& vertex);
 	void removeEdgeFromTo(Vertex& start, const Vertex& end);
 	void addEdgeFromToWithWeight(Vertex& start, Vertex& end, unsigned weight);
 	bool hasEdgeFromTo(Vertex& start, const Vertex& end);
-	bool hasVertexWithIdentifier(const String& identifier);
-	Vertex* searchForVertexWithIdentifier(const String& identifier);
+	bool hasVertexWithID(const String& id);
+	Vertex* searchForVertexWithID(const String& id);
 	bool isOwnerOf(const Vertex& vertex) const;
 
 private:
@@ -49,7 +49,7 @@ private:
 	EdgeConcreteIterator getConcreteIteratorOfEdgesStartingFrom(Vertex& vertex);
 	LinkedList<Edge>& getEdgesStartingFrom(Vertex& vertex);
 	VertexConcreteIterator getConcreteIteratorOfVertices();
-	std::unique_ptr<Vertex> createVertex(const String& identifier) const;
+	std::unique_ptr<Vertex> createVertex(const String& id) const;
 	void destroyAllVertices();
 	void destroyVertex(Vertex* vertex) const;
 

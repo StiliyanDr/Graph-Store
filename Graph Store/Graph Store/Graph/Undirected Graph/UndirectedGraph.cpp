@@ -4,8 +4,8 @@
 
 static GraphRegistrator<UndirectedGraph> registrator("undirected");
 
-UndirectedGraph::UndirectedGraph(const String& identifier) :
-	GraphBase(identifier)
+UndirectedGraph::UndirectedGraph(const String& id) :
+	GraphBase(id)
 {
 }
 

@@ -4,8 +4,8 @@
 
 static ShortestPathAlgorithmRegistrator<BFS> registrator("bfs");
 
-BFS::BFS(const char* identifier) :
-	ShortestPathAlgorithm(identifier)
+BFS::BFS(const char* id) :
+	ShortestPathAlgorithm(id)
 {
 }
 

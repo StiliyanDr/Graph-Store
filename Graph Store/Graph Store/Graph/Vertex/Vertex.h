@@ -32,15 +32,15 @@ public:
 	void setPriorityQueueHandle(const PriorityQueueHandle& handle);
 	const PriorityQueueHandle& getPriorityQueueHandle() const;
 
-	const String& getIdentifier() const;
+	const String& getID() const;
 
 private:
-	Vertex(String identifier, size_t index);
+	Vertex(String id, size_t index);
 	
-	void setIdentifier(String identifier);
+	void setID(String id);
 
 private:
-	String identifier;
+	String id;
 	size_t index;
 	LinkedList<Edge> edges;
 	Vertex* parent;

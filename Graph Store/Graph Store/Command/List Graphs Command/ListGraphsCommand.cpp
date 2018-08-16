@@ -22,7 +22,7 @@ void ListGraphsCommand::listIdentifiersOfGraphs()
 	{
 		graph = iterator->getCurrentItem();
 
-		std::cout << graph->getIdentifier() << '\n';
+		std::cout << graph->getID() << '\n';
 
 		iterator->advance();
 	}

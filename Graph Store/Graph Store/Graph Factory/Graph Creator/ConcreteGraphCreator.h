@@ -14,7 +14,7 @@ public:
 	ConcreteGraphCreator<ConcreteGraph>& operator=(ConcreteGraphCreator<ConcreteGraph>&&) = delete;
 	virtual ~ConcreteGraphCreator() = default;
 
-	virtual std::unique_ptr<Graph> createGraph(const String& identifier) const override;
+	virtual std::unique_ptr<Graph> createGraph(const String& id) const override;
 };
 
 #include "ConcreteGraphCreator.hpp"

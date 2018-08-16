@@ -4,8 +4,8 @@
 
 static ShortestPathAlgorithmRegistrator<DijkstraAlgorithm> registrator("dijkstra");
 
-DijkstraAlgorithm::DijkstraAlgorithm(const char* identifier) :
-	ShortestPathAlgorithm(identifier)
+DijkstraAlgorithm::DijkstraAlgorithm(const char* id) :
+	ShortestPathAlgorithm(id)
 {
 }
 

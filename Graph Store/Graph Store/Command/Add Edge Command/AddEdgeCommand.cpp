@@ -58,8 +58,8 @@ void AddEdgeCommand::addEdge(const String& startVertexID,
 							 unsigned weight)
 {
 	Graph& usedGraph = getUsedGraph();
-	Vertex& start = usedGraph.getVertexWithIdentifier(startVertexID);
-	Vertex& end = usedGraph.getVertexWithIdentifier(endVertexID);
+	Vertex& start = usedGraph.getVertexWithID(startVertexID);
+	Vertex& end = usedGraph.getVertexWithID(endVertexID);
 
 	usedGraph.addEdgeBetweenWithWeight(start, end, weight);
 }

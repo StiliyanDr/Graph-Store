@@ -18,26 +18,26 @@ public:
 	Graph& operator=(Graph&&) = delete;
 	virtual ~Graph() = default;
 
-	virtual void addVertex(const String& identifier) = 0;
+	virtual void addVertex(const String& id) = 0;
 	virtual void removeVertex(Vertex& vertex) = 0;
 	virtual void addEdgeBetweenWithWeight(Vertex& start, Vertex& end, unsigned weight) = 0;
 	virtual void removeEdgeBetween(Vertex& start, Vertex& end) = 0;
 
-	virtual Vertex& getVertexWithIdentifier(const String& identifier) = 0;
+	virtual Vertex& getVertexWithID(const String& id) = 0;
 	virtual VertexAbstractIterator getIteratorOfVertices() = 0;
 	virtual EdgeAbstractIterator getIteratorOfEdgesStartingFrom(Vertex& vertex) = 0;
 	virtual unsigned getVerticesCount() const = 0;
 
-	const String& getIdentifier() const;
-	void setIdentifier(String identifier);
+	const String& getID() const;
+	void setID(String id);
 
 protected:
-	Graph(String identifier);
+	Graph(String id);
 	Graph(const Graph&) = default;
 	Graph& operator=(const Graph&) = default;
 
 private:
-	String identifier;
+	String id;
 };
 
 #endif //__GRAPH_HEADER_INCLUDED__

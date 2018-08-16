@@ -36,7 +36,7 @@ GraphCollection::~GraphCollection()
 
 void GraphCollection::add(Graph& graph)
 {
-	const String& id = graph.getIdentifier();
+	const String& id = graph.getID();
 
 	if (!hasGraphWithID(id))
 	{
@@ -54,7 +54,7 @@ bool GraphCollection::hasGraphWithID(const String& id) const
 
 	for (size_t i = 0; i < count; ++i)
 	{
-		if (graphs[i]->getIdentifier() == id)
+		if (graphs[i]->getID() == id)
 		{
 			return true;
 		}
@@ -91,7 +91,7 @@ size_t GraphCollection::getIndexOfGraphWithID(const String& id) const
 
 	for (size_t i = 0; i < count; ++i)
 	{
-		if (graphs[i]->getIdentifier() == id)
+		if (graphs[i]->getID() == id)
 		{
 			return i;
 		}

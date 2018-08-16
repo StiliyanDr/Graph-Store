@@ -4,8 +4,8 @@
 
 static GraphRegistrator<DirectedGraph> registrator("directed");
 
-DirectedGraph::DirectedGraph(const String& identifier) :
-	GraphBase(identifier)
+DirectedGraph::DirectedGraph(const String& id) :
+	GraphBase(id)
 {
 }
 

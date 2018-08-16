@@ -3,21 +3,21 @@
 #include "../../Graph/Abstract class/Graph.h"
 #include "../../Graph/Vertex/Vertex.h"
 
-ShortestPathAlgorithm::ShortestPathAlgorithm(const char* identifier)
+ShortestPathAlgorithm::ShortestPathAlgorithm(const char* id)
 {
-	setIdentifier(identifier);
+	setID(id);
 }
 
-void ShortestPathAlgorithm::setIdentifier(const char* identifier)
+void ShortestPathAlgorithm::setID(const char* id)
 {
-	assert(identifier != nullptr && *identifier);
+	assert(id != nullptr && *id);
 
-	this->identifier = identifier;
+	this->id = id;
 }
 
-const String& ShortestPathAlgorithm::getIdentifier() const
+const String& ShortestPathAlgorithm::getID() const
 {
-	return identifier;
+	return id;
 }
 
 void ShortestPathAlgorithm::initialiseVerticesOf(Graph& graph) const

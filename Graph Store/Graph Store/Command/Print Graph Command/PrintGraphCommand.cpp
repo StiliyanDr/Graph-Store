@@ -50,7 +50,7 @@ void PrintGraphCommand::printGraph(const String& id)
 
 void PrintGraphCommand::printEdgesLeaving(Vertex& vertex, Graph& graph)
 {
-	std::cout << vertex.getIdentifier() << ": ";
+	std::cout << vertex.getID() << ": ";
 
 	std::unique_ptr<Iterator<Edge>> iterator =
 		graph.getIteratorOfEdgesStartingFrom(vertex);
@@ -70,5 +70,5 @@ void PrintGraphCommand::printEdge(Edge& edge)
 	Vertex& endOfEdge = edge.getVertex();
 
 	std::cout << "(" << edge.getWeight() << ", "
-			  << endOfEdge.getIdentifier() << "), ";
+			  << endOfEdge.getID() << "), ";
 }

@@ -6,7 +6,7 @@
 class DirectedGraph : public GraphBase
 {
 public:
-	explicit DirectedGraph(const String& identifier);
+	explicit DirectedGraph(const String& id);
 	DirectedGraph(const DirectedGraph&) = delete;
 	DirectedGraph& operator=(const DirectedGraph&) = delete;
 	DirectedGraph(DirectedGraph&&) = delete;

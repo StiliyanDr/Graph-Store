@@ -4,8 +4,8 @@
 
 static ShortestPathAlgorithmRegistrator<IterativeDeepeningDFS> registrator("dfs-shortest");
 
-IterativeDeepeningDFS::IterativeDeepeningDFS(const char* identifier) :
-	ShortestPathAlgorithm(identifier)
+IterativeDeepeningDFS::IterativeDeepeningDFS(const char* id) :
+	ShortestPathAlgorithm(id)
 {
 }
 

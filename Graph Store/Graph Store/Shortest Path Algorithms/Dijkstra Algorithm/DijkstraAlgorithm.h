@@ -11,7 +11,7 @@ class DijkstraAlgorithm : public ShortestPathAlgorithm
 	typedef PriorityQueue<Vertex, Distance, HandleUpdator, DistanceAccessor> PriorityQueue;
 
 public:
-	explicit DijkstraAlgorithm(const char* identifier);
+	explicit DijkstraAlgorithm(const char* id);
 	DijkstraAlgorithm(const DijkstraAlgorithm&) = default;
 	DijkstraAlgorithm& operator=(const DijkstraAlgorithm&) = default;
 	DijkstraAlgorithm(DijkstraAlgorithm&&) = delete;

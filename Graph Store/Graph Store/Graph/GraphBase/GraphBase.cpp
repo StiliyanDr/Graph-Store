@@ -1,8 +1,8 @@
 #include "GraphBase.h"
 #include "../Graph Exception/GraphException.h"
 
-GraphBase::GraphBase(String identifier) :
-	Graph(std::move(identifier)),
+GraphBase::GraphBase(String id) :
+	Graph(std::move(id)),
 	vertices(INITIAL_COLLECTION_SIZE),
 	vertexSearchSet(INITIAL_COLLECTION_SIZE)
 {
@@ -102,7 +102,7 @@ void GraphBase::removeVertexFromCollection(const Vertex& vertex)
 {
 	assert(vertices[vertex.index] == &vertex);
 
-	vertexSearchSet.remove(vertex.identifier);
+	vertexSearchSet.remove(vertex.id);
 
 	size_t indexOfLastVertex = vertices.getCount() - 1;
 	assert(vertices[indexOfLastVertex]->index == indexOfLastVertex);
@@ -112,33 +112,33 @@ void GraphBase::removeVertexFromCollection(const Vertex& vertex)
 	vertices.removeAt(indexOfLastVertex);
 }
 
-void GraphBase::addVertex(const String& identifier)
+void GraphBase::addVertex(const String& id)
 {
-	if (!hasVertexWithIdentifier(identifier))
+	if (!hasVertexWithID(id))
 	{
-		tryToAddNewVertex(identifier);
+		tryToAddNewVertex(id);
 	}
 	else
 	{
-		throw GraphException("There already is a vertex with identifier: " + identifier);
+		throw GraphException("There already is a vertex with identifier: " + id);
 	}
 }
 
-bool GraphBase::hasVertexWithIdentifier(const String& identifier)
+bool GraphBase::hasVertexWithID(const String& id)
 {
-	return searchForVertexWithIdentifier(identifier) != nullptr;
+	return searchForVertexWithID(id) != nullptr;
 }
 
-Vertex* GraphBase::searchForVertexWithIdentifier(const String& identifier)
+Vertex* GraphBase::searchForVertexWithID(const String& id)
 {
-	return vertexSearchSet.search(identifier);
+	return vertexSearchSet.search(id);
 }
 
-void GraphBase::tryToAddNewVertex(const String& identifier)
+void GraphBase::tryToAddNewVertex(const String& id)
 {
 	try
 	{
-		std::unique_ptr<Vertex> newVertex = createVertex(identifier);
+		std::unique_ptr<Vertex> newVertex = createVertex(id);
 		addVertexToCollection(std::move(newVertex));
 	}
 	catch (std::bad_alloc&)
@@ -147,9 +147,9 @@ void GraphBase::tryToAddNewVertex(const String& identifier)
 	}
 }
 
-std::unique_ptr<Vertex> GraphBase::createVertex(const String& identifier) const
+std::unique_ptr<Vertex> GraphBase::createVertex(const String& id) const
 {
-	return std::unique_ptr<Vertex>(new Vertex(identifier, vertices.getCount()));
+	return std::unique_ptr<Vertex>(new Vertex(id, vertices.getCount()));
 }
 
 void GraphBase::addVertexToCollection(std::unique_ptr<Vertex> vertex)
@@ -172,9 +172,9 @@ void GraphBase::addVertexToCollection(std::unique_ptr<Vertex> vertex)
 	vertex.release();
 }
 
-Vertex& GraphBase::getVertexWithIdentifier(const String& identifier)
+Vertex& GraphBase::getVertexWithID(const String& id)
 {
-	Vertex* vertex = searchForVertexWithIdentifier(identifier);
+	Vertex* vertex = searchForVertexWithID(id);
 
 	if (vertex != nullptr)
 	{
@@ -182,7 +182,7 @@ Vertex& GraphBase::getVertexWithIdentifier(const String& identifier)
 	}
 	else
 	{
-		throw GraphException("There is no vertex with identifier: " + identifier);
+		throw GraphException("There is no vertex with identifier: " + id);
 	}
 }
 

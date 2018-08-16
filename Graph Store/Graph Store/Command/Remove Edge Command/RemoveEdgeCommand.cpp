@@ -49,8 +49,8 @@ void RemoveEdgeCommand::setEndVertexID(args::Positional<String, StringReader>& i
 void RemoveEdgeCommand::removeEdge(const String& startVertexID, const String& endVertexID)
 {
 	Graph& usedGraph = getUsedGraph();
-	Vertex& start = usedGraph.getVertexWithIdentifier(startVertexID);
-	Vertex& end = usedGraph.getVertexWithIdentifier(endVertexID);
+	Vertex& start = usedGraph.getVertexWithID(startVertexID);
+	Vertex& end = usedGraph.getVertexWithID(endVertexID);
 
 	usedGraph.removeEdgeBetween(start, end);
 }

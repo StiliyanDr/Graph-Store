@@ -17,7 +17,7 @@ public:
 	static GraphFactory& instance();
 
 public:
-	std::unique_ptr<Graph> createGraph(const String& criterion, const String& identifier);
+	std::unique_ptr<Graph> createGraph(const String& criterion, const String& id);
 
 private:
 	GraphFactory();

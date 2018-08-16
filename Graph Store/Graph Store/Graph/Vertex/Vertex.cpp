@@ -1,10 +1,10 @@
 #include "Vertex.h"
 #include "../Graph Exception/GraphException.h"
 
-Vertex::Vertex(String identifier, size_t index) :
+Vertex::Vertex(String id, size_t index) :
 	index(index)
 {
-	setIdentifier(std::move(identifier));
+	setID(std::move(id));
 	setParent(nullptr);
 	setDistance(Distance::getInfinity());
 	markAsNotVisited();
@@ -60,20 +60,20 @@ const PriorityQueueHandle& Vertex::getPriorityQueueHandle() const
 	return handle;
 }
 
-const String& Vertex::getIdentifier() const
+const String& Vertex::getID() const
 {
-	return identifier;
+	return id;
 }
 
-void Vertex::setIdentifier(String identifier)
+void Vertex::setID(String id)
 {
-	if (identifier != String(""))
+	if (id != String(""))
 	{
-		this->identifier = std::move(identifier);
+		this->id = std::move(id);
 	}
 	else
 	{
-		throw GraphException("Invalid vertex identifier: " + identifier);
+		throw GraphException("Invalid vertex identifier: " + id);
 	}
 }
 

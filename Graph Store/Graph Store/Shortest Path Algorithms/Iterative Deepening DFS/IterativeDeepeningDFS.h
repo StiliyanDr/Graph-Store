@@ -6,7 +6,7 @@
 class IterativeDeepeningDFS : public ShortestPathAlgorithm
 {
 public:
-	explicit IterativeDeepeningDFS(const char* identifier);
+	explicit IterativeDeepeningDFS(const char* id);
 	IterativeDeepeningDFS(const IterativeDeepeningDFS&) = default;
 	IterativeDeepeningDFS& operator=(const IterativeDeepeningDFS&) = default;
 	IterativeDeepeningDFS(IterativeDeepeningDFS&&) = delete;

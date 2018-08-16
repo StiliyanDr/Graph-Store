@@ -14,18 +14,18 @@ public:
 	virtual ~ShortestPathAlgorithm() = default;
 	
 	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& target) = 0;
-	const String& getIdentifier() const;
-	void setIdentifier(const char* identifier);
+	const String& getID() const;
+	void setID(const char* id);
 
 protected:
-	ShortestPathAlgorithm(const char* identifier);
+	ShortestPathAlgorithm(const char* id);
 
 	void initialiseVerticesOf(Graph& graph) const;
 	virtual void initialiseVertex(Vertex& vertex) const = 0;
 	virtual void initialiseSource(Vertex& source) const;
 
 private:
-	String identifier;
+	String id;
 };
 
 #endif //__SHORTEST_PATH_ALGORITHM_HEADER_INCLUDED__

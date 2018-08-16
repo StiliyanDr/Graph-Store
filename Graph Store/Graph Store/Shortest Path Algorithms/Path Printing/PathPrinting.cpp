@@ -15,12 +15,12 @@ void printPath(const Vertex& start, const Vertex& end)
 {
 	if (start == end)
 	{
-		std::cout << start.getIdentifier();
+		std::cout << start.getID();
 	}
 	else if (end.getParent() != nullptr)
 	{
 		printPath(start, *(end.getParent()));
-		std::cout << ", " << end.getIdentifier();
+		std::cout << ", " << end.getID();
 	}
 	else
 	{

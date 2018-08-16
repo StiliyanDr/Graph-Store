@@ -1,24 +1,24 @@
 #include "Graph.h"
 #include "../Graph Exception/GraphException.h"
 
-Graph::Graph(String identifier)
+Graph::Graph(String id)
 {
-	setIdentifier(std::move(identifier));
+	setID(std::move(id));
 }
 
-void Graph::setIdentifier(String identifier)
+void Graph::setID(String id)
 {
-	if (identifier != String(""))
+	if (id != String(""))
 	{
-		this->identifier = std::move(identifier);
+		this->id = std::move(id);
 	}
 	else
 	{
-		throw GraphException("Invalid graph identifier: " + identifier);
+		throw GraphException("Invalid graph identifier: " + id);
 	}
 }
 
-const String& Graph::getIdentifier() const
+const String& Graph::getID() const
 {
-	return identifier;
+	return id;
 }

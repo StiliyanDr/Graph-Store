@@ -13,11 +13,11 @@ GraphFactory& GraphFactory::instance()
 	return theInstance;
 }
 
-std::unique_ptr<Graph> GraphFactory::createGraph(const String& criterion, const String& identifier)
+std::unique_ptr<Graph> GraphFactory::createGraph(const String& criterion, const String& id)
 {
 	const GraphCreator& creator = getCreatorByCriterion(criterion);
 
-	return creator.createGraph(identifier);
+	return creator.createGraph(id);
 }
 
 const GraphCreator& GraphFactory::getCreatorByCriterion(const String& criterion)

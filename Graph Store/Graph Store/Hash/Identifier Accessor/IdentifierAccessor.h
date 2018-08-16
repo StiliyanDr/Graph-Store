@@ -9,7 +9,7 @@ public:
 	template <class T>
 	const String& operator()(const T& object) const
 	{
-		return object.getIdentifier();
+		return object.getID();
 	}
 };
 
