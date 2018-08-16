@@ -188,7 +188,14 @@ Vertex& GraphBase::getVertexWithIdentifier(const String& identifier)
 
 void GraphBase::addEdgeFromToWithWeight(Vertex& start, Vertex& end, unsigned weight)
 {
-	getEdgesStartingFrom(start).addFront(Edge(&end, weight));
+	try
+	{
+		getEdgesStartingFrom(start).addFront(Edge(&end, weight));
+	}
+	catch (std::bad_alloc&)
+	{
+		throw GraphException("Not enough memory!");
+	}
 }
 
 Graph::VertexAbstractIterator GraphBase::getIteratorOfVertices()

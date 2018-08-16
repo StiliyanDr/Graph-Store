@@ -16,12 +16,26 @@ void UndirectedGraph::addEdgeBetweenWithWeight(Vertex& start, Vertex& end, unsig
 
 	if (!hasEdgeFromTo(start, end))
 	{
-		addEdgeFromToWithWeight(start, end, weight);
-		addEdgeFromToWithWeight(end, start, weight);
+		tryToAddUndirectedEdge(start, end, weight);
 	}
 	else
 	{
 		throw GraphException("There already is such an edge in the graph!");
+	}
+}
+
+void UndirectedGraph::tryToAddUndirectedEdge(Vertex& start, Vertex& end, unsigned weight)
+{
+	addEdgeFromToWithWeight(start, end, weight);
+
+	try
+	{
+		addEdgeFromToWithWeight(end, start, weight);
+	}
+	catch (GraphException&)
+	{
+		removeEdgeFromTo(start, end);
+		throw;
 	}
 }
 

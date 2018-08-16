@@ -18,6 +18,9 @@ public:
 
 protected:
 	virtual void removeEdgesEndingIn(Vertex& vertex) override;
+
+private:
+	void tryToAddUndirectedEdge(Vertex& start, Vertex& end, unsigned weight);
 };
 
 #endif //__UNDIRECTED_GRAPH_HEADER_INCLUDED__
