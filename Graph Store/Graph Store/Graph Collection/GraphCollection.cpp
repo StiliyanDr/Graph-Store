@@ -21,12 +21,10 @@ void GraphCollection::destroyAllGraphs()
 {
 	CollectionIterator iterator = graphs.getIteratorToFirst();
 
-	while (iterator.isValid())
+	forEach(iterator, [&](Graph* graph)
 	{
-		delete iterator.getCurrentItem();
-
-		iterator.advance();
-	}
+		delete graph;
+	});
 }
 
 GraphCollection::~GraphCollection()

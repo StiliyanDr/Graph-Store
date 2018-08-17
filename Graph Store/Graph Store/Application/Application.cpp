@@ -38,18 +38,11 @@ void Application::addHelpCommand()
 		
 		std::cout << "Supported commands:\n";
 
-		auto iterator = commands.cbegin();
-		auto invalidIterator = commands.cend();
-
-		while (iterator != invalidIterator)
+		std::for_each(commands.cbegin(), commands.cend(), [&](const args::Command& command)
 		{
-			const args::Command& command = *iterator;
-
 			std::cout << '\t' << command.Name()
-					  << "\t\t" << command.Help() << '\n';
-
-			++iterator;
-		}
+					  << ": " << command.Help() << '\n';
+		});
 	});
 }
 

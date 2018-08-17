@@ -14,16 +14,11 @@ void ListGraphsCommand::execute(args::Subparser& parser)
 void ListGraphsCommand::listIdentifiersOfGraphs()
 {
 	GraphCollection& graphs = getGraphs();
-	const Graph* graph;
 
 	std::unique_ptr<Iterator<Graph*>> iterator = graphs.getIterator();
 
-	while (iterator->isValid())
+	forEach(*iterator, [&](const Graph* graph)
 	{
-		graph = iterator->getCurrentItem();
-
 		std::cout << graph->getID() << '\n';
-
-		iterator->advance();
-	}
+	});
 }

@@ -44,15 +44,13 @@ void DijkstraAlgorithm::initialiseVertex(Vertex& vertex) const
 
 void DijkstraAlgorithm::relaxEdgesLeaving(Vertex& vertex, Graph& graph)
 {
-	std::unique_ptr<Iterator<Edge>> edgesIterator =
+	std::unique_ptr<Iterator<Edge>> iterator =
 		graph.getIteratorOfEdgesStartingFrom(vertex);
 
-	while (edgesIterator->isValid())
+	forEach(*iterator, [&](Edge& edge)
 	{
-		Edge& edge = edgesIterator->getCurrentItem();
 		relaxEdge(vertex, edge.getVertex(), edge.getWeight());
-		edgesIterator->advance();
-	}
+	});
 }
 
 void DijkstraAlgorithm::relaxEdge(Vertex& startVertex, Vertex& endVertex, unsigned weight)

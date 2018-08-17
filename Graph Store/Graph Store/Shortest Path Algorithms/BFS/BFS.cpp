@@ -14,18 +14,17 @@ void BFS::findShortestPath(Graph& graph, Vertex& source, Vertex& target)
 	initialiseAlgorithm(graph, source, target);
 
 	Vertex* vertex;
-	std::unique_ptr<Iterator<Edge>> edgesIterator;
+	std::unique_ptr<Iterator<Edge>> iterator;
 
 	while (!(hasFoundAShortestPath || theFrontierIsEmpty()))
 	{
 		vertex = getNextVertexFromFrontier();
-		edgesIterator = graph.getIteratorOfEdgesStartingFrom(*vertex);
+		iterator = graph.getIteratorOfEdgesStartingFrom(*vertex);
 
-		while (edgesIterator->isValid())
+		forEach(*iterator, [&](Edge& edge)
 		{
-			exploreEdge(*vertex, edgesIterator->getCurrentItem().getVertex());
-			edgesIterator->advance();
-		}
+			exploreEdge(*vertex, edge.getVertex());
+		});
 	}
 
 	cleanUpAlgorithmState();

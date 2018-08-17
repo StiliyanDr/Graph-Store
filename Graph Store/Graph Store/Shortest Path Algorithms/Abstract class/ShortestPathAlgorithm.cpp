@@ -22,15 +22,13 @@ const String& ShortestPathAlgorithm::getID() const
 
 void ShortestPathAlgorithm::initialiseVerticesOf(Graph& graph) const
 {
-	std::unique_ptr<Iterator<Vertex*>> vertexIterator = graph.getIteratorOfVertices();
+	std::unique_ptr<Iterator<Vertex*>> iterator = graph.getIteratorOfVertices();
 
-	while (vertexIterator->isValid())
+	forEach(*iterator, [&](Vertex* v)
 	{
-		assert(vertexIterator->getCurrentItem() != nullptr);
-
-		initialiseVertex(*(vertexIterator->getCurrentItem()));
-		vertexIterator->advance();
-	}
+		assert(v != nullptr);
+		initialiseVertex(*v);
+	});
 }
 
 void ShortestPathAlgorithm::initialiseVertex(Vertex& vertex) const

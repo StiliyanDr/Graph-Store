@@ -52,13 +52,10 @@ void UndirectedGraph::removeEdgesEndingIn(Vertex& vertex)
 {
 	EdgeAbstractIterator iterator = getIteratorOfEdgesStartingFrom(vertex);
 
-	while (iterator->isValid())
+	forEach(*iterator, [&](Edge& edge)
 	{
-		Edge& edge = iterator->getCurrentItem();
 		Vertex& endOfEdge = edge.getVertex();
-		
+
 		removeEdgeFromTo(endOfEdge, vertex);
-		
-		iterator->advance();
-	}
+	});
 }

@@ -17,11 +17,10 @@ void GraphBase::destroyAllVertices()
 {
 	VertexConcreteIterator iterator = getConcreteIteratorOfVertices();
 
-	while (iterator.isValid())
+	forEach(iterator, [&](Vertex* v)
 	{
-		destroyVertex(*iterator);
-		++iterator;
-	}
+		destroyVertex(v);
+	});
 }
 
 void GraphBase::removeVertex(Vertex& vertex)
@@ -34,23 +33,21 @@ void GraphBase::removeVertex(Vertex& vertex)
 	destroyVertex(&vertex);
 }
 
-void GraphBase::removeEdgesEndingIn(Vertex& vertex)
+void GraphBase::removeEdgesEndingIn(Vertex& end)
 {
 	VertexConcreteIterator iterator = getConcreteIteratorOfVertices();
 
-	while (iterator.isValid())
+	forEach(iterator, [&](Vertex* start)
 	{
 		try
 		{
-			removeEdgeFromTo(*(*iterator), vertex);
+			removeEdgeFromTo(*start, end);
 		}
 		catch (GraphException&)
 		{
 			//Ok, there is no such edge.
 		}
-
-		++iterator;
-	}
+	});
 }
 
 void GraphBase::removeEdgeFromTo(Vertex& start, const Vertex& end)
