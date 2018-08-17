@@ -15,4 +15,9 @@ protected:
 	Iterator() = default;
 };
 
+template <class Iterator, class Function>
+void forEach(Iterator& iterator, const Function& function);
+
+#include "Iterator.hpp"
+
 #endif //__ITERATOR_HEADER_INCLUDED__
