@@ -11,9 +11,9 @@ std::unique_ptr<Graph> GraphBuilder::buildFromFile(const String& fileName)
 	{
 		buildAGraph();
 	}
-	catch (std::bad_alloc&)
+	catch (std::exception& e)
 	{
-		dealWithBadAllocWhileWorkingWith(fileName);
+		handleExceptionDuringBuilding(fileName, e);
 	}
 
 	clean();
@@ -114,12 +114,12 @@ void GraphBuilder::addEdge(const RawEdge& edge)
 	graph->addEdgeBetweenWithWeight(start, end, edge.weight);
 }
 
-void GraphBuilder::dealWithBadAllocWhileWorkingWith(const String& fileName)
+void GraphBuilder::handleExceptionDuringBuilding(const String& fileName, const std::exception& e)
 {
 	graph = nullptr;
 	clean();
 
-	throw GraphBuilderException("Not enough memory to load " + fileName);
+	throw GraphBuilderException(e.what() + String("\nError in: ") + fileName);
 }
 
 void GraphBuilder::clean()

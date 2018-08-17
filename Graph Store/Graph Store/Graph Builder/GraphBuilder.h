@@ -34,7 +34,7 @@ private:
 	RawEdge parseEdge();
 	void addEdge(const RawEdge& edge);
 	unsigned parseUnsignedAndSkipUntil(char symbol);
-	void dealWithBadAllocWhileWorkingWith(const String& fileName);
+	void handleExceptionDuringBuilding(const String& fileName, const std::exception& e);
 	void clean();
 
 private:
