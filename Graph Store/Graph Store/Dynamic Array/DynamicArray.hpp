@@ -240,12 +240,10 @@ inline void DynamicArray<T>::empty()
 }
 
 template <class T>
-DynamicArrayIterator<T> DynamicArray<T>::getIteratorToFirst()
+inline typename DynamicArray<T>::DynamicArrayIterator<T>
+DynamicArray<T>::getIteratorToFirst()
 {
-	DynamicArrayIterator<T>::Position position;
-	position = isEmpty() ? DynamicArrayIterator<T>::INVALID_POSITION : 0;
-
-	return DynamicArrayIterator<T>(position, this);
+	return DynamicArrayIterator<T>(0, this);
 }
 
 template <class T>

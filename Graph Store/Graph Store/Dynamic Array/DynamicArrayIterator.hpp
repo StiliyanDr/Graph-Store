@@ -1,13 +1,17 @@
 #include <stdexcept>
 
 template <class T>
-inline DynamicArrayIterator<T>::DynamicArrayIterator(Position currentPosition, DynamicArray<T>* owner) :
+template <class Item>
+inline DynamicArray<T>::DynamicArrayIterator<Item>::DynamicArrayIterator(Position currentPosition,
+																		 DynamicArray<Item>* owner) :
 	currentPosition(currentPosition), owner(owner)
 {
 }
 
 template <class T>
-DynamicArrayIterator<T>& DynamicArrayIterator<T>::operator++()
+template <class Item>
+typename DynamicArray<T>::DynamicArrayIterator<Item>&
+DynamicArray<T>::DynamicArrayIterator<Item>::operator++()
 {
 	if (!isValid())
 	{
@@ -20,31 +24,36 @@ DynamicArrayIterator<T>& DynamicArrayIterator<T>::operator++()
 }
 
 template <class T>
-inline bool DynamicArrayIterator<T>::isValid() const
+template <class Item>
+inline bool DynamicArray<T>::DynamicArrayIterator<Item>::isValid() const
 {
 	return currentPosition < owner->getCount();
 }
 
 template <class T>
-inline DynamicArrayIterator<T>::operator bool() const
+template <class Item>
+inline DynamicArray<T>::DynamicArrayIterator<Item>::operator bool() const
 {
 	return isValid();
 }
 
 template <class T>
-inline bool DynamicArrayIterator<T>::operator!() const
+template <class Item>
+inline bool DynamicArray<T>::DynamicArrayIterator<Item>::operator!() const
 {
 	return !isValid();
 }
 
 template <class T>
-inline T& DynamicArrayIterator<T>::operator*()
+template <class Item>
+inline Item& DynamicArray<T>::DynamicArrayIterator<Item>::operator*()
 {
 	return getCurrentItem();
 }
 
 template <class T>
-T& DynamicArrayIterator<T>::getCurrentItem()
+template <class Item>
+Item& DynamicArray<T>::DynamicArrayIterator<Item>::getCurrentItem()
 {
 	if (isValid())
 	{
@@ -57,19 +66,22 @@ T& DynamicArrayIterator<T>::getCurrentItem()
 }
 
 template <class T>
-inline T* DynamicArrayIterator<T>::operator->()
+template <class Item>
+inline Item* DynamicArray<T>::DynamicArrayIterator<Item>::operator->()
 {
 	return &getCurrentItem();
 }
 
-template <class T>
-inline bool operator!=(const DynamicArrayIterator<T>& lhs, const DynamicArrayIterator<T>& rhs)
+template <class Item>
+inline bool operator!=(typename const DynamicArray<Item>::DynamicArrayIterator<Item>& lhs,
+					   typename const DynamicArray<Item>::DynamicArrayIterator<Item>& rhs)
 {
 	return !(lhs == rhs);
 }
 
-template <class T>
-inline bool operator==(const DynamicArrayIterator<T>& lhs, const DynamicArrayIterator<T>& rhs)
+template <class Item>
+inline bool operator==(typename const DynamicArray<Item>::DynamicArrayIterator<Item>& lhs,
+					   typename const DynamicArray<Item>::DynamicArrayIterator<Item>& rhs)
 {
 	return lhs.owner == rhs.owner && lhs.currentPosition == rhs.currentPosition;
 }

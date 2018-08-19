@@ -1,12 +1,42 @@
 #ifndef __DYNAMIC_ARRAY_HEADER_INCLUDED__
 #define __DYNAMIC_ARRAY_HEADER_INCLUDED__
 
-template <class T>
-class DynamicArrayIterator;
+#include "../Iterator/Iterator.h"
 
 template <class T>
 class DynamicArray
 {
+public:
+	template <class Item>
+	class DynamicArrayIterator : public Iterator<Item>
+	{
+		friend class DynamicArray<Item>;
+		typedef size_t Position;
+
+	public:
+		virtual ~DynamicArrayIterator() = default;
+
+		virtual DynamicArrayIterator<Item>& operator++() override;
+		virtual Item& operator*() override;
+		virtual Item* operator->() override;
+		virtual bool operator!() const override;
+		virtual operator bool() const override;
+
+		template <class Item>
+		friend bool operator==(typename const DynamicArray<Item>::DynamicArrayIterator<Item>& lhs,
+							   typename const DynamicArray<Item>::DynamicArrayIterator<Item>& rhs);
+
+	private:
+		DynamicArrayIterator(Position currentPosition, DynamicArray<Item>* owner);
+
+		Item& getCurrentItem();
+		bool isValid() const;
+
+	private:
+		Position currentPosition;
+		DynamicArray<Item>* owner;
+	};
+
 public:
 	explicit DynamicArray(size_t size = 0, size_t count = 0);
 	DynamicArray(DynamicArray<T>&& source);
@@ -57,6 +87,10 @@ private:
 	T* items;
 };
 
+template <class Item>
+bool operator!=(typename const DynamicArray<Item>::DynamicArrayIterator<Item>& lhs,
+				typename const DynamicArray<Item>::DynamicArrayIterator<Item>& rhs);
+
 template <class T>
 DynamicArray<T> operator+(const DynamicArray<T>& lhs, const DynamicArray<T>& rhs);
 
@@ -65,41 +99,6 @@ DynamicArray<T> operator+(const T& item, const DynamicArray<T>& arr);
 
 template <class T>
 DynamicArray<T> operator+(const DynamicArray<T>& arr, const T& item);
-
-#include "../Iterator/Iterator.h"
-
-template <class T>
-class DynamicArrayIterator : public Iterator<T>
-{
-	friend class DynamicArray<T>;
-
-	typedef size_t Position;
-
-public:
-	virtual ~DynamicArrayIterator() = default;
-
-	virtual DynamicArrayIterator<T>& operator++() override;
-	virtual T& operator*() override;
-	virtual T* operator->() override;
-	virtual bool operator!() const override;
-	virtual operator bool() const override;
-
-	template <class T>
-	friend bool operator==(const DynamicArrayIterator<T>& lhs, const DynamicArrayIterator<T>& rhs);
-
-private:
-	DynamicArrayIterator(Position currentPosition, DynamicArray<T>* owner);
-	
-	T& getCurrentItem();
-	bool isValid() const;
-
-private:
-	Position currentPosition;
-	DynamicArray<T>* owner;
-};
-
-template <class T>
-bool operator!=(const DynamicArrayIterator<T>& lhs, const DynamicArrayIterator<T>& rhs);
 
 #include "DynamicArrayIterator.hpp"
 #include "DynamicArray.hpp"

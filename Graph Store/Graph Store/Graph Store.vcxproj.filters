@@ -456,9 +456,6 @@
     <ClInclude Include="Command\Exceptions\Missing Argument Exception\MissingArgumentException.h">
       <Filter>Command\Exceptions\Missing Argument Exception</Filter>
     </ClInclude>
-    <ClInclude Include="Iterator\Iterator.hpp">
-      <Filter>Iterator</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\File Parser Exception\FileParserException.cpp">
