@@ -1,4 +1,4 @@
-#include <assert.h>
+#include <stdexcept>
 
 template <class T>
 inline DynamicArrayIterator<T>::DynamicArrayIterator(Position currentPosition, DynamicArray<T>* owner) :
@@ -7,45 +7,22 @@ inline DynamicArrayIterator<T>::DynamicArrayIterator(Position currentPosition, D
 }
 
 template <class T>
-DynamicArrayIterator<T> DynamicArrayIterator<T>::operator++(int)
-{
-	DynamicArrayIterator<T> iterator(*this);
-	++(*this);
-
-	return iterator;
-}
-
-template <class T>
 DynamicArrayIterator<T>& DynamicArrayIterator<T>::operator++()
-{
-	advance();
-
-	return *this;
-}
-
-template <class T>
-void DynamicArrayIterator<T>::advance()
 {
 	if (!isValid())
 	{
 		return;
 	}
 
-	assert(currentPosition >= 0);
-	assert(currentPosition < owner->getCount());
-
 	++currentPosition;
 
-	if (currentPosition >= owner->getCount())
-	{
-		currentPosition = INVALID_POSITION;
-	}
+	return *this;
 }
 
 template <class T>
-inline bool DynamicArrayIterator<T>::operator!() const
+inline bool DynamicArrayIterator<T>::isValid() const
 {
-	return !isValid();
+	return currentPosition < owner->getCount();
 }
 
 template <class T>
@@ -55,9 +32,9 @@ inline DynamicArrayIterator<T>::operator bool() const
 }
 
 template <class T>
-inline bool DynamicArrayIterator<T>::isValid() const
+inline bool DynamicArrayIterator<T>::operator!() const
 {
-	return currentPosition != INVALID_POSITION;
+	return !isValid();
 }
 
 template <class T>
@@ -69,9 +46,20 @@ inline T& DynamicArrayIterator<T>::operator*()
 template <class T>
 T& DynamicArrayIterator<T>::getCurrentItem()
 {
-	assert(isValid());
+	if (isValid())
+	{
+		return (*owner)[currentPosition];
+	}
+	else
+	{
+		throw std::out_of_range("Iterator out of range!");
+	}
+}
 
-	return (*owner)[currentPosition];
+template <class T>
+inline T* DynamicArrayIterator<T>::operator->()
+{
+	return &getCurrentItem();
 }
 
 template <class T>
