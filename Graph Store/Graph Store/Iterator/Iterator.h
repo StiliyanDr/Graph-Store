@@ -7,17 +7,25 @@ class Iterator
 public:
 	virtual ~Iterator() = default;
 
-	virtual void advance() = 0;
-	virtual bool isValid() const = 0;
-	virtual Item& getCurrentItem() = 0;
+	virtual Iterator<Item>& operator++() = 0;
+	virtual Item* operator->() = 0;
+	virtual Item& operator*() = 0;
+	virtual bool operator!() const = 0;
+	virtual operator bool() const = 0;
 
 protected:
 	Iterator() = default;
 };
 
 template <class Iterator, class Function>
-void forEach(Iterator& iterator, const Function& function);
+void forEach(Iterator& iterator, const Function& function)
+{
+	while (iterator)
+	{
+		function(*iterator);
 
-#include "Iterator.hpp"
+		++iterator;
+	}
+}
 
 #endif //__ITERATOR_HEADER_INCLUDED__
