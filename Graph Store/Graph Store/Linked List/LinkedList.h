@@ -1,11 +1,49 @@
 #ifndef __LINKED_LIST_HEADER_INCLUDED__
 #define __LINKED_LIST_HEADER_INCLUDED__
 
-#include "Linked List Iterator/LinkedListIterator.h"
+#include "../Iterator/Iterator.h"
 
 template <class T>
 class LinkedList
 {
+	template <class T>
+	struct Box
+	{
+		Box(const T& item, Box<T>* next = nullptr) :
+			item(item), next(next) { }
+
+		Box<T>* next;
+		T item;
+	};
+
+public:
+	template <class Item>
+	class LinkedListIterator : public Iterator<Item>
+	{
+		friend class LinkedList<Item>;
+
+	public:
+		virtual LinkedListIterator<Item>& operator++() override;
+		virtual Item& operator*() override;
+		virtual Item* operator->() override;
+		virtual bool operator!() const override;
+		virtual operator bool() const override;
+
+		template <class Item>
+		friend bool operator==(typename const LinkedList<Item>::LinkedListIterator<Item>& lhs,
+							   typename const LinkedList<Item>::LinkedListIterator<Item>& rhs);
+
+	private:
+		LinkedListIterator(Box<Item>* current, const LinkedList<Item>* owner);
+
+		Item& getCurrentItem();
+		bool isValid() const;
+
+	private:
+		Box<Item>* current;
+		const LinkedList<Item>* owner;
+	};
+
 public:
 	LinkedList();
 	LinkedList(LinkedList<T>&& source);
@@ -59,6 +97,11 @@ private:
 	Box<T>* last;
 };
 
+template <class Item>
+bool operator!=(typename const LinkedList<Item>::LinkedListIterator<Item>& lhs,
+				typename const LinkedList<Item>::LinkedListIterator<Item>& rhs);
+
+#include "LinkedListIterator.hpp"
 #include "LinkedList.hpp"
 
 #endif //__LINKED_LIST_HEADER_INCLUDED__

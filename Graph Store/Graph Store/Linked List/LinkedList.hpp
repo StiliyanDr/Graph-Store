@@ -350,13 +350,15 @@ void LinkedList<T>::removeLast()
 }
 
 template <class T>
-inline LinkedListIterator<T> LinkedList<T>::getIteratorToFirst()
+inline typename LinkedList<T>::LinkedListIterator<T>
+LinkedList<T>::getIteratorToFirst()
 {
 	return LinkedListIterator<T>(first, this);
 }
 
 template <class T>
-inline LinkedListIterator<T> LinkedList<T>::getIteratorToLast()
+inline typename LinkedList<T>::LinkedListIterator<T>
+LinkedList<T>::getIteratorToLast()
 {
 	return LinkedListIterator<T>(last, this);
 }
