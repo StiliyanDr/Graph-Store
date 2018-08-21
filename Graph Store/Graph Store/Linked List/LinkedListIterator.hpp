@@ -13,12 +13,10 @@ template <class Item>
 typename LinkedList<T>::LinkedListIterator<Item>&
 LinkedList<T>::LinkedListIterator<Item>::operator++()
 {
-	if (!isValid())
+	if (isValid())
 	{
-		return;
+		current = current->next;
 	}
-
-	current = current->next;
 
 	return *this;
 }
