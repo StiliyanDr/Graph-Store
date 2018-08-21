@@ -1,30 +1,13 @@
-#include <assert.h>
+#include <stdexcept>
 
-template <class T>
-inline LinkedListIterator<T>::LinkedListIterator(Box<T>* current, const LinkedList<T>* owner) :
+template <class Item>
+inline LinkedListIterator<Item>::LinkedListIterator(Box<Item>* current, const LinkedList<Item>* owner) :
 	current(current), owner(owner)
 {
 }
 
-template <class T>
-LinkedListIterator<T> LinkedListIterator<T>::operator++(int)
-{
-	LinkedListIterator<T> iterator(*this);
-	++(*this);
-
-	return iterator;
-}
-
-template <class T>
-LinkedListIterator<T>& LinkedListIterator<T>::operator++()
-{
-	advance();
-
-	return *this;
-}
-
-template <class T>
-void LinkedListIterator<T>::advance()
+template <class Item>
+LinkedListIterator<Item>& LinkedListIterator<Item>::operator++()
 {
 	if (!isValid())
 	{
@@ -32,48 +15,61 @@ void LinkedListIterator<T>::advance()
 	}
 
 	current = current->next;
+
+	return *this;
 }
 
-template <class T>
-inline bool LinkedListIterator<T>::isValid() const
+template <class Item>
+inline bool LinkedListIterator<Item>::isValid() const
 {
 	return current != nullptr;
 }
 
-template <class T>
-inline bool LinkedListIterator<T>::operator!() const
-{
-	return !isValid();
-}
-
-template <class T>
-inline LinkedListIterator<T>::operator bool() const
+template <class Item>
+inline LinkedListIterator<Item>::operator bool() const
 {
 	return isValid();
 }
 
-template <class T>
-inline T& LinkedListIterator<T>::operator*()
+template <class Item>
+inline bool LinkedListIterator<Item>::operator!() const
+{
+	return !isValid();
+}
+
+template <class Item>
+inline Item& LinkedListIterator<Item>::operator*()
 {
 	return getCurrentItem();
 }
 
-template <class T>
-inline T& LinkedListIterator<T>::getCurrentItem()
+template <class Item>
+inline Item& LinkedListIterator<Item>::getCurrentItem()
 {
-	assert(isValid());
-
-	return current->item;
+	if (isValid())
+	{
+		return current->item;
+	}
+	else
+	{
+		throw std::out_of_range("Iterator out of range!");
+	}
 }
 
-template <class T>
-inline bool operator!=(const LinkedListIterator<T>& lhs, const LinkedListIterator<T>& rhs)
+template <class Item>
+inline Item* LinkedListIterator<Item>::operator->()
+{
+	return &getCurrentItem();
+}
+
+template <class Item>
+inline bool operator!=(const LinkedListIterator<Item>& lhs, const LinkedListIterator<Item>& rhs)
 {
 	return !(lhs == rhs);
 }
 
-template <class T>
-inline bool operator==(const LinkedListIterator<T>& lhs, const LinkedListIterator<T>& rhs)
+template <class Item>
+inline bool operator==(const LinkedListIterator<Item>& lhs, const LinkedListIterator<Item>& rhs)
 {
 	return (lhs.owner == rhs.owner) && (lhs.current == rhs.current);
 }

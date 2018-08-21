@@ -7,38 +7,34 @@
 template <class T>
 class LinkedList;
 
-template <class T>
-class LinkedListIterator : public Iterator<T>
+template <class Item>
+class LinkedListIterator : public Iterator<Item>
 {
-	friend class LinkedList<T>;
+	friend class LinkedList<Item>;
 
 public:
-	virtual ~LinkedListIterator() = default;
+	virtual LinkedListIterator<Item>& operator++() override;
+	virtual Item& operator*() override;
+	virtual Item* operator->() override;
+	virtual bool operator!() const override;
+	virtual operator bool() const override;
 
-	virtual void advance() override;
-	virtual T& getCurrentItem() override;
-	virtual bool isValid() const override;
-
-	LinkedListIterator<T>& operator++();
-	LinkedListIterator<T> operator++(int);
-
-	T& operator*();
-	bool operator!() const;
-	operator bool() const;
-
-	template <class T>
-	friend bool operator==(const LinkedListIterator<T>& lhs, const LinkedListIterator<T>& rhs);
+	template <class Item>
+	friend bool operator==(const LinkedListIterator<Item>& lhs, const LinkedListIterator<Item>& rhs);
 	
-	template <class T>
-	friend bool operator!=(const LinkedListIterator<T>& lhs, const LinkedListIterator<T>& rhs);
+private:
+	LinkedListIterator(Box<Item>* current, const LinkedList<Item>* owner);
+
+	Item& getCurrentItem();
+	bool isValid() const;
 
 private:
-	LinkedListIterator(Box<T>* current, const LinkedList<T>* owner);
-
-private:
-	Box<T>* current;
-	const LinkedList<T>* owner;
+	Box<Item>* current;
+	const LinkedList<Item>* owner;
 };
+
+template <class Item>
+bool operator!=(const LinkedListIterator<Item>& lhs, const LinkedListIterator<Item>& rhs);
 
 #include "LinkedListIterator.hpp"
 
