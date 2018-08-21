@@ -194,11 +194,9 @@
     <ClInclude Include="Hash\Hash.hpp" />
     <ClInclude Include="Hash\Identifier Accessor\IdentifierAccessor.h" />
     <ClInclude Include="Iterator\Iterator.h" />
-    <ClInclude Include="Linked List\Box.h" />
-    <ClInclude Include="Linked List\Linked List Iterator\LinkedListIterator.h" />
-    <ClInclude Include="Linked List\Linked List Iterator\LinkedListIterator.hpp" />
     <ClInclude Include="Linked List\LinkedList.h" />
     <ClInclude Include="Linked List\LinkedList.hpp" />
+    <ClInclude Include="Linked List\LinkedListIterator.hpp" />
     <ClInclude Include="Logger\Logger.h" />
     <ClInclude Include="Priority Queue\Distance Accessor\DistanceAccessor.h" />
     <ClInclude Include="Priority Queue\Handle Updator\HandleUpdator.h" />

@@ -130,9 +130,6 @@
     <Filter Include="Hashing\Identifier Accessor">
       <UniqueIdentifier>{22075870-293d-4918-9d93-c583698928bf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Linked List\Linked List Iterator">
-      <UniqueIdentifier>{83ea48e5-b1be-4bcd-ac4c-dcea9eb25cca}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Priority Queue\Distance Accessor">
       <UniqueIdentifier>{8f02e380-421d-43d2-96a8-264327784475}</UniqueIdentifier>
     </Filter>
@@ -312,20 +309,11 @@
     <ClInclude Include="Iterator\Iterator.h">
       <Filter>Iterator</Filter>
     </ClInclude>
-    <ClInclude Include="Linked List\Box.h">
-      <Filter>Linked List</Filter>
-    </ClInclude>
     <ClInclude Include="Linked List\LinkedList.h">
       <Filter>Linked List</Filter>
     </ClInclude>
     <ClInclude Include="Linked List\LinkedList.hpp">
       <Filter>Linked List</Filter>
-    </ClInclude>
-    <ClInclude Include="Linked List\Linked List Iterator\LinkedListIterator.h">
-      <Filter>Linked List\Linked List Iterator</Filter>
-    </ClInclude>
-    <ClInclude Include="Linked List\Linked List Iterator\LinkedListIterator.hpp">
-      <Filter>Linked List\Linked List Iterator</Filter>
     </ClInclude>
     <ClInclude Include="Priority Queue\PriorityQueue.h">
       <Filter>Priority Queue</Filter>
@@ -455,6 +443,9 @@
     </ClInclude>
     <ClInclude Include="Command\Exceptions\Missing Argument Exception\MissingArgumentException.h">
       <Filter>Command\Exceptions\Missing Argument Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="Linked List\LinkedListIterator.hpp">
+      <Filter>Linked List</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
