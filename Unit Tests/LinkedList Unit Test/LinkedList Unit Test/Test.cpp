@@ -11,7 +11,7 @@ namespace LinkedListUnitTest
 	TEST_CLASS(LinkedListTest)
 	{
 		typedef LinkedList<unsigned> List;
-		typedef LinkedListIterator<unsigned> Iterator;
+		typedef LinkedList<unsigned>::LinkedListIterator<unsigned> Iterator;
 
 	public:
 
