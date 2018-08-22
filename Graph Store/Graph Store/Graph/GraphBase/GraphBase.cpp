@@ -54,7 +54,7 @@ void GraphBase::removeEdgeFromTo(Vertex& start, const Vertex& end)
 {
 	EdgeConcreteIterator iteratorToEdge = searchForEdgeFromTo(start, end);
 
-	if (iteratorToEdge.isValid())
+	if (iteratorToEdge)
 	{
 		getEdgesStartingFrom(start).removeAt(iteratorToEdge);
 	}
@@ -68,9 +68,9 @@ GraphBase::EdgeConcreteIterator GraphBase::searchForEdgeFromTo(Vertex& start, co
 {
 	EdgeConcreteIterator iterator = getConcreteIteratorOfEdgesStartingFrom(start);
 
-	while (iterator.isValid())
+	while (iterator)
 	{
-		Vertex& endOfEdge = (*iterator).getVertex();
+		Vertex& endOfEdge = iterator->getVertex();
 
 		if (endOfEdge.index == end.index)
 		{
@@ -87,7 +87,7 @@ bool GraphBase::hasEdgeFromTo(Vertex& start, const Vertex& end)
 {
 	EdgeConcreteIterator iteratorToEdge = searchForEdgeFromTo(start, end);
 
-	return iteratorToEdge.isValid();
+	return static_cast<bool>(iteratorToEdge);
 }
 
 void GraphBase::removeEdgesStartingFrom(Vertex& vertex)

@@ -11,8 +11,8 @@ class GraphBase : public Graph
 {
 	typedef Hash<Vertex, String, IdentifierAccessor> Hash;
 	typedef DynamicArray<Vertex*> Array;
-	typedef DynamicArrayIterator<Vertex*> VertexConcreteIterator;
-	typedef LinkedListIterator<Edge> EdgeConcreteIterator;
+	typedef DynamicArray<Vertex*>::DynamicArrayIterator<Vertex*> VertexConcreteIterator;
+	typedef LinkedList<Edge>::LinkedListIterator<Edge> EdgeConcreteIterator;
 
 public:
 	GraphBase(const GraphBase&) = delete;
