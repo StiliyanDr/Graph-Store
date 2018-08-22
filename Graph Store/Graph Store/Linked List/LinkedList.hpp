@@ -161,7 +161,7 @@ void LinkedList<T>::insertAfter(LinkedListIterator<T>& iterator, const T& item)
 {
 	assert(isOwnerOf(iterator));
 
-	if (iterator.isValid())
+	if (iterator)
 	{
 		insertAfter(iterator.current, item);
 	}
@@ -211,7 +211,7 @@ void LinkedList<T>::insertBefore(LinkedListIterator<T>& iterator, const T& item)
 {
 	assert(isOwnerOf(iterator));
 
-	if (iterator.isValid())
+	if (iterator)
 	{
 		insertBefore(iterator.current, item);
 	}
@@ -277,7 +277,7 @@ void LinkedList<T>::removeAt(LinkedListIterator<T>& iterator)
 {
 	assert(isOwnerOf(iterator));
 
-	if (iterator.isValid())
+	if (iterator)
 	{
 		removeAt(iterator.current);
 		iterator.current = nullptr;
@@ -312,7 +312,7 @@ void LinkedList<T>::removeAfter(LinkedListIterator<T>& iterator)
 {
 	assert(isOwnerOf(iterator));
 
-	if (iterator.isValid() && iterator.current->next != nullptr)
+	if (iterator && iterator.current->next != nullptr)
 	{
 		removeAt(iterator.current->next);
 	}
@@ -323,7 +323,7 @@ void LinkedList<T>::removeBefore(LinkedListIterator<T>& iterator)
 {
 	assert(isOwnerOf(iterator));
 
-	if (iterator.isValid())
+	if (iterator)
 	{
 		Box<T>* previousBox = findBoxBefore(iterator.current);
 
