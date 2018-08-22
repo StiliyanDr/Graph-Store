@@ -1,4 +1,4 @@
-#include <assert.h>
+#include <stdexcept>
 
 template <class T>
 inline void Queue<T>::enqueue(const T& item)
@@ -19,9 +19,14 @@ T Queue<T>::dequeue()
 template <class T>
 T Queue<T>::first() const
 {
-	assert(!isEmpty());
-
-	return items.getFirst();
+	if (!isEmpty())
+	{
+		return items.getFirst();
+	}
+	else
+	{
+		throw std::logic_error("The queue is empty!");
+	}
 }
 
 template <class T>
