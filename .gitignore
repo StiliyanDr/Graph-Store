@@ -11,3 +11,6 @@
 *.exe
 *.ilk
 *.ipch
+*.lib
+*.dll
+*.exp
