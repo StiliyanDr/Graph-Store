@@ -22,13 +22,13 @@ void PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>::copyItems(Iterator<It
 
 	for (size_t index = 0; index < itemsCount; ++index)
 	{
-		assert(itemsIterator.isValid());
-		item = itemsIterator.getCurrentItem();
+		assert(itemsIterator);
+		item = *itemsIterator;
 
 		assert(item != nullptr);
 		setItemAtWith(index, item);
 
-		itemsIterator.advance();
+		++itemsIterator;
 	}
 
 	this->itemsCount = itemsCount;
