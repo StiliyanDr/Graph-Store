@@ -14,8 +14,6 @@ public:
 		typedef size_t Position;
 
 	public:
-		virtual ~DynamicArrayIterator() = default;
-
 		virtual DynamicArrayIterator<Item>& operator++() override;
 		virtual Item& operator*() override;
 		virtual Item* operator->() override;
