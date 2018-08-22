@@ -65,11 +65,11 @@ void IterativeDeepeningDFS::checkIfTarget(const Vertex& vertex)
 
 void IterativeDeepeningDFS::expandSearch(Vertex& vertex, unsigned depth)
 {
-	std::unique_ptr<Iterator<Edge>> edgesIterator = graph->getIteratorOfEdgesStartingFrom(vertex);
+	std::unique_ptr<Iterator<Edge>> iterator = graph->getIteratorOfEdgesStartingFrom(vertex);
 
-	while (!hasFoundAShortestPath && edgesIterator->isValid())
+	while (!hasFoundAShortestPath && *iterator)
 	{
-		Vertex& endOfEdgeVertex = edgesIterator->getCurrentItem().getVertex();
+		Vertex& endOfEdgeVertex = (*iterator)->getVertex();
 
 		if (!endOfEdgeVertex.isMarkedAsVisited())
 		{
@@ -77,7 +77,7 @@ void IterativeDeepeningDFS::expandSearch(Vertex& vertex, unsigned depth)
 			depthLimitedSearch(endOfEdgeVertex, depth);
 		}
 
-		edgesIterator->advance();
+		++(*iterator);
 	}
 }
 

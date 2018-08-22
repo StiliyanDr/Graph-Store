@@ -39,7 +39,7 @@ const GraphCreator* GraphFactory::searchForCreator(const String& criterion)
 	Iterator iterator = creators.getIteratorToFirst();
 	const GraphCreator* creator;
 
-	while (iterator.isValid())
+	while (iterator)
 	{
 		creator = *iterator;
 
@@ -48,7 +48,7 @@ const GraphCreator* GraphFactory::searchForCreator(const String& criterion)
 			return creator;
 		}
 
-		iterator.advance();
+		++iterator;
 	}
 
 	return nullptr;

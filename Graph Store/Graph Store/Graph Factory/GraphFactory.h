@@ -11,7 +11,7 @@ class GraphFactory
 	friend class GraphRegistrator;
 
 	typedef DynamicArray<const GraphCreator*> Collection;
-	typedef DynamicArrayIterator<const GraphCreator*> Iterator;
+	typedef DynamicArray<const GraphCreator*>::DynamicArrayIterator<const GraphCreator*> Iterator;
 
 public:
 	static GraphFactory& instance();
