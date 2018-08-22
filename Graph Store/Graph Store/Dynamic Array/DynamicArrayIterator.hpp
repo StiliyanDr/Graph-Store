@@ -13,12 +13,10 @@ template <class Item>
 typename DynamicArray<T>::DynamicArrayIterator<Item>&
 DynamicArray<T>::DynamicArrayIterator<Item>::operator++()
 {
-	if (!isValid())
+	if (isValid())
 	{
-		return;
+		++currentPosition;
 	}
-
-	++currentPosition;
 
 	return *this;
 }
