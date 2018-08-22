@@ -89,7 +89,7 @@ private:
 	void copyChainFrom(const LinkedList<T>& source);
 	void swapContentsWith(LinkedList<T> list);
 	void nullifyMembers();
-	bool isOwnerOf(const LinkedListIterator<T>& iterator) const;
+	void verifyOwnershipOf(const LinkedListIterator<T>& iterator) const;
 
 private:
 	size_t size;

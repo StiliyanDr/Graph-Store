@@ -159,7 +159,7 @@ void LinkedList<T>::appendList(LinkedList<T>&& list)
 template <class T>
 void LinkedList<T>::insertAfter(LinkedListIterator<T>& iterator, const T& item)
 {
-	assert(isOwnerOf(iterator));
+	verifyOwnershipOf(iterator);
 
 	if (iterator)
 	{
@@ -209,7 +209,7 @@ void LinkedList<T>::addBack(const T &item)
 template <class T>
 void LinkedList<T>::insertBefore(LinkedListIterator<T>& iterator, const T& item)
 {
-	assert(isOwnerOf(iterator));
+	verifyOwnershipOf(iterator);
 
 	if (iterator)
 	{
@@ -275,7 +275,7 @@ void LinkedList<T>::addFront(const T &item)
 template <class T>
 void LinkedList<T>::removeAt(LinkedListIterator<T>& iterator)
 {
-	assert(isOwnerOf(iterator));
+	verifyOwnershipOf(iterator);
 
 	if (iterator)
 	{
@@ -310,7 +310,7 @@ void LinkedList<T>::removeAt(Box<T>* box)
 template <class T>
 void LinkedList<T>::removeAfter(LinkedListIterator<T>& iterator)
 {
-	assert(isOwnerOf(iterator));
+	verifyOwnershipOf(iterator);
 
 	if (iterator && iterator.current->next != nullptr)
 	{
@@ -321,7 +321,7 @@ void LinkedList<T>::removeAfter(LinkedListIterator<T>& iterator)
 template <class T>
 void LinkedList<T>::removeBefore(LinkedListIterator<T>& iterator)
 {
-	assert(isOwnerOf(iterator));
+	verifyOwnershipOf(iterator);
 
 	if (iterator)
 	{
@@ -400,7 +400,10 @@ inline void LinkedList<T>::nullifyMembers()
 }
 
 template <class T>
-inline bool LinkedList<T>::isOwnerOf(const LinkedListIterator<T>& iterator) const
+inline void LinkedList<T>::verifyOwnershipOf(const LinkedListIterator<T>& iterator) const
 {
-	return this == iterator.owner;
+	if (iterator.owner != this)
+	{
+		throw std::logic_error("Received iterator from another list!");
+	}
 }
