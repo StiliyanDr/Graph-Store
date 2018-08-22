@@ -337,7 +337,7 @@ void LinkedList<T>::removeBefore(LinkedListIterator<T>& iterator)
 template <class T>
 void LinkedList<T>::removeFirst()
 {
-	assert(!isEmpty());
+	verifyThatListIsNotEmpty();
 
 	removeAt(first);
 }
@@ -345,7 +345,7 @@ void LinkedList<T>::removeFirst()
 template <class T>
 void LinkedList<T>::removeLast()
 {
-	assert(!isEmpty());
+	verifyThatListIsNotEmpty();
 
 	removeAt(last);
 }
@@ -379,7 +379,7 @@ inline size_t LinkedList<T>::getSize() const
 template <class T>
 const T& LinkedList<T>::getFirst() const
 {
-	assert(!isEmpty());
+	verifyThatListIsNotEmpty();
 
 	return first->item;
 }
@@ -387,7 +387,7 @@ const T& LinkedList<T>::getFirst() const
 template <class T>
 const T& LinkedList<T>::getLast() const
 {
-	assert(!isEmpty());
+	verifyThatListIsNotEmpty();
 
 	return last->item;
 }
@@ -405,5 +405,14 @@ inline void LinkedList<T>::verifyOwnershipOf(const LinkedListIterator<T>& iterat
 	if (iterator.owner != this)
 	{
 		throw std::logic_error("Received iterator from another list!");
+	}
+}
+
+template <class T>
+inline void LinkedList<T>::verifyThatListIsNotEmpty() const
+{
+	if (isEmpty())
+	{
+		throw std::logic_error("The list is empty!");
 	}
 }

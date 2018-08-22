@@ -90,6 +90,7 @@ private:
 	void swapContentsWith(LinkedList<T> list);
 	void nullifyMembers();
 	void verifyOwnershipOf(const LinkedListIterator<T>& iterator) const;
+	void verifyThatListIsNotEmpty() const;
 
 private:
 	size_t size;
