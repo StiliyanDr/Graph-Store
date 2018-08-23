@@ -28,6 +28,24 @@ private:
 	GraphBuilder graphBuilder;
 };
 
-#include "DirectoryLoader.hpp"
+template <class Function>
+void DirectoryLoader::loadApplyingFunctionToEachGraph(const String& path, const Function& function)
+{
+	openDirectory(path);
+
+	std::unique_ptr<Graph> graph;
+
+	while (thereAreFilesLeftToLoad())
+	{
+		graph = loadCurrentFile();
+
+		if (graph != nullptr)
+		{
+			function(std::move(graph));
+		}
+
+		goToNextFile();
+	}
+}
 
 #endif //__DIRECTORY_LOADER_HEADER_INCLUDED__

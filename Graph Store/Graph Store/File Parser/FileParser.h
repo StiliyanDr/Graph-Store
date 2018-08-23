@@ -46,6 +46,17 @@ private:
 	std::ifstream file;
 };
 
-#include "FileParser.hpp"
+template <class Number>
+Number FileParser::parseNumber()
+{
+	assertValidState();
+
+	Number number;
+	file >> number;
+
+	throwExceptionIfInErrorState("Invalid number format!");
+
+	return number;
+}
 
 #endif //__FILE_PARSER_HEADER_INCLUDED__

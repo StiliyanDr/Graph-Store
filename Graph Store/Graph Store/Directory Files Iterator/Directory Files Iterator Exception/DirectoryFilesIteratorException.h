@@ -6,9 +6,15 @@
 class DirectoryFilesIteratorException : public std::runtime_error
 {
 public:
-	explicit DirectoryFilesIteratorException(const char* errorMessage);
-	explicit DirectoryFilesIteratorException(const std::string& errorMessage);
-	virtual ~DirectoryFilesIteratorException() = default;
+	explicit DirectoryFilesIteratorException(const char* errorMessage) :
+		runtime_error(errorMessage)
+	{
+	}
+
+	explicit DirectoryFilesIteratorException(const std::string& errorMessage) :
+		runtime_error(errorMessage)
+	{
+	}
 };
 
 #endif //__DIRECTORY_FILES_ITERATOR_EXCEPTION_HEADER_INCLUDED__

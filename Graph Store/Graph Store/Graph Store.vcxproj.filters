@@ -70,9 +70,6 @@
     <Filter Include="Shortest Path Algorithms\Iterative Deepening DFS">
       <UniqueIdentifier>{0989909a-0ea5-4cfe-a894-f411fa880c64}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shortest Path Algorithms\Shortest Path Algorithms Store">
-      <UniqueIdentifier>{64578d2a-b4d0-4f1f-8e7e-314661566a2d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graph Factory">
       <UniqueIdentifier>{7f4b21a7-6dc9-46f8-917b-15682f11662f}</UniqueIdentifier>
     </Filter>
@@ -135,9 +132,6 @@
     </Filter>
     <Filter Include="Priority Queue\Handle Updator">
       <UniqueIdentifier>{edbb3fca-b0ba-407b-95c9-972ce6951d7c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shortest Path Algorithms\Shortest Path Algorithms Store\Unsupported Algorithm Exception">
-      <UniqueIdentifier>{67ab741e-39dc-4359-a299-aa7727dca3ff}</UniqueIdentifier>
     </Filter>
     <Filter Include="Directory Files Iterator">
       <UniqueIdentifier>{638b980e-e128-446e-9b85-252309cab386}</UniqueIdentifier>
@@ -217,6 +211,12 @@
     <Filter Include="Command\Exceptions\Missing Argument Exception">
       <UniqueIdentifier>{c7dccb6a-ae70-40ff-86a3-3dbc26ffe6f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shortest Path Algorithms\Shortest Path Algorithms Store">
+      <UniqueIdentifier>{64578d2a-b4d0-4f1f-8e7e-314661566a2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shortest Path Algorithms\Shortest Path Algorithms Store\Unsupported Algorithm Exception">
+      <UniqueIdentifier>{67ab741e-39dc-4359-a299-aa7727dca3ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -238,9 +238,6 @@
       <Filter>File Parser\Open File Fail Exception</Filter>
     </ClInclude>
     <ClInclude Include="File Parser\FileParser.h">
-      <Filter>File Parser</Filter>
-    </ClInclude>
-    <ClInclude Include="File Parser\FileParser.hpp">
       <Filter>File Parser</Filter>
     </ClInclude>
     <ClInclude Include="Graph\Abstract class\Graph.h">
@@ -274,9 +271,6 @@
       <Filter>Graph Builder</Filter>
     </ClInclude>
     <ClInclude Include="Graph Factory\Graph Creator\ConcreteGraphCreator.h">
-      <Filter>Graph Factory\Concrete Graph Creator</Filter>
-    </ClInclude>
-    <ClInclude Include="Graph Factory\Graph Creator\ConcreteGraphCreator.hpp">
       <Filter>Graph Factory\Concrete Graph Creator</Filter>
     </ClInclude>
     <ClInclude Include="Graph Factory\Graph Creator\GraphCreator.h">
@@ -333,9 +327,6 @@
     <ClInclude Include="Queue\Queue.h">
       <Filter>Queue</Filter>
     </ClInclude>
-    <ClInclude Include="Queue\Queue.hpp">
-      <Filter>Queue</Filter>
-    </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Abstract class\ShortestPathAlgorithm.h">
       <Filter>Shortest Path Algorithms\Abstract class</Filter>
     </ClInclude>
@@ -363,17 +354,11 @@
     <ClInclude Include="Directory Files Iterator\Directory Files Iterator Exception\DirectoryFilesIteratorException.h">
       <Filter>Directory Files Iterator\Directory Files Iterator Exception</Filter>
     </ClInclude>
-    <ClInclude Include="Graph Factory\Graph Registrator\GraphRegistrator.hpp">
-      <Filter>Graph Factory\GraphRegistrator</Filter>
-    </ClInclude>
     <ClInclude Include="Directory Loader\DirectoryLoader.h">
       <Filter>Directory Loader</Filter>
     </ClInclude>
     <ClInclude Include="Logger\Logger.h">
       <Filter>Logger</Filter>
-    </ClInclude>
-    <ClInclude Include="Directory Loader\DirectoryLoader.hpp">
-      <Filter>Directory Loader</Filter>
     </ClInclude>
     <ClInclude Include="String Cutter\StringCutter.h">
       <Filter>String Cutter</Filter>
@@ -386,9 +371,6 @@
     </ClInclude>
     <ClInclude Include="Command\Abstract class\Command.h">
       <Filter>Command\Abstract class</Filter>
-    </ClInclude>
-    <ClInclude Include="Command\Command Registrator\CommandRegistrator.hpp">
-      <Filter>Command\CommandRegistrator</Filter>
     </ClInclude>
     <ClInclude Include="Command\Command Registrator\CommandRegistrator.h">
       <Filter>Command\CommandRegistrator</Filter>
@@ -432,9 +414,6 @@
     <ClInclude Include="Shortest Path Algorithms\Algorithm Registrator\ShortestPathAlgorithmRegistrator.h">
       <Filter>Shortest Path Algorithms\Shortest Path Algorithm Registrator</Filter>
     </ClInclude>
-    <ClInclude Include="Shortest Path Algorithms\Algorithm Registrator\ShortestPathAlgorithmRegistrator.hpp">
-      <Filter>Shortest Path Algorithms\Shortest Path Algorithm Registrator</Filter>
-    </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Path Printing\PathPrinting.h">
       <Filter>Shortest Path Algorithms\Path Printing</Filter>
     </ClInclude>
@@ -449,12 +428,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="File Parser\File Parser Exception\FileParserException.cpp">
-      <Filter>File Parser\File Parser Exception</Filter>
-    </ClCompile>
-    <ClCompile Include="File Parser\Open File Fail Exception\OpenFileFailException.cpp">
-      <Filter>File Parser\Open File Fail Exception</Filter>
-    </ClCompile>
     <ClCompile Include="File Parser\FileParser.cpp">
       <Filter>File Parser</Filter>
     </ClCompile>
@@ -473,17 +446,11 @@
     <ClCompile Include="Graph\GraphBase\GraphBase.cpp">
       <Filter>Graph\Graph Base</Filter>
     </ClCompile>
-    <ClCompile Include="Graph\Graph Exception\GraphException.cpp">
-      <Filter>Graph\Graph Exceptions\Graph Exception</Filter>
-    </ClCompile>
     <ClCompile Include="Graph\Undirected Graph\UndirectedGraph.cpp">
       <Filter>Graph\Undirected Graph</Filter>
     </ClCompile>
     <ClCompile Include="Graph\Vertex\Vertex.cpp">
       <Filter>Graph\Vertex</Filter>
-    </ClCompile>
-    <ClCompile Include="Graph Builder\Graph Builder Exception\GraphBuilderException.cpp">
-      <Filter>Graph Builder\Graph Builder Exception</Filter>
     </ClCompile>
     <ClCompile Include="Graph Builder\GraphBuilder.cpp">
       <Filter>Graph Builder</Filter>
@@ -493,12 +460,6 @@
     </ClCompile>
     <ClCompile Include="Graph Factory\GraphFactory.cpp">
       <Filter>Graph Factory\GraphFactory</Filter>
-    </ClCompile>
-    <ClCompile Include="Graph Factory\Invalid Graph Type Exception\InvalidGraphTypeException.cpp">
-      <Filter>Graph Factory\Invalid Graph Type Exception</Filter>
-    </ClCompile>
-    <ClCompile Include="Priority Queue\Handle\PriorityQueueHandle.cpp">
-      <Filter>Priority Queue\Priority Queue Handle</Filter>
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\Abstract class\ShortestPathAlgorithm.cpp">
       <Filter>Shortest Path Algorithms\Abstract class</Filter>
@@ -515,9 +476,6 @@
     <ClCompile Include="Shortest Path Algorithms\Store\ShortestPathAlgorithmsStore.cpp">
       <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
     </ClCompile>
-    <ClCompile Include="Shortest Path Algorithms\Store\Unsupported Alogirhtm Exception\UnsupportedAlgorithmException.cpp">
-      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store\Unsupported Algorithm Exception</Filter>
-    </ClCompile>
     <ClCompile Include="String\String.cpp">
       <Filter>String</Filter>
     </ClCompile>
@@ -526,9 +484,6 @@
     </ClCompile>
     <ClCompile Include="Directory Files Iterator\DirectoryFilesIterator.cpp">
       <Filter>Directory Files Iterator</Filter>
-    </ClCompile>
-    <ClCompile Include="Directory Files Iterator\Directory Files Iterator Exception\DirectoryFilesIteratorException.cpp">
-      <Filter>Directory Files Iterator\Directory Files Iterator Exception</Filter>
     </ClCompile>
     <ClCompile Include="Directory Loader\DirectoryLoader.cpp">
       <Filter>Directory Loader</Filter>
@@ -580,9 +535,6 @@
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\Path Printing\PathPrinting.cpp">
       <Filter>Shortest Path Algorithms\Path Printing</Filter>
-    </ClCompile>
-    <ClCompile Include="Command\Exceptions\Command Exception\CommandException.cpp">
-      <Filter>Command\Exceptions\Command Exception</Filter>
     </ClCompile>
     <ClCompile Include="Command\Exceptions\Missing Argument Exception\MissingArgumentException.cpp">
       <Filter>Command\Exceptions\Missing Argument Exception</Filter>

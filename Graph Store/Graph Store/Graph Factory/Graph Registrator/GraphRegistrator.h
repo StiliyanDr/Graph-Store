@@ -2,12 +2,18 @@
 #define __GRAPH_REGISTRATOR_HEADER_INCLUDED__
 
 #include "../Graph Creator/ConcreteGraphCreator.h"
+#include "../GraphFactory.h"
 
 template <class ConcreteGraph>
 class GraphRegistrator
 {
 public:
-	explicit GraphRegistrator(const char* graphType);
+	explicit GraphRegistrator(const char* graphType) :
+		graphCreator(graphType)
+	{
+		GraphFactory::instance().addCreator(graphCreator);
+	}
+
 	GraphRegistrator(const GraphRegistrator<ConcreteGraph>&) = delete;
 	GraphRegistrator<ConcreteGraph>& operator=(const GraphRegistrator<ConcreteGraph>&) = delete;
 	GraphRegistrator(GraphRegistrator<ConcreteGraph>&&) = delete;
@@ -17,7 +23,5 @@ public:
 private:
 	const ConcreteGraphCreator<ConcreteGraph> graphCreator;
 };
-
-#include "GraphRegistrator.hpp"
 
 #endif //__GRAPH_REGISTRATOR_HEADER_INCLUDED__

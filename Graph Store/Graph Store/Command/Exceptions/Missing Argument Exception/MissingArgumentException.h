@@ -6,12 +6,21 @@
 class MissingArgumentException : public CommandException
 {
 public:
-	explicit MissingArgumentException(const char* argumentName);
-	explicit MissingArgumentException(const std::string& argumentName);
-	virtual ~MissingArgumentException() = default;
+	explicit MissingArgumentException(const char* argumentName) :
+		MissingArgumentException(std::string(argumentName))
+	{
+	}
 
+	explicit MissingArgumentException(const std::string& argumentName) :
+		CommandException(format(argumentName))
+	{
+	}
+	
 private:
-	static std::string format(const std::string& argumentName);
+	static std::string format(const std::string& argumentName)
+	{
+		return "Missing argument: [" + argumentName + "]!";
+	}
 };
 
 #endif //__MISSING_ARGUMENT_EXCEPTION_HEADER_INCLUDED__

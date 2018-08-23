@@ -6,9 +6,15 @@
 class GraphException : public std::runtime_error
 {
 public:
-	explicit GraphException(const char* errorMessage);
-	explicit GraphException(const std::string& errorMessage);
-	virtual ~GraphException() = default;
+	explicit GraphException(const char* errorMessage) :
+		runtime_error(errorMessage)
+	{
+	}
+
+	explicit GraphException(const std::string& errorMessage) :
+		runtime_error(errorMessage)
+	{
+	}
 };
 
 #endif //__GRAPH_EXCEPTION_HEADER_INCLUDED__

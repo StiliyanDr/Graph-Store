@@ -6,9 +6,15 @@
 class CommandException : public std::runtime_error
 {
 public:
-	explicit CommandException(const char* errorMessage);
-	explicit CommandException(const std::string& errorMessage);
-	virtual ~CommandException() = default;
+	explicit CommandException(const char* errorMessage) :
+		runtime_error(errorMessage)
+	{
+	}
+
+	explicit CommandException(const std::string& errorMessage) :
+		runtime_error(errorMessage)
+	{
+	}
 };
 
 #endif //__COMMAND_EXCEPTION_HEADER_INCLUDED__

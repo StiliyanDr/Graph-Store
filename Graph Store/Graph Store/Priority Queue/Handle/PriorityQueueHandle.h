@@ -7,11 +7,21 @@ class PriorityQueueHandle
 	friend class PriorityQueue;
 
 public:
-	PriorityQueueHandle();
+	PriorityQueueHandle() :
+		PriorityQueueHandle(-1)
+	{
+	}
 
 private:
-	PriorityQueueHandle(long index);
-	bool isValid() const;
+	PriorityQueueHandle(long index) :
+		index(index)
+	{
+	}
+
+	bool isValid() const
+	{
+		return index != -1;
+	}
 
 private:
 	long index;
