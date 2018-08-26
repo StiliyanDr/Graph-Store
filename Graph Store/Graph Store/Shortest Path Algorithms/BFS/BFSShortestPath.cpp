@@ -1,4 +1,4 @@
-#include "BFS.h"
+#include "BFSShortestPath.h"
 #include "../../Graph/Abstract class/Graph.h"
 #include "../Algorithm Registrator/ShortestPathAlgorithmRegistrator.h"
 

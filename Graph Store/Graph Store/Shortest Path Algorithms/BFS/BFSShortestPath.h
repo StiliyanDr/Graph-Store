@@ -1,5 +1,5 @@
-#ifndef __BFS_HEADER_INCLUDED__
-#define __BFS_HEADER_INCLUDED__
+#ifndef __BFS_SHORTEST_PATH_HEADER_INCLUDED__
+#define __BFS_SHORTEST_PATH_HEADER_INCLUDED__
 
 #include "../Abstract class/ShortestPathAlgorithm.h"
 #include "../../Queue/Queue.h"
@@ -40,4 +40,4 @@ private:
 	bool hasFoundAShortestPath;
 };
 
-#endif //__BFS_HEADER_INCLUDED__
+#endif //__BFS_SHORTEST_PATH_HEADER_INCLUDED__
