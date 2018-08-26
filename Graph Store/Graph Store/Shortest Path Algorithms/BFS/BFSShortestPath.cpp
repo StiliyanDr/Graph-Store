@@ -2,14 +2,14 @@
 #include "../../Graph/Abstract class/Graph.h"
 #include "../Algorithm Registrator/ShortestPathAlgorithmRegistrator.h"
 
-static ShortestPathAlgorithmRegistrator<BFS> registrator("bfs");
+static ShortestPathAlgorithmRegistrator<BFSShortestPath> registrator("bfs");
 
-BFS::BFS(const char* id) :
+BFSShortestPath::BFSShortestPath(const char* id) :
 	ShortestPathAlgorithm(id)
 {
 }
 
-void BFS::findShortestPath(Graph& graph, Vertex& source, Vertex& target)
+void BFSShortestPath::findShortestPath(Graph& graph, Vertex& source, Vertex& target)
 {
 	initialiseAlgorithm(graph, source, target);
 
@@ -30,7 +30,7 @@ void BFS::findShortestPath(Graph& graph, Vertex& source, Vertex& target)
 	cleanUpAlgorithmState();
 }
 
-void BFS::initialiseAlgorithm(Graph& graph, Vertex& source, const Vertex& target)
+void BFSShortestPath::initialiseAlgorithm(Graph& graph, Vertex& source, const Vertex& target)
 {
 	assert(theFrontierIsEmpty());
 
@@ -49,24 +49,24 @@ void BFS::initialiseAlgorithm(Graph& graph, Vertex& source, const Vertex& target
 	}
 }
 
-void BFS::initialiseVertex(Vertex& vertex) const
+void BFSShortestPath::initialiseVertex(Vertex& vertex) const
 {
 	ShortestPathAlgorithm::initialiseVertex(vertex);
 }
 
-void BFS::initialiseSource(Vertex& source) const
+void BFSShortestPath::initialiseSource(Vertex& source) const
 {
 	source.markAsVisited();
 	ShortestPathAlgorithm::initialiseSource(source);
 }
 
-void BFS::buildTrivialPathStartingFrom(Vertex& vertex)
+void BFSShortestPath::buildTrivialPathStartingFrom(Vertex& vertex)
 {
 	vertex.setParent(nullptr);
 	vertex.setDistance(0);
 }
 
-void BFS::exploreEdge(Vertex& predecessor, Vertex& successor)
+void BFSShortestPath::exploreEdge(Vertex& predecessor, Vertex& successor)
 {
 	if (successor.isMarkedAsVisited())
 	{
@@ -78,7 +78,7 @@ void BFS::exploreEdge(Vertex& predecessor, Vertex& successor)
 	checkIfTarget(successor);
 }
 
-void BFS::visitVertex(Vertex& vertex, Vertex& predecessor) const
+void BFSShortestPath::visitVertex(Vertex& vertex, Vertex& predecessor) const
 {
 	assert(!vertex.isMarkedAsVisited());
 
@@ -87,7 +87,7 @@ void BFS::visitVertex(Vertex& vertex, Vertex& predecessor) const
 	vertex.setDistance(predecessor.getDistance() + 1);
 }
 
-void BFS::checkIfTarget(const Vertex& vertex)
+void BFSShortestPath::checkIfTarget(const Vertex& vertex)
 {
 	if (vertex == *target)
 	{
@@ -97,27 +97,27 @@ void BFS::checkIfTarget(const Vertex& vertex)
 	}
 }
 
-void BFS::addVertexToFrontier(Vertex& vertex)
+void BFSShortestPath::addVertexToFrontier(Vertex& vertex)
 {
 	queue.enqueue(&vertex);
 }
 
-bool BFS::theFrontierIsEmpty() const
+bool BFSShortestPath::theFrontierIsEmpty() const
 {
 	return queue.isEmpty();
 }
 
-Vertex* BFS::getNextVertexFromFrontier()
+Vertex* BFSShortestPath::getNextVertexFromFrontier()
 {
 	return queue.dequeue();
 }
 
-void BFS::cleanUpAlgorithmState()
+void BFSShortestPath::cleanUpAlgorithmState()
 {
 	queue.empty();
 }
 
-void BFS::setTarget(const Vertex& target)
+void BFSShortestPath::setTarget(const Vertex& target)
 {
 	this->target = &target;
 }
