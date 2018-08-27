@@ -330,9 +330,6 @@
     <ClInclude Include="Shortest Path Algorithms\Abstract class\ShortestPathAlgorithm.h">
       <Filter>Shortest Path Algorithms\Abstract class</Filter>
     </ClInclude>
-    <ClInclude Include="Shortest Path Algorithms\BFS\BFS.h">
-      <Filter>Shortest Path Algorithms\BFS</Filter>
-    </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.h">
       <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
     </ClInclude>
@@ -426,6 +423,9 @@
     <ClInclude Include="Linked List\LinkedListIterator.hpp">
       <Filter>Linked List</Filter>
     </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\BFS\BFSShortestPath.h">
+      <Filter>Shortest Path Algorithms\BFS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\FileParser.cpp">
@@ -463,9 +463,6 @@
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\Abstract class\ShortestPathAlgorithm.cpp">
       <Filter>Shortest Path Algorithms\Abstract class</Filter>
-    </ClCompile>
-    <ClCompile Include="Shortest Path Algorithms\BFS\BFS.cpp">
-      <Filter>Shortest Path Algorithms\BFS</Filter>
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.cpp">
       <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
@@ -538,6 +535,9 @@
     </ClCompile>
     <ClCompile Include="Command\Exceptions\Missing Argument Exception\MissingArgumentException.cpp">
       <Filter>Command\Exceptions\Missing Argument Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="Shortest Path Algorithms\BFS\BFSShortestPath.cpp">
+      <Filter>Shortest Path Algorithms\BFS</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
