@@ -2,12 +2,27 @@
 #define __SHORTEST_PATH_ALGORITHM_HEADER_INCLUDED__
 
 #include "../../String/String.h"
+#include "../../Distance/Distance.h"
 
 class Graph;
 class Vertex;
 
 class ShortestPathAlgorithm
 {
+	struct DecoratedVertex
+	{
+		DecoratedVertex(const Vertex& originalVertex) :
+			originalVertex(originalVertex),
+			parent(nullptr),
+			distanceToSource(Distance::getInfinity())
+		{
+		}
+
+		const Vertex& originalVertex;
+		const Vertex* parent;
+		Distance distanceToSource;
+	};
+
 public:
 	ShortestPathAlgorithm(const ShortestPathAlgorithm&) = default;
 	ShortestPathAlgorithm& operator=(const ShortestPathAlgorithm&) = default;
