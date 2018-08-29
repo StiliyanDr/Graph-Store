@@ -3,6 +3,7 @@
 
 #include "../../String/String.h"
 #include "../../Distance/Distance.h"
+#include <forward_list>
 
 class Graph;
 class Vertex;
@@ -19,8 +20,35 @@ class ShortestPathAlgorithm
 		}
 
 		const Vertex& originalVertex;
-		const Vertex* parent;
+		const DecoratedVertex* parent;
 		Distance distanceToSource;
+	};
+
+	class Path
+	{
+	public:
+		Path(const Path&) = default;
+		Path& operator=(const Path&) = default;
+		Path(Path&& source);
+		Path& operator=(Path&& rhs);
+		~Path() = default;
+
+		void print(std::ostream& out) const;
+
+	private:
+		static bool existsPathBetween(const DecoratedVertex& source, const DecoratedVertex& target);
+
+	private:
+		Path(const DecoratedVertex& source, const DecoratedVertex& target);
+
+		void collectIdentifiersOnThePath(const DecoratedVertex& target);
+		void printIdentifiers(std::ostream& out) const;
+		void printLength(std::ostream& out) const;
+		void swapContentsWith(Path p);
+
+	private:
+		std::forward_list<String> identifiers;
+		Distance length;
 	};
 
 public:
