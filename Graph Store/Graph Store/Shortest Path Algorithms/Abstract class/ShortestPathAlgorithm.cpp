@@ -1,8 +1,8 @@
 #include "ShortestPathAlgorithm.h"
-#include <assert.h>
 #include "../../Graph/Abstract class/Graph.h"
 #include "../../Graph/Vertex/Vertex.h"
 #include <algorithm>
+#include <stdexcept>
 
 ShortestPathAlgorithm::Path::Path(const DecoratedVertex& source, const DecoratedVertex& target) :
 	length(target.distanceToSource)
@@ -86,42 +86,47 @@ void ShortestPathAlgorithm::Path::printLength(std::ostream& out) const
 	out << "Path length: " << length << ".\n";
 }
 
-ShortestPathAlgorithm::ShortestPathAlgorithm(const char* id)
+ShortestPathAlgorithm::ShortestPathAlgorithm(const String& id)
 {
 	setID(id);
 }
 
-void ShortestPathAlgorithm::setID(const char* id)
+void ShortestPathAlgorithm::setID(const String& id)
 {
-	assert(id != nullptr && *id);
+	if (id != String(""))
+	{
+		this->id = id;
+	}
+	else
+	{
+		throw std::invalid_argument("Invalid algorithm id!");
+	}
+}
 
-	this->id = id;
+void ShortestPathAlgorithm::decorateVerticesOf(const Graph& graph)
+{
+	forEach(graph.getIteratorOfVertices(), [&](const Vertex* vertex)
+	{
+		addDecoratedVersionOf(*vertex);
+	});
+}
+
+ShortestPathAlgorithm::Path
+ShortestPathAlgorithm::createPathBetween(const Vertex& source, const Vertex& target)
+{
+	DecoratedVertex& decoratedSource = getDecoratedVersionOf(source);
+	DecoratedVertex& decoratedTarget = getDecoratedVersionOf(target);
+
+	return Path(decoratedSource, decoratedTarget);
+}
+
+void ShortestPathAlgorithm::initialiseSource(DecoratedVertex& source)
+{
+	source.parent = nullptr;
+	source.distanceToSource = 0;
 }
 
 const String& ShortestPathAlgorithm::getID() const
 {
 	return id;
-}
-
-void ShortestPathAlgorithm::initialiseVerticesOf(Graph& graph) const
-{
-	std::unique_ptr<Iterator<Vertex*>> iterator = graph.getIteratorOfVertices();
-
-	forEach(*iterator, [&](Vertex* v)
-	{
-		assert(v != nullptr);
-		initialiseVertex(*v);
-	});
-}
-
-void ShortestPathAlgorithm::initialiseVertex(Vertex& vertex) const
-{
-	vertex.markAsNotVisited();
-	vertex.setParent(nullptr);
-	vertex.setDistance(Distance::getInfinity());
-}
-
-void ShortestPathAlgorithm::initialiseSource(Vertex& source) const
-{
-	source.setDistance(0);
 }

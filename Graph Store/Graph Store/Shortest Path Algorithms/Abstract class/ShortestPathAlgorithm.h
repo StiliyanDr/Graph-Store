@@ -10,6 +10,7 @@ class Vertex;
 
 class ShortestPathAlgorithm
 {
+protected:
 	struct DecoratedVertex
 	{
 		DecoratedVertex(const Vertex& originalVertex) :
@@ -24,8 +25,11 @@ class ShortestPathAlgorithm
 		Distance distanceToSource;
 	};
 
+public:
 	class Path
 	{
+		friend class ShortestPathAlgorithm;
+
 	public:
 		Path(const Path&) = default;
 		Path& operator=(const Path&) = default;
@@ -52,20 +56,26 @@ class ShortestPathAlgorithm
 	};
 
 public:
-	ShortestPathAlgorithm(const ShortestPathAlgorithm&) = default;
-	ShortestPathAlgorithm& operator=(const ShortestPathAlgorithm&) = default;
 	virtual ~ShortestPathAlgorithm() = default;
+	virtual Path findShortestPath(const Graph& graph, const Vertex& source, const Vertex& target) = 0;
 	
-	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& target) = 0;
 	const String& getID() const;
-	void setID(const char* id);
 
 protected:
-	ShortestPathAlgorithm(const char* id);
+	static void initialiseSource(DecoratedVertex& source);
 
-	void initialiseVerticesOf(Graph& graph) const;
-	virtual void initialiseVertex(Vertex& vertex) const = 0;
-	virtual void initialiseSource(Vertex& source) const;
+protected:
+	ShortestPathAlgorithm(const String& id);
+	ShortestPathAlgorithm(const ShortestPathAlgorithm&) = default;
+	ShortestPathAlgorithm& operator=(const ShortestPathAlgorithm&) = default;
+
+	void decorateVerticesOf(const Graph& graph);
+	virtual void addDecoratedVersionOf(const Vertex& vertex) = 0;
+	virtual DecoratedVertex& getDecoratedVersionOf(const Vertex& vertex) = 0;
+	Path createPathBetween(const Vertex& source, const Vertex& target);
+
+private:
+	void setID(const String& id);
 
 private:
 	String id;
