@@ -10,10 +10,12 @@ void SearchBasedShortestPathAlgorithm::decorateVerticesOf(const Graph& graph)
 {
 	decoratedVertices.reserve(graph.getVerticesCount());
 
-	ShortestPathAlgorithm::decorateVerticesOf(graph, [&](const Vertex& v)
-	{
-		decoratedVertices.emplace(v.getID(), v);
-	});
+	ShortestPathAlgorithm::decorateVerticesOf(graph);
+}
+
+void SearchBasedShortestPathAlgorithm::addDecoratedVersionOf(const Vertex& v)
+{
+	decoratedVertices.emplace(v.getID(), v);
 }
 
 ShortestPathAlgorithm::DecoratedVertex&
