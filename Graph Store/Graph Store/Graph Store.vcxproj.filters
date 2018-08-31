@@ -217,9 +217,6 @@
     <Filter Include="Shortest Path Algorithms\Shortest Path Algorithms Store\Unsupported Algorithm Exception">
       <UniqueIdentifier>{67ab741e-39dc-4359-a299-aa7727dca3ff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shortest Path Algorithms\Search Based Shortest Path Algorithm">
-      <UniqueIdentifier>{dcd63d46-c7b7-40c8-a466-e3cec6e9ddc4}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -429,9 +426,6 @@
     <ClInclude Include="Shortest Path Algorithms\BFS\BFSShortestPath.h">
       <Filter>Shortest Path Algorithms\BFS</Filter>
     </ClInclude>
-    <ClInclude Include="Shortest Path Algorithms\Search Based Shortest Path Algorithm\SearchBasedShortestPathAlgorithm.h">
-      <Filter>Shortest Path Algorithms\Search Based Shortest Path Algorithm</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\FileParser.cpp">
@@ -544,9 +538,6 @@
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\BFS\BFSShortestPath.cpp">
       <Filter>Shortest Path Algorithms\BFS</Filter>
-    </ClCompile>
-    <ClCompile Include="Shortest Path Algorithms\Search Based Shortest Path Algorithm\SearchBasedShortestPathAlgorithm.cpp">
-      <Filter>Shortest Path Algorithms\Search Based Shortest Path Algorithm</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
