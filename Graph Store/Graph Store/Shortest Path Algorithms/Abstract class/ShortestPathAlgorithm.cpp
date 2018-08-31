@@ -103,14 +103,6 @@ void ShortestPathAlgorithm::setID(const String& id)
 	}
 }
 
-void ShortestPathAlgorithm::decorateVerticesOf(const Graph& graph)
-{
-	forEach(graph.getIteratorOfVertices(), [&](const Vertex* vertex)
-	{
-		addDecoratedVersionOf(*vertex);
-	});
-}
-
 ShortestPathAlgorithm::Path
 ShortestPathAlgorithm::createPathBetween(const Vertex& source, const Vertex& target)
 {

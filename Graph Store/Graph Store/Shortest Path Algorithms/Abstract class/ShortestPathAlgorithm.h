@@ -63,14 +63,14 @@ public:
 
 protected:
 	static void initialiseSource(DecoratedVertex& source);
+	template <class Function>
+	static void decorateVerticesOf(const Graph& graph, const Function& decorateVertex);
 
 protected:
 	ShortestPathAlgorithm(const String& id);
 	ShortestPathAlgorithm(const ShortestPathAlgorithm&) = default;
 	ShortestPathAlgorithm& operator=(const ShortestPathAlgorithm&) = default;
-
-	void decorateVerticesOf(const Graph& graph);
-	virtual void addDecoratedVersionOf(const Vertex& vertex) = 0;
+	
 	virtual DecoratedVertex& getDecoratedVersionOf(const Vertex& vertex) = 0;
 	Path createPathBetween(const Vertex& source, const Vertex& target);
 
@@ -80,5 +80,15 @@ private:
 private:
 	String id;
 };
+
+template <class Function>
+void ShortestPathAlgorithm::decorateVerticesOf(const Graph& graph,
+											   const Function& decorateVertex)
+{
+	forEach(graph.getIteratorOfVertices(), [&](const Vertex* v)
+	{
+		decorateVertex(*v);
+	});
+}
 
 #endif //__SHORTEST_PATH_ALGORITHM_HEADER_INCLUDED__
