@@ -32,6 +32,7 @@ protected:
 	virtual void visitVertex(MarkableDecoratedVertex& successor,
 							 const MarkableDecoratedVertex& predecessor);
 	void decorateVerticesOf(const Graph& graph);
+	void removeDecoratedVertices();
 	void setTarget(const Vertex& target);
 	void checkIfTarget(const MarkableDecoratedVertex& v);
 

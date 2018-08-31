@@ -24,6 +24,11 @@ SearchBasedShortestPathAlgorithm::getDecoratedVersionOf(const Vertex& v)
 	return decoratedVertices[v.getID()];
 }
 
+void SearchBasedShortestPathAlgorithm::removeDecoratedVertices()
+{
+	decoratedVertices.clear();
+}
+
 void SearchBasedShortestPathAlgorithm::visitVertex(MarkableDecoratedVertex& successor,
 												   const MarkableDecoratedVertex& predecessor)
 {
