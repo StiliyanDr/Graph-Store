@@ -3,10 +3,8 @@
 
 #include "../../String/String.h"
 #include "../../Distance/Distance.h"
+#include "../../Graph/Abstract class/Graph.h"
 #include <forward_list>
-
-class Graph;
-class Vertex;
 
 class ShortestPathAlgorithm
 {
