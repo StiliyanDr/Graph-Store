@@ -36,10 +36,12 @@ protected:
 	void setTarget(const Vertex& target);
 	void checkIfTarget(const MarkableDecoratedVertex& v);
 
+protected:
+	bool foundAShortestPath;
+
 private:
 	const Vertex* target;
 	Hash decoratedVertices;
-	bool foundAShortestPath;
 };
 
 #endif //__SEARCH_BASED_SHORTEST_PATH_ALGORITHM_HEADER_INCLUDED__
