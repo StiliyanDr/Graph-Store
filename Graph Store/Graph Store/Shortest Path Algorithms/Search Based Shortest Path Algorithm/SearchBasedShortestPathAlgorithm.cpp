@@ -18,7 +18,7 @@ void SearchBasedShortestPathAlgorithm::addDecoratedVersionOf(const Vertex& v)
 	decoratedVertices.emplace(v.getID(), v);
 }
 
-ShortestPathAlgorithm::DecoratedVertex&
+SearchBasedShortestPathAlgorithm::MarkableDecoratedVertex&
 SearchBasedShortestPathAlgorithm::getDecoratedVersionOf(const Vertex& v)
 {
 	return decoratedVertices[v.getID()];

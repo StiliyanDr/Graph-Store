@@ -28,7 +28,7 @@ protected:
 	SearchBasedShortestPathAlgorithm& operator=(const SearchBasedShortestPathAlgorithm&) = delete;
 
 	virtual void addDecoratedVersionOf(const Vertex& v) override;
-	virtual DecoratedVertex& getDecoratedVersionOf(const Vertex& v) override;
+	virtual MarkableDecoratedVertex& getDecoratedVersionOf(const Vertex& v) override;
 	virtual void visitVertex(MarkableDecoratedVertex& successor,
 							 const MarkableDecoratedVertex& predecessor);
 	void decorateVerticesOf(const Graph& graph);
