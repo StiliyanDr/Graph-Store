@@ -1,123 +1,120 @@
 #include "BFSShortestPath.h"
-#include "../../Graph/Abstract class/Graph.h"
 #include "../Algorithm Registrator/ShortestPathAlgorithmRegistrator.h"
+#include <assert.h>
 
 static ShortestPathAlgorithmRegistrator<BFSShortestPath> registrator("bfs");
 
-BFSShortestPath::BFSShortestPath(const char* id) :
-	ShortestPathAlgorithm(id)
+BFSShortestPath::BFSShortestPath(const String& id) :
+	SearchBasedShortestPathAlgorithm(id)
 {
 }
 
-void BFSShortestPath::findShortestPath(Graph& graph, Vertex& source, Vertex& target)
+ShortestPathAlgorithm::Path
+BFSShortestPath::findShortestPath(const Graph& graph,
+								  const Vertex& source,
+								  const Vertex& target)
 {
 	initialiseAlgorithm(graph, source, target);
 
-	Vertex* vertex;
-	std::unique_ptr<Iterator<Edge>> iterator;
+	const MarkableDecoratedVertex* vertex;
 
-	while (!(hasFoundAShortestPath || theFrontierIsEmpty()))
+	while (!(foundAShortestPath || frontier.isEmpty()))
 	{
-		vertex = getNextVertexFromFrontier();
-		iterator = graph.getIteratorOfEdgesStartingFrom(*vertex);
-
-		forEach(*iterator, [&](Edge& edge)
-		{
-			exploreEdge(*vertex, edge.getVertex());
-		});
+		vertex = extractNextVertexFromFrontier();
+		exploreEdgesLeaving(*vertex, graph);
 	}
 
+	Path result = createPathBetween(source, target);
+
 	cleanUpAlgorithmState();
+
+	return result;
 }
 
-void BFSShortestPath::initialiseAlgorithm(Graph& graph, Vertex& source, const Vertex& target)
+void BFSShortestPath::initialiseAlgorithm(const Graph& graph,
+										  const Vertex& source,
+										  const Vertex& target)
 {
-	assert(theFrontierIsEmpty());
+	assert(frontier.isEmpty());
 
 	if (source != target)
 	{
-		hasFoundAShortestPath = false;
+		foundAShortestPath = false;
 		setTarget(target);
-		initialiseVerticesOf(graph);
-		initialiseSource(source);
-		addVertexToFrontier(source);
+		decorateVerticesOf(graph);
+		initialiseSourceAndAddItToFrontier(source);
 	}
 	else
 	{
-		hasFoundAShortestPath = true;
-		buildTrivialPathStartingFrom(source);
+		foundAShortestPath = true;
+		prepareTrivialPath(source);
 	}
 }
 
-void BFSShortestPath::initialiseVertex(Vertex& vertex) const
+void BFSShortestPath::initialiseSourceAndAddItToFrontier(const Vertex& source)
 {
-	ShortestPathAlgorithm::initialiseVertex(vertex);
+	MarkableDecoratedVertex& decoratedSource = getDecoratedVersionOf(source);
+
+	decoratedSource.isVisited = true;
+	initialiseSource(decoratedSource);
+	addToFrontier(decoratedSource);
 }
 
-void BFSShortestPath::initialiseSource(Vertex& source) const
+void BFSShortestPath::addToFrontier(const MarkableDecoratedVertex& v)
 {
-	source.markAsVisited();
-	ShortestPathAlgorithm::initialiseSource(source);
+	frontier.enqueue(&v);
 }
 
-void BFSShortestPath::buildTrivialPathStartingFrom(Vertex& vertex)
+void BFSShortestPath::prepareTrivialPath(const Vertex& source)
 {
-	vertex.setParent(nullptr);
-	vertex.setDistance(0);
+	addDecoratedVersionOf(source);
+	initialiseSource(getDecoratedVersionOf(source));
 }
 
-void BFSShortestPath::exploreEdge(Vertex& predecessor, Vertex& successor)
+void BFSShortestPath::exploreEdgesLeaving(const MarkableDecoratedVertex& predecessor,
+	const Graph& graph)
 {
-	if (successor.isMarkedAsVisited())
+	std::unique_ptr<Iterator<Edge>> iterator =
+		graph.getIteratorOfEdgesStartingFrom(predecessor.originalVertex);
+
+	forEach(*iterator, [&](const Edge& e)
+	{
+		MarkableDecoratedVertex& successor = getDecoratedVersionOf(e.getVertex());
+
+		exploreEdge(predecessor, successor);
+	});
+}
+
+void BFSShortestPath::exploreEdge(const MarkableDecoratedVertex& predecessor,
+								  MarkableDecoratedVertex& successor)
+{
+	if (successor.isVisited)
 	{
 		return;
 	}
 
 	visitVertex(successor, predecessor);
-	addVertexToFrontier(successor);
+	addToFrontier(successor);
 	checkIfTarget(successor);
 }
 
-void BFSShortestPath::visitVertex(Vertex& vertex, Vertex& predecessor) const
+void BFSShortestPath::visitVertex(MarkableDecoratedVertex& successor,
+								  const MarkableDecoratedVertex& predecessor)
 {
-	assert(!vertex.isMarkedAsVisited());
+	assert(!successor.isVisited);
+	successor.isVisited = true;
 
-	vertex.markAsVisited();
-	vertex.setParent(&predecessor);
-	vertex.setDistance(predecessor.getDistance() + 1);
+	SearchBasedShortestPathAlgorithm::visitVertex(successor, predecessor);
 }
 
-void BFSShortestPath::checkIfTarget(const Vertex& vertex)
+const BFSShortestPath::MarkableDecoratedVertex*
+BFSShortestPath::extractNextVertexFromFrontier()
 {
-	if (vertex == *target)
-	{
-		assert(!hasFoundAShortestPath);
-
-		hasFoundAShortestPath = true;
-	}
-}
-
-void BFSShortestPath::addVertexToFrontier(Vertex& vertex)
-{
-	queue.enqueue(&vertex);
-}
-
-bool BFSShortestPath::theFrontierIsEmpty() const
-{
-	return queue.isEmpty();
-}
-
-Vertex* BFSShortestPath::getNextVertexFromFrontier()
-{
-	return queue.dequeue();
+	return frontier.dequeue();
 }
 
 void BFSShortestPath::cleanUpAlgorithmState()
 {
-	queue.empty();
-}
-
-void BFSShortestPath::setTarget(const Vertex& target)
-{
-	this->target = &target;
+	frontier.empty();
+	removeDecoratedVertices();
 }

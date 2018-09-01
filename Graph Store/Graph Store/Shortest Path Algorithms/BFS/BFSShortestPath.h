@@ -1,43 +1,33 @@
 #ifndef __BFS_SHORTEST_PATH_HEADER_INCLUDED__
 #define __BFS_SHORTEST_PATH_HEADER_INCLUDED__
 
-#include "../Abstract class/ShortestPathAlgorithm.h"
+#include "../Search Based Shortest Path Algorithm/SearchBasedShortestPathAlgorithm.h"
 #include "../../Queue/Queue.h"
 
-class BFSShortestPath : public ShortestPathAlgorithm
+class BFSShortestPath : public SearchBasedShortestPathAlgorithm
 {
 public:
-	explicit BFSShortestPath(const char* id);
-	BFSShortestPath(const BFSShortestPath&) = default;
-	BFSShortestPath& operator=(const BFSShortestPath&) = default;
-	BFSShortestPath(BFSShortestPath&&) = delete;
-	BFSShortestPath& operator=(BFSShortestPath&&) = delete;
-	virtual ~BFSShortestPath() = default;
+	explicit BFSShortestPath(const String& id);
+	BFSShortestPath(const BFSShortestPath&) = delete;
+	BFSShortestPath& operator=(const BFSShortestPath&) = delete;
 
-	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& target) override;
-
-protected:
-	virtual void initialiseVertex(Vertex& vertex) const override;
-	virtual void initialiseSource(Vertex& source) const override;
-	virtual void visitVertex(Vertex& vertex, Vertex& predecessor) const;
-
+	virtual Path findShortestPath(const Graph& graph,
+								  const Vertex& source,
+								  const Vertex& target) override;
 private:
-	static void buildTrivialPathStartingFrom(Vertex& vertex);
-
-private:
-	void initialiseAlgorithm(Graph& graph, Vertex& source, const Vertex& target);
+	virtual void visitVertex(MarkableDecoratedVertex& successor,
+							 const MarkableDecoratedVertex& predecessor) override;
+	void initialiseAlgorithm(const Graph& graph, const Vertex& source, const Vertex& target);
+	void initialiseSourceAndAddItToFrontier(const Vertex& source);
+	void addToFrontier(const MarkableDecoratedVertex& v);
+	void prepareTrivialPath(const Vertex& source);
+	const MarkableDecoratedVertex* extractNextVertexFromFrontier();
+	void exploreEdgesLeaving(const MarkableDecoratedVertex& predecessor, const Graph& graph);
+	void exploreEdge(const MarkableDecoratedVertex& predecessor, MarkableDecoratedVertex& successor);
 	void cleanUpAlgorithmState();
-	void exploreEdge(Vertex& predecessor, Vertex& successor);
-	void checkIfTarget(const Vertex& vertex);
-	void addVertexToFrontier(Vertex& vertex);
-	Vertex* getNextVertexFromFrontier();
-	bool theFrontierIsEmpty() const;
-	void setTarget(const Vertex& target);
 
 private:
-	const Vertex* target;
-	Queue<Vertex*> queue;
-	bool hasFoundAShortestPath;
+	Queue<const MarkableDecoratedVertex*> frontier;
 };
 
 #endif //__BFS_SHORTEST_PATH_HEADER_INCLUDED__
