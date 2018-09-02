@@ -1,47 +1,49 @@
 #include "IterativeDeepeningDFS.h"
-#include "../../Graph/Abstract class/Graph.h"
 #include "../Algorithm Registrator/ShortestPathAlgorithmRegistrator.h"
 
 static ShortestPathAlgorithmRegistrator<IterativeDeepeningDFS> registrator("dfs-shortest");
 
-IterativeDeepeningDFS::IterativeDeepeningDFS(const char* id) :
-	ShortestPathAlgorithm(id)
+IterativeDeepeningDFS::IterativeDeepeningDFS(const String& id) :
+	SearchBasedShortestPathAlgorithm(id)
 {
 }
 
-void IterativeDeepeningDFS::findShortestPath(Graph& graph, Vertex& source, Vertex& target)
+ShortestPathAlgorithm::Path
+IterativeDeepeningDFS::findShortestPath(const Graph& graph,
+										const Vertex& source,
+										const Vertex& target)
 {
 	initialiseAlgorithm(graph, source, target);
 
 	unsigned maxLengthOfShortestPath = graph.getVerticesCount() - 1;
 	unsigned depth = 0;
 
-	while (!hasFoundAShortestPath && depth <= maxLengthOfShortestPath)
+	while (!foundAShortestPath && depth <= maxLengthOfShortestPath)
 	{
-		depthLimitedSearch(source, depth);
+		depthLimitedSearch(getDecoratedVersionOf(source), depth);
 		++depth;
 	}
+
+	Path result = createPathBetween(source, target);
+	cleanUpAlgorithmState();
+
+	return result;
 }
 
-void IterativeDeepeningDFS::initialiseAlgorithm(Graph& graph, Vertex& source, const Vertex& target)
+void IterativeDeepeningDFS::initialiseAlgorithm(const Graph& graph, const Vertex& source, const Vertex& target)
 {
-	initialiseVerticesOf(graph);
-	initialiseSource(source);
+	decorateVerticesOf(graph);
+	initialiseSource(getDecoratedVersionOf(source));
 	setGraph(graph);
 	setTarget(target);
-	hasFoundAShortestPath = false;
+	foundAShortestPath = false;
 }
 
-void IterativeDeepeningDFS::initialiseVertex(Vertex& vertex) const
+void IterativeDeepeningDFS::depthLimitedSearch(MarkableDecoratedVertex& vertex, unsigned depth)
 {
-	ShortestPathAlgorithm::initialiseVertex(vertex);
-}
+	vertex.isVisited = true;
 
-void IterativeDeepeningDFS::depthLimitedSearch(Vertex& vertex, unsigned depth)
-{
-	vertex.markAsVisited();
-
-	if (depth == 0) 
+	if (depth == 0)
 	{
 		checkIfTarget(vertex);
 	}
@@ -50,49 +52,35 @@ void IterativeDeepeningDFS::depthLimitedSearch(Vertex& vertex, unsigned depth)
 		expandSearch(vertex, depth - 1);
 	}
 
-	vertex.markAsNotVisited();
+	vertex.isVisited = false;
 }
 
-void IterativeDeepeningDFS::checkIfTarget(const Vertex& vertex)
+void IterativeDeepeningDFS::expandSearch(const MarkableDecoratedVertex& predecessor, unsigned depth)
 {
-	if (vertex == *target)
+	std::unique_ptr<Iterator<Edge>> iterator =
+		graph->getIteratorOfEdgesStartingFrom(predecessor.originalVertex);
+
+	while (!foundAShortestPath && *iterator)
 	{
-		assert(!hasFoundAShortestPath);
+		MarkableDecoratedVertex& successor =
+			getDecoratedVersionOf((*iterator)->getVertex());
 
-		hasFoundAShortestPath = true;
-	}
-}
-
-void IterativeDeepeningDFS::expandSearch(Vertex& vertex, unsigned depth)
-{
-	std::unique_ptr<Iterator<Edge>> iterator = graph->getIteratorOfEdgesStartingFrom(vertex);
-
-	while (!hasFoundAShortestPath && *iterator)
-	{
-		Vertex& endOfEdgeVertex = (*iterator)->getVertex();
-
-		if (!endOfEdgeVertex.isMarkedAsVisited())
+		if (!successor.isVisited)
 		{
-			visitVertex(endOfEdgeVertex, vertex);
-			depthLimitedSearch(endOfEdgeVertex, depth);
+			visitVertex(successor, predecessor);
+			depthLimitedSearch(successor, depth);
 		}
 
 		++(*iterator);
 	}
 }
 
-void IterativeDeepeningDFS::visitVertex(Vertex& vertex, Vertex& predecessor) const
+void IterativeDeepeningDFS::cleanUpAlgorithmState()
 {
-	vertex.setParent(&predecessor);
-	vertex.setDistance(predecessor.getDistance() + 1);
+	removeDecoratedVertices();
 }
 
-void IterativeDeepeningDFS::setTarget(const Vertex& target)
-{
-	this->target = &target;
-}
-
-void IterativeDeepeningDFS::setGraph(Graph& graph)
+void IterativeDeepeningDFS::setGraph(const Graph& graph)
 {
 	this->graph = &graph;
 }

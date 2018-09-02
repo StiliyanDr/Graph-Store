@@ -1,36 +1,27 @@
 #ifndef __ITERATIVE_DEEPENING_DFS_HEADER_INCLUDED__
 #define __ITERATIVE_DEEPENING_DFS_HEADER_INCLUDED__
 
-#include "../Abstract class/ShortestPathAlgorithm.h"
+#include "../Search Based Shortest Path Algorithm/SearchBasedShortestPathAlgorithm.h"
 
-class IterativeDeepeningDFS : public ShortestPathAlgorithm
+class IterativeDeepeningDFS : public SearchBasedShortestPathAlgorithm
 {
 public:
-	explicit IterativeDeepeningDFS(const char* id);
-	IterativeDeepeningDFS(const IterativeDeepeningDFS&) = default;
-	IterativeDeepeningDFS& operator=(const IterativeDeepeningDFS&) = default;
-	IterativeDeepeningDFS(IterativeDeepeningDFS&&) = delete;
-	IterativeDeepeningDFS& operator=(IterativeDeepeningDFS&&) = delete;
-	virtual ~IterativeDeepeningDFS() = default;
+	explicit IterativeDeepeningDFS(const String& id);
+	IterativeDeepeningDFS(const IterativeDeepeningDFS&) = delete;
+	IterativeDeepeningDFS& operator=(const IterativeDeepeningDFS&) = delete;
 
-	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& target) override;
-
-protected:
-	virtual void initialiseVertex(Vertex& vertex) const override;
-	virtual void visitVertex(Vertex& vertex, Vertex& predecessor) const;
+	virtual Path findShortestPath(const Graph& graph,
+								  const Vertex& source,
+								  const Vertex& target) override;
+private:
+	void initialiseAlgorithm(const Graph& graph, const Vertex& source, const Vertex& target);
+	void depthLimitedSearch(MarkableDecoratedVertex& vertex, unsigned depth);
+	void expandSearch(const MarkableDecoratedVertex& predecessor, unsigned depth);
+	void cleanUpAlgorithmState();
+	void setGraph(const Graph& graph);
 
 private:
-	void initialiseAlgorithm(Graph& graph, Vertex& source, const Vertex& target);
-	void depthLimitedSearch(Vertex& vertex, unsigned depth);
-	void expandSearch(Vertex& vertex, unsigned depth);
-	void checkIfTarget(const Vertex& vertex);
-	void setTarget(const Vertex& target);
-	void setGraph(Graph& graph);
-
-private:
-	Graph* graph;
-	const Vertex* target;
-	bool hasFoundAShortestPath;
+	const Graph* graph;
 };
 
 #endif //__ITERATIVE_DEEPENING_DFS_HEADER_INCLUDED__
