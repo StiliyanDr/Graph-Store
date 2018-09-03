@@ -1,7 +1,7 @@
 #ifndef __LINKED_LIST_HEADER_INCLUDED__
 #define __LINKED_LIST_HEADER_INCLUDED__
 
-#include "../Iterator/Iterator.h"
+#include <type_traits>
 
 template <class T>
 class LinkedList
@@ -17,32 +17,42 @@ class LinkedList
 	};
 
 public:
-	template <class Item>
-	class LinkedListIterator : public Iterator<Item>
+	template <class Item, bool isConst = false>
+	class LinkedListIterator
 	{
 		friend class LinkedList<Item>;
+	
+	public:
+		typedef typename std::conditional<isConst, const Item&, Item&>::type Reference;
+		typedef typename std::conditional<isConst, const Item*, Item*>::type Pointer;
 
 	public:
-		virtual LinkedListIterator<Item>& operator++() override;
-		virtual Item& operator*() override;
-		virtual Item* operator->() override;
-		virtual bool operator!() const override;
-		virtual operator bool() const override;
+		LinkedListIterator(const LinkedListIterator<Item, false>&) = default;
 
-		template <class Item>
-		friend bool operator==(typename const LinkedList<Item>::LinkedListIterator<Item>& lhs,
-							   typename const LinkedList<Item>::LinkedListIterator<Item>& rhs);
+		LinkedListIterator<Item, isConst>& operator++();
+		LinkedListIterator<Item, isConst> operator++(int);
+		Reference operator*() const;
+		Pointer operator->() const;
+		bool operator!() const;
+		operator bool() const;
+
+		template <class Item, bool isConst>
+		friend bool operator==(typename const LinkedList<Item>::LinkedListIterator<Item, isConst>& lhs,
+							   typename const LinkedList<Item>::LinkedListIterator<Item, isConst>& rhs);
 
 	private:
 		LinkedListIterator(Box<Item>* current, const LinkedList<Item>* owner);
 
-		Item& getCurrentItem();
+		Reference getCurrentItem() const;
 		bool isValid() const;
 
 	private:
 		Box<Item>* current;
 		const LinkedList<Item>* owner;
 	};
+
+	typedef LinkedListIterator<T, false> Iterator;
+	typedef LinkedListIterator<T, true> ConstIterator;
 
 public:
 	LinkedList();
@@ -55,19 +65,20 @@ public:
 	void appendList(const LinkedList<T>& list);
 	void appendList(LinkedList<T>&& list);
 
-	void insertAfter(LinkedListIterator<T>& iterator, const T& item);
-	void insertBefore(LinkedListIterator<T>& iterator, const T& item);
+	void insertAfter(const Iterator& iterator, const T& item);
+	void insertBefore(const Iterator& iterator, const T& item);
 	void addFront(const T& item);
 	void addBack(const T& item);
 
-	void removeAt(LinkedListIterator<T>& iterator);
-	void removeAfter(LinkedListIterator<T>& iterator);
-	void removeBefore(LinkedListIterator<T>& iterator);
+	void removeAt(Iterator& iterator);
+	void removeAfter(const Iterator& iterator);
+	void removeBefore(const Iterator& iterator);
 	void removeFirst();
 	void removeLast();
 
-	LinkedListIterator<T> getIteratorToFirst();
-	LinkedListIterator<T> getIteratorToLast();
+	ConstIterator getConstIterator() const;
+	Iterator getIteratorToFirst();
+	Iterator getIteratorToLast();
 
 	void empty();
 	bool isEmpty() const;
@@ -89,7 +100,7 @@ private:
 	void copyChainFrom(const LinkedList<T>& source);
 	void swapContentsWith(LinkedList<T> list);
 	void nullifyMembers();
-	void verifyOwnershipOf(const LinkedListIterator<T>& iterator) const;
+	void verifyOwnershipOf(const Iterator& iterator) const;
 	void verifyThatListIsNotEmpty() const;
 
 private:
@@ -98,9 +109,9 @@ private:
 	Box<T>* last;
 };
 
-template <class Item>
-bool operator!=(typename const LinkedList<Item>::LinkedListIterator<Item>& lhs,
-				typename const LinkedList<Item>::LinkedListIterator<Item>& rhs);
+template <class Item, bool isConst>
+bool operator!=(typename const LinkedList<Item>::LinkedListIterator<Item, isConst>& lhs,
+				typename const LinkedList<Item>::LinkedListIterator<Item, isConst>& rhs);
 
 #include "LinkedListIterator.hpp"
 #include "LinkedList.hpp"
