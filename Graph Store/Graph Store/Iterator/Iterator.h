@@ -6,7 +6,7 @@
 template <class Item, bool isConst = false>
 class Iterator
 {
-protected:
+public:
 	typedef typename std::conditional<isConst, const Item&, Item&>::type Reference;
 	typedef typename std::conditional<isConst, const Item*, Item*>::type Pointer;
 
