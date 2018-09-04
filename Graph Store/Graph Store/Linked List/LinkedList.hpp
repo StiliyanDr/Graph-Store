@@ -157,7 +157,7 @@ void LinkedList<T>::appendList(LinkedList<T>&& list)
 }
 
 template <class T>
-void LinkedList<T>::insertAfter(LinkedListIterator<T>& iterator, const T& item)
+void LinkedList<T>::insertAfter(const Iterator& iterator, const T& item)
 {
 	verifyOwnershipOf(iterator);
 
@@ -207,7 +207,7 @@ void LinkedList<T>::addBack(const T &item)
 }
 
 template <class T>
-void LinkedList<T>::insertBefore(LinkedListIterator<T>& iterator, const T& item)
+void LinkedList<T>::insertBefore(const Iterator& iterator, const T& item)
 {
 	verifyOwnershipOf(iterator);
 
@@ -273,7 +273,7 @@ void LinkedList<T>::addFront(const T &item)
 }
 
 template <class T>
-void LinkedList<T>::removeAt(LinkedListIterator<T>& iterator)
+void LinkedList<T>::removeAt(Iterator& iterator)
 {
 	verifyOwnershipOf(iterator);
 
@@ -308,7 +308,7 @@ void LinkedList<T>::removeAt(Box<T>* box)
 }
 
 template <class T>
-void LinkedList<T>::removeAfter(LinkedListIterator<T>& iterator)
+void LinkedList<T>::removeAfter(const Iterator& iterator)
 {
 	verifyOwnershipOf(iterator);
 
@@ -319,7 +319,7 @@ void LinkedList<T>::removeAfter(LinkedListIterator<T>& iterator)
 }
 
 template <class T>
-void LinkedList<T>::removeBefore(LinkedListIterator<T>& iterator)
+void LinkedList<T>::removeBefore(const Iterator& iterator)
 {
 	verifyOwnershipOf(iterator);
 
@@ -351,17 +351,24 @@ void LinkedList<T>::removeLast()
 }
 
 template <class T>
-inline typename LinkedList<T>::LinkedListIterator<T>
-LinkedList<T>::getIteratorToFirst()
+inline typename LinkedList<T>::ConstIterator
+LinkedList<T>::getConstIterator() const
 {
-	return LinkedListIterator<T>(first, this);
+	return ConstIterator(first, this);
 }
 
 template <class T>
-inline typename LinkedList<T>::LinkedListIterator<T>
+inline typename LinkedList<T>::Iterator
+LinkedList<T>::getIteratorToFirst()
+{
+	return Iterator(first, this);
+}
+
+template <class T>
+inline typename LinkedList<T>::Iterator
 LinkedList<T>::getIteratorToLast()
 {
-	return LinkedListIterator<T>(last, this);
+	return Iterator(last, this);
 }
 
 template <class T>
@@ -400,7 +407,7 @@ inline void LinkedList<T>::nullifyMembers()
 }
 
 template <class T>
-inline void LinkedList<T>::verifyOwnershipOf(const LinkedListIterator<T>& iterator) const
+inline void LinkedList<T>::verifyOwnershipOf(const Iterator& iterator) const
 {
 	if (iterator.owner != this)
 	{
