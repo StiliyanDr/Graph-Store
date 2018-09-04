@@ -11,7 +11,8 @@ namespace LinkedListUnitTest
 	TEST_CLASS(LinkedListTest)
 	{
 		typedef LinkedList<unsigned> List;
-		typedef LinkedList<unsigned>::LinkedListIterator<unsigned> Iterator;
+		typedef LinkedList<unsigned>::Iterator Iterator;
+		typedef LinkedList<unsigned>::ConstIterator ConstIterator;
 
 	public:
 
@@ -31,17 +32,17 @@ namespace LinkedListUnitTest
 			return list;
 		}
 
-		bool areEqual(List& expected, List& actual)
+		bool areEqual(const List& expected, const List& actual)
 		{
 			return listsHaveSameSize(expected, actual) && listsHaveSameElements(expected, actual);
 		}
 
-		bool listsHaveSameElements(List& lhs, List& rhs)
+		bool listsHaveSameElements(const List& lhs, const List& rhs)
 		{
 			assert(listsHaveSameSize(lhs, rhs));
 
-			Iterator lhsIterator = lhs.getIteratorToFirst();
-			Iterator rhsIterator = rhs.getIteratorToFirst();
+			ConstIterator lhsIterator = lhs.getConstIterator();
+			ConstIterator rhsIterator = rhs.getConstIterator();
 
 			while (lhsIterator)
 			{
@@ -62,14 +63,14 @@ namespace LinkedListUnitTest
 			return lhs.getSize() == rhs.getSize();
 		}
 
-		bool listConsistsOfNumbersInRange(List& list, unsigned start, unsigned end)
+		bool listConsistsOfNumbersInRange(const List& list, unsigned start, unsigned end)
 		{
 			if (end - start + 1 != list.getSize())
 			{
 				return false;
 			}
 
-			Iterator iterator = list.getIteratorToFirst();
+			ConstIterator iterator = list.getConstIterator();
 
 			for (unsigned number = start; number <= end; ++number)
 			{
