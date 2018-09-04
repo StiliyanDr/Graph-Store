@@ -27,7 +27,7 @@ public:
 		typedef typename std::conditional<isConst, const Item*, Item*>::type Pointer;
 
 	public:
-		LinkedListIterator(const LinkedListIterator<Item, false>&) = default;
+		LinkedListIterator(const LinkedListIterator<Item, false>& source);
 
 		LinkedListIterator<Item, isConst>& operator++();
 		LinkedListIterator<Item, isConst> operator++(int);

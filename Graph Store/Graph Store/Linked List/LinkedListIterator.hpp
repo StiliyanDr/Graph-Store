@@ -10,6 +10,13 @@ inline LinkedList<T>::LinkedListIterator<Item, isConst>::LinkedListIterator(Box<
 
 template <class T>
 template <class Item, bool isConst>
+inline LinkedList<T>::LinkedListIterator<Item, isConst>::LinkedListIterator(const LinkedListIterator<Item, false>& source) :
+	current(source.current), owner(source.owner)
+{
+}
+
+template <class T>
+template <class Item, bool isConst>
 typename LinkedList<T>::LinkedListIterator<Item, isConst>
 LinkedList<T>::LinkedListIterator<Item, isConst>::operator++(int)
 {
