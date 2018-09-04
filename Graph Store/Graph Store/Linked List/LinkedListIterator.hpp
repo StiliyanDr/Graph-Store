@@ -1,17 +1,28 @@
 #include <stdexcept>
 
 template <class T>
-template <class Item>
-inline LinkedList<T>::LinkedListIterator<Item>::LinkedListIterator(Box<Item>* current,
-																   const LinkedList<Item>* owner) :
+template <class Item, bool isConst>
+inline LinkedList<T>::LinkedListIterator<Item, isConst>::LinkedListIterator(Box<Item>* current,
+																			const LinkedList<Item>* owner) :
 	current(current), owner(owner)
 {
 }
 
 template <class T>
-template <class Item>
-typename LinkedList<T>::LinkedListIterator<Item>&
-LinkedList<T>::LinkedListIterator<Item>::operator++()
+template <class Item, bool isConst>
+typename LinkedList<T>::LinkedListIterator<Item, isConst>
+LinkedList<T>::LinkedListIterator<Item, isConst>::operator++(int)
+{
+	LinkedListIterator<Item, isConst> iterator(*this);
+	++(*this);
+
+	return iterator;
+}
+
+template <class T>
+template <class Item, bool isConst>
+typename LinkedList<T>::LinkedListIterator<Item, isConst>&
+LinkedList<T>::LinkedListIterator<Item, isConst>::operator++()
 {
 	if (isValid())
 	{
@@ -22,36 +33,39 @@ LinkedList<T>::LinkedListIterator<Item>::operator++()
 }
 
 template <class T>
-template <class Item>
-inline bool LinkedList<T>::LinkedListIterator<Item>::isValid() const
+template <class Item, bool isConst>
+inline bool LinkedList<T>::LinkedListIterator<Item, isConst>::isValid() const
 {
 	return current != nullptr;
 }
 
 template <class T>
-template <class Item>
-inline LinkedList<T>::LinkedListIterator<Item>::operator bool() const
+template <class Item, bool isConst>
+inline LinkedList<T>::LinkedListIterator<Item, isConst>::operator bool() const
 {
 	return isValid();
 }
 
 template <class T>
-template <class Item>
-inline bool LinkedList<T>::LinkedListIterator<Item>::operator!() const
+template <class Item, bool isConst>
+inline bool LinkedList<T>::LinkedListIterator<Item, isConst>::operator!() const
 {
 	return !isValid();
 }
 
 template <class T>
-template <class Item>
-inline Item& LinkedList<T>::LinkedListIterator<Item>::operator*()
+template <class Item, bool isConst>
+inline
+typename LinkedList<T>::LinkedListIterator<Item, isConst>::Reference
+LinkedList<T>::LinkedListIterator<Item, isConst>::operator*() const
 {
 	return getCurrentItem();
 }
 
 template <class T>
-template <class Item>
-Item& LinkedList<T>::LinkedListIterator<Item>::getCurrentItem()
+template <class Item, bool isConst>
+typename LinkedList<T>::LinkedListIterator<Item, isConst>::Reference
+LinkedList<T>::LinkedListIterator<Item, isConst>::getCurrentItem() const
 {
 	if (isValid())
 	{
@@ -64,22 +78,24 @@ Item& LinkedList<T>::LinkedListIterator<Item>::getCurrentItem()
 }
 
 template <class T>
-template <class Item>
-inline Item* LinkedList<T>::LinkedListIterator<Item>::operator->()
+template <class Item, bool isConst>
+inline
+typename LinkedList<T>::LinkedListIterator<Item, isConst>::Pointer
+LinkedList<T>::LinkedListIterator<Item, isConst>::operator->() const
 {
 	return &getCurrentItem();
 }
 
-template <class Item>
-inline bool operator!=(typename const LinkedList<Item>::LinkedListIterator<Item>& lhs,
-					   typename const LinkedList<Item>::LinkedListIterator<Item>& rhs)
+template <class Item, bool isConst>
+inline bool operator!=(typename const LinkedList<Item>::LinkedListIterator<Item, isConst>& lhs,
+					   typename const LinkedList<Item>::LinkedListIterator<Item, isConst>& rhs)
 {
 	return !(lhs == rhs);
 }
 
-template <class Item>
-inline bool operator==(typename const LinkedList<Item>::LinkedListIterator<Item>& lhs,
-					   typename const LinkedList<Item>::LinkedListIterator<Item>& rhs)
+template <class Item, bool isConst>
+inline bool operator==(typename const LinkedList<Item>::LinkedListIterator<Item, isConst>& lhs,
+					   typename const LinkedList<Item>::LinkedListIterator<Item, isConst>& rhs)
 {
 	return (lhs.owner == rhs.owner) && (lhs.current == rhs.current);
 }
