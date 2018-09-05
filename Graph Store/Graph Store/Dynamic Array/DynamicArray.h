@@ -86,6 +86,7 @@ private:
 	void swapContentsWith(DynamicArray<T> other);
 	void destroyItems();
 	void nullifyMembers();
+	void validateIndex(size_t i) const;
 
 private:
 	static const size_t GROWTH_RATE = 2;

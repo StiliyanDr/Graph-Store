@@ -168,12 +168,17 @@ void DynamicArray<T>::resize(size_t newSize)
 template <class T>
 void DynamicArray<T>::addAt(size_t index, const T& item)
 {
-	assert(index <= count);
-
-	extendIfFull();
-	shiftRight(index, count - 1);
-	items[index] = item;
-	++count;
+	if (index <= count)
+	{
+		extendIfFull();
+		shiftRight(index, count - 1);
+		items[index] = item;
+		++count;
+	}
+	else
+	{
+		throw std::out_of_range("Index out of range!");
+	}
 }
 
 template <class T>
@@ -190,7 +195,7 @@ void DynamicArray<T>::shiftRight(size_t first, size_t last)
 template <class T>
 inline void DynamicArray<T>::removeAt(size_t index)
 {
-	assert(index < count);
+	validateIndex(index);
 
 	shiftLeft(index + 1, --count);
 }
@@ -210,7 +215,7 @@ void DynamicArray<T>::shiftLeft(size_t first, size_t last)
 template <class T>
 inline T& DynamicArray<T>::operator[](size_t index)
 {
-	assert(index < count);
+	validateIndex(index);
 
 	return items[index];
 }
@@ -218,7 +223,7 @@ inline T& DynamicArray<T>::operator[](size_t index)
 template <class T>
 inline const T& DynamicArray<T>::operator[](size_t index) const
 {
-	assert(index < count);
+	validateIndex(index);
 
 	return items[index];
 }
@@ -258,6 +263,15 @@ inline void DynamicArray<T>::nullifyMembers()
 {
 	items = nullptr;
 	count = size = 0;
+}
+
+template <class T>
+inline void DynamicArray<T>::validateIndex(size_t i) const
+{
+	if (i >= count)
+	{
+		throw std::out_of_range("Index out of range!");
+	}
 }
 
 template <class T>
