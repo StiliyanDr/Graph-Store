@@ -281,7 +281,7 @@ namespace DynamicArrayUnitTest
 			}
 		}
 
-		TEST_METHOD(testRemoveShiftsLeftTheElementsAfterRemovedItem)
+		TEST_METHOD(testRemoveAtShiftsLeftTheElementsAfterRemovedItem)
 		{
 			Array arr = createArrayFromRange(0, 5);
 
@@ -290,16 +290,31 @@ namespace DynamicArrayUnitTest
 			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr, 1, 5));
 		}
 
-		TEST_METHOD(testRemoveUpdatesTheElementsCount)
+		TEST_METHOD(testRemoveAtUpdatesTheItemsCount)
 		{
 			Array arr = createArrayFromRange(0, 6);
 
-			for (int index = 6; index >= 0; index -= 2)
+			for (int i = 6; i >= 0; i -= 2)
 			{
-				arr.removeAt(index);
+				arr.removeAt(i);
 			}
 
 			Assert::AreEqual(3u, arr.getCount());
+		}
+
+		TEST_METHOD(testRemoveAtInvalidIndexThrowsException)
+		{
+			Array arr = createArrayFromRange(0, 5);
+
+			try
+			{
+				arr.removeAt(6);
+				Assert::Fail(L"The method did not throw an exception!");
+			}
+			catch (std::out_of_range& e)
+			{
+				Assert::IsTrue(areEqual("Index out of range!", e.what()));
+			}
 		}
 
 		TEST_METHOD(testAddAtIndexShiftsRightTheNextElements)
@@ -318,6 +333,22 @@ namespace DynamicArrayUnitTest
 			arr.addAt(arr.getCount(), 16);
 
 			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr, 11, 16));
+		}
+
+		TEST_METHOD(testAddAtIndexGreaterThanCountThrowsException)
+		{
+			Array arr;
+			unsigned number = 10;
+
+			try
+			{
+				arr.addAt(1, number);
+				Assert::Fail(L"The method did not throw an exception!");
+			}
+			catch (std::out_of_range& e)
+			{
+				Assert::IsTrue(areEqual("Index out of range!", e.what()));
+			}
 		}
 
 		TEST_METHOD(testAddAtIncrementsElementsCount)
@@ -369,6 +400,21 @@ namespace DynamicArrayUnitTest
 			for (unsigned i = 0; i <= 4; ++i)
 			{
 				Assert::AreEqual(i, arr[i]);
+			}
+		}
+
+		TEST_METHOD(testSubscriptOperatorWithInvalidIndexThrowsException)
+		{
+			Array arr;
+
+			try
+			{
+				arr[0];
+				Assert::Fail(L"The method did not throw an exception!");
+			}
+			catch (std::out_of_range& e)
+			{
+				Assert::IsTrue(areEqual("Index out of range!", e.what()));
 			}
 		}
 	};
