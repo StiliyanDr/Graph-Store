@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <utility>
+#include <stdexcept>
 
 template <class T>
 DynamicArray<T>::DynamicArray(size_t size, size_t count) :
@@ -14,11 +15,16 @@ DynamicArray<T>::DynamicArray(size_t size, size_t count) :
 }
 
 template <class T>
-inline void DynamicArray<T>::setCount(size_t newCount)
+void DynamicArray<T>::setCount(size_t newCount)
 {
-	assert(newCount <= size);
-
-	count = newCount;
+	if (newCount <= size)
+	{
+		count = newCount;
+	}
+	else
+	{
+		throw std::invalid_argument("Count must not exceed size!");
+	}
 }
 
 template <class T>

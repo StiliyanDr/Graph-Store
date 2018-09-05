@@ -12,8 +12,6 @@ namespace DynamicArrayUnitTest
 	{
 		typedef DynamicArray<unsigned> Array;
 
-	public:
-
 		bool hasNullForCountAndSize(const Array& arr)
 		{
 			return (arr.getSize() == 0 && arr.getCount() == 0);
@@ -80,6 +78,12 @@ namespace DynamicArrayUnitTest
 			return true;
 		}
 
+		bool areEqual(const char* lhs, const char* rhs)
+		{
+			return strcmp(lhs, rhs) == 0;
+		}
+
+	public:
 		TEST_METHOD(testDefaultConstructorCreatesAnEmptyArray)
 		{
 			Array arr;
@@ -107,6 +111,19 @@ namespace DynamicArrayUnitTest
 
 			Assert::AreEqual(size, arr.getSize());
 			Assert::AreEqual(count, arr.getCount());
+		}
+
+		TEST_METHOD(testCtorWithCountGreaterThanSizeThrowsException)
+		{
+			try
+			{
+				Array arr(10, 11);
+				Assert::Fail(L"Constructor did not throw an exception!");
+			}
+			catch (std::invalid_argument& e)
+			{
+				Assert::IsTrue(areEqual("Count must not exceed size!", e.what()));
+			}
 		}
 
 		TEST_METHOD(testMoveConstructorFromEmptyArray)
