@@ -299,12 +299,6 @@ inline size_t DynamicArray<T>::getCount() const
 }
 
 template <class T>
-inline T* DynamicArray<T>::getItems()
-{
-	return items;
-}
-
-template <class T>
 inline void DynamicArray<T>::destroyItems()
 {
 	delete[] items;

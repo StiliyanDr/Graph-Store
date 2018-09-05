@@ -51,10 +51,10 @@ public:
 	DynamicArray(const DynamicArray<T>& source);
 	DynamicArray<T>& operator=(DynamicArray<T>&& rhs);
 	DynamicArray<T>& operator=(const DynamicArray<T>& rhs);
-	virtual ~DynamicArray();
+	~DynamicArray();
 
-	virtual void add(const T& item);
-	virtual void removeAt(size_t index);
+	void add(const T& item);
+	void removeAt(size_t index);
 
 	void addAt(size_t index, const T& item);
 	void ensureSize(size_t size);
@@ -73,20 +73,17 @@ public:
 	DynamicArray<T>& operator+=(const T& item);
 	DynamicArray<T>& operator+=(const DynamicArray<T>& rhs);
 
-protected:
-	void extendIfFull();
+private:
 	void shiftLeft(size_t first, size_t last);
 	void shiftRight(size_t first, size_t last);
-	void setCount(size_t newCount);
-	T* getItems();
-
-private:
+	void extendIfFull();
 	void resize(size_t newSize);
 	void copyFrom(const DynamicArray<T>& source);
 	void swapContentsWith(DynamicArray<T> other);
 	void destroyItems();
 	void nullifyMembers();
 	void validateIndex(size_t i) const;
+	void setCount(size_t newCount);
 
 private:
 	static const size_t GROWTH_RATE = 2;
