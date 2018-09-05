@@ -240,10 +240,17 @@ inline void DynamicArray<T>::empty()
 }
 
 template <class T>
-inline typename DynamicArray<T>::DynamicArrayIterator<T>
-DynamicArray<T>::getIteratorToFirst()
+inline typename DynamicArray<T>::Iterator
+DynamicArray<T>::getIterator()
 {
-	return DynamicArrayIterator<T>(0, this);
+	return Iterator(0, this);
+}
+
+template <class T>
+inline typename DynamicArray<T>::ConstIterator
+DynamicArray<T>::getConstIterator() const
+{
+	return ConstIterator(0, this);
 }
 
 template <class T>
