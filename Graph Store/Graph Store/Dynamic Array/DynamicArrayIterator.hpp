@@ -10,6 +10,24 @@ inline DynamicArray<T>::DynamicArrayIterator<Item, isConst>::DynamicArrayIterato
 
 template <class T>
 template <class Item, bool isConst>
+inline DynamicArray<T>::DynamicArrayIterator<Item, isConst>::DynamicArrayIterator(const DynamicArrayIterator<Item, false>& source) :
+	currentPosition(source.currentPosition), owner(source.owner)
+{
+}
+
+template <class T>
+template <class Item, bool isConst>
+typename DynamicArray<T>::DynamicArrayIterator<Item, isConst>
+DynamicArray<T>::DynamicArrayIterator<Item, isConst>::operator++(int)
+{
+	DynamicArrayIterator<Item, isConst> iterator(*this);
+	++(*this);
+
+	return iterator;
+}
+
+template <class T>
+template <class Item, bool isConst>
 typename DynamicArray<T>::DynamicArrayIterator<Item, isConst>&
 DynamicArray<T>::DynamicArrayIterator<Item, isConst>::operator++()
 {
