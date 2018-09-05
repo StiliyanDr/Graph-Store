@@ -42,8 +42,8 @@ public:
 		DynamicArray<Item>* owner;
 	};
 
-	typedef DynamicArray<T>::DynamicArrayIterator<T, false> Iterator;
-	typedef DynamicArray<T>::DynamicArrayIterator<T, true> ConstIterator;
+	typedef typename DynamicArray<T>::DynamicArrayIterator<T, false> Iterator;
+	typedef typename DynamicArray<T>::DynamicArrayIterator<T, true> ConstIterator;
 
 public:
 	explicit DynamicArray(size_t size = 0, size_t count = 0);
