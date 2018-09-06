@@ -188,6 +188,7 @@
     <ClInclude Include="Hash\Hash.h" />
     <ClInclude Include="Hash\Hash.hpp" />
     <ClInclude Include="Hash\Identifier Accessor\IdentifierAccessor.h" />
+    <ClInclude Include="Iterator\ConcreteIteratorAdapter.h" />
     <ClInclude Include="Iterator\Iterator.h" />
     <ClInclude Include="Linked List\LinkedList.h" />
     <ClInclude Include="Linked List\LinkedList.hpp" />

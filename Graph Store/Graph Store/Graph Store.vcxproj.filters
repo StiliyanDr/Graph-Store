@@ -432,6 +432,9 @@
     <ClInclude Include="Shortest Path Algorithms\Search Based Shortest Path Algorithm\SearchBasedShortestPathAlgorithm.h">
       <Filter>Shortest Path Algorithms\Search Based Shortest Path Algorithm</Filter>
     </ClInclude>
+    <ClInclude Include="Iterator\ConcreteIteratorAdapter.h">
+      <Filter>Iterator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\FileParser.cpp">
