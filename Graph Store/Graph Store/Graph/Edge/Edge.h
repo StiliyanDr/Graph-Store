@@ -8,21 +8,15 @@ class Edge
 	friend class GraphBase;
 
 public:
-	Edge(const Edge&) = default;
-	~Edge() = default;
-
-	Vertex& getVertex();
+	const Vertex& getVertex() const;
 	unsigned getWeight() const;
 
 private:
-	Edge(Vertex* vertex, unsigned weight = 1);
-	Edge& operator=(const Edge&) = default;
-	Edge(Edge&&) = default;
-	Edge& operator=(Edge&&) = default;
+	Edge(Vertex* v, unsigned weight = 1);
 
-	void setVertex(Vertex* vertex);
+	void setVertex(Vertex* v);
 	void setWeight(unsigned weight);
-	
+
 private:
 	unsigned weight;
 	Vertex* vertex;

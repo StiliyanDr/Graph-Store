@@ -1,17 +1,17 @@
 #include "Edge.h"
 #include "../Vertex/Vertex.h"
 
-Edge::Edge(Vertex* vertex, unsigned weight)
+Edge::Edge(Vertex* v, unsigned weight)
 {
-	setVertex(vertex);
+	setVertex(v);
 	setWeight(weight);
 }
 
-void Edge::setVertex(Vertex* vertex)
+void Edge::setVertex(Vertex* v)
 {
-	assert(vertex != nullptr);
+	assert(v != nullptr);
 
-	this->vertex = vertex;
+	vertex = v;
 }
 
 void Edge::setWeight(unsigned weight)
@@ -19,7 +19,7 @@ void Edge::setWeight(unsigned weight)
 	this->weight = weight;
 }
 
-Vertex& Edge::getVertex()
+const Vertex& Edge::getVertex() const
 {
 	return *vertex;
 }
