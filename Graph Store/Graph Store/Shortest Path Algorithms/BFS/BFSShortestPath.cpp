@@ -75,7 +75,7 @@ void BFSShortestPath::exploreEdgesLeaving(const MarkableDecoratedVertex& predece
 	const Graph& graph)
 {
 	std::unique_ptr<Iterator<Edge>> iterator =
-		graph.getIteratorOfEdgesStartingFrom(predecessor.originalVertex);
+		graph.getIteratorOfEdgesLeaving(predecessor.originalVertex);
 
 	forEach(*iterator, [&](const Edge& e)
 	{

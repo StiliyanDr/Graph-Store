@@ -52,5 +52,5 @@ void RemoveEdgeCommand::removeEdge(const String& startVertexID, const String& en
 	Vertex& start = usedGraph.getVertexWithID(startVertexID);
 	Vertex& end = usedGraph.getVertexWithID(endVertexID);
 
-	usedGraph.removeEdgeBetween(start, end);
+	usedGraph.removeEdge(start, end);
 }

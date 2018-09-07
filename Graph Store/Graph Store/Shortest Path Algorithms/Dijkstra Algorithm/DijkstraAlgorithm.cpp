@@ -45,7 +45,7 @@ void DijkstraAlgorithm::initialiseVertex(Vertex& vertex) const
 void DijkstraAlgorithm::relaxEdgesLeaving(Vertex& vertex, Graph& graph)
 {
 	std::unique_ptr<Iterator<Edge>> iterator =
-		graph.getIteratorOfEdgesStartingFrom(vertex);
+		graph.getIteratorOfEdgesLeaving(vertex);
 
 	forEach(*iterator, [&](Edge& edge)
 	{

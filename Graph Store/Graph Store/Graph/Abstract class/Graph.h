@@ -9,30 +9,28 @@
 
 class Graph
 {
-protected:
-	typedef std::unique_ptr<Iterator<Vertex*>> VertexAbstractIterator;
-	typedef std::unique_ptr<Iterator<Edge>> EdgeAbstractIterator;
+public:
+	typedef std::unique_ptr<Iterator<const Vertex*>> VerticesIterator;
+	typedef std::unique_ptr<Iterator<const Edge>> EdgesIterator;
 
 public:
-	Graph(Graph&&) = delete;
-	Graph& operator=(Graph&&) = delete;
 	virtual ~Graph() = default;
 
 	virtual void addVertex(const String& id) = 0;
-	virtual void removeVertex(Vertex& vertex) = 0;
-	virtual void addEdgeBetweenWithWeight(Vertex& start, Vertex& end, unsigned weight) = 0;
-	virtual void removeEdgeBetween(Vertex& start, Vertex& end) = 0;
+	virtual void removeVertex(Vertex& v) = 0;
+	virtual void addEdge(Vertex& start, Vertex& end, unsigned weight) = 0;
+	virtual void removeEdge(Vertex& start, Vertex& end) = 0;
 
 	virtual Vertex& getVertexWithID(const String& id) = 0;
-	virtual VertexAbstractIterator getIteratorOfVertices() = 0;
-	virtual EdgeAbstractIterator getIteratorOfEdgesStartingFrom(Vertex& vertex) = 0;
+	virtual VerticesIterator getIteratorOfVertices() const = 0;
+	virtual EdgesIterator getIteratorOfEdgesLeaving(const Vertex& v) const = 0;
 	virtual unsigned getVerticesCount() const = 0;
 
 	const String& getID() const;
 	void setID(String id);
 
 protected:
-	Graph(String id);
+	Graph(const String& id);
 	Graph(const Graph&) = default;
 	Graph& operator=(const Graph&) = default;
 

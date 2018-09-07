@@ -48,7 +48,7 @@ void PrintGraphCommand::printEdgesLeaving(Vertex& vertex, Graph& graph)
 	std::cout << vertex.getID() << ": ";
 
 	std::unique_ptr<Iterator<Edge>> iterator =
-		graph.getIteratorOfEdgesStartingFrom(vertex);
+		graph.getIteratorOfEdgesLeaving(vertex);
 
 	forEach(*iterator, [&](Edge& e)
 	{

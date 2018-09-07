@@ -111,7 +111,7 @@ void GraphBuilder::addEdge(const RawEdge& edge)
 	Vertex& start = graph->getVertexWithID(startID);
 	Vertex& end = graph->getVertexWithID(endID);
 
-	graph->addEdgeBetweenWithWeight(start, end, edge.weight);
+	graph->addEdge(start, end, edge.weight);
 }
 
 void GraphBuilder::handleExceptionDuringBuilding(const String& fileName, const std::exception& e)

@@ -1,9 +1,9 @@
 #include "Graph.h"
 #include "../Graph Exception/GraphException.h"
 
-Graph::Graph(String id)
+Graph::Graph(const String& id)
 {
-	setID(std::move(id));
+	setID(id);
 }
 
 void Graph::setID(String id)
@@ -14,7 +14,7 @@ void Graph::setID(String id)
 	}
 	else
 	{
-		throw GraphException("Invalid graph identifier: " + id);
+		throw GraphException("Invalid graph id: " + id);
 	}
 }
 
