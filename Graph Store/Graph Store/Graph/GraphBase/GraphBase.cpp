@@ -1,8 +1,9 @@
 #include "GraphBase.h"
 #include "../Graph Exception/GraphException.h"
+#include "../../Iterator/ConcreteIteratorAdapter.h"
 
-GraphBase::GraphBase(String id) :
-	Graph(std::move(id)),
+GraphBase::GraphBase(const String& id) :
+	Graph(id),
 	vertices(INITIAL_COLLECTION_SIZE),
 	vertexSearchSet(INITIAL_COLLECTION_SIZE)
 {
@@ -15,27 +16,30 @@ GraphBase::~GraphBase()
 
 void GraphBase::destroyAllVertices()
 {
-	VertexConcreteIterator iterator = getConcreteIteratorOfVertices();
+	VerticesConcreteIterator iterator = getConcreteIteratorOfVertices();
 
 	forEach(iterator, [&](Vertex* v)
 	{
-		destroyVertex(v);
+		delete v;
 	});
 }
 
-void GraphBase::removeVertex(Vertex& vertex)
+void GraphBase::removeVertex(Vertex& v)
 {
-	assert(isOwnerOf(vertex));
+	verifyOwnershipOf(v);
 
-	removeEdgesEndingIn(vertex);
-	removeEdgesStartingFrom(vertex);
-	removeVertexFromCollection(vertex);
-	destroyVertex(&vertex);
+	removeEdgesEndingIn(v);
+	removeEdgesLeaving(v);
+	removeVertexFromCollection(v);
+	
+	delete &v;
 }
 
 void GraphBase::removeEdgesEndingIn(Vertex& end)
 {
-	VertexConcreteIterator iterator = getConcreteIteratorOfVertices();
+	assert(isOwnerOf(end));
+
+	VerticesConcreteIterator iterator = getConcreteIteratorOfVertices();
 
 	forEach(iterator, [&](Vertex* start)
 	{
@@ -52,11 +56,14 @@ void GraphBase::removeEdgesEndingIn(Vertex& end)
 
 void GraphBase::removeEdgeFromTo(Vertex& start, const Vertex& end)
 {
-	EdgeConcreteIterator iteratorToEdge = searchForEdgeFromTo(start, end);
+	assert(isOwnerOf(start));
+	assert(isOwnerOf(end));
+
+	EdgesConcreteIterator iteratorToEdge = searchForEdgeFromTo(start, end);
 
 	if (iteratorToEdge)
 	{
-		getEdgesStartingFrom(start).removeAt(iteratorToEdge);
+		getEdgesLeaving(start).removeAt(iteratorToEdge);
 	}
 	else
 	{
@@ -64,15 +71,16 @@ void GraphBase::removeEdgeFromTo(Vertex& start, const Vertex& end)
 	}
 }
 
-GraphBase::EdgeConcreteIterator GraphBase::searchForEdgeFromTo(Vertex& start, const Vertex& end)
+GraphBase::EdgesConcreteIterator GraphBase::searchForEdgeFromTo(Vertex& start, const Vertex& end)
 {
-	EdgeConcreteIterator iterator = getConcreteIteratorOfEdgesStartingFrom(start);
+	assert(isOwnerOf(start));
+	assert(isOwnerOf(end));
+
+	EdgesConcreteIterator iterator = getConcreteIteratorOfEdgesLeaving(start);
 
 	while (iterator)
 	{
-		Vertex& endOfEdge = iterator->getVertex();
-
-		if (endOfEdge.index == end.index)
+		if (iterator->getVertex() == end)
 		{
 			break;
 		}
@@ -83,21 +91,37 @@ GraphBase::EdgeConcreteIterator GraphBase::searchForEdgeFromTo(Vertex& start, co
 	return iterator;
 }
 
-bool GraphBase::hasEdgeFromTo(Vertex& start, const Vertex& end)
+bool GraphBase::hasEdgeFromTo(const Vertex& start, const Vertex& end) const
 {
-	EdgeConcreteIterator iteratorToEdge = searchForEdgeFromTo(start, end);
+	assert(isOwnerOf(start));
+	assert(isOwnerOf(end));
 
-	return static_cast<bool>(iteratorToEdge);
+	const LinkedList<Edge>& edges = start.edges;
+	LinkedList<Edge>::ConstIterator iterator = edges.getConstIterator();
+
+	while(iterator)
+	{
+		if (iterator->getVertex() == end)
+		{
+			return true;
+		}
+
+		++iterator;
+	}
+
+	return false;
 }
 
-void GraphBase::removeEdgesStartingFrom(Vertex& vertex)
+void GraphBase::removeEdgesLeaving(Vertex& v)
 {
-	getEdgesStartingFrom(vertex).empty();
+	assert(isOwnerOf(v));
+
+	getEdgesLeaving(v).empty();
 }
 
 void GraphBase::removeVertexFromCollection(const Vertex& vertex)
 {
-	assert(vertices[vertex.index] == &vertex);
+	assert(isOwnerOf(vertex));
 
 	vertexSearchSet.remove(vertex.id);
 
@@ -117,7 +141,7 @@ void GraphBase::addVertex(const String& id)
 	}
 	else
 	{
-		throw GraphException("There already is a vertex with identifier: " + id);
+		throw GraphException("There already is a vertex with id: " + id);
 	}
 }
 
@@ -179,15 +203,18 @@ Vertex& GraphBase::getVertexWithID(const String& id)
 	}
 	else
 	{
-		throw GraphException("There is no vertex with identifier: " + id);
+		throw GraphException("There is no vertex with id: " + id);
 	}
 }
 
-void GraphBase::addEdgeFromToWithWeight(Vertex& start, Vertex& end, unsigned weight)
+void GraphBase::addEdgeFromTo(Vertex& start, Vertex& end, unsigned weight)
 {
+	assert(isOwnerOf(start));
+	assert(isOwnerOf(end));
+
 	try
 	{
-		getEdgesStartingFrom(start).addFront(Edge(&end, weight));
+		getEdgesLeaving(start).addFront(Edge(&end, weight));
 	}
 	catch (std::bad_alloc&)
 	{
@@ -195,41 +222,53 @@ void GraphBase::addEdgeFromToWithWeight(Vertex& start, Vertex& end, unsigned wei
 	}
 }
 
-Graph::VertexAbstractIterator GraphBase::getIteratorOfVertices()
+Graph::VerticesConstIterator GraphBase::getIteratorOfVertices() const
 {
-	return VertexAbstractIterator(new VertexConcreteIterator(getConcreteIteratorOfVertices()));
+	typedef ConcreteIteratorAdapter<const Vertex*, DynamicArray<Vertex*>::ConstIterator, true> ConcreteConstIterator;
+
+	return VerticesConstIterator(new ConcreteConstIterator(vertices.getConstIterator()));
 }
 
-GraphBase::VertexConcreteIterator GraphBase::getConcreteIteratorOfVertices()
+GraphBase::VerticesConcreteIterator GraphBase::getConcreteIteratorOfVertices()
 {
-	return vertices.getIteratorToFirst();
+	return vertices.getIterator();
 }
 
-Graph::EdgeAbstractIterator GraphBase::getIteratorOfEdgesStartingFrom(Vertex& vertex)
+Graph::EdgesConstIterator GraphBase::getIteratorOfEdgesLeaving(const Vertex& v) const
 {
-	assert(isOwnerOf(vertex));
+	typedef ConcreteIteratorAdapter<Edge, LinkedList<Edge>::ConstIterator, true> ConcreteConstIterator;
 
-	return EdgeAbstractIterator(new EdgeConcreteIterator(getConcreteIteratorOfEdgesStartingFrom(vertex)));
+	verifyOwnershipOf(v);
+	const LinkedList<Edge>& edges = v.edges;
+
+	return EdgesConstIterator(new ConcreteConstIterator(edges.getConstIterator()));
 }
 
-GraphBase::EdgeConcreteIterator GraphBase::getConcreteIteratorOfEdgesStartingFrom(Vertex& vertex)
+GraphBase::EdgesConcreteIterator GraphBase::getConcreteIteratorOfEdgesLeaving(Vertex& v)
 {
-	return getEdgesStartingFrom(vertex).getIteratorToFirst();
+	assert(isOwnerOf(v));
+
+	return getEdgesLeaving(v).getIteratorToFirst();
 }
 
-bool GraphBase::isOwnerOf(const Vertex& vertex) const
+void GraphBase::verifyOwnershipOf(const Vertex& v) const
 {
-	return vertex.index < vertices.getCount() && vertices[vertex.index] == &vertex;
+	if (!isOwnerOf(v))
+	{
+		throw GraphException("Received a vertex from another graph!");
+	}
 }
 
-void GraphBase::destroyVertex(Vertex* vertex) const
+bool GraphBase::isOwnerOf(const Vertex& v) const
 {
-	delete vertex;
+	return v.index < vertices.getCount() && vertices[v.index] == &v;
 }
 
-LinkedList<Edge>& GraphBase::getEdgesStartingFrom(Vertex& vertex)
+LinkedList<Edge>& GraphBase::getEdgesLeaving(Vertex& v)
 {
-	return vertex.edges;
+	assert(isOwnerOf(v));
+
+	return v.edges;
 }
 
 unsigned GraphBase::getVerticesCount() const
