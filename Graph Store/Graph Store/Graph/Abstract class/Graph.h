@@ -10,8 +10,8 @@
 class Graph
 {
 public:
-	typedef std::unique_ptr<Iterator<const Vertex*>> VerticesIterator;
-	typedef std::unique_ptr<Iterator<const Edge>> EdgesIterator;
+	typedef std::unique_ptr<ConstIterator<const Vertex*>> VerticesConstIterator;
+	typedef std::unique_ptr<ConstIterator<Edge>> EdgesConstIterator;
 
 public:
 	virtual ~Graph() = default;
@@ -22,8 +22,8 @@ public:
 	virtual void removeEdge(Vertex& start, Vertex& end) = 0;
 
 	virtual Vertex& getVertexWithID(const String& id) = 0;
-	virtual VerticesIterator getIteratorOfVertices() const = 0;
-	virtual EdgesIterator getIteratorOfEdgesLeaving(const Vertex& v) const = 0;
+	virtual VerticesConstIterator getIteratorOfVertices() const = 0;
+	virtual EdgesConstIterator getIteratorOfEdgesLeaving(const Vertex& v) const = 0;
 	virtual unsigned getVerticesCount() const = 0;
 
 	const String& getID() const;
