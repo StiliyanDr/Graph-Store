@@ -4,7 +4,7 @@
 #include "Iterator.h"
 
 template <class Item, class ConcreteIterator, bool isConst = false>
-class ConcreteIteratorAdapter : public Iterator<Item, isConst>
+class ConcreteIteratorAdapter : public AbstractIterator<Item, isConst>
 {
 public:
 	ConcreteIteratorAdapter(const ConcreteIterator& iterator) :
@@ -12,9 +12,11 @@ public:
 	{
 	}
 
-	virtual Iterator<Item>& operator++() override
+	virtual ConcreteIteratorAdapter<Item, ConcreteIterator, isConst>& operator++() override
 	{
 		++iterator;
+
+		return *this;
 	}
 
 	virtual Reference operator*() const override
