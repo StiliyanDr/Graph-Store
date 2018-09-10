@@ -11,6 +11,8 @@ class GraphBase : public Graph
 {
 	typedef Hash<Vertex, String, IdentifierAccessor> Hash;
 	typedef DynamicArray<Vertex*> Array;
+
+protected:
 	typedef DynamicArray<Vertex*>::Iterator VerticesConcreteIterator;
 	typedef LinkedList<Edge>::Iterator EdgesConcreteIterator;
 
@@ -38,16 +40,16 @@ protected:
 	bool hasVertexWithID(const String& id);
 	Vertex* searchForVertexWithID(const String& id);
 	void verifyOwnershipOf(const Vertex& v) const;
-	bool isOwnerOf(const Vertex& v) const;
+	bool isOwnerOf(const Vertex& v) const;	
+	VerticesConcreteIterator getConcreteIteratorOfVertices();
+	EdgesConcreteIterator getConcreteIteratorOfEdgesLeaving(Vertex& v);
 
 private:
 	void tryToAddNewVertex(const String& id);
 	void addVertexToCollection(std::unique_ptr<Vertex> vertex);
 	void removeVertexFromCollection(const Vertex& vertex);
 	EdgesConcreteIterator searchForEdgeFromTo(Vertex& start, const Vertex& end);
-	EdgesConcreteIterator getConcreteIteratorOfEdgesLeaving(Vertex& v);
 	LinkedList<Edge>& getEdgesLeaving(Vertex& v);
-	VerticesConcreteIterator getConcreteIteratorOfVertices();
 	std::unique_ptr<Vertex> createVertex(const String& id) const;
 	void destroyAllVertices();
 
