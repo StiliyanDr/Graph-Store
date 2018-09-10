@@ -14,7 +14,7 @@ public:
 	}
 };
 
-template <class Item, class Key, class KeyAccessor = Identity>
+template <class Item, class Key = Item, class KeyAccessor = Identity>
 class Hash
 {
 	typedef DynamicArray<Item*> Table;
