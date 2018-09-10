@@ -14,17 +14,17 @@ public:
 	}
 };
 
-template <class Item, class Key = Item, class KeyAccessor = Identity>
+template <class Item, class Key = Item, class Function = HashFunction<Key>, class KeyAccessor = Identity>
 class Hash
 {
 	typedef DynamicArray<Item*> Table;
 
 public:
 	explicit Hash(size_t expectedItemsCount);
-	Hash(Hash<Item, Key, KeyAccessor>&& source);
-	Hash(const Hash<Item, Key, KeyAccessor>&) = default;
-	Hash<Item, Key, KeyAccessor>& operator=(Hash<Item, Key, KeyAccessor>&& rhs);
-	Hash<Item, Key, KeyAccessor>& operator=(const Hash<Item, Key, KeyAccessor>& rhs);
+	Hash(Hash<Item, Key, Function, KeyAccessor>&& source);
+	Hash(const Hash<Item, Key, Function, KeyAccessor>&) = default;
+	Hash<Item, Key, Function, KeyAccessor>& operator=(Hash<Item, Key, Function, KeyAccessor>&& rhs);
+	Hash<Item, Key, Function, KeyAccessor>& operator=(const Hash<Item, Key, Function, KeyAccessor>& rhs);
 	~Hash() = default;
 
 	Item* search(const Key& key);
@@ -53,7 +53,7 @@ private:
 	bool isFillingUp() const;
 	void makeTableEmptyWithSize(size_t size);
 	void setTable(Table table);
-	void swapContentsWith(Hash<Item, Key, KeyAccessor> hash);
+	void swapContentsWith(Hash<Item, Key, Function, KeyAccessor> hash);
 	size_t getNextPositionToProbe(size_t currentPosition) const;
 
 private:
@@ -66,7 +66,7 @@ private:
 	size_t tableSize;
 	Table table;
 	KeyAccessor keyAccessor;
-	HashFunction<Key> hashFunction;
+	Function hashFunction;
 };
 
 #include "Hash.hpp"

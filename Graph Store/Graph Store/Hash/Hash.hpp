@@ -1,8 +1,8 @@
 #include <assert.h>
 #include <utility>
 
-template <class Item, class Key, class KeyAccessor>
-inline Hash<Item, Key, KeyAccessor>::Hash(size_t expectedItemsCount)
+template <class Item, class Key, class Function, class KeyAccessor>
+inline Hash<Item, Key, Function, KeyAccessor>::Hash(size_t expectedItemsCount)
 {
 	makeTableEmptyWithSize(calculateTableSize(expectedItemsCount));
 }
@@ -13,23 +13,24 @@ inline Hash<Item, Key, KeyAccessor>::Hash(size_t expectedItemsCount)
 /// Adding MIN_TABLE_SIZE prevents from inappropriate table size for small values 
 /// of expectedItemsCount.
 ///
-template <class Item, class Key, class KeyAccessor>
-inline size_t Hash<Item, Key, KeyAccessor>::calculateTableSize(size_t expectedItemsCount)
+template <class Item, class Key, class Function, class KeyAccessor>
+inline size_t Hash<Item, Key, Function, KeyAccessor>::calculateTableSize(size_t expectedItemsCount)
 {
 	assert(expectedItemsCount > 0);
 
 	return ((3 * expectedItemsCount) / 2) + MIN_TABLE_SIZE;
 }
 
-template <class Item, class Key, class KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::makeTableEmptyWithSize(size_t size)
+template <class Item, class Key, class Function, class KeyAccessor>
+void Hash<Item, Key, Function, KeyAccessor>::makeTableEmptyWithSize(size_t size)
 {
 	setTable(createEmptyTableWithSize(size));
 	count = 0;
 }
 
-template <class Item, class Key, class KeyAccessor>
-typename Hash<Item, Key, KeyAccessor>::Table Hash<Item, Key, KeyAccessor>::createEmptyTableWithSize(size_t size)
+template <class Item, class Key, class Function, class KeyAccessor>
+typename Hash<Item, Key, Function, KeyAccessor>::Table
+Hash<Item, Key, Function, KeyAccessor>::createEmptyTableWithSize(size_t size)
 {
 	assert(size >= MIN_TABLE_SIZE);
 
@@ -39,8 +40,9 @@ typename Hash<Item, Key, KeyAccessor>::Table Hash<Item, Key, KeyAccessor>::creat
 	return table;
 }
 
-template <class Item, class Key, class KeyAccessor>
-typename Hash<Item, Key, KeyAccessor>::Table Hash<Item, Key, KeyAccessor>::emptyAllSlotsIn(Table table)
+template <class Item, class Key, class Function, class KeyAccessor>
+typename Hash<Item, Key, Function, KeyAccessor>::Table
+Hash<Item, Key, Function, KeyAccessor>::emptyAllSlotsIn(Table table)
 {
 	size_t size = table.getCount();
 
@@ -52,8 +54,8 @@ typename Hash<Item, Key, KeyAccessor>::Table Hash<Item, Key, KeyAccessor>::empty
 	return table;
 }
 
-template <class Item, class Key, class KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::setTable(Table table)
+template <class Item, class Key, class Function, class KeyAccessor>
+void Hash<Item, Key, Function, KeyAccessor>::setTable(Table table)
 {
 	this->table = std::move(table);
 	this->tableSize = this->table.getCount();
@@ -61,8 +63,8 @@ void Hash<Item, Key, KeyAccessor>::setTable(Table table)
 	assert(tableSize >= MIN_TABLE_SIZE);
 }
 
-template <class Item, class Key, class KeyAccessor>
-Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source)
+template <class Item, class Key, class Function, class KeyAccessor>
+Hash<Item, Key, Function, KeyAccessor>::Hash(Hash<Item, Key, Function, KeyAccessor>&& source)
 {
 	makeTableEmptyWithSize(MIN_TABLE_SIZE);
 
@@ -73,8 +75,9 @@ Hash<Item, Key, KeyAccessor>::Hash(Hash<Item, Key, KeyAccessor>&& source)
 	hashFunction = std::move(source.hashFunction);
 }
 
-template <class Item, class Key, class KeyAccessor>
-Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(Hash<Item, Key, KeyAccessor>&& rhs)
+template <class Item, class Key, class Function, class KeyAccessor>
+Hash<Item, Key, Function, KeyAccessor>&
+Hash<Item, Key, Function, KeyAccessor>::operator=(Hash<Item, Key, Function, KeyAccessor>&& rhs)
 {
 	if (this != &rhs)
 	{
@@ -84,8 +87,8 @@ Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(Hash<Item,
 	return *this;
 }
 
-template <class Item, class Key, class KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::swapContentsWith(Hash<Item, Key, KeyAccessor> hash)
+template <class Item, class Key, class Function, class KeyAccessor>
+void Hash<Item, Key, Function, KeyAccessor>::swapContentsWith(Hash<Item, Key, Function, KeyAccessor> hash)
 {
 	std::swap(count, hash.count);
 	std::swap(tableSize, hash.tableSize);
@@ -94,8 +97,9 @@ void Hash<Item, Key, KeyAccessor>::swapContentsWith(Hash<Item, Key, KeyAccessor>
 	std::swap(hashFunction, hash.hashFunction);
 }
 
-template <class Item, class Key, class KeyAccessor>
-Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(const Hash<Item, Key, KeyAccessor>& rhs)
+template <class Item, class Key, class Function, class KeyAccessor>
+Hash<Item, Key, Function, KeyAccessor>&
+Hash<Item, Key, Function, KeyAccessor>::operator=(const Hash<Item, Key, Function, KeyAccessor>& rhs)
 {
 	if (this != &rhs)
 	{
@@ -105,14 +109,14 @@ Hash<Item, Key, KeyAccessor>& Hash<Item, Key, KeyAccessor>::operator=(const Hash
 	return *this;
 }
 
-template <class Item, class Key, class KeyAccessor>
-inline void Hash<Item, Key, KeyAccessor>::empty()
+template <class Item, class Key, class Function, class KeyAccessor>
+inline void Hash<Item, Key, Function, KeyAccessor>::empty()
 {
 	makeTableEmptyWithSize(MIN_TABLE_SIZE);
 }
 
-template <class Item, class Key, class KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::add(Item& item)
+template <class Item, class Key, class Function, class KeyAccessor>
+void Hash<Item, Key, Function, KeyAccessor>::add(Item& item)
 {
 	assert(tableSize >= MIN_TABLE_SIZE);
 	assert(count < tableSize);
@@ -130,8 +134,8 @@ void Hash<Item, Key, KeyAccessor>::add(Item& item)
 	++count;
 }
 
-template <class Item, class Key, class KeyAccessor>
-inline void Hash<Item, Key, KeyAccessor>::extendIfFillingUp()
+template <class Item, class Key, class Function, class KeyAccessor>
+inline void Hash<Item, Key, Function, KeyAccessor>::extendIfFillingUp()
 {
 	if (isFillingUp())
 	{
@@ -139,14 +143,14 @@ inline void Hash<Item, Key, KeyAccessor>::extendIfFillingUp()
 	}
 }
 
-template <class Item, class Key, class KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::isFillingUp() const
+template <class Item, class Key, class Function, class KeyAccessor>
+inline bool Hash<Item, Key, Function, KeyAccessor>::isFillingUp() const
 {
 	return 3 * count >= 2 * tableSize;
 }
 
-template <class Item, class Key, class KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::resize(size_t newSize)
+template <class Item, class Key, class Function, class KeyAccessor>
+void Hash<Item, Key, Function, KeyAccessor>::resize(size_t newSize)
 {
 	assert(newSize >= MIN_TABLE_SIZE);
 	assert(newSize > count);
@@ -166,8 +170,8 @@ void Hash<Item, Key, KeyAccessor>::resize(size_t newSize)
 	addAllItemsFrom(oldTable);
 }
 
-template <class Item, class Key, class KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::addAllItemsFrom(Table& table)
+template <class Item, class Key, class Function, class KeyAccessor>
+void Hash<Item, Key, Function, KeyAccessor>::addAllItemsFrom(Table& table)
 {
 	size_t size = table.getCount();
 
@@ -180,16 +184,16 @@ void Hash<Item, Key, KeyAccessor>::addAllItemsFrom(Table& table)
 	}
 }
 
-template <class Item, class Key, class KeyAccessor>
-Item* Hash<Item, Key, KeyAccessor>::search(const Key& key)
+template <class Item, class Key, class Function, class KeyAccessor>
+Item* Hash<Item, Key, Function, KeyAccessor>::search(const Key& key)
 {
 	long index = getIndexOfFirstItemWithKey(key);
 
 	return (index != SEARCH_MISS_INDEX) ? table[index] : nullptr;
 }
 
-template <class Item, class Key, class KeyAccessor>
-long Hash<Item, Key, KeyAccessor>::getIndexOfFirstItemWithKey(const Key& key)
+template <class Item, class Key, class Function, class KeyAccessor>
+long Hash<Item, Key, Function, KeyAccessor>::getIndexOfFirstItemWithKey(const Key& key)
 {
 	size_t index = computeIndexFromKey(key);
 
@@ -201,8 +205,8 @@ long Hash<Item, Key, KeyAccessor>::getIndexOfFirstItemWithKey(const Key& key)
 	return (table[index]) ? index : SEARCH_MISS_INDEX;
 }
 
-template <class Item, class Key, class KeyAccessor>
-Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
+template <class Item, class Key, class Function, class KeyAccessor>
+Item* Hash<Item, Key, Function, KeyAccessor>::remove(const Key& key)
 {
 	Item* removedItem = nullptr;
 	long index = getIndexOfFirstItemWithKey(key);
@@ -225,8 +229,8 @@ Item* Hash<Item, Key, KeyAccessor>::remove(const Key& key)
 	return removedItem;
 }
 
-template <class Item, class Key, class KeyAccessor>
-Item* Hash<Item, Key, KeyAccessor>::emptySlotAndReturnItemAt(size_t index)
+template <class Item, class Key, class Function, class KeyAccessor>
+Item* Hash<Item, Key, Function, KeyAccessor>::emptySlotAndReturnItemAt(size_t index)
 {
 	assert(index < tableSize);
 	assert(table[index]);
@@ -239,8 +243,8 @@ Item* Hash<Item, Key, KeyAccessor>::emptySlotAndReturnItemAt(size_t index)
 	return removedItem;
 }
 
-template <class Item, class Key, class KeyAccessor>
-void Hash<Item, Key, KeyAccessor>::rehashClusterStartingAt(size_t index)
+template <class Item, class Key, class Function, class KeyAccessor>
+void Hash<Item, Key, Function, KeyAccessor>::rehashClusterStartingAt(size_t index)
 {
 	assert(index < tableSize);
 
@@ -254,38 +258,38 @@ void Hash<Item, Key, KeyAccessor>::rehashClusterStartingAt(size_t index)
 	}
 }
 
-template <class Item, class Key, class KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::hasTooManyEmptySlots() const
+template <class Item, class Key, class Function, class KeyAccessor>
+inline bool Hash<Item, Key, Function, KeyAccessor>::hasTooManyEmptySlots() const
 {
 	return 6 * count <= tableSize;
 }
 
-template <class Item, class Key, class KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::tableCanBeShrinked() const
+template <class Item, class Key, class Function, class KeyAccessor>
+inline bool Hash<Item, Key, Function, KeyAccessor>::tableCanBeShrinked() const
 {
 	return (tableSize / GROWTH_RATE) >= MIN_TABLE_SIZE;
 }
 
-template <class Item, class Key, class KeyAccessor>
-inline size_t Hash<Item, Key, KeyAccessor>::computeIndexFromKey(const Key& key)
+template <class Item, class Key, class Function, class KeyAccessor>
+inline size_t Hash<Item, Key, Function, KeyAccessor>::computeIndexFromKey(const Key& key)
 {
 	return hashFunction(key) % tableSize;
 }
 
-template <class Item, class Key, class KeyAccessor>
-inline size_t Hash<Item, Key, KeyAccessor>::getNextPositionToProbe(size_t currentPosition) const
+template <class Item, class Key, class Function, class KeyAccessor>
+inline size_t Hash<Item, Key, Function, KeyAccessor>::getNextPositionToProbe(size_t currentPosition) const
 {
 	return (currentPosition + 1) % tableSize;
 }
 
-template <class Item, class Key, class KeyAccessor>
-inline size_t Hash<Item, Key, KeyAccessor>::getCount() const
+template <class Item, class Key, class Function, class KeyAccessor>
+inline size_t Hash<Item, Key, Function, KeyAccessor>::getCount() const
 {
 	return count;
 }
 
-template <class Item, class Key, class KeyAccessor>
-inline bool Hash<Item, Key, KeyAccessor>::isEmpty() const
+template <class Item, class Key, class Function, class KeyAccessor>
+inline bool Hash<Item, Key, Function, KeyAccessor>::isEmpty() const
 {
 	return count == 0;
 }

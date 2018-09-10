@@ -10,7 +10,7 @@ namespace HashUnitTest
 {		
 	TEST_CLASS(HashTest)
 	{
-		typedef Hash<Book, String, BookTitleAccessor> Hash;
+		typedef Hash<Book, String, HashFunction<String>, BookTitleAccessor> Hash;
 		
 		static const size_t BOOKS_COUNT = 16;
 		static Book books[BOOKS_COUNT];
