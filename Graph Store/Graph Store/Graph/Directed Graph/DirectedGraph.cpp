@@ -9,14 +9,14 @@ DirectedGraph::DirectedGraph(const String& id) :
 {
 }
 
-void DirectedGraph::addEdgeBetweenWithWeight(Vertex& start, Vertex& end, unsigned weight)
+void DirectedGraph::addEdge(Vertex& start, Vertex& end, unsigned weight)
 {
-	assert(isOwnerOf(start));
-	assert(isOwnerOf(end));
+	verifyOwnershipOf(start);
+	verifyOwnershipOf(end);
 
 	if (!hasEdgeFromTo(start, end))
 	{
-		addEdgeFromToWithWeight(start, end, weight);
+		addEdgeFromTo(start, end, weight);
 	}
 	else
 	{
@@ -24,10 +24,29 @@ void DirectedGraph::addEdgeBetweenWithWeight(Vertex& start, Vertex& end, unsigne
 	}
 }
 
-void DirectedGraph::removeEdgeBetween(Vertex& start, Vertex& end)
+void DirectedGraph::removeEdge(Vertex& start, Vertex& end)
 {
-	assert(isOwnerOf(start));
-	assert(isOwnerOf(end));
+	verifyOwnershipOf(start);
+	verifyOwnershipOf(end);
 
 	removeEdgeFromTo(start, end);
+}
+
+void DirectedGraph::removeEdgesEndingIn(Vertex& end)
+{
+	assert(isOwnerOf(end));
+
+	VerticesConcreteIterator iterator = getConcreteIteratorOfVertices();
+
+	forEach(iterator, [&](Vertex* start)
+	{
+		try
+		{
+			removeEdgeFromTo(*start, end);
+		}
+		catch (GraphException&)
+		{
+			//Ok, there is no such edge.
+		}
+	});
 }

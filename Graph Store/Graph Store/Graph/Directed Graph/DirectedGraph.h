@@ -7,14 +7,12 @@ class DirectedGraph : public GraphBase
 {
 public:
 	explicit DirectedGraph(const String& id);
-	DirectedGraph(const DirectedGraph&) = delete;
-	DirectedGraph& operator=(const DirectedGraph&) = delete;
-	DirectedGraph(DirectedGraph&&) = delete;
-	DirectedGraph& operator=(DirectedGraph&&) = delete;
-	virtual ~DirectedGraph() = default;
 
-	virtual void addEdgeBetweenWithWeight(Vertex& start, Vertex& end, unsigned weight) override;
-	virtual void removeEdgeBetween(Vertex& start, Vertex& end) override;
+	virtual void addEdge(Vertex& start, Vertex& end, unsigned weight) override;
+	virtual void removeEdge(Vertex& start, Vertex& end) override;
+
+protected:
+	virtual void removeEdgesEndingIn(Vertex& v) override;
 };
 
 #endif //__DIRECTED_GRAPH_HEADER_INCLUDED__
