@@ -24,6 +24,11 @@ const Vertex& Edge::getVertex() const
 	return *vertex;
 }
 
+Vertex& Edge::getVertex()
+{
+	return *vertex;
+}
+
 unsigned Edge::getWeight() const
 {
 	return weight;

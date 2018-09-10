@@ -9,6 +9,7 @@ class Edge
 
 public:
 	const Vertex& getVertex() const;
+	Vertex& getVertex();
 	unsigned getWeight() const;
 
 private:
