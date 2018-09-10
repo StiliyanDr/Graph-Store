@@ -4,7 +4,17 @@
 #include "../Dynamic Array/DynamicArray.h"
 #include "Hash Function/HashFunction.h"
 
-template <class Item, class Key, class KeyAccessor>
+class Identity
+{
+public:
+	template <class T>
+	const T& operator()(const T& object) const
+	{
+		return object;
+	}
+};
+
+template <class Item, class Key, class KeyAccessor = Identity>
 class Hash
 {
 	typedef DynamicArray<Item*> Table;
