@@ -25,8 +25,8 @@ public:
 	virtual void removeVertex(Vertex& v) override;
 
 	virtual Vertex& getVertexWithID(const String& id) override;
-	virtual VerticesConstIterator getIteratorOfVertices() const override;
-	virtual EdgesConstIterator getIteratorOfEdgesLeaving(const Vertex& v) const override;
+	virtual VerticesConstIterator getConstIteratorOfVertices() const override;
+	virtual EdgesConstIterator getConstIteratorOfEdgesLeaving(const Vertex& v) const override;
 	virtual unsigned getVerticesCount() const override;
 
 protected:

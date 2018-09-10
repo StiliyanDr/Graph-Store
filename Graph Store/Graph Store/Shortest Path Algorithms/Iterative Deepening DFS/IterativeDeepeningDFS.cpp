@@ -57,8 +57,8 @@ void IterativeDeepeningDFS::depthLimitedSearch(MarkableDecoratedVertex& vertex, 
 
 void IterativeDeepeningDFS::expandSearch(const MarkableDecoratedVertex& predecessor, unsigned depth)
 {
-	std::unique_ptr<Iterator<Edge>> iterator =
-		graph->getIteratorOfEdgesLeaving(predecessor.originalVertex);
+	Graph::EdgesConstIterator iterator =
+		graph->getConstIteratorOfEdgesLeaving(predecessor.originalVertex);
 
 	while (!foundAShortestPath && *iterator)
 	{

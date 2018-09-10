@@ -44,8 +44,8 @@ void DijkstraAlgorithm::initialiseVertex(Vertex& vertex) const
 
 void DijkstraAlgorithm::relaxEdgesLeaving(Vertex& vertex, Graph& graph)
 {
-	std::unique_ptr<Iterator<Edge>> iterator =
-		graph.getIteratorOfEdgesLeaving(vertex);
+	Graph::EdgesConstIterator iterator =
+		graph.getConstIteratorOfEdgesLeaving(vertex);
 
 	forEach(*iterator, [&](Edge& edge)
 	{
@@ -69,7 +69,7 @@ void DijkstraAlgorithm::relaxEdge(Vertex& startVertex, Vertex& endVertex, unsign
 DijkstraAlgorithm::PriorityQueue
 DijkstraAlgorithm::makePriorityQueueContainingVerticesOf(Graph& graph)
 {
-	std::unique_ptr<Iterator<Vertex*>> iterator = graph.getIteratorOfVertices();
+	Graph::VerticesConstIterator iterator = graph.getConstIteratorOfVertices();
 
 	return PriorityQueue(*iterator, graph.getVerticesCount());
 }

@@ -22,8 +22,8 @@ public:
 	virtual void removeEdge(Vertex& start, Vertex& end) = 0;
 
 	virtual Vertex& getVertexWithID(const String& id) = 0;
-	virtual VerticesConstIterator getIteratorOfVertices() const = 0;
-	virtual EdgesConstIterator getIteratorOfEdgesLeaving(const Vertex& v) const = 0;
+	virtual VerticesConstIterator getConstIteratorOfVertices() const = 0;
+	virtual EdgesConstIterator getConstIteratorOfEdgesLeaving(const Vertex& v) const = 0;
 	virtual unsigned getVerticesCount() const = 0;
 
 	const String& getID() const;

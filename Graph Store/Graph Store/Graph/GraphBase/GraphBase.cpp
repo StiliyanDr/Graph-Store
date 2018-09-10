@@ -203,7 +203,7 @@ void GraphBase::addEdgeFromTo(Vertex& start, Vertex& end, unsigned weight)
 	}
 }
 
-Graph::VerticesConstIterator GraphBase::getIteratorOfVertices() const
+Graph::VerticesConstIterator GraphBase::getConstIteratorOfVertices() const
 {
 	typedef ConcreteIteratorAdapter<const Vertex*, DynamicArray<Vertex*>::ConstIterator, true> ConcreteConstIterator;
 
@@ -215,7 +215,7 @@ GraphBase::VerticesConcreteIterator GraphBase::getConcreteIteratorOfVertices()
 	return vertices.getIterator();
 }
 
-Graph::EdgesConstIterator GraphBase::getIteratorOfEdgesLeaving(const Vertex& v) const
+Graph::EdgesConstIterator GraphBase::getConstIteratorOfEdgesLeaving(const Vertex& v) const
 {
 	typedef ConcreteIteratorAdapter<Edge, LinkedList<Edge>::ConstIterator, true> ConcreteConstIterator;
 

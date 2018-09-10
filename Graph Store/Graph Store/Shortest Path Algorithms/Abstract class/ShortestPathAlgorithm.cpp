@@ -105,7 +105,7 @@ void ShortestPathAlgorithm::setID(const String& id)
 
 void ShortestPathAlgorithm::decorateVerticesOf(const Graph& graph)
 {
-	forEach(graph.getIteratorOfVertices(), [&](const Vertex* vertex)
+	forEach(graph.getConstIteratorOfVertices(), [&](const Vertex* vertex)
 	{
 		addDecoratedVersionOf(*vertex);
 	});

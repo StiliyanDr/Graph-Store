@@ -35,7 +35,7 @@ void PrintGraphCommand::printGraph(const String& id)
 	GraphCollection& graphs = getGraphs();
 	Graph& graph = graphs.getGraphWithID(id);
 
-	std::unique_ptr<Iterator<Vertex*>> iterator = graph.getIteratorOfVertices();
+	Graph::VerticesConstIterator iterator = graph.getConstIteratorOfVertices();
 
 	forEach(*iterator, [&](Vertex* vertex)
 	{
@@ -47,8 +47,8 @@ void PrintGraphCommand::printEdgesLeaving(Vertex& vertex, Graph& graph)
 {
 	std::cout << vertex.getID() << ": ";
 
-	std::unique_ptr<Iterator<Edge>> iterator =
-		graph.getIteratorOfEdgesLeaving(vertex);
+	Graph::EdgesConstIterator iterator =
+		graph.getConstIteratorOfEdgesLeaving(vertex);
 
 	forEach(*iterator, [&](Edge& e)
 	{
