@@ -35,25 +35,6 @@ void GraphBase::removeVertex(Vertex& v)
 	delete &v;
 }
 
-void GraphBase::removeEdgesEndingIn(Vertex& end)
-{
-	assert(isOwnerOf(end));
-
-	VerticesConcreteIterator iterator = getConcreteIteratorOfVertices();
-
-	forEach(iterator, [&](Vertex* start)
-	{
-		try
-		{
-			removeEdgeFromTo(*start, end);
-		}
-		catch (GraphException&)
-		{
-			//Ok, there is no such edge.
-		}
-	});
-}
-
 void GraphBase::removeEdgeFromTo(Vertex& start, const Vertex& end)
 {
 	assert(isOwnerOf(start));

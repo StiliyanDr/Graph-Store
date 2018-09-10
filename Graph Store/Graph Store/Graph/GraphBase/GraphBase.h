@@ -32,7 +32,7 @@ public:
 protected:
 	GraphBase(const String& id);
 
-	virtual void removeEdgesEndingIn(Vertex& v);
+	virtual void removeEdgesEndingIn(Vertex& v) = 0;
 	virtual void removeEdgesLeaving(Vertex& v);
 	void removeEdgeFromTo(Vertex& start, const Vertex& end);
 	void addEdgeFromTo(Vertex& start, Vertex& end, unsigned weight);
