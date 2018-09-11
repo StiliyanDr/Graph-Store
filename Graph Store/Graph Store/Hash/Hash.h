@@ -27,9 +27,11 @@ public:
 	Hash<Item, Key, Function, KeyAccessor>& operator=(Hash<Item, Key, Function, KeyAccessor>&& rhs);
 	~Hash() = default;
 
-	Item* search(const Key& key);
 	void add(Item& item);
 	Item* remove(const Key& key);
+	Item* search(const Key& key);
+	const Item* search(const Key& key) const;
+	bool contains(const Key& key) const;
 
 	size_t getCount() const;
 	bool isEmpty() const;

@@ -179,6 +179,14 @@ Item* Hash<Item, Key, Function, KeyAccessor>::search(const Key& key)
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
+const Item* Hash<Item, Key, Function, KeyAccessor>::search(const Key& key) const
+{
+	long index = getIndexOfFirstItemWithKey(key);
+
+	return (index != -1) ? table[index] : nullptr;
+}
+
+template <class Item, class Key, class Function, class KeyAccessor>
 long Hash<Item, Key, Function, KeyAccessor>::getIndexOfFirstItemWithKey(const Key& key) const
 {
 	size_t index = computeIndexFromKey(key);
@@ -189,6 +197,12 @@ long Hash<Item, Key, Function, KeyAccessor>::getIndexOfFirstItemWithKey(const Ke
 	}
 
 	return (table[index]) ? index : -1;
+}
+
+template <class Item, class Key, class Function, class KeyAccessor>
+inline bool Hash<Item, Key, Function, KeyAccessor>::contains(const Key& key) const
+{
+	return search(key) != nullptr;
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
