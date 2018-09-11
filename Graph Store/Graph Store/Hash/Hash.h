@@ -42,7 +42,7 @@ private:
 
 private:
 	long getIndexOfFirstItemWithKey(const Key& key);
-	size_t computeIndexFromKey(const Key& key);
+	size_t computeIndexFromKey(const Key& key) const;
 	void rehashClusterStartingAt(size_t index);
 	Item* emptySlotAndReturnItemAt(size_t index);
 	void resize(size_t newSize);

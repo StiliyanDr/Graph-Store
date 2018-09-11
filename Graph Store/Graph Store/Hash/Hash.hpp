@@ -257,7 +257,7 @@ inline bool Hash<Item, Key, Function, KeyAccessor>::tableCanBeShrinked() const
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-inline size_t Hash<Item, Key, Function, KeyAccessor>::computeIndexFromKey(const Key& key)
+inline size_t Hash<Item, Key, Function, KeyAccessor>::computeIndexFromKey(const Key& key) const
 {
 	return hashFunction(key) % table.getSize();
 }
