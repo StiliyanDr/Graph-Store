@@ -179,7 +179,7 @@ Item* Hash<Item, Key, Function, KeyAccessor>::search(const Key& key)
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-long Hash<Item, Key, Function, KeyAccessor>::getIndexOfFirstItemWithKey(const Key& key)
+long Hash<Item, Key, Function, KeyAccessor>::getIndexOfFirstItemWithKey(const Key& key) const
 {
 	size_t index = computeIndexFromKey(key);
 
