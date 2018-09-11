@@ -16,8 +16,6 @@ inline Hash<Item, Key, Function, KeyAccessor>::Hash(size_t expectedItemsCount)
 template <class Item, class Key, class Function, class KeyAccessor>
 inline size_t Hash<Item, Key, Function, KeyAccessor>::calculateTableSize(size_t expectedItemsCount)
 {
-	assert(expectedItemsCount > 0);
-
 	return ((3 * expectedItemsCount) / 2) + MIN_TABLE_SIZE;
 }
 
