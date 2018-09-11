@@ -96,18 +96,6 @@ void Hash<Item, Key, Function, KeyAccessor>::swapContentsWith(Hash<Item, Key, Fu
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-Hash<Item, Key, Function, KeyAccessor>&
-Hash<Item, Key, Function, KeyAccessor>::operator=(const Hash<Item, Key, Function, KeyAccessor>& rhs)
-{
-	if (this != &rhs)
-	{
-		swapContentsWith(rhs);
-	}
-
-	return *this;
-}
-
-template <class Item, class Key, class Function, class KeyAccessor>
 inline void Hash<Item, Key, Function, KeyAccessor>::empty()
 {
 	makeTableEmptyWithSize(MIN_TABLE_SIZE);

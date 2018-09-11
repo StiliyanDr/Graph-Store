@@ -21,10 +21,10 @@ class Hash
 
 public:
 	explicit Hash(size_t expectedItemsCount);
-	Hash(Hash<Item, Key, Function, KeyAccessor>&& source);
 	Hash(const Hash<Item, Key, Function, KeyAccessor>&) = default;
+	Hash<Item, Key, Function, KeyAccessor>& operator=(const Hash<Item, Key, Function, KeyAccessor>&) = default;
+	Hash(Hash<Item, Key, Function, KeyAccessor>&& source);
 	Hash<Item, Key, Function, KeyAccessor>& operator=(Hash<Item, Key, Function, KeyAccessor>&& rhs);
-	Hash<Item, Key, Function, KeyAccessor>& operator=(const Hash<Item, Key, Function, KeyAccessor>& rhs);
 	~Hash() = default;
 
 	Item* search(const Key& key);
@@ -62,8 +62,8 @@ private:
 	static const long SEARCH_MISS_INDEX = -1;
 
 private:
-	size_t count;
 	Table table;
+	size_t count;
 	KeyAccessor keyAccessor;
 	Function hashFunction;
 };
