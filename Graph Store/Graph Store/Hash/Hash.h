@@ -20,7 +20,7 @@ class Hash
 	typedef DynamicArray<Item*> Table;
 
 public:
-	explicit Hash(size_t expectedItemsCount);
+	explicit Hash(size_t expectedItemsCount = 0);
 	Hash(const Hash<Item, Key, Function, KeyAccessor>&) = default;
 	Hash<Item, Key, Function, KeyAccessor>& operator=(const Hash<Item, Key, Function, KeyAccessor>&) = default;
 	Hash(Hash<Item, Key, Function, KeyAccessor>&& source);
