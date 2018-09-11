@@ -44,7 +44,7 @@ template <class Item, class Key, class Function, class KeyAccessor>
 typename Hash<Item, Key, Function, KeyAccessor>::Table
 Hash<Item, Key, Function, KeyAccessor>::emptyAllSlotsIn(Table table)
 {
-	size_t size = table.getCount();
+	size_t size = table.getSize();
 
 	for (size_t i = 0; i < size; ++i)
 	{
@@ -58,9 +58,8 @@ template <class Item, class Key, class Function, class KeyAccessor>
 void Hash<Item, Key, Function, KeyAccessor>::setTable(Table table)
 {
 	this->table = std::move(table);
-	this->tableSize = this->table.getCount();
-
-	assert(tableSize >= MIN_TABLE_SIZE);
+	
+	assert(this->table.getSize() >= MIN_TABLE_SIZE);
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
@@ -70,7 +69,7 @@ Hash<Item, Key, Function, KeyAccessor>::Hash(Hash<Item, Key, Function, KeyAccess
 
 	std::swap(table, source.table);
 	std::swap(count, source.count);
-	std::swap(tableSize, source.tableSize);
+
 	keyAccessor = std::move(source.keyAccessor);
 	hashFunction = std::move(source.hashFunction);
 }
@@ -91,7 +90,6 @@ template <class Item, class Key, class Function, class KeyAccessor>
 void Hash<Item, Key, Function, KeyAccessor>::swapContentsWith(Hash<Item, Key, Function, KeyAccessor> hash)
 {
 	std::swap(count, hash.count);
-	std::swap(tableSize, hash.tableSize);
 	std::swap(table, hash.table);
 	std::swap(keyAccessor, hash.keyAccessor);
 	std::swap(hashFunction, hash.hashFunction);
@@ -118,8 +116,8 @@ inline void Hash<Item, Key, Function, KeyAccessor>::empty()
 template <class Item, class Key, class Function, class KeyAccessor>
 void Hash<Item, Key, Function, KeyAccessor>::add(Item& item)
 {
-	assert(tableSize >= MIN_TABLE_SIZE);
-	assert(count < tableSize);
+	assert(table.getSize() >= MIN_TABLE_SIZE);
+	assert(count < table.getSize());
 
 	extendIfFillingUp();
 
@@ -139,14 +137,14 @@ inline void Hash<Item, Key, Function, KeyAccessor>::extendIfFillingUp()
 {
 	if (isFillingUp())
 	{
-		resize(GROWTH_RATE * tableSize);
+		resize(GROWTH_RATE * table.getSize());
 	}
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
 inline bool Hash<Item, Key, Function, KeyAccessor>::isFillingUp() const
 {
-	return 3 * count >= 2 * tableSize;
+	return 3 * count >= 2 * table.getSize();
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
@@ -173,7 +171,7 @@ void Hash<Item, Key, Function, KeyAccessor>::resize(size_t newSize)
 template <class Item, class Key, class Function, class KeyAccessor>
 void Hash<Item, Key, Function, KeyAccessor>::addAllItemsFrom(Table& table)
 {
-	size_t size = table.getCount();
+	size_t size = table.getSize();
 
 	for (size_t i = 0; i < size; ++i)
 	{
@@ -213,12 +211,12 @@ Item* Hash<Item, Key, Function, KeyAccessor>::remove(const Key& key)
 
 	if (index != SEARCH_MISS_INDEX)
 	{
-		assert(count > 0 && tableSize > count);
+		assert(count > 0 && table.getSize() > count);
 		removedItem = emptySlotAndReturnItemAt(index);
 
 		if (hasTooManyEmptySlots() && tableCanBeShrinked())
 		{
-			resize(tableSize / GROWTH_RATE);
+			resize(table.getSize() / GROWTH_RATE);
 		}
 		else
 		{
@@ -232,7 +230,7 @@ Item* Hash<Item, Key, Function, KeyAccessor>::remove(const Key& key)
 template <class Item, class Key, class Function, class KeyAccessor>
 Item* Hash<Item, Key, Function, KeyAccessor>::emptySlotAndReturnItemAt(size_t index)
 {
-	assert(index < tableSize);
+	assert(index < table.getSize());
 	assert(table[index]);
 
 	Item* removedItem = table[index];
@@ -246,7 +244,7 @@ Item* Hash<Item, Key, Function, KeyAccessor>::emptySlotAndReturnItemAt(size_t in
 template <class Item, class Key, class Function, class KeyAccessor>
 void Hash<Item, Key, Function, KeyAccessor>::rehashClusterStartingAt(size_t index)
 {
-	assert(index < tableSize);
+	assert(index < table.getSize());
 
 	Item* itemToRehash;
 
@@ -261,25 +259,25 @@ void Hash<Item, Key, Function, KeyAccessor>::rehashClusterStartingAt(size_t inde
 template <class Item, class Key, class Function, class KeyAccessor>
 inline bool Hash<Item, Key, Function, KeyAccessor>::hasTooManyEmptySlots() const
 {
-	return 6 * count <= tableSize;
+	return 6 * count <= table.getSize();
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
 inline bool Hash<Item, Key, Function, KeyAccessor>::tableCanBeShrinked() const
 {
-	return (tableSize / GROWTH_RATE) >= MIN_TABLE_SIZE;
+	return (table.getSize() / GROWTH_RATE) >= MIN_TABLE_SIZE;
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
 inline size_t Hash<Item, Key, Function, KeyAccessor>::computeIndexFromKey(const Key& key)
 {
-	return hashFunction(key) % tableSize;
+	return hashFunction(key) % table.getSize();
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
 inline size_t Hash<Item, Key, Function, KeyAccessor>::getNextPositionToProbe(size_t currentPosition) const
 {
-	return (currentPosition + 1) % tableSize;
+	return (currentPosition + 1) % table.getSize();
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>

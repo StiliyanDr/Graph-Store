@@ -63,7 +63,6 @@ private:
 
 private:
 	size_t count;
-	size_t tableSize;
 	Table table;
 	KeyAccessor keyAccessor;
 	Function hashFunction;
