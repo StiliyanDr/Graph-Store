@@ -45,13 +45,18 @@ namespace HashUnitTest
 
 			for (size_t i = from; i <= to; ++i)
 			{
-				if (!hash.search(books[i].getTitle()))
+				if (!hash.contains(books[i].getTitle()))
 				{
 					return false;
 				}
 			}
 
 			return true;
+		}
+
+		bool areEqual(const char* lhs, const char* rhs)
+		{
+			return strcmp(lhs, rhs) == 0;
 		}
 
 		TEST_CLASS_INITIALIZE(initialiseHashTest)
@@ -262,7 +267,7 @@ namespace HashUnitTest
 			Assert::IsTrue(hashConsistsOfBooksFromTo(hash, 0, BOOKS_COUNT / 2));
 		}
 
-		TEST_METHOD(testSearchForRemovedItemsIsUnsuccessfull)
+		TEST_METHOD(testHashNoLongerContainsRemovedItems)
 		{
 			Hash hash(BOOKS_COUNT);
 			fillHashWithBooksFromTo(hash, 0, BOOKS_COUNT - 1);
@@ -270,7 +275,7 @@ namespace HashUnitTest
 			for (size_t i = BOOKS_COUNT / 2; i < BOOKS_COUNT; ++i)
 			{
 				hash.remove(books[i].getTitle());
-				Assert::IsNull(hash.search(books[i].getTitle()));
+				Assert::IsFalse(hash.contains(books[i].getTitle()));
 			}
 		}
 
@@ -289,6 +294,33 @@ namespace HashUnitTest
 				Assert::AreEqual(--correctCount, hash.getCount());
 			}
 		}
+
+		TEST_METHOD(testOperatorSubscriptWithContainedKey)
+		{
+			Hash hash(1);
+			Book& insertedBook = books[0];
+			hash.add(insertedBook);
+
+			Book& book = hash[insertedBook.getTitle()];
+
+			Assert::IsTrue(&book == &insertedBook);
+		}
+
+		TEST_METHOD(testOperatorSubscriptWithNotContainedKeyThrowsException)
+		{
+			Hash hash;
+
+			try
+			{
+				hash["key"];
+				Assert::Fail(L"The method did not throw an exception!");
+			}
+			catch (std::logic_error& e)
+			{
+				Assert::IsTrue(areEqual("There is no item with such key!", e.what()));
+			}
+		}
+
 	};
 
 	Book HashTest::books[BOOKS_COUNT];

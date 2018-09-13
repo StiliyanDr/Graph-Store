@@ -29,9 +29,10 @@ public:
 
 	void add(Item& item);
 	Item* remove(const Key& key);
-	Item* search(const Key& key);
-	const Item* search(const Key& key) const;
 	bool contains(const Key& key) const;
+
+	Item& operator[](const Key& key);
+	const Item& operator[](const Key& key) const;
 
 	size_t getCount() const;
 	bool isEmpty() const;

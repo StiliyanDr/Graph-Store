@@ -169,19 +169,33 @@ void Hash<Item, Key, Function, KeyAccessor>::addAllItemsFrom(Table& table)
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-Item* Hash<Item, Key, Function, KeyAccessor>::search(const Key& key)
+Item& Hash<Item, Key, Function, KeyAccessor>::operator[](const Key& key)
 {
 	long index = getIndexOfFirstItemWithKey(key);
 
-	return (index != -1) ? table[index] : nullptr;
+	if (index != -1)
+	{
+		return *table[index];
+	}
+	else
+	{
+		throw std::logic_error("There is no item with such key!");
+	}
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-const Item* Hash<Item, Key, Function, KeyAccessor>::search(const Key& key) const
+const Item& Hash<Item, Key, Function, KeyAccessor>::operator[](const Key& key) const
 {
 	long index = getIndexOfFirstItemWithKey(key);
 
-	return (index != -1) ? table[index] : nullptr;
+	if (index != -1)
+	{
+		return *table[index]
+	}
+	else
+	{
+		throw std::logic_error("There is no item with such key!");
+	}
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
