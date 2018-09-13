@@ -118,15 +118,6 @@ void Hash<Item, Key, Function, KeyAccessor>::add(Item& item)
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-inline void Hash<Item, Key, Function, KeyAccessor>::addItemAt(Item& item, size_t index)
-{
-	assert(!slotIsOccupied(index));
-
-	table[index] = &item;
-	++count;
-}
-
-template <class Item, class Key, class Function, class KeyAccessor>
 inline void Hash<Item, Key, Function, KeyAccessor>::extendIfFillingUp()
 {
 	if (isFillingUp())
@@ -139,6 +130,35 @@ template <class Item, class Key, class Function, class KeyAccessor>
 inline bool Hash<Item, Key, Function, KeyAccessor>::isFillingUp() const
 {
 	return 3 * count >= 2 * table.getSize();
+}
+
+template <class Item, class Key, class Function, class KeyAccessor>
+inline size_t Hash<Item, Key, Function, KeyAccessor>::computeIndexFromKey(const Key& key) const
+{
+	return hashFunction(key) % table.getSize();
+}
+
+template <class Item, class Key, class Function, class KeyAccessor>
+inline bool Hash<Item, Key, Function, KeyAccessor>::slotIsOccupied(size_t index) const
+{
+	assert(index < table.getSize());
+
+	return table[index] != nullptr;
+}
+
+template <class Item, class Key, class Function, class KeyAccessor>
+inline size_t Hash<Item, Key, Function, KeyAccessor>::getNextPositionToProbe(size_t currentPosition) const
+{
+	return (currentPosition + 1) % table.getSize();
+}
+
+template <class Item, class Key, class Function, class KeyAccessor>
+inline void Hash<Item, Key, Function, KeyAccessor>::addItemAt(Item& item, size_t index)
+{
+	assert(!slotIsOccupied(index));
+
+	table[index] = &item;
+	++count;
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
@@ -252,21 +272,6 @@ Item* Hash<Item, Key, Function, KeyAccessor>::remove(const Key& key)
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-void Hash<Item, Key, Function, KeyAccessor>::shrinkAfterRemovingItemAt(size_t index)
-{
-	assert(!slotIsOccupied(index));
-
-	try
-	{
-		resize(table.getSize() / GROWTH_RATE);
-	}
-	catch (std::bad_alloc&)
-	{
-		rehashClusterStartingAt(getNextPositionToProbe(index));
-	}
-}
-
-template <class Item, class Key, class Function, class KeyAccessor>
 Item* Hash<Item, Key, Function, KeyAccessor>::emptySlotAndReturnItemAt(size_t index)
 {
 	assert(slotIsOccupied(index));
@@ -277,19 +282,6 @@ Item* Hash<Item, Key, Function, KeyAccessor>::emptySlotAndReturnItemAt(size_t in
 	--count;
 
 	return removedItem;
-}
-
-template <class Item, class Key, class Function, class KeyAccessor>
-void Hash<Item, Key, Function, KeyAccessor>::rehashClusterStartingAt(size_t index)
-{
-	Item* itemToRehash;
-
-	while (slotIsOccupied(index))
-	{
-		itemToRehash = emptySlotAndReturnItemAt(index);
-		add(*itemToRehash);
-		index = getNextPositionToProbe(index);
-	}
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
@@ -305,23 +297,31 @@ inline bool Hash<Item, Key, Function, KeyAccessor>::tableCanBeShrinked() const
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-inline size_t Hash<Item, Key, Function, KeyAccessor>::computeIndexFromKey(const Key& key) const
+void Hash<Item, Key, Function, KeyAccessor>::shrinkAfterRemovingItemAt(size_t index)
 {
-	return hashFunction(key) % table.getSize();
+	assert(!slotIsOccupied(index));
+
+	try
+	{
+		resize(table.getSize() / GROWTH_RATE);
+	}
+	catch (std::bad_alloc&)
+	{
+		rehashClusterStartingAt(getNextPositionToProbe(index));
+	}
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-inline size_t Hash<Item, Key, Function, KeyAccessor>::getNextPositionToProbe(size_t currentPosition) const
+void Hash<Item, Key, Function, KeyAccessor>::rehashClusterStartingAt(size_t index)
 {
-	return (currentPosition + 1) % table.getSize();
-}
+	Item* itemToRehash;
 
-template <class Item, class Key, class Function, class KeyAccessor>
-inline bool Hash<Item, Key, Function, KeyAccessor>::slotIsOccupied(size_t index) const
-{
-	assert(index < table.getSize());
-
-	return table[index] != nullptr;
+	while (slotIsOccupied(index))
+	{
+		itemToRehash = emptySlotAndReturnItemAt(index);
+		add(*itemToRehash);
+		index = getNextPositionToProbe(index);
+	}
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
