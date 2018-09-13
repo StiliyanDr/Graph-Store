@@ -37,8 +37,7 @@ protected:
 	void removeEdgeFromTo(Vertex& start, const Vertex& end);
 	void addEdgeFromTo(Vertex& start, Vertex& end, unsigned weight);
 	bool hasEdgeFromTo(const Vertex& start, const Vertex& end) const;
-	bool hasVertexWithID(const String& id);
-	Vertex* searchForVertexWithID(const String& id);
+	bool hasVertexWithID(const String& id) const;
 	void verifyOwnershipOf(const Vertex& v) const;
 	bool isOwnerOf(const Vertex& v) const;	
 	VerticesConcreteIterator getConcreteIteratorOfVertices();
