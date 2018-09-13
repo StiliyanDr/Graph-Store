@@ -114,6 +114,14 @@ void Hash<Item, Key, Function, KeyAccessor>::add(Item& item)
 		index = getNextPositionToProbe(index);
 	}
 
+	addItemAt(item, index);
+}
+
+template <class Item, class Key, class Function, class KeyAccessor>
+inline void Hash<Item, Key, Function, KeyAccessor>::addItemAt(Item& item, size_t index)
+{
+	assert(!slotIsOccupied(index));
+
 	table[index] = &item;
 	++count;
 }
