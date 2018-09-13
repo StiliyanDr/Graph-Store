@@ -11,16 +11,14 @@ namespace HashUnitTest
 	TEST_CLASS(HashTest)
 	{
 		typedef Hash<Book, String, HashFunction<String>, BookTitleAccessor> Hash;
-		
+
 		static const size_t BOOKS_COUNT = 16;
 		static Book books[BOOKS_COUNT];
 
-	public:
-
-		void fillHashWithBooksFromTo(Hash& hash, size_t from, size_t to)
+		static void fillHashWithBooksFromTo(Hash& hash, size_t from, size_t to)
 		{
-			assert(from < BOOKS_COUNT);
-			assert(to < BOOKS_COUNT);
+			assert(isValidIndex(from));
+			assert(isValidIndex(to));
 
 			for (size_t i = from; i <= to; ++i)
 			{
@@ -28,7 +26,12 @@ namespace HashUnitTest
 			}
 		}
 
-		bool hashConsistsOfBooksFromTo(Hash& hash, size_t from, size_t to)
+		static bool isValidIndex(size_t i)
+		{
+			return i < BOOKS_COUNT;
+		}
+
+		static bool hashConsistsOfBooksFromTo(const Hash& hash, size_t from, size_t to)
 		{
 			assert(from <= to);
 			
@@ -38,10 +41,10 @@ namespace HashUnitTest
 				   && hashContainsBooksFromTo(hash, from, to);
 		}
 
-		bool hashContainsBooksFromTo(Hash& hash, size_t from, size_t to)
+		static bool hashContainsBooksFromTo(const Hash& hash, size_t from, size_t to)
 		{
-			assert(from < BOOKS_COUNT);
-			assert(to < BOOKS_COUNT);
+			assert(isValidIndex(from));
+			assert(isValidIndex(to));
 
 			for (size_t i = from; i <= to; ++i)
 			{
@@ -54,11 +57,12 @@ namespace HashUnitTest
 			return true;
 		}
 
-		bool areEqual(const char* lhs, const char* rhs)
+		static bool areEqual(const char* lhs, const char* rhs)
 		{
 			return strcmp(lhs, rhs) == 0;
 		}
 
+	public:
 		TEST_CLASS_INITIALIZE(initialiseHashTest)
 		{
 			static const char* titles[BOOKS_COUNT] = { "one", "two", "three", "four", "five", "six", "seven", 
