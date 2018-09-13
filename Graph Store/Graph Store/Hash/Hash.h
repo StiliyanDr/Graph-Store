@@ -59,6 +59,7 @@ private:
 	void setTable(Table table);
 	void swapContentsWith(Hash<Item, Key, Function, KeyAccessor> hash);
 	size_t getNextPositionToProbe(size_t currentPosition) const;
+	bool slotIsOccupied(size_t index) const;
 
 private:
 	static const size_t GROWTH_RATE = 2;

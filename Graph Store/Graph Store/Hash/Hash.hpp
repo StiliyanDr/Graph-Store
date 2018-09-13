@@ -109,7 +109,7 @@ void Hash<Item, Key, Function, KeyAccessor>::add(Item& item)
 
 	size_t index = computeIndexFromKey(keyAccessor(item));
 
-	while (table[index])
+	while (slotIsOccupied(index))
 	{
 		index = getNextPositionToProbe(index);
 	}
@@ -161,7 +161,7 @@ void Hash<Item, Key, Function, KeyAccessor>::addAllItemsFrom(Table& table)
 
 	for (size_t i = 0; i < size; ++i)
 	{
-		if (table[i])
+		if (table[i] != nullptr)
 		{
 			add(*table[i]);
 		}
@@ -203,12 +203,12 @@ long Hash<Item, Key, Function, KeyAccessor>::getIndexOfFirstItemWithKey(const Ke
 {
 	size_t index = computeIndexFromKey(key);
 
-	while (table[index] && keyAccessor(*table[index]) != key)
+	while (slotIsOccupied(index) && keyAccessor(*table[index]) != key)
 	{
 		index = getNextPositionToProbe(index);
 	}
 
-	return (table[index]) ? index : -1;
+	return slotIsOccupied(index) ? index : -1;
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
@@ -247,7 +247,7 @@ template <class Item, class Key, class Function, class KeyAccessor>
 void Hash<Item, Key, Function, KeyAccessor>::shrinkAfterRemovingItemAt(size_t index)
 {
 	assert(index < table.getSize());
-	assert(table[index] == nullptr);
+	assert(!slotIsOccupied(index));
 
 	try
 	{
@@ -263,7 +263,7 @@ template <class Item, class Key, class Function, class KeyAccessor>
 Item* Hash<Item, Key, Function, KeyAccessor>::emptySlotAndReturnItemAt(size_t index)
 {
 	assert(index < table.getSize());
-	assert(table[index]);
+	assert(slotIsOccupied(index));
 
 	Item* removedItem = table[index];
 	table[index] = nullptr;
@@ -280,7 +280,7 @@ void Hash<Item, Key, Function, KeyAccessor>::rehashClusterStartingAt(size_t inde
 
 	Item* itemToRehash;
 
-	while (table[index])
+	while (slotIsOccupied(index))
 	{
 		itemToRehash = emptySlotAndReturnItemAt(index);
 		add(*itemToRehash);
@@ -310,6 +310,14 @@ template <class Item, class Key, class Function, class KeyAccessor>
 inline size_t Hash<Item, Key, Function, KeyAccessor>::getNextPositionToProbe(size_t currentPosition) const
 {
 	return (currentPosition + 1) % table.getSize();
+}
+
+template <class Item, class Key, class Function, class KeyAccessor>
+inline bool Hash<Item, Key, Function, KeyAccessor>::slotIsOccupied(size_t index) const
+{
+	assert(index < table.getSize());
+
+	return table[index] != nullptr;
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
