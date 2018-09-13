@@ -48,6 +48,7 @@ private:
 	size_t computeIndexFromKey(const Key& key) const;
 	void rehashClusterStartingAt(size_t index);
 	Item* emptySlotAndReturnItemAt(size_t index);
+	void shrinkAfterRemovingItemAt(size_t index);
 	void resize(size_t newSize);
 	void addAllItemsFrom(Table& table);
 	bool hasTooManyEmptySlots() const;

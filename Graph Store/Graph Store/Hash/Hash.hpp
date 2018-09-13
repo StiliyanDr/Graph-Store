@@ -225,12 +225,14 @@ Item* Hash<Item, Key, Function, KeyAccessor>::remove(const Key& key)
 
 	if (index != -1)
 	{
-		assert(count > 0 && table.getSize() > count);
+		assert(count > 0);
+		assert(table.getSize() > count);
+
 		removedItem = emptySlotAndReturnItemAt(index);
 
 		if (hasTooManyEmptySlots() && tableCanBeShrinked())
 		{
-			resize(table.getSize() / GROWTH_RATE);
+			shrinkAfterRemovingItemAt(index);
 		}
 		else
 		{
@@ -239,6 +241,22 @@ Item* Hash<Item, Key, Function, KeyAccessor>::remove(const Key& key)
 	}
 
 	return removedItem;
+}
+
+template <class Item, class Key, class Function, class KeyAccessor>
+void Hash<Item, Key, Function, KeyAccessor>::shrinkAfterRemovingItemAt(size_t index)
+{
+	assert(index < table.getSize());
+	assert(table[index] == nullptr);
+
+	try
+	{
+		resize(table.getSize() / GROWTH_RATE);
+	}
+	catch (std::bad_alloc&)
+	{
+		rehashClusterStartingAt(getNextPositionToProbe(index));
+	}
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
