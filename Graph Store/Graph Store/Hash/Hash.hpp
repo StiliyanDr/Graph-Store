@@ -254,7 +254,6 @@ Item* Hash<Item, Key, Function, KeyAccessor>::remove(const Key& key)
 template <class Item, class Key, class Function, class KeyAccessor>
 void Hash<Item, Key, Function, KeyAccessor>::shrinkAfterRemovingItemAt(size_t index)
 {
-	assert(index < table.getSize());
 	assert(!slotIsOccupied(index));
 
 	try
@@ -270,7 +269,6 @@ void Hash<Item, Key, Function, KeyAccessor>::shrinkAfterRemovingItemAt(size_t in
 template <class Item, class Key, class Function, class KeyAccessor>
 Item* Hash<Item, Key, Function, KeyAccessor>::emptySlotAndReturnItemAt(size_t index)
 {
-	assert(index < table.getSize());
 	assert(slotIsOccupied(index));
 
 	Item* removedItem = table[index];
@@ -284,8 +282,6 @@ Item* Hash<Item, Key, Function, KeyAccessor>::emptySlotAndReturnItemAt(size_t in
 template <class Item, class Key, class Function, class KeyAccessor>
 void Hash<Item, Key, Function, KeyAccessor>::rehashClusterStartingAt(size_t index)
 {
-	assert(index < table.getSize());
-
 	Item* itemToRehash;
 
 	while (slotIsOccupied(index))
