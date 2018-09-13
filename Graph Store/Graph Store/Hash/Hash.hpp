@@ -200,7 +200,7 @@ long Hash<Item, Key, Function, KeyAccessor>::getIndexOfFirstItemWithKey(const Ke
 template <class Item, class Key, class Function, class KeyAccessor>
 inline bool Hash<Item, Key, Function, KeyAccessor>::contains(const Key& key) const
 {
-	return search(key) != nullptr;
+	return getIndexOfFirstItemWithKey(key) != -1;
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>

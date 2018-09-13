@@ -204,35 +204,35 @@ namespace HashUnitTest
 			Assert::IsTrue(hashConsistsOfBooksFromTo(hash, 0, BOOKS_COUNT / 2));
 		}
 
-		TEST_METHOD(testSearchInEmptyHashFindsNothing)
+		TEST_METHOD(testEmptyHashContainsNothing)
 		{
 			Hash hash(10);
 
 			for (size_t i = 0; i < BOOKS_COUNT; ++i)
 			{
-				Assert::IsNull(hash.search(books[i].getTitle()));
+				Assert::IsFalse(hash.contains(books[i].getTitle()));
 			}
 		}
 
-		TEST_METHOD(testSearchFindsAddedItems)
+		TEST_METHOD(testHashContainsAddedItems)
 		{
 			Hash hash(BOOKS_COUNT);
 			fillHashWithBooksFromTo(hash, 0, BOOKS_COUNT - 1);
 
 			for (size_t i = 0; i < BOOKS_COUNT; ++i)
 			{
-				Assert::IsTrue(&books[i] == hash.search(books[i].getTitle()));
+				Assert::IsTrue(hash.contains(books[i].getTitle()));
 			}
 		}
 
-		TEST_METHOD(testSearchDoesNotFindNotAddedItems)
+		TEST_METHOD(testHashDoesNotContainNotAddedItems)
 		{
 			Hash hash(BOOKS_COUNT / 2);
 			fillHashWithBooksFromTo(hash, 0, BOOKS_COUNT / 2);
 
 			for (size_t i = BOOKS_COUNT / 2 + 1; i < BOOKS_COUNT; ++i)
 			{
-				Assert::IsNull(hash.search(books[i].getTitle()));
+				Assert::IsFalse(hash.contains(books[i].getTitle()));
 			}
 		}
 
