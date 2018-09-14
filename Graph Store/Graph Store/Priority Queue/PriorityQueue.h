@@ -5,6 +5,15 @@
 #include "../Iterator/Iterator.h"
 #include "Handle/PriorityQueueHandle.h"
 
+class EmptyMethodFunctor
+{
+public:
+	template <class Item>
+	void operator()(Item&, const PriorityQueueHandle&) const
+	{
+	}
+};
+
 class Identity
 {
 public:
@@ -21,7 +30,7 @@ public:
 	}
 };
 
-template <class Item, class Key, class HandleUpdator, class KeyAccessor = Identity>
+template <class Item, class Key, class HandleUpdator = EmptyMethodFunctor, class KeyAccessor = Identity>
 class PriorityQueue
 {
 public:
