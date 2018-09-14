@@ -48,14 +48,14 @@ template <class Item,
 class PriorityQueue
 {
 public:
-	PriorityQueue();
+	PriorityQueue() = default;
 	PriorityQueue(Iterator<Item*>& itemsIterator, size_t itemsCount);
 	PriorityQueue(const PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&) = default;
-	PriorityQueue(PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&& source);
 	PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&
 		operator=(const PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&) = default;
+	PriorityQueue(PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&&) = default;
 	PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&
-		operator=(PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&& rhs);
+		operator=(PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&&) = default;
 	~PriorityQueue();
 
 	void add(Item* item);
@@ -88,7 +88,6 @@ private:
 
 private:
 	DynamicArray<Item*> items;
-	size_t itemsCount;
 	HandleUpdator handleUpdator;
 	KeyAccessor keyAccessor;
 	Comparator comparator;

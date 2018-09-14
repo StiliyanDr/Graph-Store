@@ -1,12 +1,6 @@
 #include <utility>
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-inline PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::PriorityQueue() :
-	itemsCount(0)
-{
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
 PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::PriorityQueue(Iterator<Item*>& itemsIterator, size_t itemsCount) :
 	items(itemsCount, itemsCount)
 {
@@ -30,50 +24,15 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::copyItems
 
 		++itemsIterator;
 	}
-
-	this->itemsCount = itemsCount;
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
 void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::buildHeap()
 {
-	for (long nonLeaf = (itemsCount / 2) - 1; nonLeaf >= 0; --nonLeaf)
+	for (long nonLeaf = (items.getCount() / 2) - 1; nonLeaf >= 0; --nonLeaf)
 	{
 		siftDownItemAt(nonLeaf);
 	}
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::PriorityQueue(PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&& source) :
-	items(std::move(source.items)),
-	itemsCount(source.itemsCount),
-	handleUpdator(std::move(source.handleUpdator)),
-	keyAccessor(std::move(source.keyAccessor)),
-	comparator(std::move(source.comparator))
-{
-	source.itemsCount = 0;
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&
-PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::operator=(PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&& rhs)
-{
-	if (this != &rhs)
-	{
-		swapContentsWith(std::move(rhs));
-	}
-
-	return *this;
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::swapContentsWith(PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator> priorityQueue)
-{
-	std::swap(items, priorityQueue.items);
-	std::swap(itemsCount, priorityQueue.itemsCount);
-	std::swap(handleUpdator, priorityQueue.handleUpdator);
-	std::swap(keyAccessor, priorityQueue.keyAccessor);
-	std::swap(comparator, priorityQueue.comparator);
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
@@ -85,9 +44,11 @@ inline PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::~Priori
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
 void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::invalidateAllHandles()
 {
-	for (size_t index = 0; index < itemsCount; ++index)
+	size_t count = items.getCount();
+
+	for (size_t i = 0; i < count; ++i)
 	{
-		invalidateHandleAt(index);
+		invalidateHandleAt(i);
 	}
 }
 
@@ -96,7 +57,6 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::empty()
 {
 	invalidateAllHandles();
 	items.empty();
-	itemsCount = 0;
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
@@ -126,23 +86,8 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::add(Item*
 {
 	assert(item != nullptr);
 	
-	addAtEnd(item);
-	siftUpItemAt(itemsCount - 1);
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::addAtEnd(Item* newItem)
-{
-	if (itemsCount < items.getCount())
-	{
-		items[itemsCount] = newItem;
-	}
-	else
-	{
-		items.add(newItem);
-	}
-
-	++itemsCount;
+	items.add(item);
+	siftUpItemAt(items.getCount() - 1);
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
@@ -185,11 +130,13 @@ Item* PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::extractM
 	invalidateHandleAt(0);
 
 	Item* min = items[0];
-	--itemsCount;
+
+	size_t indexOfLastItem = items.getCount() - 1;
+	setItemAtWith(0, items[indexOfLastItem]);
+	items.removeAt(indexOfLastItem);
 
 	if (!isEmpty())
 	{
-		setItemAtWith(0, items[itemsCount]);
 		siftDownItemAt(0);
 	}
 
@@ -268,13 +215,13 @@ inline bool PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::co
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
 inline bool PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::isEmpty() const
 {
-	return itemsCount == 0;
+	return items.isEmpty();
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
 inline bool PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::isWithinHeap(size_t index) const
 {
-	return index < itemsCount;
+	return index < items.getCount();
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
