@@ -5,6 +5,16 @@
 #include "../Iterator/Iterator.h"
 #include "Handle/PriorityQueueHandle.h"
 
+class Less
+{
+public:
+	template <class T>
+	bool operator()(const T& lhs, const T& rhs) const
+	{
+		return lhs < rhs;
+	}
+};
+
 class EmptyMethodFunctor
 {
 public:
@@ -30,18 +40,22 @@ public:
 	}
 };
 
-template <class Item, class Key = Item, class HandleUpdator = EmptyMethodFunctor, class KeyAccessor = Identity>
+template <class Item,
+	class Comparator = std::less,
+	class Key = Item,
+	class KeyAccessor = Identity,
+	class HandleUpdator = EmptyMethodFunctor>
 class PriorityQueue
 {
 public:
 	PriorityQueue();
 	PriorityQueue(Iterator<Item*>& itemsIterator, size_t itemsCount);
-	PriorityQueue(const PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>&) = default;
-	PriorityQueue(PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>&& source);
-	PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>&
-		operator=(const PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>&) = default;
-	PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>&
-		operator=(PriorityQueue<Item, Key, HandleUpdator, KeyAccessor>&& rhs);
+	PriorityQueue(const PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&) = default;
+	PriorityQueue(PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&& source);
+	PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&
+		operator=(const PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&) = default;
+	PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&
+		operator=(PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&& rhs);
 	~PriorityQueue();
 
 	void add(Item* item);
@@ -70,13 +84,14 @@ private:
 	bool compare(const Item& lhs, const Item& rhs) const;
 	bool isWithinHeap(size_t index) const;
 	void copyItems(Iterator<Item*>& itemsIterator, size_t itemsCount);
-	void swapContentsWith(PriorityQueue<Item, Key, HandleUpdator, KeyAccessor> priorityQueue);
+	void swapContentsWith(PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator> queue);
 
 private:
 	DynamicArray<Item*> items;
 	size_t itemsCount;
 	HandleUpdator handleUpdator;
 	KeyAccessor keyAccessor;
+	Comparator comparator;
 };
 
 #include "PriorityQueue.hpp"

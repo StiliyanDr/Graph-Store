@@ -13,7 +13,7 @@ namespace PriorityQueueUnitTest
 {		
 	TEST_CLASS(PriorityQueueTest)
 	{
-		typedef PriorityQueue<Item, unsigned, HandleUpdator, KeyAccessor> PriorityQueue;
+		typedef PriorityQueue<Item, Less, unsigned, KeyAccessor, HandleUpdator> PriorityQueue;
 		typedef ConcreteIteratorAdapter<Item*, DynamicArray<Item*>::Iterator> ItemsIterator;
 
 	private:
