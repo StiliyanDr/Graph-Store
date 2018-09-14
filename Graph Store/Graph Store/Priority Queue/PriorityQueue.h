@@ -30,7 +30,7 @@ public:
 	}
 };
 
-template <class Item, class Key, class HandleUpdator = EmptyMethodFunctor, class KeyAccessor = Identity>
+template <class Item, class Key = Item, class HandleUpdator = EmptyMethodFunctor, class KeyAccessor = Identity>
 class PriorityQueue
 {
 public:
