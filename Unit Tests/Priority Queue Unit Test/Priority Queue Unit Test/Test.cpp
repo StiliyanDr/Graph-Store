@@ -5,6 +5,7 @@
 #include "HandleUpdator.h"
 #include "KeyAccessor.h"
 #include "Item.h"
+#include "../../../Graph Store/Graph Store/Iterator/ConcreteIteratorAdapter.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -13,6 +14,7 @@ namespace PriorityQueueUnitTest
 	TEST_CLASS(PriorityQueueTest)
 	{
 		typedef PriorityQueue<Item, unsigned, HandleUpdator, KeyAccessor> PriorityQueue;
+		typedef ConcreteIteratorAdapter<Item*, DynamicArray<Item*>::Iterator> ItemsIterator;
 
 	private:
 		static const size_t ARRAY_SIZE = 8;
@@ -97,7 +99,7 @@ namespace PriorityQueueUnitTest
 		TEST_METHOD(testCtorFromIteratorAndCountInsertsFirstCountElements)
 		{
 			DynamicArray<Item*> itemsReversed = createReversedArrayOfItems();
-			DynamicArrayIterator<Item*> iterator = itemsReversed.getIteratorToFirst();
+			ItemsIterator iterator = itemsReversed.getIterator();
 			size_t numberOfItemsToInsert = itemsReversed.getCount();
 			
 			PriorityQueue queue(iterator, numberOfItemsToInsert);
@@ -108,7 +110,7 @@ namespace PriorityQueueUnitTest
 		TEST_METHOD(testCtorFromIteratorAndNullCreatesAnEmptyQueue)
 		{
 			DynamicArray<Item*> items;
-			DynamicArrayIterator<Item*> iterator = items.getIteratorToFirst();
+			ItemsIterator iterator = items.getIterator();
 
 			PriorityQueue queue(iterator, 0);
 

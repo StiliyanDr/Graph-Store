@@ -5,7 +5,23 @@
 #include "../Iterator/Iterator.h"
 #include "Handle/PriorityQueueHandle.h"
 
-template <class Item, class Key, class HandleUpdator, class KeyAccessor>
+class Identity
+{
+public:
+	template <class Item>
+	const Item& getKeyOf(const Item& object) const
+	{
+		return object;
+	}
+
+	template <class Item>
+	void setKeyOfWith(Item& item, const Item& key) const
+	{
+		item = key;
+	}
+};
+
+template <class Item, class Key, class HandleUpdator, class KeyAccessor = Identity>
 class PriorityQueue
 {
 public:
