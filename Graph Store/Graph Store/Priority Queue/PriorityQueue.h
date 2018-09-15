@@ -74,6 +74,7 @@ private:
 	void buildHeap();
 	void siftDownItemAt(size_t index);
 	void siftUpItemAt(size_t index);
+	void moveLastItemAtTopOfHeap();
 	void addAtEnd(Item* newItem);
 	void setItemAtWith(size_t index, Item* item);
 	void invalidateAllHandles();

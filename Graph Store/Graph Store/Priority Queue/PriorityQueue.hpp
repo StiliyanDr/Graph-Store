@@ -128,12 +128,8 @@ Item* PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::extractM
 	assert(!isEmpty());
 
 	invalidateHandleAt(0);
-
 	Item* min = items[0];
-
-	size_t indexOfLastItem = items.getCount() - 1;
-	setItemAtWith(0, items[indexOfLastItem]);
-	items.removeAt(indexOfLastItem);
+	moveLastItemAtTopOfHeap();
 
 	if (!isEmpty())
 	{
@@ -141,6 +137,16 @@ Item* PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::extractM
 	}
 
 	return min;
+}
+
+template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
+void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::moveLastItemAtTopOfHeap()
+{
+	assert(!isEmpty());
+
+	size_t indexOfLastItem = items.getCount() - 1;
+	setItemAtWith(0, items[indexOfLastItem]);
+	items.removeAt(indexOfLastItem);
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
