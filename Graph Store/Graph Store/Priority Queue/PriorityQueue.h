@@ -41,7 +41,7 @@ public:
 };
 
 template <class Item,
-	class Comparator = std::less,
+	class Comparator = Less,
 	class Key = Item,
 	class KeyAccessor = Identity,
 	class HandleUpdator = EmptyMethodFunctor>
