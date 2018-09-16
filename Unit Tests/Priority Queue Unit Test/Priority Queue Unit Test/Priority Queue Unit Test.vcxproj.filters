@@ -27,6 +27,9 @@
     <ClInclude Include="HandleUpdator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="KeyAccessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

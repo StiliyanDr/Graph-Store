@@ -2,7 +2,6 @@
 #define __PRIORITY_QUEUE_HEADER_INCLUDED__
 
 #include "../Dynamic Array/DynamicArray.h"
-#include "../Iterator/Iterator.h"
 #include "Handle/PriorityQueueHandle.h"
 
 class Less
@@ -49,7 +48,9 @@ class PriorityQueue
 {
 public:
 	PriorityQueue() = default;
-	PriorityQueue(Iterator<Item*>& itemsIterator, size_t itemsCount);
+	
+	template <class Iterator>
+	PriorityQueue(Iterator& iterator, size_t itemsCount);
 	PriorityQueue(const PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&) = default;
 	PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&
 		operator=(const PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&) = default;
@@ -58,9 +59,9 @@ public:
 		operator=(PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&&) = default;
 	~PriorityQueue();
 
-	void add(Item* item);
-	Item* extractMin();
-	const Item* getMin() const;
+	void add(const Item& item);
+	Item extractMin();
+	Item getMin() const;
 	void decreaseKey(const PriorityQueueHandle& handleToItem, const Key& newKey);
 	void empty();
 	bool isEmpty() const;
@@ -75,8 +76,7 @@ private:
 	void siftDownItemAt(size_t index);
 	void siftUpItemAt(size_t index);
 	void moveLastItemAtTopOfHeap();
-	void addAtEnd(Item* newItem);
-	void setItemAtWith(size_t index, Item* item);
+	void setItemAtWith(size_t index, const Item& item);
 	void invalidateAllHandles();
 	void invalidateHandleAt(size_t index);
 	void setHandleAtWith(size_t index, const PriorityQueueHandle& handle);
@@ -84,11 +84,11 @@ private:
 	size_t computeMinKeySuccessor(size_t leftSuccessor) const;
 	bool compare(const Item& lhs, const Item& rhs) const;
 	bool isWithinHeap(size_t index) const;
-	void copyItems(Iterator<Item*>& itemsIterator, size_t itemsCount);
-	void swapContentsWith(PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator> queue);
+	template <class Iterator>
+	void copyItems(Iterator& iterator, size_t itemsCount);
 
 private:
-	DynamicArray<Item*> items;
+	DynamicArray<Item> items;
 	HandleUpdator handleUpdator;
 	KeyAccessor keyAccessor;
 	Comparator comparator;

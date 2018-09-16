@@ -5,13 +5,13 @@
 class KeyAccessor
 {
 public:
-	unsigned getKeyOf(const Item& item) const
+	unsigned getKeyOf(Item* item) const
 	{
-		return item.key;
+		return item->key;
 	}
 
-	void setKeyOfWith(Item& item, unsigned newKey) const
+	void setKeyOfWith(Item* item, unsigned newKey) const
 	{
-		item.key = newKey;
+		item->key = newKey;
 	}
 };
