@@ -40,7 +40,7 @@ namespace PriorityQueueUnitTest
 			for (unsigned i = firstNumber; i <= lastNumber; ++i)
 			{
 				assert(!queue.isEmpty());
-				item = queue.extractMin();
+				item = queue.extractOptimal();
 				
 				if (item != &items[i])
 				{
@@ -249,73 +249,73 @@ namespace PriorityQueueUnitTest
 			fillQueueWithItemsInRange(queue, middle, ARRAY_SIZE - 1);
 			fillQueueWithItemsInRange(queue, 0, middle - 1);
 
-			const Item* minItem = queue.getMin();
-			Assert::IsTrue(minItem == &items[0]);
+			const Item* optimalItem = queue.getOptimal();
+			Assert::IsTrue(optimalItem == &items[0]);
 		}
 
 		TEST_METHOD(testExtractingTheOnlyItemLeavesTheQueueEmpty)
 		{
 			PriorityQueue queue = createQueueFromItemsInRange(0, 0);
 
-			queue.extractMin();
+			queue.extractOptimal();
 
 			Assert::IsTrue(queue.isEmpty());
 		}
 
-		TEST_METHOD(testExtractMinMaintainsOrderOfPriority)
+		TEST_METHOD(testExtractOptimalMaintainsOrderOfPriority)
 		{
 			PriorityQueue queue = createQueueFromItemsInRange(0, ARRAY_SIZE / 2);
 
-			Item* minItem = queue.extractMin();
+			Item* optimalItem = queue.extractOptimal();
 
-			Assert::IsTrue(minItem == &items[0], L"The method did not extract the item with min key!");
-			Assert::IsTrue(queue.getMin() == &items[1]);
+			Assert::IsTrue(optimalItem == &items[0], L"The method did not extract the item with optimal key!");
+			Assert::IsTrue(queue.getOptimal() == &items[1]);
 		}
 
-		TEST_METHOD(testGetMin)
+		TEST_METHOD(testGetOptimal)
 		{
 			PriorityQueue queue = createQueueFromItemsInRange(0, ARRAY_SIZE / 2);
 
-			const Item* minItem = queue.getMin();
+			const Item* optimalItem = queue.getOptimal();
 
-			Assert::IsTrue(minItem == &items[0]);
+			Assert::IsTrue(optimalItem == &items[0]);
 		}
 
-		TEST_METHOD(testDecreaseKeyWithNewMinKeyUpdatesMinItem)
+		TEST_METHOD(testOptimiseKeyWithNewOptimalKeyUpdatesOptimalItem)
 		{
 			PriorityQueue queue = createQueueFromItemsInRange(ARRAY_SIZE / 2, ARRAY_SIZE - 1);
-			Item& itemWithMaxKey = items[ARRAY_SIZE - 1];
-			PriorityQueueHandle handle = itemWithMaxKey.handle;
+			Item& itemWithNonOptimalKey = items[ARRAY_SIZE - 1];
+			PriorityQueueHandle handle = itemWithNonOptimalKey.handle;
 
-			queue.decreaseKey(handle, 0);
+			queue.optimiseKey(handle, 0);
 
-			const Item* minItem = queue.getMin();
-			Assert::AreEqual(0u, minItem->key);
-			Assert::IsTrue(minItem == &itemWithMaxKey);
+			const Item* optimalItem = queue.getOptimal();
+			Assert::AreEqual(0u, optimalItem->key);
+			Assert::IsTrue(optimalItem == &itemWithNonOptimalKey);
 		}
 
-		TEST_METHOD(testDecreaseKeyOfMinItem)
+		TEST_METHOD(testOptimiseKeyOfOptimalItem)
 		{
 			PriorityQueue queue = createQueueFromItemsInRange(ARRAY_SIZE / 2, ARRAY_SIZE - 1);
-			Item& itemWithMinKey = items[ARRAY_SIZE / 2];
-			PriorityQueueHandle handle = itemWithMinKey.handle;
+			Item& itemWithOptimalKey = items[ARRAY_SIZE / 2];
+			PriorityQueueHandle handle = itemWithOptimalKey.handle;
 
-			queue.decreaseKey(handle, 0);
+			queue.optimiseKey(handle, 0);
 
-			const Item* minItem = queue.getMin();
-			Assert::AreEqual(0u, minItem->key);
-			Assert::IsTrue(minItem == &itemWithMinKey);
+			const Item* optimalItem = queue.getOptimal();
+			Assert::AreEqual(0u, optimalItem->key);
+			Assert::IsTrue(optimalItem == &itemWithOptimalKey);
 		}
 
-		TEST_METHOD(testDecreaseKeyOfNonMinItemWithNonMinKey)
+		TEST_METHOD(testOptimiseKeyOfNonOptimalItemWithNonOptimalKey)
 		{
 			PriorityQueue queue = createQueueFromItemsInRange(0, ARRAY_SIZE / 2);
-			Item& itemWithNonMinKey = items[ARRAY_SIZE / 2];
-			PriorityQueueHandle handle = itemWithNonMinKey.handle;
+			Item& itemWithNonOptimalKey = items[ARRAY_SIZE / 2];
+			PriorityQueueHandle handle = itemWithNonOptimalKey.handle;
 
-			queue.decreaseKey(handle, 1);
+			queue.optimiseKey(handle, 1);
 
-			Assert::IsTrue(queue.getMin() == &items[0]);
+			Assert::IsTrue(queue.getOptimal() == &items[0]);
 		}
 
 		TEST_METHOD(testAddAndExtractAllItems)

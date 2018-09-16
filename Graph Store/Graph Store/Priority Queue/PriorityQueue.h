@@ -60,9 +60,9 @@ public:
 	~PriorityQueue();
 
 	void add(const Item& item);
-	Item extractMin();
-	Item getMin() const;
-	void decreaseKey(const PriorityQueueHandle& handleToItem, const Key& newKey);
+	Item extractOptimal();
+	Item getOptimal() const;
+	void optimiseKey(const PriorityQueueHandle& handleToItem, const Key& newKey);
 	void empty();
 	bool isEmpty() const;
 
@@ -81,7 +81,7 @@ private:
 	void invalidateHandleAt(size_t index);
 	void setHandleAtWith(size_t index, const PriorityQueueHandle& handle);
 	void setKeyAtWith(size_t index, const Key& newKey);
-	size_t computeMinKeySuccessor(size_t leftSuccessor) const;
+	size_t computeOptimalKeySuccessor(size_t leftSuccessor) const;
 	bool compare(const Item& lhs, const Item& rhs) const;
 	bool isWithinHeap(size_t index) const;
 	template <class Iterator>

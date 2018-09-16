@@ -57,7 +57,7 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::empty()
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::decreaseKey(const PriorityQueueHandle& handleToItem,
+void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::optimiseKey(const PriorityQueueHandle& handleToItem,
 																				   const Key& newKey)
 {
 	assert(handleToItem.isValid());
@@ -110,7 +110,7 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::siftUpIte
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-inline Item PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::getMin() const
+inline Item PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::getOptimal() const
 {
 	assert(!isEmpty());
 
@@ -118,12 +118,12 @@ inline Item PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::ge
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-Item PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::extractMin()
+Item PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::extractOptimal()
 {
 	assert(!isEmpty());
 
 	invalidateHandleAt(0);
-	Item min = items[0];
+	Item optimal = items[0];
 	moveLastItemAtTopOfHeap();
 
 	if (!isEmpty())
@@ -131,7 +131,7 @@ Item PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::extractMi
 		siftDownItemAt(0);
 	}
 
-	return min;
+	return optimal;
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
@@ -152,7 +152,7 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::siftDownI
 
 	while (isWithinHeap(successor))
 	{
-		successor = computeMinKeySuccessor(successor);
+		successor = computeOptimalKeySuccessor(successor);
 
 		if (compare(items[successor], itemToMove))
 		{
@@ -171,7 +171,7 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::siftDownI
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-size_t PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::computeMinKeySuccessor(size_t leftSuccessor) const
+size_t PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::computeOptimalKeySuccessor(size_t leftSuccessor) const
 {
 	assert(isWithinHeap(leftSuccessor));
 	size_t rightSuccessor = leftSuccessor + 1;
