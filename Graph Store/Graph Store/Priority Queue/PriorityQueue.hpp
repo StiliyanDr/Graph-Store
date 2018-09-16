@@ -236,6 +236,8 @@ inline size_t PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
 inline size_t PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::computeParentOf(size_t index)
 {
+	assert(index > 0);
+
 	return (index - 1) / 2;
 }
 
