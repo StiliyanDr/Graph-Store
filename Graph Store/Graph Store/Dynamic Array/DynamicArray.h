@@ -12,6 +12,7 @@ public:
 	{
 		friend class DynamicArray<Item>;
 		typedef size_t Position;
+		typedef typename std::conditional<isConst, const DynamicArray<Item>*, DynamicArray<Item>*>::type OwnerPtr;
 
 	public:
 		typedef typename std::conditional<isConst, const Item&, Item&>::type Reference;
@@ -32,18 +33,18 @@ public:
 							   typename const DynamicArray<Item>::DynamicArrayIterator<Item, isConst>& rhs);
 
 	private:
-		DynamicArrayIterator(Position currentPosition, DynamicArray<Item>* owner);
+		DynamicArrayIterator(Position currentPosition, OwnerPtr owner);
 
 		Reference getCurrentItem() const;
 		bool isValid() const;
 
 	private:
 		Position currentPosition;
-		DynamicArray<Item>* owner;
+		OwnerPtr owner;
 	};
 
-	typedef typename DynamicArray<T>::DynamicArrayIterator<T, false> Iterator;
-	typedef typename DynamicArray<T>::DynamicArrayIterator<T, true> ConstIterator;
+	typedef DynamicArrayIterator<T, false> Iterator;
+	typedef DynamicArrayIterator<T, true> ConstIterator;
 
 public:
 	explicit DynamicArray(size_t size = 0, size_t count = 0);

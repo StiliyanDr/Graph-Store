@@ -3,7 +3,7 @@
 template <class T>
 template <class Item, bool isConst>
 inline DynamicArray<T>::DynamicArrayIterator<Item, isConst>::DynamicArrayIterator(Position currentPosition,
-																				  DynamicArray<Item>* owner) :
+																				  OwnerPtr owner) :
 	currentPosition(currentPosition), owner(owner)
 {
 }
