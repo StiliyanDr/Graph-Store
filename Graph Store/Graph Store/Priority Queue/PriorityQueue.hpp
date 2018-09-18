@@ -148,7 +148,7 @@ Item PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::extractOp
 	verifyQueueIsNotEmpty();
 
 	invalidateHandleAt(0);
-	Item optimal = items[0];
+	Item optimal = getOptimal();
 	moveLastItemAtTopOfHeap();
 
 	if (!isEmpty())
