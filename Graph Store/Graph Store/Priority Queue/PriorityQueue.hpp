@@ -80,6 +80,8 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::verifyHan
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
 void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::setKeyAtWith(size_t index, const Key& newKey)
 {
+	assert(isWithinHeap(index));
+
 	Item& item = items[index];
 
 	assert(!comparator(keyAccessor.getKeyOf(item), newKey));
@@ -208,6 +210,8 @@ template <class Item, class Comparator, class Key, class KeyAccessor, class Hand
 inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::setItemAtWith(size_t index,
 																							const Item& item)
 {
+	assert(isWithinHeap(index));
+
 	items[index] = item;
 	setHandleAtWith(index, PriorityQueueHandle(index));
 }
@@ -222,6 +226,8 @@ template <class Item, class Comparator, class Key, class KeyAccessor, class Hand
 inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::setHandleAtWith(size_t index,
 																							  const PriorityQueueHandle& handle)
 {
+	assert(isWithinHeap(index));
+
 	handleUpdator(items[index], handle);
 }
 
