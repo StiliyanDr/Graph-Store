@@ -77,6 +77,11 @@ namespace PriorityQueueUnitTest
 			return firstNumber <= lastNumber && lastNumber < ARRAY_SIZE;
 		}
 
+		static bool areEqual(const char* lhs, const char* rhs)
+		{
+			return strcmp(lhs, rhs) == 0;
+		}
+
 	public:
 		TEST_METHOD_INITIALIZE(initialiseItems)
 		{
@@ -272,6 +277,21 @@ namespace PriorityQueueUnitTest
 			Assert::IsTrue(queue.getOptimal() == &items[1]);
 		}
 
+		TEST_METHOD(testExtractOptimalFromEmptyQueueThrowsException)
+		{
+			PriorityQueue queue;
+
+			try
+			{
+				queue.extractOptimal();
+				Assert::Fail(L"The method did not throw an exception!");
+			}
+			catch (std::logic_error& e)
+			{
+				Assert::IsTrue(areEqual("The queue is empty!", e.what()));
+			}
+		}
+
 		TEST_METHOD(testGetOptimal)
 		{
 			PriorityQueue queue = createQueueFromItemsInRange(0, ARRAY_SIZE / 2);
@@ -279,6 +299,21 @@ namespace PriorityQueueUnitTest
 			const Item* optimalItem = queue.getOptimal();
 
 			Assert::IsTrue(optimalItem == &items[0]);
+		}
+
+		TEST_METHOD(testGetOptimalFromEmptyQueueThrowsException)
+		{
+			PriorityQueue queue;
+
+			try
+			{
+				queue.getOptimal();
+				Assert::Fail(L"The method did not throw an exception!");
+			}
+			catch (std::logic_error& e)
+			{
+				Assert::IsTrue(areEqual("The queue is empty!", e.what()));
+			}
 		}
 
 		TEST_METHOD(testOptimiseKeyWithNewOptimalKeyUpdatesOptimalItem)
@@ -316,6 +351,22 @@ namespace PriorityQueueUnitTest
 			queue.optimiseKey(handle, 1);
 
 			Assert::IsTrue(queue.getOptimal() == &items[0]);
+		}
+
+		TEST_METHOD(testOptimiseKeyWithInvalidHandleThrowsException)
+		{
+			PriorityQueue queue;
+			PriorityQueueHandle invalidHandle;
+
+			try
+			{
+				queue.optimiseKey(invalidHandle, 100);
+				Assert::Fail(L"The method did not throw an exception!");
+			}
+			catch (std::invalid_argument& e)
+			{
+				Assert::IsTrue(areEqual("Invalid handle!", e.what()));
+			}
 		}
 
 		TEST_METHOD(testAddAndExtractAllItems)

@@ -60,13 +60,21 @@ template <class Item, class Comparator, class Key, class KeyAccessor, class Hand
 void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::optimiseKey(const PriorityQueueHandle& handleToItem,
 																				   const Key& newKey)
 {
-	assert(handleToItem.isValid());
-	
-	size_t index = handleToItem.index;
-	assert(isWithinHeap(index));
+	verifyHandleValidity(handleToItem);
+	setKeyAtWith(handleToItem.index, newKey);
+	siftUpItemAt(handleToItem.index);
+}
 
-	setKeyAtWith(index, newKey);
-	siftUpItemAt(index);
+template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
+void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::verifyHandleValidity(const PriorityQueueHandle& h) const
+{
+	if (!h.isValid())
+	{
+		throw std::invalid_argument("Invalid handle!");
+	}
+
+	assert(h.index >= 0);
+	assert(isWithinHeap(h.index));
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
@@ -112,15 +120,24 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::siftUpIte
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
 inline Item PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::getOptimal() const
 {
-	assert(!isEmpty());
+	verifyQueueIsNotEmpty();
 
 	return items[0];
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
+inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::verifyQueueIsNotEmpty() const
+{
+	if (isEmpty())
+	{
+		throw std::logic_error("The queue is empty!");
+	}
+}
+
+template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
 Item PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::extractOptimal()
 {
-	assert(!isEmpty());
+	verifyQueueIsNotEmpty();
 
 	invalidateHandleAt(0);
 	Item optimal = items[0];

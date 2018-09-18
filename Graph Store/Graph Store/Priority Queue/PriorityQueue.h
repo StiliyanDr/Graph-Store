@@ -86,6 +86,8 @@ private:
 	bool isWithinHeap(size_t index) const;
 	template <class Iterator>
 	void copyItems(Iterator& iterator, size_t itemsCount);
+	void verifyQueueIsNotEmpty() const;
+	void verifyHandleValidity(const PriorityQueueHandle& h) const;
 
 private:
 	DynamicArray<Item> items;
