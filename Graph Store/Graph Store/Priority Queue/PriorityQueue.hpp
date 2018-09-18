@@ -84,8 +84,14 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::setKeyAtW
 
 	Item& item = items[index];
 
-	assert(!comparator(keyAccessor.getKeyOf(item), newKey));
-	keyAccessor.setKeyOfWith(item, newKey);
+	if (!comparator(keyAccessor.getKeyOf(item), newKey))
+	{
+		keyAccessor.setKeyOfWith(item, newKey);
+	}
+	else
+	{
+		throw std::invalid_argument("The key can't be worsened!");
+	}
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>

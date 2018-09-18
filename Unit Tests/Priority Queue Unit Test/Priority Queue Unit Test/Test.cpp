@@ -353,6 +353,21 @@ namespace PriorityQueueUnitTest
 			Assert::IsTrue(queue.getOptimal() == &items[0]);
 		}
 
+		TEST_METHOD(testOptimiseKeyWithWorseKeyThrowsException)
+		{
+			PriorityQueue queue = createQueueFromItemsInRange(0, 0);
+
+			try
+			{
+				queue.optimiseKey(items[0].handle, 1);
+				Assert::Fail(L"The method did not throw an exception!");
+			}
+			catch (std::invalid_argument& e)
+			{
+				Assert::IsTrue(areEqual("The key can't be worsened!", e.what()));
+			}
+		}
+
 		TEST_METHOD(testOptimiseKeyWithInvalidHandleThrowsException)
 		{
 			PriorityQueue queue;
