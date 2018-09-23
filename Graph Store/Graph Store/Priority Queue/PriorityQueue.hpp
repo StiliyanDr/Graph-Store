@@ -111,7 +111,6 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::swapConte
 	std::swap(elements, queue.elements);
 	std::swap(handleUpdator, queue.handleUpdator);
 	std::swap(keyAccessor, queue.keyAccessor);
-	std::swap(comparator, queue.comparator);
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
@@ -164,16 +163,7 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::setKeyAtW
 {
 	assert(isWithinHeap(index));
 
-	Element& element = elements[index];
-
-	if (!comparator(element.getKey(), newKey))
-	{
-		element.optimiseKey(newKey);
-	}
-	else
-	{
-		throw std::invalid_argument("The key can't be worsened!");
-	}
+	elements[index].optimiseKey(newKey);
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
@@ -193,7 +183,7 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::siftUpEle
 	{
 		parent = computeParentOf(index);
 
-		if (compare(elementToMove.getItem(), elements[parent].getItem()))
+		if (Element::compare(elementToMove, elements[parent]))
 		{
 			setElementAtWith(index, elements[parent]);
 			index = parent;
@@ -261,7 +251,7 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::siftDownE
 	{
 		successor = computeOptimalKeySuccessor(successor);
 
-		if (compare(elements[successor].getItem(), elementToMove.getItem()))
+		if (Element::compare(elements[successor], elementToMove))
 		{
 			setElementAtWith(index, elements[successor]);
 			index = successor;
@@ -284,7 +274,7 @@ size_t PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::compute
 	size_t rightSuccessor = leftSuccessor + 1;
 
 	if (isWithinHeap(rightSuccessor)
-		&& compare(elements[rightSuccessor].getItem(), elements[leftSuccessor].getItem()))
+		&& Element::compare(elements[rightSuccessor], elements[leftSuccessor]))
 	{
 		return rightSuccessor;
 	}
@@ -317,13 +307,6 @@ inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::se
 	assert(isWithinHeap(index));
 
 	elements[index].setHandle(handle);
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-inline bool PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::compare(const Item& lhs,
-																					  const Item& rhs) const
-{
-	return comparator(keyAccessor.getKeyOf(lhs), keyAccessor.getKeyOf(rhs));
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>

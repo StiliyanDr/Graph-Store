@@ -105,7 +105,6 @@ private:
 	void setHandleAtWith(size_t index, const PriorityQueueHandle& handle);
 	void setKeyAtWith(size_t index, const Key& newKey);
 	size_t computeOptimalKeySuccessor(size_t leftSuccessor) const;
-	bool compare(const Item& lhs, const Item& rhs) const;
 	bool isWithinHeap(size_t index) const;
 	template <class Iterator>
 	void copyItems(Iterator& iterator, size_t itemsCount);
@@ -117,7 +116,6 @@ private:
 	DynamicArray<Element> elements;
 	HandleUpdator handleUpdator;
 	KeyAccessor keyAccessor;
-	Comparator comparator;
 };
 
 #include "PriorityQueue.hpp"
