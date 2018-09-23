@@ -5,7 +5,7 @@
 class KeyAccessor
 {
 public:
-	unsigned getKeyOf(Item* item) const
+	const unsigned& getKeyOf(Item* item) const
 	{
 		return item->key;
 	}

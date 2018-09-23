@@ -58,6 +58,7 @@ class PriorityQueue
 		void setHandle(const PriorityQueueHandle& handle);
 		void optimiseKey(const Key& newKey);
 		const Key& getKey() const;
+		const Item& getItem() const;
 
 	private:
 		static HandleUpdator handleUpdator;
@@ -95,10 +96,10 @@ private:
 
 private:
 	void buildHeap();
-	void siftDownItemAt(size_t index);
-	void siftUpItemAt(size_t index);
-	void moveLastItemAtTopOfHeap();
-	void setItemAtWith(size_t index, const Item& item);
+	void siftDownElementAt(size_t index);
+	void siftUpElementAt(size_t index);
+	void moveLastElementAtTopOfHeap();
+	void setElementAtWith(size_t index, const Element& element);
 	void invalidateAllHandles();
 	void invalidateHandleAt(size_t index);
 	void setHandleAtWith(size_t index, const PriorityQueueHandle& handle);
@@ -113,7 +114,7 @@ private:
 	void swapContentsWith(PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator> queue);
 
 private:
-	DynamicArray<Item> items;
+	DynamicArray<Element> elements;
 	HandleUpdator handleUpdator;
 	KeyAccessor keyAccessor;
 	Comparator comparator;
