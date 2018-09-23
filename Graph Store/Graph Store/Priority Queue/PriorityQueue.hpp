@@ -33,6 +33,29 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::buildHeap
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
+PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&
+PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::operator=(PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&& rhs)
+{
+	if (this != &rhs)
+	{
+		invalidateAllHandles();
+		swapContentsWith(std::move(rhs));
+	}
+
+	return *this;
+}
+
+template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
+void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::swapContentsWith(
+	PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator> queue)
+{
+	std::swap(items, queue.items);
+	std::swap(handleUpdator, queue.handleUpdator);
+	std::swap(keyAccessor, queue.keyAccessor);
+	std::swap(comparator, queue.comparator);
+}
+
+template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
 inline PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::~PriorityQueue()
 {
 	invalidateAllHandles();

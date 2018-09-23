@@ -56,7 +56,7 @@ public:
 		operator=(const PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&) = default;
 	PriorityQueue(PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&&) = default;
 	PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&
-		operator=(PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&&) = default;
+		operator=(PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&& rhs);
 	~PriorityQueue();
 
 	void add(const Item& item);
@@ -88,6 +88,7 @@ private:
 	void copyItems(Iterator& iterator, size_t itemsCount);
 	void verifyQueueIsNotEmpty() const;
 	void verifyHandleValidity(const PriorityQueueHandle& h) const;
+	void swapContentsWith(PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator> queue);
 
 private:
 	DynamicArray<Item> items;
