@@ -46,6 +46,28 @@ template <class Item,
 	class HandleUpdator = EmptyMethodFunctor>
 class PriorityQueue
 {
+	class Element
+	{
+	public:
+		static bool compare(const Element& lhs, const Element& rhs);
+		
+	public:
+		Element(const Item& item = Item());
+
+		void invalidateHandle();
+		void setHandle(const PriorityQueueHandle& handle);
+		void optimiseKey(const Key& newKey);
+		const Key& getKey() const;
+
+	private:
+		static HandleUpdator handleUpdator;
+		static KeyAccessor keyAccessor;
+		static Comparator comparator;
+
+	private:
+		Item item;
+	};
+
 public:
 	PriorityQueue() = default;
 	
