@@ -73,7 +73,7 @@ class PriorityQueue
 
 public:
 	PriorityQueue() = default;
-	
+
 	template <class Iterator>
 	PriorityQueue(Iterator& iterator, size_t itemsCount);
 	PriorityQueue(const PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&) = default;
@@ -101,6 +101,7 @@ private:
 	void siftDownElementAt(size_t index);
 	void siftUpElementAt(size_t index);
 	void moveLastElementAtTopOfHeap();
+	void addAtEnd(const Element& element);
 	void setElementAtWith(size_t index, const Element& element);
 	void invalidateAllHandles();
 	size_t computeOptimalKeySuccessor(size_t leftSuccessor) const;

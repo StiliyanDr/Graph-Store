@@ -62,7 +62,7 @@ template <class Item, class Comparator, class Key, class KeyAccessor, class Hand
 template <class Iterator>
 PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::PriorityQueue(Iterator& iterator,
 																				size_t itemsCount) :
-	elements(itemsCount, itemsCount)
+	PriorityQueue()
 {
 	copyItems(iterator, itemsCount);
 	buildHeap();
@@ -73,13 +73,22 @@ template <class Iterator>
 void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::copyItems(Iterator& iterator,
 																				 size_t itemsCount)
 {
-	assert(elements.getCount() == itemsCount);
+	elements.ensureSize(itemsCount);
 
-	for (size_t i = 0; i < itemsCount; ++i)
+	for (size_t i = 1; i <= itemsCount; ++i)
 	{
-		setElementAtWith(i, Element(*iterator));
+		addAtEnd(Element(*iterator));
 		++iterator;
 	}
+}
+
+template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
+void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::addAtEnd(const Element& element)
+{
+	elements.add(element);
+
+	size_t lastIndex = elements.getCount() - 1;
+	elements[lastIndex].setHandle(Handle(lastIndex));
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
@@ -93,7 +102,8 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::buildHeap
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
 PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&
-PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::operator=(PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&& rhs)
+PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::operator=(
+	PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&& rhs)
 {
 	if (this != &rhs)
 	{
@@ -159,8 +169,8 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::verifyHan
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
 inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::add(const Item& item)
-{	
-	elements.add(Element(item));
+{
+	addAtEnd(Element(item));
 	siftUpElementAt(elements.getCount() - 1);
 }
 
