@@ -43,11 +43,11 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::Element::
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
 inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::Element::invalidateHandle()
 {
-	setHandle(PriorityQueueHandle());
+	setHandle(Handle());
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::Element::setHandle(const PriorityQueueHandle& handle)
+inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::Element::setHandle(const Handle& handle)
 {
 	handleUpdator(item, handle);
 }
@@ -136,7 +136,7 @@ inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::em
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::optimiseKey(const PriorityQueueHandle& handle,
+void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::optimiseKey(const Handle& handle,
 																				   const Key& newKey)
 {
 	verifyHandleValidity(handle);
@@ -146,7 +146,7 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::optimiseK
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::verifyHandleValidity(const PriorityQueueHandle& h) const
+void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::verifyHandleValidity(const Handle& h) const
 {
 	if (!h.isValid())
 	{
@@ -282,7 +282,7 @@ inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::se
 	assert(isWithinHeap(index));
 
 	elements[index] = element;
-	elements[index].setHandle(PriorityQueueHandle(index));
+	elements[index].setHandle(Handle(index));
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>

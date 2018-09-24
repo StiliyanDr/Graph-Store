@@ -46,6 +46,8 @@ template <class Item,
 	class HandleUpdator = EmptyMethodFunctor>
 class PriorityQueue
 {
+	typedef PriorityQueueHandle Handle;
+
 	class Element
 	{
 	public:
@@ -55,7 +57,7 @@ class PriorityQueue
 		Element(const Item& item = Item());
 
 		void invalidateHandle();
-		void setHandle(const PriorityQueueHandle& handle);
+		void setHandle(const Handle& handle);
 		void optimiseKey(const Key& newKey);
 		const Key& getKey() const;
 		const Item& getItem() const;
@@ -85,7 +87,7 @@ public:
 	void add(const Item& item);
 	Item extractOptimal();
 	Item getOptimal() const;
-	void optimiseKey(const PriorityQueueHandle& handleToItem, const Key& newKey);
+	void optimiseKey(const Handle& handle, const Key& newKey);
 	void empty();
 	bool isEmpty() const;
 
@@ -106,7 +108,7 @@ private:
 	template <class Iterator>
 	void copyItems(Iterator& iterator, size_t itemsCount);
 	void verifyQueueIsNotEmpty() const;
-	void verifyHandleValidity(const PriorityQueueHandle& h) const;
+	void verifyHandleValidity(const Handle& h) const;
 	void swapContentsWith(PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator> queue);
 
 private:
