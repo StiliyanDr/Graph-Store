@@ -103,7 +103,6 @@ private:
 	void invalidateAllHandles();
 	void invalidateHandleAt(size_t index);
 	void setHandleAtWith(size_t index, const PriorityQueueHandle& handle);
-	void setKeyAtWith(size_t index, const Key& newKey);
 	size_t computeOptimalKeySuccessor(size_t leftSuccessor) const;
 	bool isWithinHeap(size_t index) const;
 	template <class Iterator>
@@ -115,7 +114,6 @@ private:
 private:
 	DynamicArray<Element> elements;
 	HandleUpdator handleUpdator;
-	KeyAccessor keyAccessor;
 };
 
 #include "PriorityQueue.hpp"

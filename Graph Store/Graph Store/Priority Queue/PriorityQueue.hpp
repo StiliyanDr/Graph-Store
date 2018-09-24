@@ -110,7 +110,6 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::swapConte
 {
 	std::swap(elements, queue.elements);
 	std::swap(handleUpdator, queue.handleUpdator);
-	std::swap(keyAccessor, queue.keyAccessor);
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
@@ -138,12 +137,13 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::empty()
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::optimiseKey(const PriorityQueueHandle& handleToItem,
+void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::optimiseKey(const PriorityQueueHandle& handle,
 																				   const Key& newKey)
 {
-	verifyHandleValidity(handleToItem);
-	setKeyAtWith(handleToItem.index, newKey);
-	siftUpElementAt(handleToItem.index);
+	verifyHandleValidity(handle);
+
+	elements[handle.index].optimiseKey(newKey);
+	siftUpElementAt(handle.index);
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
@@ -156,14 +156,6 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::verifyHan
 
 	assert(h.index >= 0);
 	assert(isWithinHeap(h.index));
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::setKeyAtWith(size_t index, const Key& newKey)
-{
-	assert(isWithinHeap(index));
-
-	elements[index].optimiseKey(newKey);
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
