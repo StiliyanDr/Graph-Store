@@ -101,148 +101,6 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::buildHeap
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&
-PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::operator=(
-	PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&& rhs)
-{
-	if (this != &rhs)
-	{
-		invalidateAllHandles();
-		swapContentsWith(std::move(rhs));
-	}
-
-	return *this;
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::swapContentsWith(
-	PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator> queue)
-{
-	std::swap(elements, queue.elements);
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-inline PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::~PriorityQueue()
-{
-	invalidateAllHandles();
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::invalidateAllHandles()
-{
-	size_t count = elements.getCount();
-
-	for (size_t i = 0; i < count; ++i)
-	{
-		elements[i].invalidateHandle();
-	}
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::empty()
-{
-	invalidateAllHandles();
-	elements.empty();
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::optimiseKey(const Handle& handle,
-																				   const Key& newKey)
-{
-	verifyHandleValidity(handle);
-
-	elements[handle.index].optimiseKey(newKey);
-	siftUpElementAt(handle.index);
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::verifyHandleValidity(const Handle& h) const
-{
-	if (!h.isValid())
-	{
-		throw std::invalid_argument("Invalid handle!");
-	}
-
-	assert(h.index >= 0);
-	assert(isWithinHeap(h.index));
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::add(const Item& item)
-{
-	addAtEnd(Element(item));
-	siftUpElementAt(elements.getCount() - 1);
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::siftUpElementAt(size_t index)
-{
-	Element elementToMove = elements[index];
-	size_t parent;
-
-	while (!isRoot(index))
-	{
-		parent = computeParentOf(index);
-
-		if (Element::compare(elementToMove, elements[parent]))
-		{
-			setElementAtWith(index, elements[parent]);
-			index = parent;
-		}
-		else
-		{
-			break;
-		}
-	}
-
-	setElementAtWith(index, elementToMove);
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-inline Item PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::getOptimal() const
-{
-	verifyQueueIsNotEmpty();
-
-	return elements[0].getItem();
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::verifyQueueIsNotEmpty() const
-{
-	if (isEmpty())
-	{
-		throw std::logic_error("The queue is empty!");
-	}
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-Item PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::extractOptimal()
-{
-	verifyQueueIsNotEmpty();
-
-	elements[0].invalidateHandle();
-	Item optimal = getOptimal();
-	moveLastElementAtTopOfHeap();
-
-	if (!isEmpty())
-	{
-		siftDownElementAt(0);
-	}
-
-	return optimal;
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::moveLastElementAtTopOfHeap()
-{
-	assert(!isEmpty());
-
-	size_t indexOfLastElement = elements.getCount() - 1;
-	setElementAtWith(0, elements[indexOfLastElement]);
-	elements.removeAt(indexOfLastElement);
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
 void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::siftDownElementAt(size_t index)
 {
 	Element elementToMove = elements[index];
@@ -293,6 +151,148 @@ inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::se
 
 	elements[index] = element;
 	elements[index].setHandle(Handle(index));
+}
+
+template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
+PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&
+PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::operator=(
+	PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&& rhs)
+{
+	if (this != &rhs)
+	{
+		invalidateAllHandles();
+		swapContentsWith(std::move(rhs));
+	}
+
+	return *this;
+}
+
+template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
+void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::invalidateAllHandles()
+{
+	size_t count = elements.getCount();
+
+	for (size_t i = 0; i < count; ++i)
+	{
+		elements[i].invalidateHandle();
+	}
+}
+
+template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
+void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::swapContentsWith(
+	PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator> queue)
+{
+	std::swap(elements, queue.elements);
+}
+
+template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
+inline PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::~PriorityQueue()
+{
+	invalidateAllHandles();
+}
+
+template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
+inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::empty()
+{
+	invalidateAllHandles();
+	elements.empty();
+}
+
+template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
+void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::optimiseKey(const Handle& handle,
+																				   const Key& newKey)
+{
+	verifyHandleValidity(handle);
+
+	elements[handle.index].optimiseKey(newKey);
+	siftUpElementAt(handle.index);
+}
+
+template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
+void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::verifyHandleValidity(const Handle& h) const
+{
+	if (!h.isValid())
+	{
+		throw std::invalid_argument("Invalid handle!");
+	}
+
+	assert(h.index >= 0);
+	assert(isWithinHeap(h.index));
+}
+
+template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
+void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::siftUpElementAt(size_t index)
+{
+	Element elementToMove = elements[index];
+	size_t parent;
+
+	while (!isRoot(index))
+	{
+		parent = computeParentOf(index);
+
+		if (Element::compare(elementToMove, elements[parent]))
+		{
+			setElementAtWith(index, elements[parent]);
+			index = parent;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	setElementAtWith(index, elementToMove);
+}
+
+template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
+inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::add(const Item& item)
+{
+	addAtEnd(Element(item));
+	siftUpElementAt(elements.getCount() - 1);
+}
+
+template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
+inline Item PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::getOptimal() const
+{
+	verifyQueueIsNotEmpty();
+
+	return elements[0].getItem();
+}
+
+template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
+inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::verifyQueueIsNotEmpty() const
+{
+	if (isEmpty())
+	{
+		throw std::logic_error("The queue is empty!");
+	}
+}
+
+template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
+Item PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::extractOptimal()
+{
+	verifyQueueIsNotEmpty();
+
+	elements[0].invalidateHandle();
+	Item optimal = getOptimal();
+	moveLastElementAtTopOfHeap();
+
+	if (!isEmpty())
+	{
+		siftDownElementAt(0);
+	}
+
+	return optimal;
+}
+
+template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
+void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::moveLastElementAtTopOfHeap()
+{
+	assert(!isEmpty());
+
+	size_t indexOfLastElement = elements.getCount() - 1;
+	setElementAtWith(0, elements[indexOfLastElement]);
+	elements.removeAt(indexOfLastElement);
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
