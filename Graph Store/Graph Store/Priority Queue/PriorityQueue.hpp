@@ -109,7 +109,6 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::swapConte
 	PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator> queue)
 {
 	std::swap(elements, queue.elements);
-	std::swap(handleUpdator, queue.handleUpdator);
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
@@ -125,12 +124,12 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::invalidat
 
 	for (size_t i = 0; i < count; ++i)
 	{
-		invalidateHandleAt(i);
+		elements[i].invalidateHandle();
 	}
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::empty()
+inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::empty()
 {
 	invalidateAllHandles();
 	elements.empty();
@@ -211,7 +210,7 @@ Item PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::extractOp
 {
 	verifyQueueIsNotEmpty();
 
-	invalidateHandleAt(0);
+	elements[0].invalidateHandle();
 	Item optimal = getOptimal();
 	moveLastElementAtTopOfHeap();
 
@@ -283,22 +282,7 @@ inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::se
 	assert(isWithinHeap(index));
 
 	elements[index] = element;
-	setHandleAtWith(index, PriorityQueueHandle(index));
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::invalidateHandleAt(size_t index)
-{
-	setHandleAtWith(index, PriorityQueueHandle(-1));
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::setHandleAtWith(size_t index,
-																							  const PriorityQueueHandle& handle)
-{
-	assert(isWithinHeap(index));
-
-	elements[index].setHandle(handle);
+	elements[index].setHandle(PriorityQueueHandle(index));
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
