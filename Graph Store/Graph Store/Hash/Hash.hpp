@@ -2,6 +2,108 @@
 #include <utility>
 
 template <class Item, class Key, class Function, class KeyAccessor>
+Hash<Item, Key, Function, KeyAccessor>::table_t::table_t(size_t size) :
+	slots(size, size),
+	count(0)
+{
+	for (size_t i = 0; i < size; ++i)
+	{
+		slots[i] = nullptr;
+	}
+}
+
+template <class Item, class Key, class Function, class KeyAccessor>
+Hash<Item, Key, Function, KeyAccessor>::table_t::table_t(table_t&& source) :
+	slots(std::move(source.slots)),
+	count(source.count)
+{
+	count = 0;
+}
+
+template <class Item, class Key, class Function, class KeyAccessor>
+typename Hash<Item, Key, Function, KeyAccessor>::table_t&
+Hash<Item, Key, Function, KeyAccessor>::table_t::operator=(table_t&& rhs)
+{
+	if (this != &rhs)
+	{
+		swapContentsWith(std::move(rhs));
+	}
+
+	return *this;
+}
+
+template <class Item, class Key, class Function, class KeyAccessor>
+inline void Hash<Item, Key, Function, KeyAccessor>::table_t::swapContentsWith(table_t table)
+{
+	std::swap(slots, table.slots);
+	std::swap(count, table.count);
+}
+
+template <class Item, class Key, class Function, class KeyAccessor>
+inline void Hash<Item, Key, Function, KeyAccessor>::table_t::becomeEmptyWithSize(size_t size)
+{
+	*this = table_t(size);
+}
+
+template <class Item, class Key, class Function, class KeyAccessor>
+inline void Hash<Item, Key, Function, KeyAccessor>::table_t::addAt(size_t index, Item& item)
+{
+	assert(!isOccupiedAt(index));
+
+	slots[index] = &item;
+	++count;
+}
+
+template <class Item, class Key, class Function, class KeyAccessor>
+inline bool Hash<Item, Key, Function, KeyAccessor>::table_t::isOccupiedAt(size_t index) const
+{
+	assert(index < slots.getSize());
+
+	return slots[index] != nullptr;
+}
+
+template <class Item, class Key, class Function, class KeyAccessor>
+Item* Hash<Item, Key, Function, KeyAccessor>::table_t::extractItemAt(size_t index)
+{
+	assert(isOccupiedAt(index));
+
+	Item* item = slots[index];
+	slots[index] = nullptr;
+
+	--count;
+
+	return item;
+}
+
+template <class Item, class Key, class Function, class KeyAccessor>
+inline Item& Hash<Item, Key, Function, KeyAccessor>::table_t::operator[](size_t index)
+{
+	assert(isOccupiedAt(index));
+
+	return *slots[index];
+}
+
+template <class Item, class Key, class Function, class KeyAccessor>
+inline const Item& Hash<Item, Key, Function, KeyAccessor>::table_t::operator[](size_t index) const
+{
+	assert(isOccupiedAt(index));
+
+	return *slots[index];
+}
+
+template <class Item, class Key, class Function, class KeyAccessor>
+inline size_t Hash<Item, Key, Function, KeyAccessor>::table_t::occupiedSlotsCount() const
+{
+	return count;
+}
+
+template <class Item, class Key, class Function, class KeyAccessor>
+inline size_t Hash<Item, Key, Function, KeyAccessor>::table_t::size() const
+{
+	return slots.getSize();
+}
+
+template <class Item, class Key, class Function, class KeyAccessor>
 inline Hash<Item, Key, Function, KeyAccessor>::Hash(size_t expectedItemsCount)
 {
 	makeTableEmptyWithSize(calculateTableSize(expectedItemsCount));

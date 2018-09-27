@@ -19,6 +19,35 @@ class Hash
 {
 	typedef DynamicArray<Item*> Table;
 
+	class table_t
+	{
+	public:
+		table_t(size_t size = 0);
+		table_t(const table_t&) = default;
+		table_t& operator=(const table_t&) = default;
+		table_t(table_t&& source);
+		table_t& operator=(table_t&& rhs);
+		~table_t() = default;
+
+		void addAt(size_t index, Item& item);
+		Item* extractItemAt(size_t index);
+		void becomeEmptyWithSize(size_t size);
+		bool isOccupiedAt(size_t index) const;
+
+		size_t occupiedSlotsCount() const;
+		size_t size() const;
+
+		Item& operator[](size_t index);
+		const Item& operator[](size_t index) const;
+
+	private:
+		void swapContentsWith(table_t table);
+
+	private:
+		DynamicArray<Item*> slots;
+		size_t count;
+	};
+
 public:
 	explicit Hash(size_t expectedItemsCount = 0);
 	Hash(const Hash<Item, Key, Function, KeyAccessor>&) = default;
