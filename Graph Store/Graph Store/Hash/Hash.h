@@ -17,8 +17,6 @@ public:
 template <class Item, class Key = Item, class Function = HashFunction<Key>, class KeyAccessor = Identity>
 class Hash
 {
-	typedef DynamicArray<Item*> Table;
-
 	class table_t
 	{
 	public:
@@ -48,6 +46,8 @@ class Hash
 		size_t count;
 	};
 
+	typedef table_t Table;
+
 public:
 	explicit Hash(size_t expectedItemsCount = 0);
 	Hash(const Hash<Item, Key, Function, KeyAccessor>&) = default;
@@ -68,15 +68,12 @@ public:
 	void empty();
 
 private:
-	static Table createEmptyTableWithSize(size_t size);
-	static Table emptyAllSlotsIn(Table table);
 	static size_t calculateTableSize(size_t expectedItemsCount);
 
 private:
 	long getIndexOfFirstItemWithKey(const Key& key) const;
 	size_t computeIndexFromKey(const Key& key) const;
 	void rehashClusterStartingAt(size_t index);
-	Item* emptySlotAndReturnItemAt(size_t index);
 	void shrinkAfterRemovingItemAt(size_t index);
 	void resize(size_t newSize);
 	void addAllItemsFrom(Table& table);
@@ -84,12 +81,8 @@ private:
 	bool tableCanBeShrinked() const;
 	void extendIfFillingUp();
 	bool isFillingUp() const;
-	void makeTableEmptyWithSize(size_t size);
-	void setTable(Table table);
 	void swapContentsWith(Hash<Item, Key, Function, KeyAccessor> hash);
 	size_t getNextPositionToProbe(size_t currentPosition) const;
-	bool slotIsOccupied(size_t index) const;
-	void addItemAt(Item& item, size_t index);
 
 private:
 	static const size_t GROWTH_RATE = 2;
@@ -97,7 +90,6 @@ private:
 
 private:
 	Table table;
-	size_t count;
 	KeyAccessor keyAccessor;
 	Function hashFunction;
 };
