@@ -180,7 +180,7 @@ inline void Hash<Item, Key, Function, KeyAccessor>::extendIfFillingUp()
 {
 	if (isFillingUp())
 	{
-		resize(GROWTH_RATE * table.size());
+		rehashItemsInTableWithSize(GROWTH_RATE * table.size());
 	}
 }
 
@@ -203,7 +203,7 @@ inline size_t Hash<Item, Key, Function, KeyAccessor>::getNextPositionToProbe(siz
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-void Hash<Item, Key, Function, KeyAccessor>::resize(size_t newSize)
+void Hash<Item, Key, Function, KeyAccessor>::rehashItemsInTableWithSize(size_t newSize)
 {
 	assert(newSize >= MIN_TABLE_SIZE);
 	assert(newSize > table.occupiedSlotsCount());
@@ -299,7 +299,7 @@ Item* Hash<Item, Key, Function, KeyAccessor>::remove(const Key& key)
 
 		removedItem = table.extractItemAt(index);
 
-		if (hasTooManyEmptySlots() && tableCanBeShrinked())
+		if (hasTooManyEmptySlots() && canBeShrinked())
 		{
 			shrinkAfterRemovingItemAt(index);
 		}
@@ -319,7 +319,7 @@ inline bool Hash<Item, Key, Function, KeyAccessor>::hasTooManyEmptySlots() const
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-inline bool Hash<Item, Key, Function, KeyAccessor>::tableCanBeShrinked() const
+inline bool Hash<Item, Key, Function, KeyAccessor>::canBeShrinked() const
 {
 	return (table.size() / GROWTH_RATE) >= MIN_TABLE_SIZE;
 }
@@ -331,7 +331,7 @@ void Hash<Item, Key, Function, KeyAccessor>::shrinkAfterRemovingItemAt(size_t in
 
 	try
 	{
-		resize(table.size() / GROWTH_RATE);
+		rehashItemsInTableWithSize(table.size() / GROWTH_RATE);
 	}
 	catch (std::bad_alloc&)
 	{
