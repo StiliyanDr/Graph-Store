@@ -14,7 +14,10 @@ public:
 	}
 };
 
-template <class Item, class Key = Item, class Function = HashFunction<Key>, class KeyAccessor = Identity>
+template <class Item,
+	class Key = Item,
+	class KeyAccessor = Identity,
+	class Function = HashFunction<Key>>
 class Hash
 {
 	class Table
@@ -48,10 +51,10 @@ class Hash
 
 public:
 	explicit Hash(size_t expectedItemsCount = 0);
-	Hash(const Hash<Item, Key, Function, KeyAccessor>&) = default;
-	Hash<Item, Key, Function, KeyAccessor>& operator=(const Hash<Item, Key, Function, KeyAccessor>&) = default;
-	Hash(Hash<Item, Key, Function, KeyAccessor>&& source);
-	Hash<Item, Key, Function, KeyAccessor>& operator=(Hash<Item, Key, Function, KeyAccessor>&& rhs);
+	Hash(const Hash<Item, Key, KeyAccessor, Function>&) = default;
+	Hash<Item, Key, KeyAccessor, Function>& operator=(const Hash<Item, Key, KeyAccessor, Function>&) = default;
+	Hash(Hash<Item, Key, KeyAccessor, Function>&& source);
+	Hash<Item, Key, KeyAccessor, Function>& operator=(Hash<Item, Key, KeyAccessor, Function>&& rhs);
 	~Hash() = default;
 
 	void add(Item& item);
@@ -79,7 +82,7 @@ private:
 	bool canBeShrinked() const;
 	void extendIfFillingUp();
 	bool isFillingUp() const;
-	void swapContentsWith(Hash<Item, Key, Function, KeyAccessor> hash);
+	void swapContentsWith(Hash<Item, Key, KeyAccessor, Function> hash);
 	size_t getNextPositionToProbe(size_t currentPosition) const;
 
 private:
