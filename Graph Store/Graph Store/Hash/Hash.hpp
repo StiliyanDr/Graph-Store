@@ -2,7 +2,7 @@
 #include <utility>
 
 template <class Item, class Key, class Function, class KeyAccessor>
-Hash<Item, Key, Function, KeyAccessor>::table_t::table_t(size_t size) :
+Hash<Item, Key, Function, KeyAccessor>::Table::Table(size_t size) :
 	slots(size, size),
 	count(0)
 {
@@ -13,7 +13,7 @@ Hash<Item, Key, Function, KeyAccessor>::table_t::table_t(size_t size) :
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-Hash<Item, Key, Function, KeyAccessor>::table_t::table_t(table_t&& source) :
+Hash<Item, Key, Function, KeyAccessor>::Table::Table(Table&& source) :
 	slots(std::move(source.slots)),
 	count(source.count)
 {
@@ -21,8 +21,8 @@ Hash<Item, Key, Function, KeyAccessor>::table_t::table_t(table_t&& source) :
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-typename Hash<Item, Key, Function, KeyAccessor>::table_t&
-Hash<Item, Key, Function, KeyAccessor>::table_t::operator=(table_t&& rhs)
+typename Hash<Item, Key, Function, KeyAccessor>::Table&
+Hash<Item, Key, Function, KeyAccessor>::Table::operator=(Table&& rhs)
 {
 	if (this != &rhs)
 	{
@@ -33,20 +33,20 @@ Hash<Item, Key, Function, KeyAccessor>::table_t::operator=(table_t&& rhs)
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-inline void Hash<Item, Key, Function, KeyAccessor>::table_t::swapContentsWith(table_t table)
+inline void Hash<Item, Key, Function, KeyAccessor>::Table::swapContentsWith(Table table)
 {
 	std::swap(slots, table.slots);
 	std::swap(count, table.count);
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-inline void Hash<Item, Key, Function, KeyAccessor>::table_t::becomeEmptyWithSize(size_t size)
+inline void Hash<Item, Key, Function, KeyAccessor>::Table::becomeEmptyWithSize(size_t size)
 {
-	*this = table_t(size);
+	*this = Table(size);
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-inline void Hash<Item, Key, Function, KeyAccessor>::table_t::addAt(size_t index, Item& item)
+inline void Hash<Item, Key, Function, KeyAccessor>::Table::addAt(size_t index, Item& item)
 {
 	assert(!isOccupiedAt(index));
 
@@ -55,7 +55,7 @@ inline void Hash<Item, Key, Function, KeyAccessor>::table_t::addAt(size_t index,
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-inline bool Hash<Item, Key, Function, KeyAccessor>::table_t::isOccupiedAt(size_t index) const
+inline bool Hash<Item, Key, Function, KeyAccessor>::Table::isOccupiedAt(size_t index) const
 {
 	assert(index < slots.getSize());
 
@@ -63,7 +63,7 @@ inline bool Hash<Item, Key, Function, KeyAccessor>::table_t::isOccupiedAt(size_t
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-Item* Hash<Item, Key, Function, KeyAccessor>::table_t::extractItemAt(size_t index)
+Item* Hash<Item, Key, Function, KeyAccessor>::Table::extractItemAt(size_t index)
 {
 	assert(isOccupiedAt(index));
 
@@ -76,7 +76,7 @@ Item* Hash<Item, Key, Function, KeyAccessor>::table_t::extractItemAt(size_t inde
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-inline Item& Hash<Item, Key, Function, KeyAccessor>::table_t::operator[](size_t index)
+inline Item& Hash<Item, Key, Function, KeyAccessor>::Table::operator[](size_t index)
 {
 	assert(isOccupiedAt(index));
 
@@ -84,7 +84,7 @@ inline Item& Hash<Item, Key, Function, KeyAccessor>::table_t::operator[](size_t 
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-inline const Item& Hash<Item, Key, Function, KeyAccessor>::table_t::operator[](size_t index) const
+inline const Item& Hash<Item, Key, Function, KeyAccessor>::Table::operator[](size_t index) const
 {
 	assert(isOccupiedAt(index));
 
@@ -92,13 +92,13 @@ inline const Item& Hash<Item, Key, Function, KeyAccessor>::table_t::operator[](s
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-inline size_t Hash<Item, Key, Function, KeyAccessor>::table_t::occupiedSlotsCount() const
+inline size_t Hash<Item, Key, Function, KeyAccessor>::Table::occupiedSlotsCount() const
 {
 	return count;
 }
 
 template <class Item, class Key, class Function, class KeyAccessor>
-inline size_t Hash<Item, Key, Function, KeyAccessor>::table_t::size() const
+inline size_t Hash<Item, Key, Function, KeyAccessor>::Table::size() const
 {
 	return slots.getSize();
 }

@@ -17,15 +17,15 @@ public:
 template <class Item, class Key = Item, class Function = HashFunction<Key>, class KeyAccessor = Identity>
 class Hash
 {
-	class table_t
+	class Table
 	{
 	public:
-		table_t(size_t size = 0);
-		table_t(const table_t&) = default;
-		table_t& operator=(const table_t&) = default;
-		table_t(table_t&& source);
-		table_t& operator=(table_t&& rhs);
-		~table_t() = default;
+		Table(size_t size = 0);
+		Table(const Table&) = default;
+		Table& operator=(const Table&) = default;
+		Table(Table&& source);
+		Table& operator=(Table&& rhs);
+		~Table() = default;
 
 		void addAt(size_t index, Item& item);
 		Item* extractItemAt(size_t index);
@@ -39,14 +39,12 @@ class Hash
 		const Item& operator[](size_t index) const;
 
 	private:
-		void swapContentsWith(table_t table);
+		void swapContentsWith(Table table);
 
 	private:
 		DynamicArray<Item*> slots;
 		size_t count;
 	};
-
-	typedef table_t Table;
 
 public:
 	explicit Hash(size_t expectedItemsCount = 0);
