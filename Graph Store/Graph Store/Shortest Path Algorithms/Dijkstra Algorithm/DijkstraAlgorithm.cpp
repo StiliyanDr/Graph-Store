@@ -4,77 +4,88 @@
 
 static ShortestPathAlgorithmRegistrator<DijkstraAlgorithm> registrator("dijkstra");
 
-DijkstraAlgorithm::DijkstraAlgorithm(const char* id) :
+DijkstraAlgorithm::DijkstraAlgorithm(const String& id) :
 	ShortestPathAlgorithm(id)
 {
 }
 
-void DijkstraAlgorithm::findShortestPath(Graph& graph, Vertex& source, Vertex& target)
+ShortestPathAlgorithm::Path
+DijkstraAlgorithm::findShortestPath(const Graph& graph,
+									const Vertex& source,
+									const Vertex& target)
 {
 	initialiseAlgorithm(graph, source);
 
-	priorityQueue = makePriorityQueueContainingVerticesOf(graph);
-	Vertex* vertex;
+	DijkstraVertex* v;
 
-	while (!priorityQueue.isEmpty())
+	while (!undeterminedEstimateVertices.isEmpty())
 	{
-		vertex = priorityQueue.extractMin();
+		v = undeterminedEstimateVertices.extractOptimal();
 
-		if (*vertex == target)
+		if (v->originalVertex == target)
 		{
 			break;
 		}
 
-		relaxEdgesLeaving(*vertex, graph);
+		relaxEdgesLeaving(*v, graph);
 	}
 
+	Path p = createPathBetween(source, target);
 	cleanUpAlgorithmState();
+
+	return p;
 }
 
-void DijkstraAlgorithm::initialiseAlgorithm(Graph& graph, Vertex& source) const
+void DijkstraAlgorithm::initialiseAlgorithm(const Graph& graph, const Vertex& source)
 {
-	initialiseVerticesOf(graph);
-	initialiseSource(source);
+	decorateVerticesOf(graph);
+	initialiseSource(getDecoratedVersionOf(source));
+	gatherDecoratedVerticesWithUndeterminedEstimate();
 }
 
-void DijkstraAlgorithm::initialiseVertex(Vertex& vertex) const
+void DijkstraAlgorithm::addDecoratedVersionOf(const Vertex& v)
 {
-	ShortestPathAlgorithm::initialiseVertex(vertex);
+	decoratedVertices.emplace(v.getID(), v);
 }
 
-void DijkstraAlgorithm::relaxEdgesLeaving(Vertex& vertex, Graph& graph)
+DijkstraAlgorithm::DijkstraVertex& DijkstraAlgorithm::getDecoratedVersionOf(const Vertex& v)
+{
+	return decoratedVertices[v.getID()];
+}
+
+void DijkstraAlgorithm::gatherDecoratedVerticesWithUndeterminedEstimate()
+{
+	HashIterator iterator = decoratedVertices.begin();
+
+	undeterminedEstimateVertices = PriorityQueue(iterator, decoratedVertices.size());
+}
+
+void DijkstraAlgorithm::relaxEdgesLeaving(const DijkstraVertex& start, const Graph& graph)
 {
 	Graph::EdgesConstIterator iterator =
-		graph.getConstIteratorOfEdgesLeaving(vertex);
+		graph.getConstIteratorOfEdgesLeaving(start.originalVertex);
 
-	forEach(*iterator, [&](Edge& edge)
+	forEach(*iterator, [&](const Edge& e)
 	{
-		relaxEdge(vertex, edge.getVertex(), edge.getWeight());
+		DijkstraVertex& end = getDecoratedVersionOf(e.getVertex());
+
+		relaxEdge(start, end, e.getWeight());
 	});
 }
 
-void DijkstraAlgorithm::relaxEdge(Vertex& startVertex, Vertex& endVertex, unsigned weight)
+void DijkstraAlgorithm::relaxEdge(const DijkstraVertex& start, DijkstraVertex& end, unsigned weight)
 {
-	Distance distanceThroughStartVertex = startVertex.getDistance() + weight;
+	Distance distanceThroughStart = start.distanceToSource + weight;
 
-	if (distanceThroughStartVertex < endVertex.getDistance())
+	if (distanceThroughStart < end.distanceToSource)
 	{
-		PriorityQueueHandle handle = endVertex.getPriorityQueueHandle();
-		priorityQueue.decreaseKey(handle, distanceThroughStartVertex);
-
-		endVertex.setParent(&startVertex);
+		undeterminedEstimateVertices.optimiseKey(end.handle, distanceThroughStart);
+		end.parent = &start;
 	}
-}
-
-DijkstraAlgorithm::PriorityQueue
-DijkstraAlgorithm::makePriorityQueueContainingVerticesOf(Graph& graph)
-{
-	Graph::VerticesConstIterator iterator = graph.getConstIteratorOfVertices();
-
-	return PriorityQueue(*iterator, graph.getVerticesCount());
 }
 
 void DijkstraAlgorithm::cleanUpAlgorithmState()
 {
-	priorityQueue.empty();
+	undeterminedEstimateVertices.empty();
+	decoratedVertices.clear();
 }

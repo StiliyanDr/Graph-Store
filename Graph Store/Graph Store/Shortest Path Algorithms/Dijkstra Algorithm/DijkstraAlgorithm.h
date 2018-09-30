@@ -3,37 +3,90 @@
 
 #include "../Abstract class/ShortestPathAlgorithm.h"
 #include "../../Priority Queue/PriorityQueue.h"
-#include "../../Priority Queue/Handle Updator/HandleUpdator.h"
-#include "../../Priority Queue/Distance Accessor/DistanceAccessor.h"
+#include <unordered_map>
 
 class DijkstraAlgorithm : public ShortestPathAlgorithm
 {
-	typedef PriorityQueue<Vertex, Distance, HandleUpdator, DistanceAccessor> PriorityQueue;
+	struct DijkstraVertex : public DecoratedVertex
+	{
+		DijkstraVertex(const Vertex& originalVertex) :
+			DecoratedVertex(originalVertex)
+		{
+		}
+
+		PriorityQueueHandle handle;
+	};
+
+	class KeyAccessor
+	{
+	public:
+		const Distance& getKeyOf(const DijkstraVertex& v) const
+		{
+			return v.distanceToSource;
+		}
+
+		void setKeyOfWith(DijkstraVertex& v, const Distance& d) const
+		{
+			v.distanceToSource = d;
+		}
+	};
+
+	class HandleUpdator
+	{
+	public:
+		void operator()(DijkstraVertex& v, const PriorityQueueHandle& h) const
+		{
+			v.handle = h;
+		}
+	};
+
+	typedef PriorityQueue<DijkstraVertex*, Less, Distance, KeyAccessor, HandleUpdator> PriorityQueue;
+	typedef std::unordered_map<String, DijkstraVertex, HashFunction<String>> Hash;
+
+	class HashIterator
+	{
+	public:
+		HashIterator(const Hash::iterator& iterator) :
+			iterator(iterator)
+		{
+		}
+
+		HashIterator& operator++()
+		{
+			++iterator;
+
+			return *this;
+		}
+
+		DijkstraVertex* operator*() const
+		{
+			return &(iterator->second);
+		}
+
+	private:
+		Hash::iterator iterator;
+	};
 
 public:
-	explicit DijkstraAlgorithm(const char* id);
-	DijkstraAlgorithm(const DijkstraAlgorithm&) = default;
-	DijkstraAlgorithm& operator=(const DijkstraAlgorithm&) = default;
-	DijkstraAlgorithm(DijkstraAlgorithm&&) = delete;
-	DijkstraAlgorithm& operator=(DijkstraAlgorithm&&) = delete;
-	virtual ~DijkstraAlgorithm() = default;
+	explicit DijkstraAlgorithm(const String& id);
+	DijkstraAlgorithm(const DijkstraAlgorithm&) = delete;
+	DijkstraAlgorithm& operator=(const DijkstraAlgorithm&) = delete;
 
-	virtual void findShortestPath(Graph& graph, Vertex& source, Vertex& target) override;
-
-protected:
-	virtual void initialiseVertex(Vertex& vertex) const override;
-
+	virtual Path findShortestPath(const Graph& graph,
+								  const Vertex& source,
+								  const Vertex& target) override;
 private:
-	static PriorityQueue makePriorityQueueContainingVerticesOf(Graph& graph);
-
-private:
-	void initialiseAlgorithm(Graph& graph, Vertex& source) const;
-	void relaxEdgesLeaving(Vertex& vertex, Graph& graph);
-	void relaxEdge(Vertex& startVertex, Vertex& endVertex, unsigned weight);
+	virtual void addDecoratedVersionOf(const Vertex& vertex) override;
+	virtual DijkstraVertex& getDecoratedVersionOf(const Vertex& vertex) override;
+	void initialiseAlgorithm(const Graph& graph, const Vertex& source);
+	void gatherDecoratedVerticesWithUndeterminedEstimate();
+	void relaxEdgesLeaving(const DijkstraVertex& vertex, const Graph& graph);
+	void relaxEdge(const DijkstraVertex& start, DijkstraVertex& end, unsigned weight);
 	void cleanUpAlgorithmState();
 
 private:
-	PriorityQueue priorityQueue;
+	PriorityQueue undeterminedEstimateVertices;
+	Hash decoratedVertices;
 };
 
 #endif //__DIJKSTRA_ALGORITHM_HEADER_INCLUDED__
