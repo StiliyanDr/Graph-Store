@@ -4,59 +4,93 @@
 #include "../Dynamic Array/DynamicArray.h"
 #include "Hash Function/HashFunction.h"
 
-template <class Item, class Key, class KeyAccessor>
+class Identity
+{
+public:
+	template <class T>
+	const T& operator()(const T& object) const
+	{
+		return object;
+	}
+};
+
+template <class Item,
+	class Key = Item,
+	class KeyAccessor = Identity,
+	class Function = HashFunction<Key>>
 class Hash
 {
-	typedef DynamicArray<Item*> Table;
+	class Table
+	{
+	public:
+		Table(size_t size = 0);
+		Table(const Table&) = default;
+		Table& operator=(const Table&) = default;
+		Table(Table&& source);
+		Table& operator=(Table&& rhs);
+
+		void addAt(size_t index, Item& item);
+		Item* extractItemAt(size_t index);
+		void becomeEmptyWithSize(size_t size);
+		bool isOccupiedAt(size_t index) const;
+
+		size_t occupiedSlotsCount() const;
+		size_t size() const;
+
+		Item& operator[](size_t index);
+		const Item& operator[](size_t index) const;
+
+	private:
+		void swapContentsWith(Table table);
+
+	private:
+		DynamicArray<Item*> slots;
+		size_t count;
+	};
 
 public:
-	explicit Hash(size_t expectedItemsCount);
-	Hash(Hash<Item, Key, KeyAccessor>&& source);
-	Hash(const Hash<Item, Key, KeyAccessor>&) = default;
-	Hash<Item, Key, KeyAccessor>& operator=(Hash<Item, Key, KeyAccessor>&& rhs);
-	Hash<Item, Key, KeyAccessor>& operator=(const Hash<Item, Key, KeyAccessor>& rhs);
-	~Hash() = default;
+	explicit Hash(size_t expectedItemsCount = 0);
+	Hash(const Hash<Item, Key, KeyAccessor, Function>&) = default;
+	Hash<Item, Key, KeyAccessor, Function>& operator=(const Hash<Item, Key, KeyAccessor, Function>&) = default;
+	Hash(Hash<Item, Key, KeyAccessor, Function>&& source);
+	Hash<Item, Key, KeyAccessor, Function>& operator=(Hash<Item, Key, KeyAccessor, Function>&& rhs);
 
-	Item* search(const Key& key);
 	void add(Item& item);
 	Item* remove(const Key& key);
+	bool contains(const Key& key) const;
+
+	Item& operator[](const Key& key);
+	const Item& operator[](const Key& key) const;
 
 	size_t getCount() const;
 	bool isEmpty() const;
 	void empty();
 
 private:
-	static Table createEmptyTableWithSize(size_t size);
-	static Table emptyAllSlotsIn(Table table);
 	static size_t calculateTableSize(size_t expectedItemsCount);
 
 private:
-	long getIndexOfFirstItemWithKey(const Key& key);
-	size_t computeIndexFromKey(const Key& key);
+	long getIndexOfFirstItemWithKey(const Key& key) const;
+	size_t computeIndexFromKey(const Key& key) const;
 	void rehashClusterStartingAt(size_t index);
-	Item* emptySlotAndReturnItemAt(size_t index);
-	void resize(size_t newSize);
+	void shrinkAfterRemovingItemAt(size_t index);
+	void rehashItemsInTableWithSize(size_t newSize);
 	void addAllItemsFrom(Table& table);
 	bool hasTooManyEmptySlots() const;
-	bool tableCanBeShrinked() const;
+	bool canBeShrinked() const;
 	void extendIfFillingUp();
 	bool isFillingUp() const;
-	void makeTableEmptyWithSize(size_t size);
-	void setTable(Table table);
-	void swapContentsWith(Hash<Item, Key, KeyAccessor> hash);
+	void swapContentsWith(Hash<Item, Key, KeyAccessor, Function> hash);
 	size_t getNextPositionToProbe(size_t currentPosition) const;
 
 private:
 	static const size_t GROWTH_RATE = 2;
 	static const size_t MIN_TABLE_SIZE = 3;
-	static const long SEARCH_MISS_INDEX = -1;
 
 private:
-	size_t count;
-	size_t tableSize;
 	Table table;
 	KeyAccessor keyAccessor;
-	HashFunction<Key> hashFunction;
+	Function hashFunction;
 };
 
 #include "Hash.hpp"

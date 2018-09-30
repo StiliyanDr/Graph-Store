@@ -126,14 +126,9 @@ void GraphBase::addVertex(const String& id)
 	}
 }
 
-bool GraphBase::hasVertexWithID(const String& id)
+bool GraphBase::hasVertexWithID(const String& id) const
 {
-	return searchForVertexWithID(id) != nullptr;
-}
-
-Vertex* GraphBase::searchForVertexWithID(const String& id)
-{
-	return vertexSearchSet.search(id);
+	return vertexSearchSet.contains(id);
 }
 
 void GraphBase::tryToAddNewVertex(const String& id)
@@ -176,13 +171,11 @@ void GraphBase::addVertexToCollection(std::unique_ptr<Vertex> vertex)
 
 Vertex& GraphBase::getVertexWithID(const String& id)
 {
-	Vertex* vertex = searchForVertexWithID(id);
-
-	if (vertex != nullptr)
+	try
 	{
-		return *vertex;
+		return vertexSearchSet[id];
 	}
-	else
+	catch (std::logic_error&)
 	{
 		throw GraphException("There is no vertex with id: " + id);
 	}

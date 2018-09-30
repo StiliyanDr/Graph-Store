@@ -11,16 +11,14 @@ namespace HashUnitTest
 	TEST_CLASS(HashTest)
 	{
 		typedef Hash<Book, String, BookTitleAccessor> Hash;
-		
+
 		static const size_t BOOKS_COUNT = 16;
 		static Book books[BOOKS_COUNT];
 
-	public:
-
-		void fillHashWithBooksFromTo(Hash& hash, size_t from, size_t to)
+		static void fillHashWithBooksFromTo(Hash& hash, size_t from, size_t to)
 		{
-			assert(from < BOOKS_COUNT);
-			assert(to < BOOKS_COUNT);
+			assert(isValidIndex(from));
+			assert(isValidIndex(to));
 
 			for (size_t i = from; i <= to; ++i)
 			{
@@ -28,7 +26,12 @@ namespace HashUnitTest
 			}
 		}
 
-		bool hashConsistsOfBooksFromTo(Hash& hash, size_t from, size_t to)
+		static bool isValidIndex(size_t i)
+		{
+			return i < BOOKS_COUNT;
+		}
+
+		static bool hashConsistsOfBooksFromTo(const Hash& hash, size_t from, size_t to)
 		{
 			assert(from <= to);
 			
@@ -38,14 +41,14 @@ namespace HashUnitTest
 				   && hashContainsBooksFromTo(hash, from, to);
 		}
 
-		bool hashContainsBooksFromTo(Hash& hash, size_t from, size_t to)
+		static bool hashContainsBooksFromTo(const Hash& hash, size_t from, size_t to)
 		{
-			assert(from < BOOKS_COUNT);
-			assert(to < BOOKS_COUNT);
+			assert(isValidIndex(from));
+			assert(isValidIndex(to));
 
 			for (size_t i = from; i <= to; ++i)
 			{
-				if (!hash.search(books[i].getTitle()))
+				if (!hash.contains(books[i].getTitle()))
 				{
 					return false;
 				}
@@ -54,6 +57,12 @@ namespace HashUnitTest
 			return true;
 		}
 
+		static bool areEqual(const char* lhs, const char* rhs)
+		{
+			return strcmp(lhs, rhs) == 0;
+		}
+
+	public:
 		TEST_CLASS_INITIALIZE(initialiseHashTest)
 		{
 			static const char* titles[BOOKS_COUNT] = { "one", "two", "three", "four", "five", "six", "seven", 
@@ -204,35 +213,35 @@ namespace HashUnitTest
 			Assert::IsTrue(hashConsistsOfBooksFromTo(hash, 0, BOOKS_COUNT / 2));
 		}
 
-		TEST_METHOD(testSearchInEmptyHashFindsNothing)
+		TEST_METHOD(testEmptyHashContainsNothing)
 		{
 			Hash hash(10);
 
 			for (size_t i = 0; i < BOOKS_COUNT; ++i)
 			{
-				Assert::IsNull(hash.search(books[i].getTitle()));
+				Assert::IsFalse(hash.contains(books[i].getTitle()));
 			}
 		}
 
-		TEST_METHOD(testSearchFindsAddedItems)
+		TEST_METHOD(testHashContainsAddedItems)
 		{
 			Hash hash(BOOKS_COUNT);
 			fillHashWithBooksFromTo(hash, 0, BOOKS_COUNT - 1);
 
 			for (size_t i = 0; i < BOOKS_COUNT; ++i)
 			{
-				Assert::IsTrue(&books[i] == hash.search(books[i].getTitle()));
+				Assert::IsTrue(hash.contains(books[i].getTitle()));
 			}
 		}
 
-		TEST_METHOD(testSearchDoesNotFindNotAddedItems)
+		TEST_METHOD(testHashDoesNotContainNotAddedItems)
 		{
 			Hash hash(BOOKS_COUNT / 2);
 			fillHashWithBooksFromTo(hash, 0, BOOKS_COUNT / 2);
 
 			for (size_t i = BOOKS_COUNT / 2 + 1; i < BOOKS_COUNT; ++i)
 			{
-				Assert::IsNull(hash.search(books[i].getTitle()));
+				Assert::IsFalse(hash.contains(books[i].getTitle()));
 			}
 		}
 
@@ -262,7 +271,7 @@ namespace HashUnitTest
 			Assert::IsTrue(hashConsistsOfBooksFromTo(hash, 0, BOOKS_COUNT / 2));
 		}
 
-		TEST_METHOD(testSearchForRemovedItemsIsUnsuccessfull)
+		TEST_METHOD(testHashNoLongerContainsRemovedItems)
 		{
 			Hash hash(BOOKS_COUNT);
 			fillHashWithBooksFromTo(hash, 0, BOOKS_COUNT - 1);
@@ -270,7 +279,7 @@ namespace HashUnitTest
 			for (size_t i = BOOKS_COUNT / 2; i < BOOKS_COUNT; ++i)
 			{
 				hash.remove(books[i].getTitle());
-				Assert::IsNull(hash.search(books[i].getTitle()));
+				Assert::IsFalse(hash.contains(books[i].getTitle()));
 			}
 		}
 
@@ -289,6 +298,33 @@ namespace HashUnitTest
 				Assert::AreEqual(--correctCount, hash.getCount());
 			}
 		}
+
+		TEST_METHOD(testOperatorSubscriptWithContainedKey)
+		{
+			Hash hash(1);
+			Book& insertedBook = books[0];
+			hash.add(insertedBook);
+
+			Book& book = hash[insertedBook.getTitle()];
+
+			Assert::IsTrue(&book == &insertedBook);
+		}
+
+		TEST_METHOD(testOperatorSubscriptWithNotContainedKeyThrowsException)
+		{
+			Hash hash;
+
+			try
+			{
+				hash["key"];
+				Assert::Fail(L"The method did not throw an exception!");
+			}
+			catch (std::logic_error& e)
+			{
+				Assert::IsTrue(areEqual("There is no item with such key!", e.what()));
+			}
+		}
+
 	};
 
 	Book HashTest::books[BOOKS_COUNT];
