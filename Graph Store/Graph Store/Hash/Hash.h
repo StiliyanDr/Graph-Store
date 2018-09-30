@@ -28,7 +28,6 @@ class Hash
 		Table& operator=(const Table&) = default;
 		Table(Table&& source);
 		Table& operator=(Table&& rhs);
-		~Table() = default;
 
 		void addAt(size_t index, Item& item);
 		Item* extractItemAt(size_t index);
@@ -55,7 +54,6 @@ public:
 	Hash<Item, Key, KeyAccessor, Function>& operator=(const Hash<Item, Key, KeyAccessor, Function>&) = default;
 	Hash(Hash<Item, Key, KeyAccessor, Function>&& source);
 	Hash<Item, Key, KeyAccessor, Function>& operator=(Hash<Item, Key, KeyAccessor, Function>&& rhs);
-	~Hash() = default;
 
 	void add(Item& item);
 	Item* remove(const Key& key);
