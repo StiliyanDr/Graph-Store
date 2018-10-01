@@ -5,7 +5,7 @@
 #include "../../Priority Queue/PriorityQueue.h"
 #include <unordered_map>
 
-class DijkstraAlgorithm : public ShortestPathAlgorithm
+class DijkstraShortestPath : public ShortestPathAlgorithm
 {
 	struct DijkstraVertex : public DecoratedVertex
 	{
@@ -68,9 +68,9 @@ class DijkstraAlgorithm : public ShortestPathAlgorithm
 	};
 
 public:
-	explicit DijkstraAlgorithm(const String& id);
-	DijkstraAlgorithm(const DijkstraAlgorithm&) = delete;
-	DijkstraAlgorithm& operator=(const DijkstraAlgorithm&) = delete;
+	explicit DijkstraShortestPath(const String& id);
+	DijkstraShortestPath(const DijkstraShortestPath&) = delete;
+	DijkstraShortestPath& operator=(const DijkstraShortestPath&) = delete;
 
 	virtual Path findShortestPath(const Graph& graph,
 								  const Vertex& source,

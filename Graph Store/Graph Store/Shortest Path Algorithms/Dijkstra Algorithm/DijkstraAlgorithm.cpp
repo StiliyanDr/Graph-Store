@@ -2,15 +2,15 @@
 #include "../../Graph/Abstract class/Graph.h"
 #include "../Algorithm Registrator/ShortestPathAlgorithmRegistrator.h"
 
-static ShortestPathAlgorithmRegistrator<DijkstraAlgorithm> registrator("dijkstra");
+static ShortestPathAlgorithmRegistrator<DijkstraShortestPath> registrator("dijkstra");
 
-DijkstraAlgorithm::DijkstraAlgorithm(const String& id) :
+DijkstraShortestPath::DijkstraShortestPath(const String& id) :
 	ShortestPathAlgorithm(id)
 {
 }
 
 ShortestPathAlgorithm::Path
-DijkstraAlgorithm::findShortestPath(const Graph& graph,
+DijkstraShortestPath::findShortestPath(const Graph& graph,
 									const Vertex& source,
 									const Vertex& target)
 {
@@ -36,38 +36,38 @@ DijkstraAlgorithm::findShortestPath(const Graph& graph,
 	return p;
 }
 
-void DijkstraAlgorithm::initialiseAlgorithm(const Graph& graph, const Vertex& source)
+void DijkstraShortestPath::initialiseAlgorithm(const Graph& graph, const Vertex& source)
 {
 	decorateVerticesOf(graph);
 	initialiseSource(getDecoratedVersionOf(source));
 	gatherDecoratedVerticesWithUndeterminedEstimate();
 }
 
-void DijkstraAlgorithm::decorateVerticesOf(const Graph& graph)
+void DijkstraShortestPath::decorateVerticesOf(const Graph& graph)
 {
 	decoratedVertices.reserve(graph.getVerticesCount());
 
 	ShortestPathAlgorithm::decorateVerticesOf(graph);
 }
 
-void DijkstraAlgorithm::addDecoratedVersionOf(const Vertex& v)
+void DijkstraShortestPath::addDecoratedVersionOf(const Vertex& v)
 {
 	decoratedVertices.emplace(v.getID(), v);
 }
 
-DijkstraAlgorithm::DijkstraVertex& DijkstraAlgorithm::getDecoratedVersionOf(const Vertex& v)
+DijkstraShortestPath::DijkstraVertex& DijkstraShortestPath::getDecoratedVersionOf(const Vertex& v)
 {
 	return decoratedVertices[v.getID()];
 }
 
-void DijkstraAlgorithm::gatherDecoratedVerticesWithUndeterminedEstimate()
+void DijkstraShortestPath::gatherDecoratedVerticesWithUndeterminedEstimate()
 {
 	HashIterator iterator = decoratedVertices.begin();
 
 	undeterminedEstimateVertices = PriorityQueue(iterator, decoratedVertices.size());
 }
 
-void DijkstraAlgorithm::relaxEdgesLeaving(const DijkstraVertex& start, const Graph& graph)
+void DijkstraShortestPath::relaxEdgesLeaving(const DijkstraVertex& start, const Graph& graph)
 {
 	Graph::EdgesConstIterator iterator =
 		graph.getConstIteratorOfEdgesLeaving(start.originalVertex);
@@ -80,7 +80,7 @@ void DijkstraAlgorithm::relaxEdgesLeaving(const DijkstraVertex& start, const Gra
 	});
 }
 
-void DijkstraAlgorithm::relaxEdge(const DijkstraVertex& start, DijkstraVertex& end, unsigned weight)
+void DijkstraShortestPath::relaxEdge(const DijkstraVertex& start, DijkstraVertex& end, unsigned weight)
 {
 	Distance distanceThroughStart = start.distanceToSource + weight;
 
@@ -91,7 +91,7 @@ void DijkstraAlgorithm::relaxEdge(const DijkstraVertex& start, DijkstraVertex& e
 	}
 }
 
-void DijkstraAlgorithm::cleanUpAlgorithmState()
+void DijkstraShortestPath::cleanUpAlgorithmState()
 {
 	undeterminedEstimateVertices.empty();
 	decoratedVertices.clear();
