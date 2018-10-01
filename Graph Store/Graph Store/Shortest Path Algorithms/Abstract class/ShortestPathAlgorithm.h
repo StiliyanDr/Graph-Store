@@ -3,8 +3,10 @@
 
 #include "../../String/String.h"
 #include "../../Distance/Distance.h"
-#include "../../Graph/Abstract class/Graph.h"
 #include <forward_list>
+
+class Vertex;
+class Graph;
 
 class ShortestPathAlgorithm
 {
@@ -55,8 +57,8 @@ public:
 
 public:
 	virtual ~ShortestPathAlgorithm() = default;
-	virtual Path findShortestPath(const Graph& graph, const Vertex& source, const Vertex& target) = 0;
-	
+
+	Path findShortestPath(const Graph& graph, const Vertex& source, const Vertex& target);
 	const String& getID() const;
 
 protected:
@@ -67,12 +69,15 @@ protected:
 	ShortestPathAlgorithm(const ShortestPathAlgorithm&) = default;
 	ShortestPathAlgorithm& operator=(const ShortestPathAlgorithm&) = default;
 
-	void decorateVerticesOf(const Graph& graph);
+	virtual void initialise(const Graph& graph, const Vertex& source, const Vertex& target) = 0;
+	virtual void execute(const Graph& graph, const Vertex& source, const Vertex& target) = 0;
+	virtual void cleanUp() = 0;
 	virtual void addDecoratedVersionOf(const Vertex& vertex) = 0;
 	virtual DecoratedVertex& getDecoratedVersionOf(const Vertex& vertex) = 0;
-	Path createPathBetween(const Vertex& source, const Vertex& target);
+	void decorateVerticesOf(const Graph& graph);
 
 private:
+	Path createPathBetween(const Vertex& source, const Vertex& target);
 	void setID(const String& id);
 
 private:
