@@ -1,4 +1,4 @@
-#include "DijkstraAlgorithm.h"
+#include "DijkstraShortestPath.h"
 #include "../../Graph/Abstract class/Graph.h"
 #include "../Algorithm Registrator/ShortestPathAlgorithmRegistrator.h"
 

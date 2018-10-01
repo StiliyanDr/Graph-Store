@@ -1,8 +1,9 @@
-#ifndef __DIJKSTRA_ALGORITHM_HEADER_INCLUDED__
-#define __DIJKSTRA_ALGORITHM_HEADER_INCLUDED__
+#ifndef __DIJKSTRA_SHORTEST_PATH_HEADER_INCLUDED__
+#define __DIJKSTRA_SHORTEST_PATH_HEADER_INCLUDED__
 
 #include "../Abstract class/ShortestPathAlgorithm.h"
 #include "../../Priority Queue/PriorityQueue.h"
+#include "../../Hash/Hash Function/HashFunctionStringSpecialization.h"
 #include <unordered_map>
 
 class DijkstraShortestPath : public ShortestPathAlgorithm
@@ -90,4 +91,4 @@ private:
 	Hash decoratedVertices;
 };
 
-#endif //__DIJKSTRA_ALGORITHM_HEADER_INCLUDED__
+#endif //__DIJKSTRA_SHORTEST_PATH_HEADER_INCLUDED__
