@@ -79,6 +79,7 @@ private:
 	virtual void addDecoratedVersionOf(const Vertex& vertex) override;
 	virtual DijkstraVertex& getDecoratedVersionOf(const Vertex& vertex) override;
 	void initialiseAlgorithm(const Graph& graph, const Vertex& source);
+	void decorateVerticesOf(const Graph& graph);
 	void gatherDecoratedVerticesWithUndeterminedEstimate();
 	void relaxEdgesLeaving(const DijkstraVertex& vertex, const Graph& graph);
 	void relaxEdge(const DijkstraVertex& start, DijkstraVertex& end, unsigned weight);

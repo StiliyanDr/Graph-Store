@@ -43,6 +43,13 @@ void DijkstraAlgorithm::initialiseAlgorithm(const Graph& graph, const Vertex& so
 	gatherDecoratedVerticesWithUndeterminedEstimate();
 }
 
+void DijkstraAlgorithm::decorateVerticesOf(const Graph& graph)
+{
+	decoratedVertices.reserve(graph.getVerticesCount());
+
+	ShortestPathAlgorithm::decorateVerticesOf(graph);
+}
+
 void DijkstraAlgorithm::addDecoratedVersionOf(const Vertex& v)
 {
 	decoratedVertices.emplace(v.getID(), v);
