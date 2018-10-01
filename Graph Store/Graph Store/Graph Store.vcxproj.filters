@@ -127,12 +127,6 @@
     <Filter Include="Hashing\Identifier Accessor">
       <UniqueIdentifier>{22075870-293d-4918-9d93-c583698928bf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Priority Queue\Distance Accessor">
-      <UniqueIdentifier>{8f02e380-421d-43d2-96a8-264327784475}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Priority Queue\Handle Updator">
-      <UniqueIdentifier>{edbb3fca-b0ba-407b-95c9-972ce6951d7c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Directory Files Iterator">
       <UniqueIdentifier>{638b980e-e128-446e-9b85-252309cab386}</UniqueIdentifier>
     </Filter>
@@ -198,9 +192,6 @@
     </Filter>
     <Filter Include="Command\Search Command">
       <UniqueIdentifier>{345f5ef0-9704-4fcf-bff6-1f857d50ce3f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shortest Path Algorithms\Path Printing">
-      <UniqueIdentifier>{cba0ae12-4028-4534-9747-94d4fa38845e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Command\Exceptions">
       <UniqueIdentifier>{d1644408-9074-4aa1-8027-33a6c62e4198}</UniqueIdentifier>
@@ -321,20 +312,11 @@
     <ClInclude Include="Priority Queue\Handle\PriorityQueueHandle.h">
       <Filter>Priority Queue\Priority Queue Handle</Filter>
     </ClInclude>
-    <ClInclude Include="Priority Queue\Distance Accessor\DistanceAccessor.h">
-      <Filter>Priority Queue\Distance Accessor</Filter>
-    </ClInclude>
-    <ClInclude Include="Priority Queue\Handle Updator\HandleUpdator.h">
-      <Filter>Priority Queue\Handle Updator</Filter>
-    </ClInclude>
     <ClInclude Include="Queue\Queue.h">
       <Filter>Queue</Filter>
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Abstract class\ShortestPathAlgorithm.h">
       <Filter>Shortest Path Algorithms\Abstract class</Filter>
-    </ClInclude>
-    <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.h">
-      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.h">
       <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
@@ -414,9 +396,6 @@
     <ClInclude Include="Shortest Path Algorithms\Algorithm Registrator\ShortestPathAlgorithmRegistrator.h">
       <Filter>Shortest Path Algorithms\Shortest Path Algorithm Registrator</Filter>
     </ClInclude>
-    <ClInclude Include="Shortest Path Algorithms\Path Printing\PathPrinting.h">
-      <Filter>Shortest Path Algorithms\Path Printing</Filter>
-    </ClInclude>
     <ClInclude Include="Command\Exceptions\Command Exception\CommandException.h">
       <Filter>Command\Exceptions\Command Exception</Filter>
     </ClInclude>
@@ -434,6 +413,9 @@
     </ClInclude>
     <ClInclude Include="Iterator\ConcreteIteratorAdapter.h">
       <Filter>Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraShortestPath.h">
+      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -472,9 +454,6 @@
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\Abstract class\ShortestPathAlgorithm.cpp">
       <Filter>Shortest Path Algorithms\Abstract class</Filter>
-    </ClCompile>
-    <ClCompile Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.cpp">
-      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.cpp">
       <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
@@ -539,9 +518,6 @@
     <ClCompile Include="Command\Search Command\SearchCommand.cpp">
       <Filter>Command\Search Command</Filter>
     </ClCompile>
-    <ClCompile Include="Shortest Path Algorithms\Path Printing\PathPrinting.cpp">
-      <Filter>Shortest Path Algorithms\Path Printing</Filter>
-    </ClCompile>
     <ClCompile Include="Command\Exceptions\Missing Argument Exception\MissingArgumentException.cpp">
       <Filter>Command\Exceptions\Missing Argument Exception</Filter>
     </ClCompile>
@@ -550,6 +526,9 @@
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\Search Based Shortest Path Algorithm\SearchBasedShortestPathAlgorithm.cpp">
       <Filter>Shortest Path Algorithms\Search Based Shortest Path Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraShortestPath.cpp">
+      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

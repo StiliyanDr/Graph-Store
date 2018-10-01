@@ -9,38 +9,21 @@ DijkstraShortestPath::DijkstraShortestPath(const String& id) :
 {
 }
 
-ShortestPathAlgorithm::Path
-DijkstraShortestPath::findShortestPath(const Graph& graph,
-									const Vertex& source,
-									const Vertex& target)
+void DijkstraShortestPath::initialise(const Graph& graph,
+									  const Vertex& source,
+									  const Vertex& target)
 {
-	initialiseAlgorithm(graph, source);
-
-	DijkstraVertex* v;
-
-	while (!undeterminedEstimateVertices.isEmpty())
+	try
 	{
-		v = undeterminedEstimateVertices.extractOptimal();
-
-		if (v->originalVertex == target)
-		{
-			break;
-		}
-
-		relaxEdgesLeaving(*v, graph);
+		decorateVerticesOf(graph);
+		initialiseSource(getDecoratedVersionOf(source));
+		gatherDecoratedVerticesWithUndeterminedEstimate();
 	}
-
-	Path p = createPathBetween(source, target);
-	cleanUpAlgorithmState();
-
-	return p;
-}
-
-void DijkstraShortestPath::initialiseAlgorithm(const Graph& graph, const Vertex& source)
-{
-	decorateVerticesOf(graph);
-	initialiseSource(getDecoratedVersionOf(source));
-	gatherDecoratedVerticesWithUndeterminedEstimate();
+	catch (std::bad_alloc&)
+	{
+		cleanUp();
+		throw;
+	}
 }
 
 void DijkstraShortestPath::decorateVerticesOf(const Graph& graph)
@@ -55,7 +38,8 @@ void DijkstraShortestPath::addDecoratedVersionOf(const Vertex& v)
 	decoratedVertices.emplace(v.getID(), v);
 }
 
-DijkstraShortestPath::DijkstraVertex& DijkstraShortestPath::getDecoratedVersionOf(const Vertex& v)
+DijkstraShortestPath::DijkstraVertex&
+DijkstraShortestPath::getDecoratedVersionOf(const Vertex& v)
 {
 	return decoratedVertices[v.getID()];
 }
@@ -65,6 +49,25 @@ void DijkstraShortestPath::gatherDecoratedVerticesWithUndeterminedEstimate()
 	HashIterator iterator = decoratedVertices.begin();
 
 	undeterminedEstimateVertices = PriorityQueue(iterator, decoratedVertices.size());
+}
+
+void DijkstraShortestPath::execute(const Graph& graph,
+								   const Vertex& source,
+								   const Vertex& target)
+{
+	DijkstraVertex* v;
+
+	while (!undeterminedEstimateVertices.isEmpty())
+	{
+		v = undeterminedEstimateVertices.extractOptimal();
+
+		if (v->originalVertex == target)
+		{
+			return;
+		}
+
+		relaxEdgesLeaving(*v, graph);
+	}
 }
 
 void DijkstraShortestPath::relaxEdgesLeaving(const DijkstraVertex& start, const Graph& graph)
@@ -80,7 +83,9 @@ void DijkstraShortestPath::relaxEdgesLeaving(const DijkstraVertex& start, const 
 	});
 }
 
-void DijkstraShortestPath::relaxEdge(const DijkstraVertex& start, DijkstraVertex& end, unsigned weight)
+void DijkstraShortestPath::relaxEdge(const DijkstraVertex& start,
+									 DijkstraVertex& end,
+									 unsigned weight)
 {
 	Distance distanceThroughStart = start.distanceToSource + weight;
 
@@ -91,7 +96,7 @@ void DijkstraShortestPath::relaxEdge(const DijkstraVertex& start, DijkstraVertex
 	}
 }
 
-void DijkstraShortestPath::cleanUpAlgorithmState()
+void DijkstraShortestPath::cleanUp()
 {
 	undeterminedEstimateVertices.empty();
 	decoratedVertices.clear();

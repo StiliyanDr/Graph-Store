@@ -194,8 +194,6 @@
     <ClInclude Include="Linked List\LinkedList.hpp" />
     <ClInclude Include="Linked List\LinkedListIterator.hpp" />
     <ClInclude Include="Logger\Logger.h" />
-    <ClInclude Include="Priority Queue\Distance Accessor\DistanceAccessor.h" />
-    <ClInclude Include="Priority Queue\Handle Updator\HandleUpdator.h" />
     <ClInclude Include="Priority Queue\Handle\PriorityQueueHandle.h" />
     <ClInclude Include="Priority Queue\PriorityQueue.h" />
     <ClInclude Include="Priority Queue\PriorityQueue.hpp" />
@@ -203,9 +201,8 @@
     <ClInclude Include="Shortest Path Algorithms\Abstract class\ShortestPathAlgorithm.h" />
     <ClInclude Include="Shortest Path Algorithms\Algorithm Registrator\ShortestPathAlgorithmRegistrator.h" />
     <ClInclude Include="Shortest Path Algorithms\BFS\BFSShortestPath.h" />
-    <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.h" />
+    <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraShortestPath.h" />
     <ClInclude Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.h" />
-    <ClInclude Include="Shortest Path Algorithms\Path Printing\PathPrinting.h" />
     <ClInclude Include="Shortest Path Algorithms\Search Based Shortest Path Algorithm\SearchBasedShortestPathAlgorithm.h" />
     <ClInclude Include="Shortest Path Algorithms\Store\ShortestPathAlgorithmsStore.h" />
     <ClInclude Include="Shortest Path Algorithms\Store\Unsupported Alogirhtm Exception\UnsupportedAlgorithmException.h" />
@@ -244,9 +241,8 @@
     <ClCompile Include="Graph\Vertex\Vertex.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Abstract class\ShortestPathAlgorithm.cpp" />
     <ClCompile Include="Shortest Path Algorithms\BFS\BFSShortestPath.cpp" />
-    <ClCompile Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraAlgorithm.cpp" />
+    <ClCompile Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraShortestPath.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.cpp" />
-    <ClCompile Include="Shortest Path Algorithms\Path Printing\PathPrinting.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Search Based Shortest Path Algorithm\SearchBasedShortestPathAlgorithm.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Store\ShortestPathAlgorithmsStore.cpp" />
     <ClCompile Include="String Cutter\StringCutter.cpp" />

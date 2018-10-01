@@ -73,18 +73,16 @@ public:
 	DijkstraShortestPath(const DijkstraShortestPath&) = delete;
 	DijkstraShortestPath& operator=(const DijkstraShortestPath&) = delete;
 
-	virtual Path findShortestPath(const Graph& graph,
-								  const Vertex& source,
-								  const Vertex& target) override;
 private:
+	virtual void initialise(const Graph& graph, const Vertex& source, const Vertex& target) override;
+	virtual void execute(const Graph& graph, const Vertex& source, const Vertex& target) override;
+	virtual void cleanUp() override;
 	virtual void addDecoratedVersionOf(const Vertex& vertex) override;
 	virtual DijkstraVertex& getDecoratedVersionOf(const Vertex& vertex) override;
-	void initialiseAlgorithm(const Graph& graph, const Vertex& source);
 	void decorateVerticesOf(const Graph& graph);
 	void gatherDecoratedVerticesWithUndeterminedEstimate();
 	void relaxEdgesLeaving(const DijkstraVertex& vertex, const Graph& graph);
 	void relaxEdge(const DijkstraVertex& start, DijkstraVertex& end, unsigned weight);
-	void cleanUpAlgorithmState();
 
 private:
 	PriorityQueue undeterminedEstimateVertices;
