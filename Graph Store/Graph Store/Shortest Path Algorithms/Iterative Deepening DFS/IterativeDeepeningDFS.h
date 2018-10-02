@@ -10,14 +10,11 @@ public:
 	IterativeDeepeningDFS(const IterativeDeepeningDFS&) = delete;
 	IterativeDeepeningDFS& operator=(const IterativeDeepeningDFS&) = delete;
 
-	virtual Path findShortestPath(const Graph& graph,
-								  const Vertex& source,
-								  const Vertex& target) override;
 private:
-	void initialiseAlgorithm(const Graph& graph, const Vertex& source, const Vertex& target);
+	virtual void initialise(const Graph& graph, const Vertex& source, const Vertex& target) override;
+	virtual void execute(const Graph& graph, const Vertex& source, const Vertex& target) override;
 	void depthLimitedSearch(MarkableDecoratedVertex& vertex, unsigned depth);
 	void expandSearch(const MarkableDecoratedVertex& predecessor, unsigned depth);
-	void cleanUpAlgorithmState();
 	void setGraph(const Graph& graph);
 
 private:
