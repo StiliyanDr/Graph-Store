@@ -9,7 +9,9 @@ IterativeDeepeningDFS::IterativeDeepeningDFS(const String& id) :
 {
 }
 
-void IterativeDeepeningDFS::initialise(const Graph& graph, const Vertex& source, const Vertex& target)
+void IterativeDeepeningDFS::initialise(const Graph& graph,
+									   const Vertex& source,
+									   const Vertex& target)
 {
 	decorateVerticesOf(graph);
 	initialiseSource(getDecoratedVersionOf(source));
@@ -18,7 +20,9 @@ void IterativeDeepeningDFS::initialise(const Graph& graph, const Vertex& source,
 	foundAShortestPath = false;
 }
 
-void IterativeDeepeningDFS::execute(const Graph& graph, const Vertex& source, const Vertex& target)
+void IterativeDeepeningDFS::execute(const Graph& graph,
+									const Vertex& source,
+									const Vertex& target)
 {
 	unsigned maxLengthOfShortestPath = graph.getVerticesCount() - 1;
 	unsigned depth = 0;
@@ -30,7 +34,8 @@ void IterativeDeepeningDFS::execute(const Graph& graph, const Vertex& source, co
 	}
 }
 
-void IterativeDeepeningDFS::depthLimitedSearch(MarkableDecoratedVertex& vertex, unsigned depth)
+void IterativeDeepeningDFS::depthLimitedSearch(MarkableDecoratedVertex& vertex,
+											   unsigned depth)
 {
 	vertex.isVisited = true;
 
@@ -46,7 +51,8 @@ void IterativeDeepeningDFS::depthLimitedSearch(MarkableDecoratedVertex& vertex, 
 	vertex.isVisited = false;
 }
 
-void IterativeDeepeningDFS::expandSearch(const MarkableDecoratedVertex& predecessor, unsigned depth)
+void IterativeDeepeningDFS::expandSearch(const MarkableDecoratedVertex& predecessor,
+										 unsigned depth)
 {
 	Graph::EdgesConstIterator iterator =
 		graph->getConstIteratorOfEdgesLeaving(predecessor.originalVertex);
