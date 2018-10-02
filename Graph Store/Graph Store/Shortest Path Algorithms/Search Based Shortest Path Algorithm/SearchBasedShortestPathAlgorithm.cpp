@@ -1,4 +1,5 @@
 #include "SearchBasedShortestPathAlgorithm.h"
+#include "../../Graph/Abstract class/Graph.h"
 #include <assert.h>
 
 SearchBasedShortestPathAlgorithm::SearchBasedShortestPathAlgorithm(const String& id) :
@@ -24,7 +25,7 @@ SearchBasedShortestPathAlgorithm::getDecoratedVersionOf(const Vertex& v)
 	return decoratedVertices[v.getID()];
 }
 
-void SearchBasedShortestPathAlgorithm::removeDecoratedVertices()
+void SearchBasedShortestPathAlgorithm::cleanUp()
 {
 	decoratedVertices.clear();
 }
