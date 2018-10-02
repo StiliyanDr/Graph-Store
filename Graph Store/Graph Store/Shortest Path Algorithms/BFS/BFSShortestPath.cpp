@@ -51,8 +51,8 @@ void BFSShortestPath::prepareTrivialPath(const Vertex& source)
 }
 
 void BFSShortestPath::execute(const Graph& graph,
-	const Vertex& source,
-	const Vertex& target)
+							  const Vertex& source,
+							  const Vertex& target)
 {
 	const MarkableDecoratedVertex* vertex;
 
