@@ -1,5 +1,6 @@
 #include "BFSShortestPath.h"
 #include "../Algorithm Registrator/ShortestPathAlgorithmRegistrator.h"
+#include "../../Graph/Abstract class/Graph.h"
 #include <assert.h>
 
 static ShortestPathAlgorithmRegistrator<BFSShortestPath> registrator("bfs");
@@ -9,31 +10,9 @@ BFSShortestPath::BFSShortestPath(const String& id) :
 {
 }
 
-ShortestPathAlgorithm::Path
-BFSShortestPath::findShortestPath(const Graph& graph,
-								  const Vertex& source,
-								  const Vertex& target)
-{
-	initialiseAlgorithm(graph, source, target);
-
-	const MarkableDecoratedVertex* vertex;
-
-	while (!(foundAShortestPath || frontier.isEmpty()))
-	{
-		vertex = extractNextVertexFromFrontier();
-		exploreEdgesLeaving(*vertex, graph);
-	}
-
-	Path result = createPathBetween(source, target);
-
-	cleanUpAlgorithmState();
-
-	return result;
-}
-
-void BFSShortestPath::initialiseAlgorithm(const Graph& graph,
-										  const Vertex& source,
-										  const Vertex& target)
+void BFSShortestPath::initialise(const Graph& graph,
+								 const Vertex& source,
+								 const Vertex& target)
 {
 	assert(frontier.isEmpty());
 
@@ -71,8 +50,21 @@ void BFSShortestPath::prepareTrivialPath(const Vertex& source)
 	initialiseSource(getDecoratedVersionOf(source));
 }
 
+void BFSShortestPath::execute(const Graph& graph,
+	const Vertex& source,
+	const Vertex& target)
+{
+	const MarkableDecoratedVertex* vertex;
+
+	while (!(foundAShortestPath || frontier.isEmpty()))
+	{
+		vertex = extractNextVertexFromFrontier();
+		exploreEdgesLeaving(*vertex, graph);
+	}
+}
+
 void BFSShortestPath::exploreEdgesLeaving(const MarkableDecoratedVertex& predecessor,
-	const Graph& graph)
+										  const Graph& graph)
 {
 	Graph::EdgesConstIterator iterator =
 		graph.getConstIteratorOfEdgesLeaving(predecessor.originalVertex);
@@ -113,8 +105,8 @@ BFSShortestPath::extractNextVertexFromFrontier()
 	return frontier.dequeue();
 }
 
-void BFSShortestPath::cleanUpAlgorithmState()
+void BFSShortestPath::cleanUp()
 {
 	frontier.empty();
-	removeDecoratedVertices();
+	SearchBasedShortestPathAlgorithm::cleanUp();
 }
