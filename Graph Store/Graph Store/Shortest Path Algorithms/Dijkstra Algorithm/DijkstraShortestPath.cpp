@@ -48,7 +48,8 @@ void DijkstraShortestPath::gatherDecoratedVerticesWithUndeterminedEstimate()
 {
 	HashIterator iterator = decoratedVertices.begin();
 
-	undeterminedEstimateVertices = PriorityQueue(iterator, decoratedVertices.size());
+	undeterminedEstimateVertices =
+		PriorityQueue(iterator, decoratedVertices.size());
 }
 
 void DijkstraShortestPath::execute(const Graph& graph,
@@ -70,7 +71,8 @@ void DijkstraShortestPath::execute(const Graph& graph,
 	}
 }
 
-void DijkstraShortestPath::relaxEdgesLeaving(const DijkstraVertex& start, const Graph& graph)
+void DijkstraShortestPath::relaxEdgesLeaving(const DijkstraVertex& start,
+											 const Graph& graph)
 {
 	Graph::EdgesConstIterator iterator =
 		graph.getConstIteratorOfEdgesLeaving(start.originalVertex);
