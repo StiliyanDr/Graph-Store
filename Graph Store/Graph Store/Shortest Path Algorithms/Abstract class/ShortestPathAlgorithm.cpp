@@ -108,12 +108,20 @@ ShortestPathAlgorithm::findShortestPath(const Graph& graph,
 										const Vertex& source,
 										const Vertex& target)
 {
-	initialise(graph, source, target);
-	execute(graph, source, target);
-	Path result = createPathBetween(source, target);
-	cleanUp();
+	try
+	{
+		initialise(graph, source, target);
+		execute(graph, source, target);
+		Path result = createPathBetween(source, target);
+		cleanUp();
 
-	return result;
+		return result;
+	}
+	catch (std::bad_alloc&)
+	{
+		cleanUp();
+		throw;
+	}
 }
 
 ShortestPathAlgorithm::Path

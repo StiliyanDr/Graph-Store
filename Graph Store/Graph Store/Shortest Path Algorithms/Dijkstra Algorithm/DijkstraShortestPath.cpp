@@ -13,17 +13,9 @@ void DijkstraShortestPath::initialise(const Graph& graph,
 									  const Vertex& source,
 									  const Vertex& target)
 {
-	try
-	{
-		decorateVerticesOf(graph);
-		initialiseSource(getDecoratedVersionOf(source));
-		gatherDecoratedVerticesWithUndeterminedEstimate();
-	}
-	catch (std::bad_alloc&)
-	{
-		cleanUp();
-		throw;
-	}
+	decorateVerticesOf(graph);
+	initialiseSource(getDecoratedVersionOf(source));
+	gatherDecoratedVerticesWithUndeterminedEstimate();
 }
 
 void DijkstraShortestPath::decorateVerticesOf(const Graph& graph)
