@@ -46,7 +46,7 @@ void FileParser::openFile(const String& fileName)
 	}
 
 	file.open(fileName);
-	throwExceptionIfFailedToOpen(fileName);
+	verifySuccessfulOpeningOf(fileName);
 	lineNumber = 1;
 }
 
@@ -64,7 +64,7 @@ void FileParser::closeFile()
 	}
 }
 
-void FileParser::throwExceptionIfFailedToOpen(const String& fileName) const
+void FileParser::verifySuccessfulOpeningOf(const String& fileName) const
 {
 	if (!hasOpenedFile())
 	{
@@ -74,7 +74,7 @@ void FileParser::throwExceptionIfFailedToOpen(const String& fileName) const
 
 String FileParser::readLine()
 {
-	assertValidState();
+	verifyValidState();
 
 	file.getline(buffer, BUFFER_SIZE);
 	throwExceptionIfInErrorState("No more characters left in the file!");
@@ -83,16 +83,40 @@ String FileParser::readLine()
 	return buffer;
 }
 
-void FileParser::assertValidState() const
+void FileParser::verifyValidState() const
 {
-	assert(hasOpenedFile());
-	assert(!hasReachedEnd());
-	assert(!file.fail());
+	verifyAFileIsOpened();
+	verifyEndIsNotReached();
+	verifyNoPreviousOperationFailed();
+}
+
+void FileParser::verifyAFileIsOpened() const
+{
+	if (!hasOpenedFile())
+	{
+		throw FileParserException("No file is currently opened!");
+	}
+}
+
+void FileParser::verifyEndIsNotReached() const
+{
+	if (hasReachedEnd())
+	{
+		throw FileParserException("End of file already reached!");
+	}
+}
+
+void FileParser::verifyNoPreviousOperationFailed() const
+{
+	if (file.fail())
+	{
+		throw FileParserException("A previous operation already failed!");
+	}
 }
 
 bool FileParser::hasReachedEnd() const
 {
-	assert(hasOpenedFile());
+	verifyAFileIsOpened();
 
 	return file.eof();
 }
@@ -110,7 +134,7 @@ void FileParser::throwExceptionIfInErrorState(const char* message) const
 
 void FileParser::skipUntil(char symbol)
 {
-	assertValidState();
+	verifyValidState();
 
 	char extractedSymbol;
 
@@ -127,7 +151,7 @@ void FileParser::skipUntil(char symbol)
 
 char FileParser::peek()
 {
-	assertValidState();
+	verifyValidState();
 
 	return file.peek();
 }

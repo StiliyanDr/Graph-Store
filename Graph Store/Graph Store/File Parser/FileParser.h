@@ -32,9 +32,12 @@ private:
 	template <class Number>
 	Number parseNumber();
 	
-	void throwExceptionIfFailedToOpen(const String& fileName) const;
+	void verifySuccessfulOpeningOf(const String& fileName) const;
+	void verifyValidState() const;
+	void verifyAFileIsOpened() const;
+	void verifyEndIsNotReached() const;
+	void verifyNoPreviousOperationFailed() const;
 	void throwExceptionIfInErrorState(const char* message) const;
-	void assertValidState() const;
 	void swapContentsWith(FileParser parser);
 
 private:
@@ -49,7 +52,7 @@ private:
 template <class Number>
 Number FileParser::parseNumber()
 {
-	assertValidState();
+	verifyValidState();
 
 	Number number;
 	file >> number;

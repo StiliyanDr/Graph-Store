@@ -29,12 +29,6 @@
     <ClCompile Include="..\..\..\Graph Store\Graph Store\File Parser\FileParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Graph Store\Graph Store\File Parser\File Parser Exception\FileParserException.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Graph Store\Graph Store\File Parser\Open File Fail Exception\OpenFileFailException.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Graph Store\Graph Store\String\String.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

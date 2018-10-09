@@ -154,9 +154,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Graph Store\Graph Store\File Parser\File Parser Exception\FileParserException.cpp" />
     <ClCompile Include="..\..\..\Graph Store\Graph Store\File Parser\FileParser.cpp" />
-    <ClCompile Include="..\..\..\Graph Store\Graph Store\File Parser\Open File Fail Exception\OpenFileFailException.cpp" />
     <ClCompile Include="..\..\..\Graph Store\Graph Store\String\String.cpp" />
     <ClCompile Include="Test.cpp" />
   </ItemGroup>
