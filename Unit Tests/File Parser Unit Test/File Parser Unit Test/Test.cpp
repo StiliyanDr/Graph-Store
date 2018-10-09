@@ -265,7 +265,7 @@ namespace FileParserUnitTest
 			}
 			catch (FileParserException& ex)
 			{
-				Assert::IsTrue(areEqual("Invalid number format! Error at line 1",
+				Assert::IsTrue(areEqual("End of file already reached!",
 										ex.what()));
 			}
 		}

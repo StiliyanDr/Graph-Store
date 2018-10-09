@@ -27,16 +27,18 @@ public:
 	unsigned parseUnsigned();
 	char peek();
 	void skipUntil(char symbol);
+	void skipSpaces();
 
 private:
 	template <class Number>
 	Number parseNumber();
-	
+
 	void verifySuccessfulOpeningOf(const String& fileName) const;
 	void verifyValidState() const;
 	void verifyAFileIsOpened() const;
 	void verifyEndIsNotReached() const;
 	void verifyNoPreviousOperationFailed() const;
+	void verifyNumberIsNonNegative();
 	void throwExceptionIfInErrorState(const char* message) const;
 	void swapContentsWith(FileParser parser);
 
@@ -52,8 +54,6 @@ private:
 template <class Number>
 Number FileParser::parseNumber()
 {
-	verifyValidState();
-
 	Number number;
 	file >> number;
 

@@ -1,8 +1,7 @@
 #include "FileParser.h"
-#include <assert.h>
-#include "../File Parser/File Parser Exception/FileParserException.h"
 #include "../File Parser/Open File Fail Exception/OpenFileFailException.h"
 #include <string>
+#include <assert.h>
 
 FileParser::FileParser() :
 	lineNumber(0)
@@ -149,6 +148,16 @@ void FileParser::skipUntil(char symbol)
 	} while (!hasReachedEnd() && extractedSymbol != symbol);
 }
 
+void FileParser::skipSpaces()
+{
+	verifyValidState();
+
+	while (peek() == ' ')
+	{
+		file.ignore();
+	}
+}
+
 char FileParser::peek()
 {
 	verifyValidState();
@@ -158,7 +167,20 @@ char FileParser::peek()
 
 unsigned FileParser::parseUnsigned()
 {
+	skipSpaces();
+	verifyNumberIsNonNegative();
+
 	return parseNumber<unsigned>();
+}
+
+void FileParser::verifyNumberIsNonNegative()
+{
+	if (peek() == '-')
+	{
+		file.setstate(file.rdstate() | std::ios::failbit);
+	}
+
+	throwExceptionIfInErrorState("Number must not be negative!");
 }
 
 char FileParser::endOfFileSymbol()
