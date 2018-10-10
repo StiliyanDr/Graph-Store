@@ -31,6 +31,16 @@ namespace FileParserUnitTest
 			file.close();
 		}
 
+		static void reachEndOfEmptyFile(FileParser& parser)
+		{
+			assert(parser.hasOpenedFile());
+			assert(!parser.hasReachedEnd());
+
+			parser.peek();
+
+			assert(parser.hasReachedEnd());
+		}
+
 		static bool areEqual(const char* lhs, const char* rhs)
 		{
 			return strcmp(lhs, rhs) == 0;
@@ -226,9 +236,9 @@ namespace FileParserUnitTest
 			Assert::IsTrue(areEqual("", extractedLine));
 		}
 
-		TEST_METHOD(testParseUnsignedWithValidNumber)
+		TEST_METHOD(testParseUnsignedSkipsSpacesAndExtractsNumber)
 		{
-			writeTextToFile("8", firstTestFileName);
+			writeTextToFile("   8", firstTestFileName);
 			FileParser parser(firstTestFileName);
 
 			unsigned number = parser.parseUnsigned();
@@ -250,6 +260,23 @@ namespace FileParserUnitTest
 			{
 				Assert::IsTrue(areEqual("Invalid number format! Error at line 1",
 										ex.what()));
+			}
+		}
+
+		TEST_METHOD(testParseUnsignedWithNegativeNumber)
+		{
+			writeTextToFile("-128", firstTestFileName);
+			FileParser parser(firstTestFileName);
+
+			try
+			{
+				parser.parseUnsigned();
+				Assert::Fail(L"The method did not throw an exception!");
+			}
+			catch (FileParserException& e)
+			{
+				Assert::IsTrue(areEqual("Number must not be negative! Error at line 1",
+										e.what()));
 			}
 		}
 
@@ -288,6 +315,60 @@ namespace FileParserUnitTest
 			parser.skipUntil('@');
 
 			Assert::IsTrue(parser.hasReachedEnd());
+		}
+
+		TEST_METHOD(testSkipSpaces)
+		{
+			writeTextToFile("   @", firstTestFileName);
+			FileParser parser(firstTestFileName);
+
+			parser.skipSpaces();
+
+			Assert::AreEqual('@', parser.peek());
+		}
+
+		TEST_METHOD(testSkipSpacesStopsAtEndOfFile)
+		{
+			writeTextToFile("   ", firstTestFileName);
+			FileParser parser(firstTestFileName);
+
+			parser.skipSpaces();
+
+			Assert::IsTrue(parser.hasReachedEnd());
+		}
+
+		TEST_METHOD(testFileOperationsWhenNoFileIsOpenedThrowException)
+		{
+			FileParser parser;
+
+			try
+			{
+				parser.readLine();
+				Assert::Fail(L"The method did not throw an exception!");
+			}
+			catch (FileParserException& e)
+			{
+				Assert::IsTrue(areEqual("No file is currently opened!",
+										e.what()));
+			}
+		}
+
+		TEST_METHOD(testFileOperationsWhenEndOfFileIsReachedThrowException)
+		{
+			emptyFile(firstTestFileName);
+			FileParser parser(firstTestFileName);
+			reachEndOfEmptyFile(parser);
+
+			try
+			{
+				parser.readLine();
+				Assert::Fail(L"The method did not throw an exception!");
+			}
+			catch (FileParserException& e)
+			{
+				Assert::IsTrue(areEqual("End of file already reached!",
+										e.what()));
+			}
 		}
 
 	};
