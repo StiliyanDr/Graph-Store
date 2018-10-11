@@ -145,7 +145,7 @@ void FileParser::skipUntil(char character)
 		{
 			++lineNumber;
 		}
-	} while (!hasReachedEnd() && extractedCharacter != character);
+	} while (!(hasReachedEnd() || extractedCharacter == character));
 }
 
 void FileParser::skipSpaces()
