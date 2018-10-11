@@ -131,21 +131,21 @@ void FileParser::throwExceptionIfInErrorState(const char* message) const
 	}
 }
 
-void FileParser::skipUntil(char symbol)
+void FileParser::skipUntil(char character)
 {
 	verifyValidState();
 
-	char extractedSymbol;
+	char extractedCharacter;
 
 	do
 	{
-		extractedSymbol = file.get();
+		extractedCharacter = file.get();
 
-		if (extractedSymbol == '\n')
+		if (extractedCharacter == '\n')
 		{
 			++lineNumber;
 		}
-	} while (!hasReachedEnd() && extractedSymbol != symbol);
+	} while (!hasReachedEnd() && extractedCharacter != character);
 }
 
 void FileParser::skipSpaces()
@@ -183,7 +183,7 @@ void FileParser::verifyNumberIsNonNegative()
 	throwExceptionIfInErrorState("Number must not be negative!");
 }
 
-char FileParser::endOfFileSymbol()
+char FileParser::endOfFileCharacter()
 {
 	return EOF;
 }

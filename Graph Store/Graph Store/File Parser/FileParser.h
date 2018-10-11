@@ -7,7 +7,7 @@
 class FileParser
 {
 public:
-	static char endOfFileSymbol();
+	static char endOfFileCharacter();
 
 public:
 	FileParser();
@@ -26,7 +26,7 @@ public:
 	String readLine();
 	unsigned parseUnsigned();
 	char peek();
-	void skipUntil(char symbol);
+	void skipUntil(char character);
 	void skipSpaces();
 
 private:
