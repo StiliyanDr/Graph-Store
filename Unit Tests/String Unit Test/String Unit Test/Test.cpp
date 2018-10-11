@@ -9,13 +9,22 @@ namespace StringUnitTest
 {		
 	TEST_CLASS(StringTest)
 	{
-	public:
-		
-		bool areEqual(const char* expected, const char* actual)
+		static bool areEqual(const String& expected, const String& actual)
+		{
+			return areEqual(expected.cString(), actual.cString());
+		}
+
+		static bool areEqual(const char* expected, const String& actual)
+		{
+			return areEqual(expected, actual.cString());
+		}
+
+		static bool areEqual(const char* expected, const char* actual)
 		{
 			return strcmp(expected, actual) == 0;
 		}
 
+	public:
 		TEST_METHOD(testConstructorFromSymbol)
 		{
 			String string('a');

@@ -14,17 +14,17 @@ public:
 	~String();
 
 	size_t getLength() const;
+	const char* cString() const;
 
 	void concatenate(const char* string);
 	void concatenate(char symbol);
 
 public:
+	String& operator+=(const String& string);
 	String& operator+=(const char* string);
 	String& operator+=(char symbol);
-	operator const char*() const;
 
 private:
-	const char* getString() const;
 	void setString(const char* newString);
 
 private:

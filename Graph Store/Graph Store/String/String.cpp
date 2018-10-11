@@ -8,7 +8,7 @@ bool operator!=(const String &lhs, const String &rhs)
 
 bool operator==(const String &lhs, const String &rhs)
 {
-	return !strcmp(lhs, rhs);
+	return !strcmp(lhs.cString(), rhs.cString());
 }
 
 bool operator>(const String &lhs, const String &rhs)
@@ -28,13 +28,13 @@ bool operator<=(const String &lhs, const String &rhs)
 
 bool operator<(const String &lhs, const String &rhs)
 {
-	return strcmp(lhs, rhs) < 0;
+	return strcmp(lhs.cString(), rhs.cString()) < 0;
 }
 
 String operator+(const String &lhs, const String &rhs)
 {
 	String newString(lhs);
-	newString += rhs;
+	newString += rhs.cString();
 
 	return newString;
 }
@@ -50,7 +50,7 @@ String operator+(const String &lhs, char rhs)
 String operator+(char lhs, const String &rhs)
 {
 	String newString(lhs);
-	newString += rhs;
+	newString += rhs.cString();
 
 	return newString;
 }
@@ -132,6 +132,13 @@ void String::setString(const char* newString)
 	}
 }
 
+String& String::operator+=(const String& string)
+{
+	concatenate(string.cString());
+
+	return *this;
+}
+
 String& String::operator+=(const char* string)
 {
 	concatenate(string);
@@ -169,7 +176,7 @@ void String::concatenate(const char* stringToConcatenate)
 		size_t newLength = currentLength + stringToConcatenateLength + 1;
 		char* buffer = new char[newLength];
 
-		strcpy_s(buffer, currentLength + 1, getString());
+		strcpy_s(buffer, currentLength + 1, cString());
 		strcat_s(buffer, newLength, stringToConcatenate);
 
 		delete[] string;
@@ -179,15 +186,10 @@ void String::concatenate(const char* stringToConcatenate)
 
 size_t String::getLength() const
 {
-	return strlen(getString());
+	return strlen(cString());
 }
 
-String::operator const char *() const
-{
-	return getString();
-}
-
-const char* String::getString() const
+const char* String::cString() const
 {
 	return (string != nullptr) ? string : "";
 }
