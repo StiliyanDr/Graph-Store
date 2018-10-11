@@ -31,14 +31,6 @@ bool operator<(const String &lhs, const String &rhs)
 	return strcmp(lhs.cString(), rhs.cString()) < 0;
 }
 
-String operator+(const String &lhs, const String &rhs)
-{
-	String newString(lhs);
-	newString += rhs;
-
-	return newString;
-}
-
 String::String() :
 	string(nullptr)
 {
@@ -51,6 +43,24 @@ String::String(char symbol) :
 	buffer[0] = symbol;
 
 	setString(buffer);
+}
+
+void String::setString(const char* newString)
+{
+	if (newString != nullptr)
+	{
+		size_t bufferSize = strlen(newString) + 1;
+		char* buffer = new char[bufferSize];
+		strcpy_s(buffer, bufferSize, newString);
+
+		delete[] string;
+		string = buffer;
+	}
+	else
+	{
+		delete[] string;
+		string = nullptr;
+	}
 }
 
 String::String(const char* string) :
@@ -98,22 +108,12 @@ String::~String()
 	delete[] string;
 }
 
-void String::setString(const char* newString)
+String operator+(const String &lhs, const String &rhs)
 {
-	if (newString != nullptr)
-	{
-		size_t bufferSize = strlen(newString) + 1;
-		char* buffer = new char[bufferSize];
-		strcpy_s(buffer, bufferSize, newString);
+	String newString(lhs);
+	newString += rhs;
 
-		delete[] string;
-		string = buffer;
-	}
-	else
-	{
-		delete[] string;
-		string = nullptr;
-	}
+	return newString;
 }
 
 String& String::operator+=(const String& string)
@@ -121,28 +121,6 @@ String& String::operator+=(const String& string)
 	concatenate(string.cString());
 
 	return *this;
-}
-
-String& String::operator+=(const char* string)
-{
-	concatenate(string);
-
-	return *this;
-}
-
-String& String::operator+=(char symbol)
-{
-	concatenate(symbol);
-
-	return *this;
-}
-
-void String::concatenate(char symbol)
-{
-	char buffer[2] = "";
-	buffer[0] = symbol;
-
-	concatenate(buffer);
 }
 
 void String::concatenate(const char* stringToConcatenate)
@@ -166,6 +144,28 @@ void String::concatenate(const char* stringToConcatenate)
 		delete[] string;
 		string = buffer;
 	}
+}
+
+String& String::operator+=(const char* string)
+{
+	concatenate(string);
+
+	return *this;
+}
+
+String& String::operator+=(char symbol)
+{
+	concatenate(symbol);
+
+	return *this;
+}
+
+void String::concatenate(char symbol)
+{
+	char buffer[2] = "";
+	buffer[0] = symbol;
+
+	concatenate(buffer);
 }
 
 size_t String::getLength() const
