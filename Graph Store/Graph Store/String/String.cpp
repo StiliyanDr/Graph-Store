@@ -39,22 +39,6 @@ String operator+(const String &lhs, const String &rhs)
 	return newString;
 }
 
-String operator+(const String &lhs, char rhs)
-{
-	String newString(lhs);
-	newString += rhs;
-
-	return newString;
-}
-
-String operator+(char lhs, const String &rhs)
-{
-	String newString(lhs);
-	newString += rhs.cString();
-
-	return newString;
-}
-
 String::String() :
 	string(nullptr)
 {

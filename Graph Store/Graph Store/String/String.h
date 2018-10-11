@@ -39,7 +39,5 @@ bool operator>=(const String &lhs, const String &rhs);
 bool operator<=(const String &lhs, const String &rhs);
 
 String operator+(const String &lhs, const String &rhs);
-String operator+(const String &lhs, char rhs);
-String operator+(char lhs, const String &rhs);
 
 #endif //__STRING_HEADER_INCLUDED__
