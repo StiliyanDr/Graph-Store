@@ -8,7 +8,7 @@ bool operator!=(const String &lhs, const String &rhs)
 
 bool operator==(const String &lhs, const String &rhs)
 {
-	return !strcmp(lhs.cString(), rhs.cString());
+	return strcmp(lhs.cString(), rhs.cString()) == 0;
 }
 
 bool operator>(const String &lhs, const String &rhs)
