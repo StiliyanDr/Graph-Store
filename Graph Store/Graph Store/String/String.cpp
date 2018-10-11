@@ -34,7 +34,7 @@ bool operator<(const String &lhs, const String &rhs)
 String operator+(const String &lhs, const String &rhs)
 {
 	String newString(lhs);
-	newString += rhs.cString();
+	newString += rhs;
 
 	return newString;
 }
