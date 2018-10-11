@@ -41,6 +41,23 @@ namespace FileParserUnitTest
 			assert(parser.hasReachedEnd());
 		}
 
+		static FileParser parserAfterAFailedOperation()
+		{
+			writeTextToFile("-123", firstTestFileName);
+
+			FileParser parser(firstTestFileName);
+
+			try
+			{
+				parser.parseUnsigned();
+			}
+			catch (FileParserException&)
+			{
+			}
+
+			return parser;
+		}
+
 		static bool areEqual(const char* lhs, const char* rhs)
 		{
 			return strcmp(lhs, rhs) == 0;
@@ -367,6 +384,22 @@ namespace FileParserUnitTest
 			catch (FileParserException& e)
 			{
 				Assert::IsTrue(areEqual("End of file already reached!",
+										e.what()));
+			}
+		}
+
+		TEST_METHOD(testFileOperationsAfterAFailedOperationThrowException)
+		{
+			FileParser parser = parserAfterAFailedOperation();
+
+			try
+			{
+				parser.readLine();
+				Assert::Fail(L"The method did not throw an exception!");
+			}
+			catch (FileParserException& e)
+			{
+				Assert::IsTrue(areEqual("A previous operation already failed!",
 										e.what()));
 			}
 		}
