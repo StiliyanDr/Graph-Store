@@ -29,7 +29,7 @@ void DirectoryFilesIterator::startIterationIn(const String& path)
 
 	setPath(path);
 	String pathWithPattern = getPathWithAppendedPattern();
-	handle = FindFirstFile(pathWithPattern, &file);
+	handle = FindFirstFile(pathWithPattern.cString(), &file);
 	throwExceptionIfFailedToOpenDirectory(path);
 }
 

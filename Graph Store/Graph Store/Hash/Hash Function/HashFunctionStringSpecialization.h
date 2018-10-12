@@ -18,7 +18,7 @@ class HashFunction<String>
 public:
 	unsigned operator()(const String& key) const
 	{
-		const char* string = key;
+		const char* string = key.cString();
 
 		unsigned hashValue = FNV_OFFSET_BASIS;
 		

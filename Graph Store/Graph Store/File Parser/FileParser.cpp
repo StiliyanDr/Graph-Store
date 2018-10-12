@@ -44,7 +44,7 @@ void FileParser::openFile(const String& fileName)
 		closeFile();
 	}
 
-	file.open(fileName);
+	file.open(fileName.cString());
 	verifySuccessfulOpeningOf(fileName);
 	lineNumber = 1;
 }
