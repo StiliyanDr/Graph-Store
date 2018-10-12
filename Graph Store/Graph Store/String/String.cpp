@@ -36,11 +36,11 @@ String::String() :
 {
 }
 
-String::String(char symbol) :
+String::String(char character) :
 	string(nullptr)
 {
 	char buffer[2] = "";
-	buffer[0] = symbol;
+	buffer[0] = character;
 
 	setString(buffer);
 }
@@ -153,17 +153,17 @@ String& String::operator+=(const char* string)
 	return *this;
 }
 
-String& String::operator+=(char symbol)
+String& String::operator+=(char character)
 {
-	concatenate(symbol);
+	concatenate(character);
 
 	return *this;
 }
 
-void String::concatenate(char symbol)
+void String::concatenate(char character)
 {
 	char buffer[2] = "";
-	buffer[0] = symbol;
+	buffer[0] = character;
 
 	concatenate(buffer);
 }

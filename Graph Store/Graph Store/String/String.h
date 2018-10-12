@@ -5,7 +5,7 @@ class String
 {
 public:
 	String();
-	String(char symbol);
+	String(char character);
 	String(const char* string);
 	String(String&& source);
 	String(const String& source);
@@ -17,12 +17,12 @@ public:
 	const char* cString() const;
 
 	void concatenate(const char* string);
-	void concatenate(char symbol);
+	void concatenate(char character);
 
 public:
 	String& operator+=(const String& string);
 	String& operator+=(const char* string);
-	String& operator+=(char symbol);
+	String& operator+=(char character);
 
 private:
 	void setString(const char* newString);
