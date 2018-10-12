@@ -1,6 +1,13 @@
 #include "String.h"
 #include <cstring>
 
+std::ostream& operator<<(std::ostream& out, const String& s)
+{
+	out << s.cString();
+
+	return out;
+}
+
 bool operator!=(const String &lhs, const String &rhs)
 {
 	return !(lhs == rhs);

@@ -1,6 +1,8 @@
 #ifndef __STRING_HEADER_INCLUDED__
 #define __STRING_HEADER_INCLUDED__
 
+#include <iostream>
+
 class String
 {
 public:
@@ -39,5 +41,7 @@ bool operator>=(const String &lhs, const String &rhs);
 bool operator<=(const String &lhs, const String &rhs);
 
 String operator+(const String &lhs, const String &rhs);
+
+std::ostream& operator<<(std::ostream& out, const String& s);
 
 #endif //__STRING_HEADER_INCLUDED__
