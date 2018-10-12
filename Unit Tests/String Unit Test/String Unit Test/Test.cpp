@@ -9,11 +9,6 @@ namespace StringUnitTest
 {		
 	TEST_CLASS(StringTest)
 	{
-		static bool areEqual(const String& expected, const String& actual)
-		{
-			return areEqual(expected.cString(), actual.cString());
-		}
-
 		static bool areEqual(const char* expected, const String& actual)
 		{
 			return areEqual(expected, actual.cString());
@@ -78,7 +73,7 @@ namespace StringUnitTest
 			const String emptyString = "";
 			String copy(emptyString);
 
-			Assert::IsTrue(areEqual(emptyString, copy));
+			Assert::IsTrue(copy == emptyString);
 		}
 
 		TEST_METHOD(testCopyConstructorFromNonEmptyString)
@@ -86,7 +81,7 @@ namespace StringUnitTest
 			const String word = "word";
 			String copy(word);
 
-			Assert::IsTrue(areEqual(word, copy));
+			Assert::IsTrue(word == copy);
 		}
 
 		TEST_METHOD(testCopyAssignmentEmptyToEmptyString)
@@ -96,7 +91,7 @@ namespace StringUnitTest
 
 			string = emptyString;
 
-			Assert::IsTrue(areEqual(emptyString, string));
+			Assert::IsTrue(emptyString == string);
 		}
 
 		TEST_METHOD(testCopyAssignmentEmptyToNonEmptyString)
@@ -106,7 +101,7 @@ namespace StringUnitTest
 
 			string = emptyString;
 
-			Assert::IsTrue(areEqual(emptyString, string));
+			Assert::IsTrue(string == emptyString);
 		}
 
 		TEST_METHOD(testCopyAssignmentNonEmptyToEmptyString)
@@ -116,7 +111,7 @@ namespace StringUnitTest
 
 			string = word;
 
-			Assert::IsTrue(areEqual(word, string));
+			Assert::IsTrue(string == word);
 		}
 
 		TEST_METHOD(testCopyAssignmentNonEmptyToNonEmptyString)
@@ -126,7 +121,7 @@ namespace StringUnitTest
 
 			string = word;
 
-			Assert::IsTrue(areEqual(word, string));
+			Assert::IsTrue(string == word);
 		}
 
 		TEST_METHOD(testCopyAssignmentWithNullptrAssignsEmptyString)
