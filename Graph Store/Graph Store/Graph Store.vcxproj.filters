@@ -211,6 +211,9 @@
     <Filter Include="Shortest Path Algorithms\Search Based Shortest Path Algorithm">
       <UniqueIdentifier>{ed3bc4ea-dc52-429b-aab9-4572355912c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Runtime Error">
+      <UniqueIdentifier>{8c6986b5-d370-4859-a342-91a36ae6c15a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -416,6 +419,9 @@
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraShortestPath.h">
       <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime Error\RuntimeError.h">
+      <Filter>Runtime Error</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
