@@ -1,18 +1,18 @@
 #ifndef __DIRECTORY_FILES_ITERATOR_EXCEPTION_HEADER_INCLUDED__
 #define __DIRECTORY_FILES_ITERATOR_EXCEPTION_HEADER_INCLUDED__
 
-#include <stdexcept>
+#include "../../Runtime Error/RuntimeError.h"
 
-class DirectoryFilesIteratorException : public std::runtime_error
+class DirectoryFilesIteratorException : public RuntimeError
 {
 public:
-	explicit DirectoryFilesIteratorException(const char* errorMessage) :
-		runtime_error(errorMessage)
+	explicit DirectoryFilesIteratorException(String errorMessage) :
+		RuntimeError(std::move(errorMessage))
 	{
 	}
 
 	explicit DirectoryFilesIteratorException(const std::string& errorMessage) :
-		runtime_error(errorMessage)
+		RuntimeError(errorMessage)
 	{
 	}
 };

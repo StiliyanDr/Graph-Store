@@ -6,8 +6,8 @@
 class OpenFileFailException : public FileParserException
 {
 public:
-	explicit OpenFileFailException(const char* errorMessage) :
-		FileParserException(errorMessage)
+	explicit OpenFileFailException(String errorMessage) :
+		FileParserException(std::move(errorMessage))
 	{
 	}
 

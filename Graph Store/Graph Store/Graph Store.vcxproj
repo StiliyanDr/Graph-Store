@@ -216,7 +216,6 @@
     <ClCompile Include="Command\Add Edge Command\AddEdgeCommand.cpp" />
     <ClCompile Include="Command\Add Graph Command\AddGraphCommand.cpp" />
     <ClCompile Include="Command\Add Vertex Command\AddVertexCommand.cpp" />
-    <ClCompile Include="Command\Exceptions\Missing Argument Exception\MissingArgumentException.cpp" />
     <ClCompile Include="Command\List Graphs Command\ListGraphsCommand.cpp" />
     <ClCompile Include="Command\Load Command\LoadCommand.cpp" />
     <ClCompile Include="Command\Print Graph Command\PrintGraphCommand.cpp" />

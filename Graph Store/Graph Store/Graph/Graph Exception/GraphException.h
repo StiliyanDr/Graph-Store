@@ -1,18 +1,18 @@
 #ifndef __GRAPH_EXCEPTION_HEADER_INCLUDED__
 #define __GRAPH_EXCEPTION_HEADER_INCLUDED__
 
-#include <stdexcept>
+#include "../../Runtime Error/RuntimeError.h"
 
-class GraphException : public std::runtime_error
+class GraphException : public RuntimeError
 {
 public:
-	explicit GraphException(const char* errorMessage) :
-		runtime_error(errorMessage)
+	explicit GraphException(String errorMessage) :
+		RuntimeError(std::move(errorMessage))
 	{
 	}
 
 	explicit GraphException(const std::string& errorMessage) :
-		runtime_error(errorMessage)
+		RuntimeError(errorMessage)
 	{
 	}
 };

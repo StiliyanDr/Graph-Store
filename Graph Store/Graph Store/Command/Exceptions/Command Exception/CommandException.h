@@ -1,18 +1,18 @@
 #ifndef __COMMAND_EXCEPTION_HEADER_INCLUDED__
 #define __COMMAND_EXCEPTION_HEADER_INCLUDED__
 
-#include <stdexcept>
+#include "../../../Runtime Error/RuntimeError.h"
 
-class CommandException : public std::runtime_error
+class CommandException : public RuntimeError
 {
 public:
-	explicit CommandException(const char* errorMessage) :
-		runtime_error(errorMessage)
+	explicit CommandException(String errorMessage) :
+		RuntimeError(std::move(errorMessage))
 	{
 	}
 
 	explicit CommandException(const std::string& errorMessage) :
-		runtime_error(errorMessage)
+		RuntimeError(errorMessage)
 	{
 	}
 };

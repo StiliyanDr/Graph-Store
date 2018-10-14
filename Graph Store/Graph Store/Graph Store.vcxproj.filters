@@ -524,9 +524,6 @@
     <ClCompile Include="Command\Search Command\SearchCommand.cpp">
       <Filter>Command\Search Command</Filter>
     </ClCompile>
-    <ClCompile Include="Command\Exceptions\Missing Argument Exception\MissingArgumentException.cpp">
-      <Filter>Command\Exceptions\Missing Argument Exception</Filter>
-    </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\BFS\BFSShortestPath.cpp">
       <Filter>Shortest Path Algorithms\BFS</Filter>
     </ClCompile>

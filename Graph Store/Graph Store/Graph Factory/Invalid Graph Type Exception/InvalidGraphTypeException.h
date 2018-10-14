@@ -1,18 +1,18 @@
 #ifndef __INVALID_GRAPH_TYPE_EXCEPTION_HEADER_INCLUDED__
 #define __INVALID_GRAPH_TYPE_EXCEPTION_HEADER_INCLUDED__
 
-#include <stdexcept>
+#include "../../Runtime Error/RuntimeError.h"
 
-class InvalidGraphTypeException : public std::runtime_error
+class InvalidGraphTypeException : public RuntimeError
 {
 public:
-	explicit InvalidGraphTypeException(const char* errorMessage) :
-		runtime_error(errorMessage)
+	explicit InvalidGraphTypeException(String errorMessage) :
+		RuntimeError(std::move(errorMessage))
 	{
 	}
 
 	explicit InvalidGraphTypeException(const std::string& errorMessage) :
-		runtime_error(errorMessage)
+		RuntimeError(errorMessage)
 	{
 	}
 };

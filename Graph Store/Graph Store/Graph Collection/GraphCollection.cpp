@@ -1,4 +1,5 @@
 #include "GraphCollection.h"
+#include "../Runtime Error/RuntimeError.h"
 
 GraphCollection& GraphCollection::operator=(GraphCollection&& rhs)
 {
@@ -42,7 +43,7 @@ void GraphCollection::add(Graph& graph)
 	}
 	else
 	{
-		throw std::runtime_error("There already is a graph with id: " + id);
+		throw RuntimeError("There already is a graph with id: " + id);
 	}
 }
 
@@ -95,7 +96,7 @@ size_t GraphCollection::getIndexOfGraphWithID(const String& id) const
 		}
 	}
 
-	throw std::runtime_error("There is no graph with id: " + id);
+	throw RuntimeError("There is no graph with id: " + id);
 }
 
 Graph& GraphCollection::getGraphWithID(const String& id)

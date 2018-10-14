@@ -1,18 +1,18 @@
 #ifndef __UNSUPPORTED_ALGORITHM_EXCEPTION_HEADER_INCLUDED__
 #define __UNSUPPORTED_ALGORITHM_EXCEPTION_HEADER_INCLUDED__
 
-#include <stdexcept>
+#include "../../../Runtime Error/RuntimeError.h"
 
-class UnsupportedAlgorithmException : public std::runtime_error
+class UnsupportedAlgorithmException : public RuntimeError
 {
 public:
-	explicit UnsupportedAlgorithmException(const char* errorMessage) :
-		runtime_error(errorMessage)
+	explicit UnsupportedAlgorithmException(String errorMessage) :
+		RuntimeError(std::move(errorMessage))
 	{
 	}
 
 	explicit UnsupportedAlgorithmException(const std::string& errorMessage) :
-		runtime_error(errorMessage)
+		RuntimeError(errorMessage)
 	{
 	}
 };
