@@ -88,7 +88,7 @@ void Application::invokeCommand(char* commandLine)
 	{
 		parser.ParseArgs(arguments);
 	}
-	catch (std::runtime_error& e)
+	catch (std::exception& e)
 	{
 		Logger::logError(e);
 	}

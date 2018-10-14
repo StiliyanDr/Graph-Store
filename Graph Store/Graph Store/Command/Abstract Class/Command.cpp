@@ -1,4 +1,5 @@
 #include "Command.h"
+#include "../../Runtime Error/RuntimeError.h"
 
 Graph* Command::usedGraph = nullptr;
 GraphCollection Command::graphs;
@@ -21,7 +22,7 @@ Graph& Command::getUsedGraph()
 	}
 	else
 	{
-		throw std::runtime_error("No graph is currently used!");
+		throw RuntimeError(String("No graph is currently used!"));
 	}
 }
 

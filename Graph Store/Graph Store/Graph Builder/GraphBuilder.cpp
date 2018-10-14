@@ -31,7 +31,7 @@ void GraphBuilder::openFile(const String& name)
 	}
 	catch (OpenFileFailException& e)
 	{
-		throw GraphBuilderException(e.what());
+		throw GraphBuilderException(String(e.what()));
 	}
 }
 

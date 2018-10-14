@@ -46,7 +46,7 @@ void LoadCommand::tryToAddGraph(std::unique_ptr<Graph> graph)
 	{
 		graphs.add(*graph);
 	}
-	catch (std::runtime_error& e)
+	catch (RuntimeError& e)
 	{
 		Logger::logError(e);
 		return;

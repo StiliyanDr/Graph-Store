@@ -48,7 +48,7 @@ void GraphBase::removeEdgeFromTo(Vertex& start, const Vertex& end)
 	}
 	else
 	{
-		throw GraphException("There is no such edge!");
+		throw GraphException(String("There is no such edge!"));
 	}
 }
 
@@ -140,7 +140,7 @@ void GraphBase::tryToAddNewVertex(const String& id)
 	}
 	catch (std::bad_alloc&)
 	{
-		throw GraphException("Not enough memory for a new vertex!");
+		throw GraphException(String("Not enough memory for a new vertex!"));
 	}
 }
 
@@ -192,7 +192,7 @@ void GraphBase::addEdgeFromTo(Vertex& start, Vertex& end, unsigned weight)
 	}
 	catch (std::bad_alloc&)
 	{
-		throw GraphException("Not enough memory!");
+		throw GraphException(String("Not enough memory!"));
 	}
 }
 
@@ -229,7 +229,7 @@ void GraphBase::verifyOwnershipOf(const Vertex& v) const
 {
 	if (!isOwnerOf(v))
 	{
-		throw GraphException("Received a vertex from another graph!");
+		throw GraphException(String("Received a vertex from another graph!"));
 	}
 }
 

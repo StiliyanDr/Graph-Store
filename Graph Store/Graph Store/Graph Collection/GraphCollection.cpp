@@ -70,7 +70,7 @@ void GraphCollection::tryToAdd(Graph& graph)
 	}
 	catch (std::bad_alloc&)
 	{
-		throw std::runtime_error("Not enough memory to add a graph!");
+		throw RuntimeError(String("Not enough memory to add a graph!"));
 	}
 }
 
