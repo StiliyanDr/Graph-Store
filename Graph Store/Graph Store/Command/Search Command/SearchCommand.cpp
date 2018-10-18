@@ -1,7 +1,6 @@
 #include "SearchCommand.h"
 #include "../../Shortest Path Algorithms/Store/ShortestPathAlgorithmsStore.h"
 #include "../Command Registrator/CommandRegistrator.h"
-#include "../../Shortest Path Algorithms/Path Printing/PathPrinting.h"
 #include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 
 static CommandRegistrator<SearchCommand> registrator("SEARCH", "Finds a shortest path between two vertices");
@@ -9,8 +8,11 @@ static CommandRegistrator<SearchCommand> registrator("SEARCH", "Finds a shortest
 void SearchCommand::execute(args::Subparser& parser)
 {
 	parseArguments(parser);
-	PathEnds ends = findShortestPath(sourceID, targetID, algorithmID);
-	printPathAndItsLength(ends.source, ends.target);
+	
+	ShortestPathAlgorithm::Path p =
+		findShortestPath(sourceID, targetID, algorithmID);
+	
+	p.print(std::cout);
 }
 
 void SearchCommand::parseArguments(args::Subparser& parser)
@@ -62,9 +64,10 @@ void SearchCommand::setAlgorithmID(args::Positional<String, StringReader>& id)
 	}
 }
 
-SearchCommand::PathEnds SearchCommand::findShortestPath(const String& sourceID,
-														const String& targetID,
-														const String& algorithmID)
+ShortestPathAlgorithm::Path
+SearchCommand::findShortestPath(const String& sourceID,
+								const String& targetID,
+								const String& algorithmID)
 {
 	Graph& usedGraph = getUsedGraph();
 	Vertex& source = usedGraph.getVertexWithID(sourceID);
@@ -73,7 +76,5 @@ SearchCommand::PathEnds SearchCommand::findShortestPath(const String& sourceID,
 	ShortestPathAlgorithm& algorithm =
 		ShortestPathAlgorithmsStore::instance().search(algorithmID);
 
-	algorithm.findShortestPath(usedGraph, source, target);
-
-	return PathEnds(source, target);
+	return algorithm.findShortestPath(usedGraph, source, target);
 }

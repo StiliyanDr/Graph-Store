@@ -6,15 +6,6 @@
 
 class SearchCommand : public Command
 {
-	struct PathEnds
-	{
-		PathEnds(Vertex& source, Vertex& target) :
-			source(source), target(target) { }
-
-		Vertex& source;
-		Vertex& target;
-	};
-
 public:
 	SearchCommand() = default;
 	SearchCommand(const SearchCommand&) = delete;
@@ -26,9 +17,9 @@ public:
 	virtual void execute(args::Subparser& parser) override;
 
 private:
-	static PathEnds findShortestPath(const String& sourceID,
-									 const String& targetID,
-									 const String& algorithmID);
+	static ShortestPathAlgorithm::Path findShortestPath(const String& sourceID,
+														const String& targetID,
+														const String& algorithmID);
 
 private:
 	void parseArguments(args::Subparser& parser);
