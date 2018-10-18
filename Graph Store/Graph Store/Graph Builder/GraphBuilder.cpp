@@ -119,7 +119,7 @@ void GraphBuilder::handleExceptionDuringBuilding(const String& fileName, const s
 	graph = nullptr;
 	clean();
 
-	throw GraphBuilderException(e.what() + String("\nError in: ") + fileName);
+	throw GraphBuilderException(e.what() + "\nError in: "_s + fileName);
 }
 
 void GraphBuilder::clean()

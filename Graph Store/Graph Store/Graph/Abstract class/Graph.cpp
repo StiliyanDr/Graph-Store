@@ -8,7 +8,7 @@ Graph::Graph(const String& id)
 
 void Graph::setID(String id)
 {
-	if (id != String(""))
+	if (id != ""_s)
 	{
 		this->id = std::move(id);
 	}

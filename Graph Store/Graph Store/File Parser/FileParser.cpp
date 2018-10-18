@@ -93,7 +93,7 @@ void FileParser::verifyAFileIsOpened() const
 {
 	if (!hasOpenedFile())
 	{
-		throw FileParserException(String("No file is currently opened!"));
+		throw FileParserException("No file is currently opened!"_s);
 	}
 }
 
@@ -101,7 +101,7 @@ void FileParser::verifyEndIsNotReached() const
 {
 	if (hasReachedEnd())
 	{
-		throw FileParserException(String("End of file already reached!"));
+		throw FileParserException("End of file already reached!"_s);
 	}
 }
 
@@ -109,7 +109,7 @@ void FileParser::verifyNoPreviousOperationFailed() const
 {
 	if (file.fail())
 	{
-		throw FileParserException(String("A previous operation already failed!"));
+		throw FileParserException("A previous operation already failed!"_s);
 	}
 }
 

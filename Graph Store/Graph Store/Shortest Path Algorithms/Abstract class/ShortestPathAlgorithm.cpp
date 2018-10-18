@@ -93,7 +93,7 @@ ShortestPathAlgorithm::ShortestPathAlgorithm(const String& id)
 
 void ShortestPathAlgorithm::setID(const String& id)
 {
-	if (id != String(""))
+	if (id != ""_s)
 	{
 		this->id = id;
 	}

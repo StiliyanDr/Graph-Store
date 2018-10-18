@@ -22,7 +22,7 @@ Graph& Command::getUsedGraph()
 	}
 	else
 	{
-		throw RuntimeError(String("No graph is currently used!"));
+		throw RuntimeError("No graph is currently used!"_s);
 	}
 }
 

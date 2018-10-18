@@ -7,7 +7,7 @@ GraphCreator::GraphCreator(const char* criterion)
 
 void GraphCreator::setCriterion(String criterion)
 {
-	assert(criterion != String(""));
+	assert(criterion != ""_s);
 
 	this->criterion = std::move(criterion);
 }

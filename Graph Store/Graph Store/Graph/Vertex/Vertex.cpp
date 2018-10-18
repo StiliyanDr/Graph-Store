@@ -9,7 +9,7 @@ Vertex::Vertex(String id, size_t index) :
 
 void Vertex::setID(String id)
 {
-	if (id != String(""))
+	if (id != ""_s)
 	{
 		this->id = std::move(id);
 	}

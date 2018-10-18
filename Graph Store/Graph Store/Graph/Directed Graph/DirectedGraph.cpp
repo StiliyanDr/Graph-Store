@@ -20,7 +20,7 @@ void DirectedGraph::addEdge(Vertex& start, Vertex& end, unsigned weight)
 	}
 	else
 	{
-		throw GraphException(String("There already is such an edge in the graph!"));
+		throw GraphException("There already is such an edge in the graph!"_s);
 	}
 }
 
