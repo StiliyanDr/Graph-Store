@@ -36,7 +36,7 @@ const GraphCreator& GraphFactory::getCreatorByCriterion(const String& criterion)
 
 const GraphCreator* GraphFactory::searchForCreator(const String& criterion)
 {
-	Iterator iterator = creators.getIteratorToFirst();
+	ConstIterator iterator = creators.getConstIterator();
 	const GraphCreator* creator;
 
 	while (iterator)

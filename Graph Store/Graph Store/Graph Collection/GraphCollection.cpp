@@ -1,5 +1,6 @@
 #include "GraphCollection.h"
 #include "../Runtime Error/RuntimeError.h"
+#include "../Iterator/ConcreteIteratorAdapter.h"
 
 GraphCollection& GraphCollection::operator=(GraphCollection&& rhs)
 {
@@ -20,7 +21,7 @@ void GraphCollection::empty()
 
 void GraphCollection::destroyAllGraphs()
 {
-	CollectionIterator iterator = graphs.getIteratorToFirst();
+	CollectionIterator iterator = graphs.getIterator();
 
 	forEach(iterator, [&](Graph* graph)
 	{
@@ -108,9 +109,9 @@ Graph& GraphCollection::getGraphWithID(const String& id)
 
 std::unique_ptr<Iterator<Graph*>> GraphCollection::getIterator()
 {
-	CollectionIterator iterator = graphs.getIteratorToFirst();
+	typedef ConcreteIteratorAdapter<Graph*, CollectionIterator> ConcreteIterator;
 
-	return std::unique_ptr<Iterator<Graph*>>(new CollectionIterator(iterator));
+	return std::unique_ptr<Iterator<Graph*>>(new ConcreteIterator(graphs.getIterator()));
 }
 
 bool GraphCollection::isEmpty() const
