@@ -182,14 +182,14 @@ namespace StringUnitTest
 		{
 			const String emptyString = "";
 
-			Assert::AreEqual(0u, emptyString.getLength());
+			Assert::AreEqual(0ull, emptyString.getLength());
 		}
-
+		
 		TEST_METHOD(testGetLengthForNonEmptyString)
 		{
 			const String string = "12345";
 
-			Assert::AreEqual(5u, string.getLength());
+			Assert::AreEqual(5ull, string.getLength());
 		}
 
 		TEST_METHOD(testConcatenateEmptyToEmptyString)
