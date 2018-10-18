@@ -13,15 +13,13 @@ ShortestPathAlgorithmsStore& ShortestPathAlgorithmsStore::instance()
 	return theOnlyInstance;
 }
 
-ShortestPathAlgorithm& ShortestPathAlgorithmsStore::searchForAlgorithm(const String& id)
+ShortestPathAlgorithm& ShortestPathAlgorithmsStore::search(const String& id)
 {
-	ShortestPathAlgorithm* algorithm = algorithms.search(id);
-
-	if (algorithm != nullptr)
+	try
 	{
-		return *algorithm;
+		return algorithms[id];
 	}
-	else
+	catch (std::logic_error&)
 	{
 		throw UnsupportedAlgorithmException(id + " is not one of the supported algorithms!");
 	}
@@ -29,7 +27,7 @@ ShortestPathAlgorithm& ShortestPathAlgorithmsStore::searchForAlgorithm(const Str
 
 void ShortestPathAlgorithmsStore::addAlgorithm(ShortestPathAlgorithm& algorithm)
 {
-	assert(algorithms.search(algorithm.getID()) == nullptr);
+	assert(!algorithms.contains(algorithm.getID()));
 
 	algorithms.add(algorithm);
 }

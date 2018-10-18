@@ -71,7 +71,7 @@ SearchCommand::PathEnds SearchCommand::findShortestPath(const String& sourceID,
 	Vertex& target = usedGraph.getVertexWithID(targetID);
 
 	ShortestPathAlgorithm& algorithm =
-		ShortestPathAlgorithmsStore::instance().searchForAlgorithm(algorithmID);
+		ShortestPathAlgorithmsStore::instance().search(algorithmID);
 
 	algorithm.findShortestPath(usedGraph, source, target);
 

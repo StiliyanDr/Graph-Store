@@ -13,7 +13,7 @@ class ShortestPathAlgorithmsStore
 public:
 	static ShortestPathAlgorithmsStore& instance();
 
-	ShortestPathAlgorithm& searchForAlgorithm(const String& id);
+	ShortestPathAlgorithm& search(const String& id);
 	void addAlgorithm(ShortestPathAlgorithm& algorithm);
 
 private:
