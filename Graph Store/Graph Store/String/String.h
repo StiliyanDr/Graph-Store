@@ -41,6 +41,7 @@ bool operator>=(const String &lhs, const String &rhs);
 bool operator<=(const String &lhs, const String &rhs);
 
 String operator+(const String &lhs, const String &rhs);
+String operator "" _s(const char* string, size_t);
 
 std::ostream& operator<<(std::ostream& out, const String& s);
 

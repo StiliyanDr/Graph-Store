@@ -42,6 +42,13 @@ namespace StringUnitTest
 			Assert::IsTrue(areEqual(word, string));
 		}
 
+		TEST_METHOD(testLiteralOperator)
+		{
+			String s = "word"_s;
+
+			Assert::IsTrue(areEqual("word", s));
+		}
+
 		TEST_METHOD(testConstructorFromNullptrCreatesAnEmptyString)
 		{
 			String string(nullptr);
@@ -182,14 +189,14 @@ namespace StringUnitTest
 		{
 			const String emptyString = "";
 
-			Assert::AreEqual(0ull, emptyString.getLength());
+			Assert::AreEqual(0u, emptyString.getLength());
 		}
 		
 		TEST_METHOD(testGetLengthForNonEmptyString)
 		{
 			const String string = "12345";
 
-			Assert::AreEqual(5ull, string.getLength());
+			Assert::AreEqual(5u, string.getLength());
 		}
 
 		TEST_METHOD(testConcatenateEmptyToEmptyString)

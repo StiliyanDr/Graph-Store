@@ -70,6 +70,11 @@ void String::setString(const char* newString)
 	}
 }
 
+String operator "" _s(const char* string, size_t)
+{
+	return String(string);
+}
+
 String::String(const char* string) :
 	string(nullptr)
 {
