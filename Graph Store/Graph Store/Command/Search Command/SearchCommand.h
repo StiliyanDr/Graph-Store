@@ -3,6 +3,7 @@
 
 #include "../Abstract class/Command.h"
 #include "../String Reader/StringReader.h"
+#include "../../Shortest Path Algorithms/Abstract class/ShortestPathAlgorithm.h"
 
 class SearchCommand : public Command
 {
