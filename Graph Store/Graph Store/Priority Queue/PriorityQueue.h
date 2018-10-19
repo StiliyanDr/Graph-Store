@@ -23,7 +23,7 @@ public:
 	}
 };
 
-class Identity
+class IdentityKeyAccessor
 {
 public:
 	template <class Item>
@@ -42,7 +42,7 @@ public:
 template <class Item,
 	class Comparator = Less,
 	class Key = Item,
-	class KeyAccessor = Identity,
+	class KeyAccessor = IdentityKeyAccessor,
 	class HandleUpdator = EmptyMethodFunctor>
 class PriorityQueue
 {
