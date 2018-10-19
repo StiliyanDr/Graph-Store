@@ -22,23 +22,23 @@ class DijkstraShortestPath : public ShortestPathAlgorithm
 	class KeyAccessor
 	{
 	public:
-		const Distance& getKeyOf(const DijkstraVertex& v) const
+		const Distance& getKeyOf(const DijkstraVertex* v) const
 		{
-			return v.distanceToSource;
+			return v->distanceToSource;
 		}
 
-		void setKeyOfWith(DijkstraVertex& v, const Distance& d) const
+		void setKeyOfWith(DijkstraVertex* v, const Distance& d) const
 		{
-			v.distanceToSource = d;
+			v->distanceToSource = d;
 		}
 	};
 
 	class HandleUpdator
 	{
 	public:
-		void operator()(DijkstraVertex& v, const PriorityQueueHandle& h) const
+		void operator()(DijkstraVertex* v, const PriorityQueueHandle& h) const
 		{
-			v.handle = h;
+			v->handle = h;
 		}
 	};
 
