@@ -10,6 +10,7 @@ class DijkstraShortestPath : public ShortestPathAlgorithm
 {
 	struct DijkstraVertex : public DecoratedVertex
 	{
+		DijkstraVertex() = default;
 		DijkstraVertex(const Vertex& originalVertex) :
 			DecoratedVertex(originalVertex)
 		{

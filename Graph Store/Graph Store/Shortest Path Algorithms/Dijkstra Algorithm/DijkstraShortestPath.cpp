@@ -54,7 +54,7 @@ void DijkstraShortestPath::execute(const Graph& graph,
 	{
 		v = undeterminedEstimateVertices.extractOptimal();
 
-		if (v->originalVertex == target)
+		if (*(v->originalVertex) == target)
 		{
 			return;
 		}
@@ -67,7 +67,7 @@ void DijkstraShortestPath::relaxEdgesLeaving(const DijkstraVertex& start,
 											 const Graph& graph)
 {
 	Graph::EdgesConstIterator iterator =
-		graph.getConstIteratorOfEdgesLeaving(start.originalVertex);
+		graph.getConstIteratorOfEdgesLeaving(*(start.originalVertex));
 
 	forEach(*iterator, [&](const Edge& e)
 	{

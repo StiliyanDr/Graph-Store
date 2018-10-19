@@ -39,7 +39,7 @@ void SearchBasedShortestPathAlgorithm::visitVertex(MarkableDecoratedVertex& succ
 
 void SearchBasedShortestPathAlgorithm::checkIfTarget(const MarkableDecoratedVertex& v)
 {
-	if (v.originalVertex == *target)
+	if (*(v.originalVertex) == *target)
 	{
 		assert(!foundAShortestPath);
 

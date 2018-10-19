@@ -67,7 +67,7 @@ void BFSShortestPath::exploreEdgesLeaving(const MarkableDecoratedVertex& predece
 										  const Graph& graph)
 {
 	Graph::EdgesConstIterator iterator =
-		graph.getConstIteratorOfEdgesLeaving(predecessor.originalVertex);
+		graph.getConstIteratorOfEdgesLeaving(*(predecessor.originalVertex));
 
 	forEach(*iterator, [&](const Edge& e)
 	{

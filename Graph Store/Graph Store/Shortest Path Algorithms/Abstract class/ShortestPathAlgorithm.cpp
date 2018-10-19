@@ -16,7 +16,7 @@ ShortestPathAlgorithm::Path::Path(const DecoratedVertex& source, const Decorated
 bool ShortestPathAlgorithm::Path::existsPathBetween(const DecoratedVertex& source,
 													const DecoratedVertex& target)
 {
-	return source.originalVertex == target.originalVertex
+	return *(source.originalVertex) == *(target.originalVertex)
 		   || target.parent != nullptr;
 }
 
@@ -26,7 +26,7 @@ void ShortestPathAlgorithm::Path::collectIdentifiersOnThePath(const DecoratedVer
 
 	while (current != nullptr)
 	{
-		identifiers.push_front(current->originalVertex.getID());
+		identifiers.push_front(current->originalVertex->getID());
 
 		current = current->parent;
 	}

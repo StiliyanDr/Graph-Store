@@ -13,14 +13,15 @@ class ShortestPathAlgorithm
 protected:
 	struct DecoratedVertex
 	{
+		DecoratedVertex() = default;
 		DecoratedVertex(const Vertex& originalVertex) :
-			originalVertex(originalVertex),
+			originalVertex(&originalVertex),
 			parent(nullptr),
 			distanceToSource(Distance::getInfinity())
 		{
 		}
 
-		const Vertex& originalVertex;
+		const Vertex* originalVertex;
 		const DecoratedVertex* parent;
 		Distance distanceToSource;
 	};

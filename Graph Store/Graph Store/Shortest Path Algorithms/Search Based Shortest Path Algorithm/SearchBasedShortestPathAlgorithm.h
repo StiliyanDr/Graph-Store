@@ -10,6 +10,7 @@ class SearchBasedShortestPathAlgorithm : public ShortestPathAlgorithm
 protected:
 	struct MarkableDecoratedVertex : public DecoratedVertex
 	{
+		MarkableDecoratedVertex() = default;
 		MarkableDecoratedVertex(const Vertex& originalVertex) :
 			DecoratedVertex(originalVertex),
 			isVisited(false)
