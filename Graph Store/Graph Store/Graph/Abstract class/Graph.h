@@ -4,14 +4,14 @@
 #include "../../String/String.h"
 #include "../../Iterator/Iterator.h"
 #include "../Vertex/Vertex.h"
-#include "../Edge/Edge.h"
+#include "../Edge/OutgoingEdge.h"
 #include <memory>
 
 class Graph
 {
 public:
 	typedef std::unique_ptr<ConstIterator<const Vertex*>> VerticesConstIterator;
-	typedef std::unique_ptr<ConstIterator<Edge>> EdgesConstIterator;
+	typedef std::unique_ptr<ConstIterator<OutgoingEdge>> OutgoingEdgesConstIterator;
 
 public:
 	virtual ~Graph() = default;
@@ -23,7 +23,7 @@ public:
 
 	virtual Vertex& getVertexWithID(const String& id) = 0;
 	virtual VerticesConstIterator getConstIteratorOfVertices() const = 0;
-	virtual EdgesConstIterator getConstIteratorOfEdgesLeaving(const Vertex& v) const = 0;
+	virtual OutgoingEdgesConstIterator getConstIteratorOfEdgesLeaving(const Vertex& v) const = 0;
 	virtual unsigned getVerticesCount() const = 0;
 
 	const String& getID() const;

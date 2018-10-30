@@ -3,7 +3,7 @@
 
 #include "../../String/String.h"
 #include "../../Linked List/LinkedList.h"
-#include "../Edge/Edge.h"
+#include "../Edge/OutgoingEdge.h"
 
 class Vertex
 {
@@ -22,7 +22,7 @@ private:
 private:
 	String id;
 	size_t index;
-	LinkedList<Edge> edges;
+	LinkedList<OutgoingEdge> edges;
 };
 
 bool operator==(const Vertex& lhs, const Vertex& rhs);

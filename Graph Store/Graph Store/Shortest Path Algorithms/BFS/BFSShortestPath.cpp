@@ -66,10 +66,10 @@ void BFSShortestPath::execute(const Graph& graph,
 void BFSShortestPath::exploreEdgesLeaving(const MarkableDecoratedVertex& predecessor,
 										  const Graph& graph)
 {
-	Graph::EdgesConstIterator iterator =
+	Graph::OutgoingEdgesConstIterator iterator =
 		graph.getConstIteratorOfEdgesLeaving(*(predecessor.originalVertex));
 
-	forEach(*iterator, [&](const Edge& e)
+	forEach(*iterator, [&](const OutgoingEdge& e)
 	{
 		MarkableDecoratedVertex& successor = getDecoratedVersionOf(e.getVertex());
 

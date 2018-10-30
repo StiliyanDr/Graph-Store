@@ -246,9 +246,6 @@
     <ClInclude Include="Distance\Distance.h">
       <Filter>Distance</Filter>
     </ClInclude>
-    <ClInclude Include="Graph\Edge\Edge.h">
-      <Filter>Graph\Edge</Filter>
-    </ClInclude>
     <ClInclude Include="Graph\GraphBase\GraphBase.h">
       <Filter>Graph\Graph Base</Filter>
     </ClInclude>
@@ -423,6 +420,9 @@
     <ClInclude Include="Runtime Error\RuntimeError.h">
       <Filter>Runtime Error</Filter>
     </ClInclude>
+    <ClInclude Include="Graph\Edge\OutgoingEdge.h">
+      <Filter>Graph\Edge</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\FileParser.cpp">
@@ -436,9 +436,6 @@
     </ClCompile>
     <ClCompile Include="Distance\Distance.cpp">
       <Filter>Distance</Filter>
-    </ClCompile>
-    <ClCompile Include="Graph\Edge\Edge.cpp">
-      <Filter>Graph\Edge</Filter>
     </ClCompile>
     <ClCompile Include="Graph\GraphBase\GraphBase.cpp">
       <Filter>Graph\Graph Base</Filter>
@@ -532,6 +529,9 @@
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraShortestPath.cpp">
       <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph\Edge\OutgoingEdge.cpp">
+      <Filter>Graph\Edge</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

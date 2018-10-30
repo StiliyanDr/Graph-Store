@@ -14,7 +14,7 @@ class GraphBase : public Graph
 
 protected:
 	typedef DynamicArray<Vertex*>::Iterator VerticesConcreteIterator;
-	typedef LinkedList<Edge>::Iterator EdgesConcreteIterator;
+	typedef LinkedList<OutgoingEdge>::Iterator OutgoingEdgesConcreteIterator;
 
 public:
 	GraphBase(const GraphBase&) = delete;
@@ -26,7 +26,7 @@ public:
 
 	virtual Vertex& getVertexWithID(const String& id) override;
 	virtual VerticesConstIterator getConstIteratorOfVertices() const override;
-	virtual EdgesConstIterator getConstIteratorOfEdgesLeaving(const Vertex& v) const override;
+	virtual OutgoingEdgesConstIterator getConstIteratorOfEdgesLeaving(const Vertex& v) const override;
 	virtual unsigned getVerticesCount() const override;
 
 protected:
@@ -41,14 +41,14 @@ protected:
 	void verifyOwnershipOf(const Vertex& v) const;
 	bool isOwnerOf(const Vertex& v) const;	
 	VerticesConcreteIterator getConcreteIteratorOfVertices();
-	EdgesConcreteIterator getConcreteIteratorOfEdgesLeaving(Vertex& v);
+	OutgoingEdgesConcreteIterator getConcreteIteratorOfEdgesLeaving(Vertex& v);
 
 private:
 	void tryToAddNewVertex(const String& id);
 	void addVertexToCollection(std::unique_ptr<Vertex> vertex);
 	void removeVertexFromCollection(const Vertex& vertex);
-	EdgesConcreteIterator searchForEdgeFromTo(Vertex& start, const Vertex& end);
-	LinkedList<Edge>& getEdgesLeaving(Vertex& v);
+	OutgoingEdgesConcreteIterator searchForEdgeFromTo(Vertex& start, const Vertex& end);
+	LinkedList<OutgoingEdge>& getEdgesLeaving(Vertex& v);
 	std::unique_ptr<Vertex> createVertex(const String& id) const;
 	void destroyAllVertices();
 

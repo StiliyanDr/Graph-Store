@@ -54,7 +54,7 @@ void IterativeDeepeningDFS::depthLimitedSearch(MarkableDecoratedVertex& vertex,
 void IterativeDeepeningDFS::expandSearch(const MarkableDecoratedVertex& predecessor,
 										 unsigned depth)
 {
-	Graph::EdgesConstIterator iterator =
+	Graph::OutgoingEdgesConstIterator iterator =
 		graph->getConstIteratorOfEdgesLeaving(*(predecessor.originalVertex));
 
 	while (!foundAShortestPath && *iterator)

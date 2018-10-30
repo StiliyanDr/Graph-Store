@@ -66,10 +66,10 @@ void DijkstraShortestPath::execute(const Graph& graph,
 void DijkstraShortestPath::relaxEdgesLeaving(const DijkstraVertex& start,
 											 const Graph& graph)
 {
-	Graph::EdgesConstIterator iterator =
+	Graph::OutgoingEdgesConstIterator iterator =
 		graph.getConstIteratorOfEdgesLeaving(*(start.originalVertex));
 
-	forEach(*iterator, [&](const Edge& e)
+	forEach(*iterator, [&](const OutgoingEdge& e)
 	{
 		DijkstraVertex& end = getDecoratedVersionOf(e.getVertex());
 

@@ -50,9 +50,10 @@ void UndirectedGraph::removeEdge(Vertex& start, Vertex& end)
 
 void UndirectedGraph::removeEdgesEndingIn(Vertex& v)
 {
-	EdgesConcreteIterator iterator = getConcreteIteratorOfEdgesLeaving(v);
+	OutgoingEdgesConcreteIterator iterator =
+		getConcreteIteratorOfEdgesLeaving(v);
 
-	forEach(iterator, [&](Edge& e)
+	forEach(iterator, [&](OutgoingEdge& e)
 	{
 		Vertex& endOfEdge = e.getVertex();
 

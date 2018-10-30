@@ -19,7 +19,7 @@ public:
 private:
 	static void printGraph(const String& id);
 	static void printEdgesLeaving(const Vertex& vertex, const Graph& graph);
-	static void printEdge(const Edge& edge);
+	static void printEdge(const OutgoingEdge& edge);
 
 private:
 	void parseArguments(args::Subparser& parser);

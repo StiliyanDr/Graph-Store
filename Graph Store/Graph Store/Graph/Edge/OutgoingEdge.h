@@ -1,9 +1,9 @@
-#ifndef __EDGE_HEADER_INCLUDED__
-#define __EDGE_HEADER_INCLUDED__
+#ifndef __OUTGOING_EDGE_HEADER_INCLUDED__
+#define __OUTGOING_EDGE_HEADER_INCLUDED__
 
 class Vertex;
 
-class Edge
+class OutgoingEdge
 {
 	friend class GraphBase;
 
@@ -13,7 +13,7 @@ public:
 	unsigned getWeight() const;
 
 private:
-	Edge(Vertex* v, unsigned weight = 1);
+	OutgoingEdge(Vertex* v, unsigned weight = 1);
 
 	void setVertex(Vertex* v);
 	void setWeight(unsigned weight);
@@ -23,4 +23,4 @@ private:
 	Vertex* vertex;
 };
 
-#endif //__EDGE_HEADER_INCLUDED__
+#endif //__OUTGOING_EDGE_HEADER_INCLUDED__

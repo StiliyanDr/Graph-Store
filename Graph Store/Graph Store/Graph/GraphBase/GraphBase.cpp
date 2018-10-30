@@ -40,7 +40,7 @@ void GraphBase::removeEdgeFromTo(Vertex& start, const Vertex& end)
 	assert(isOwnerOf(start));
 	assert(isOwnerOf(end));
 
-	EdgesConcreteIterator iteratorToEdge = searchForEdgeFromTo(start, end);
+	OutgoingEdgesConcreteIterator iteratorToEdge = searchForEdgeFromTo(start, end);
 
 	if (iteratorToEdge)
 	{
@@ -52,12 +52,14 @@ void GraphBase::removeEdgeFromTo(Vertex& start, const Vertex& end)
 	}
 }
 
-GraphBase::EdgesConcreteIterator GraphBase::searchForEdgeFromTo(Vertex& start, const Vertex& end)
+GraphBase::OutgoingEdgesConcreteIterator
+GraphBase::searchForEdgeFromTo(Vertex& start, const Vertex& end)
 {
 	assert(isOwnerOf(start));
 	assert(isOwnerOf(end));
 
-	EdgesConcreteIterator iterator = getConcreteIteratorOfEdgesLeaving(start);
+	OutgoingEdgesConcreteIterator iterator =
+		getConcreteIteratorOfEdgesLeaving(start);
 
 	while (iterator)
 	{
@@ -77,8 +79,8 @@ bool GraphBase::hasEdgeFromTo(const Vertex& start, const Vertex& end) const
 	assert(isOwnerOf(start));
 	assert(isOwnerOf(end));
 
-	const LinkedList<Edge>& edges = start.edges;
-	LinkedList<Edge>::ConstIterator iterator = edges.getConstIterator();
+	const LinkedList<OutgoingEdge>& edges = start.edges;
+	LinkedList<OutgoingEdge>::ConstIterator iterator = edges.getConstIterator();
 
 	while(iterator)
 	{
@@ -188,7 +190,7 @@ void GraphBase::addEdgeFromTo(Vertex& start, Vertex& end, unsigned weight)
 
 	try
 	{
-		getEdgesLeaving(start).addFront(Edge(&end, weight));
+		getEdgesLeaving(start).addFront(OutgoingEdge(&end, weight));
 	}
 	catch (std::bad_alloc&)
 	{
@@ -208,17 +210,19 @@ GraphBase::VerticesConcreteIterator GraphBase::getConcreteIteratorOfVertices()
 	return vertices.getIterator();
 }
 
-Graph::EdgesConstIterator GraphBase::getConstIteratorOfEdgesLeaving(const Vertex& v) const
+Graph::OutgoingEdgesConstIterator
+GraphBase::getConstIteratorOfEdgesLeaving(const Vertex& v) const
 {
-	typedef ConcreteIteratorAdapter<Edge, LinkedList<Edge>::ConstIterator, true> ConcreteConstIterator;
+	typedef ConcreteIteratorAdapter<OutgoingEdge, LinkedList<OutgoingEdge>::ConstIterator, true> ConcreteConstIterator;
 
 	verifyOwnershipOf(v);
-	const LinkedList<Edge>& edges = v.edges;
+	const LinkedList<OutgoingEdge>& edges = v.edges;
 
-	return EdgesConstIterator(new ConcreteConstIterator(edges.getConstIterator()));
+	return OutgoingEdgesConstIterator(new ConcreteConstIterator(edges.getConstIterator()));
 }
 
-GraphBase::EdgesConcreteIterator GraphBase::getConcreteIteratorOfEdgesLeaving(Vertex& v)
+GraphBase::OutgoingEdgesConcreteIterator
+GraphBase::getConcreteIteratorOfEdgesLeaving(Vertex& v)
 {
 	assert(isOwnerOf(v));
 
@@ -238,7 +242,7 @@ bool GraphBase::isOwnerOf(const Vertex& v) const
 	return v.index < vertices.getCount() && vertices[v.index] == &v;
 }
 
-LinkedList<Edge>& GraphBase::getEdgesLeaving(Vertex& v)
+LinkedList<OutgoingEdge>& GraphBase::getEdgesLeaving(Vertex& v)
 {
 	assert(isOwnerOf(v));
 
