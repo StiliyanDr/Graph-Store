@@ -35,7 +35,7 @@ protected:
 	virtual void removeEdgesEndingIn(Vertex& v) = 0;
 	virtual void removeEdgesLeaving(Vertex& v);
 	void removeEdgeFromTo(Vertex& start, const Vertex& end);
-	void addEdgeFromTo(Vertex& start, Vertex& end, unsigned weight);
+	void addEdgeFromTo(Vertex& start, Vertex& end, OutgoingEdge::Weight weight);
 	bool hasEdgeFromTo(const Vertex& start, const Vertex& end) const;
 	bool hasVertexWithID(const String& id) const;
 	void verifyOwnershipOf(const Vertex& v) const;

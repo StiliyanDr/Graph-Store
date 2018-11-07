@@ -8,14 +8,14 @@ class UndirectedGraph : public GraphBase
 public:
 	explicit UndirectedGraph(const String& id);
 
-	virtual void addEdge(Vertex& start, Vertex& end, unsigned weight) override;
+	virtual void addEdge(Vertex& start, Vertex& end, OutgoingEdge::Weight weight) override;
 	virtual void removeEdge(Vertex& start, Vertex& end) override;
 
 protected:
 	virtual void removeEdgesEndingIn(Vertex& v) override;
 
 private:
-	void tryToAddUndirectedEdge(Vertex& start, Vertex& end, unsigned weight);
+	void tryToAddUndirectedEdge(Vertex& start, Vertex& end, OutgoingEdge::Weight weight);
 };
 
 #endif //__UNDIRECTED_GRAPH_HEADER_INCLUDED__

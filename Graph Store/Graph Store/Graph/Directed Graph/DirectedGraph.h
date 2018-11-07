@@ -8,7 +8,7 @@ class DirectedGraph : public GraphBase
 public:
 	explicit DirectedGraph(const String& id);
 
-	virtual void addEdge(Vertex& start, Vertex& end, unsigned weight) override;
+	virtual void addEdge(Vertex& start, Vertex& end, OutgoingEdge::Weight weight) override;
 	virtual void removeEdge(Vertex& start, Vertex& end) override;
 
 protected:

@@ -1,5 +1,4 @@
 #include "DijkstraShortestPath.h"
-#include "../../Graph/Abstract class/Graph.h"
 #include "../Algorithm Registrator/ShortestPathAlgorithmRegistrator.h"
 
 static ShortestPathAlgorithmRegistrator<DijkstraShortestPath> registrator("dijkstra");
@@ -79,7 +78,7 @@ void DijkstraShortestPath::relaxEdgesLeaving(const DijkstraVertex& start,
 
 void DijkstraShortestPath::relaxEdge(const DijkstraVertex& start,
 									 DijkstraVertex& end,
-									 unsigned weight)
+									 OutgoingEdge::Weight weight)
 {
 	Distance distanceThroughStart = start.distanceToSource + weight;
 

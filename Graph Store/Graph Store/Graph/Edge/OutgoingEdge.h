@@ -8,18 +8,21 @@ class OutgoingEdge
 	friend class GraphBase;
 
 public:
+	typedef unsigned Weight;
+
+public:
 	const Vertex& getVertex() const;
 	Vertex& getVertex();
-	unsigned getWeight() const;
+	Weight getWeight() const;
 
 private:
-	OutgoingEdge(Vertex* v, unsigned weight = 1);
+	OutgoingEdge(Vertex* v, Weight w = 1);
 
 	void setVertex(Vertex* v);
-	void setWeight(unsigned weight);
+	void setWeight(Weight w);
 
 private:
-	unsigned weight;
+	Weight weight;
 	Vertex* vertex;
 };
 

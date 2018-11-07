@@ -4,6 +4,7 @@
 #include "../Abstract class/ShortestPathAlgorithm.h"
 #include "../../Priority Queue/PriorityQueue.h"
 #include "../../Hash/Hash Function/HashFunctionStringSpecialization.h"
+#include "../../Graph/Abstract class/Graph.h"
 #include <unordered_map>
 
 class DijkstraShortestPath : public ShortestPathAlgorithm
@@ -83,7 +84,7 @@ private:
 	void decorateVerticesOf(const Graph& graph);
 	void gatherDecoratedVerticesWithUndeterminedEstimate();
 	void relaxEdgesLeaving(const DijkstraVertex& vertex, const Graph& graph);
-	void relaxEdge(const DijkstraVertex& start, DijkstraVertex& end, unsigned weight);
+	void relaxEdge(const DijkstraVertex& start, DijkstraVertex& end, OutgoingEdge::Weight weight);
 
 private:
 	PriorityQueue undeterminedEstimateVertices;

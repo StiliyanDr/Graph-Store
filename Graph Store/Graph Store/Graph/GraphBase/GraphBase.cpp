@@ -183,7 +183,7 @@ Vertex& GraphBase::getVertexWithID(const String& id)
 	}
 }
 
-void GraphBase::addEdgeFromTo(Vertex& start, Vertex& end, unsigned weight)
+void GraphBase::addEdgeFromTo(Vertex& start, Vertex& end, OutgoingEdge::Weight weight)
 {
 	assert(isOwnerOf(start));
 	assert(isOwnerOf(end));

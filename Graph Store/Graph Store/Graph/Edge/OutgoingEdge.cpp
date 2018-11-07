@@ -1,10 +1,10 @@
 #include "OutgoingEdge.h"
 #include "../Vertex/Vertex.h"
 
-OutgoingEdge::OutgoingEdge(Vertex* v, unsigned weight)
+OutgoingEdge::OutgoingEdge(Vertex* v, Weight w)
 {
 	setVertex(v);
-	setWeight(weight);
+	setWeight(w);
 }
 
 void OutgoingEdge::setVertex(Vertex* v)
@@ -14,9 +14,9 @@ void OutgoingEdge::setVertex(Vertex* v)
 	vertex = v;
 }
 
-void OutgoingEdge::setWeight(unsigned weight)
+void OutgoingEdge::setWeight(Weight w)
 {
-	this->weight = weight;
+	weight = w;
 }
 
 const Vertex& OutgoingEdge::getVertex() const
@@ -29,7 +29,7 @@ Vertex& OutgoingEdge::getVertex()
 	return *vertex;
 }
 
-unsigned OutgoingEdge::getWeight() const
+OutgoingEdge::Weight OutgoingEdge::getWeight() const
 {
 	return weight;
 }
