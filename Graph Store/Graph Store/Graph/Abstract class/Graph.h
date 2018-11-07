@@ -13,6 +13,23 @@ public:
 	typedef std::unique_ptr<ConstIterator<const Vertex*>> VerticesConstIterator;
 	typedef std::unique_ptr<ConstIterator<OutgoingEdge>> OutgoingEdgesConstIterator;
 
+	class Edge
+	{
+	public:
+		typedef OutgoingEdge::Weight Weight;
+		
+	public:
+		Edge(Vertex& start, OutgoingEdge& e);
+
+		const Vertex& getStart() const;
+		const Vertex& getEnd() const;
+		Weight getWeight() const;
+
+	private:
+		Vertex& start;
+		OutgoingEdge& incidentToStartEdge;
+	};
+
 public:
 	virtual ~Graph() = default;
 

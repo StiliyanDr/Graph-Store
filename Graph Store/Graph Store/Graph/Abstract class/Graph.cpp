@@ -1,6 +1,26 @@
 #include "Graph.h"
 #include "../Graph Exception/GraphException.h"
 
+Graph::Edge::Edge(Vertex& start, OutgoingEdge& e) :
+	start(start), incidentToStartEdge(e)
+{
+}
+
+const Vertex& Graph::Edge::getStart() const
+{
+	return start;
+}
+
+const Vertex& Graph::Edge::getEnd() const
+{
+	return incidentToStartEdge.getVertex();
+}
+
+Graph::Edge::Weight Graph::Edge::getWeight() const
+{
+	return incidentToStartEdge.getWeight();
+}
+
 Graph::Graph(const String& id)
 {
 	setID(id);
