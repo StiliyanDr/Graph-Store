@@ -1,9 +1,9 @@
 #ifndef __DIRECTED_GRAPH_HEADER_INCLUDED__
 #define __DIRECTED_GRAPH_HEADER_INCLUDED__
 
-#include "../GraphBase/GraphBase.h"
+#include "../Abstract class/Graph.h"
 
-class DirectedGraph : public GraphBase
+class DirectedGraph : public Graph
 {
 public:
 	explicit DirectedGraph(const String& id);

@@ -1,9 +1,9 @@
 #ifndef __UNDIRECTED_GRAPH_HEADER_INCLUDED__
 #define __UNDIRECTED_GRAPH_HEADER_INCLUDED__
 
-#include "../GraphBase/GraphBase.h"
+#include "../Abstract class/Graph.h"
 
-class UndirectedGraph : public GraphBase
+class UndirectedGraph : public Graph
 {
 public:
 	explicit UndirectedGraph(const String& id);

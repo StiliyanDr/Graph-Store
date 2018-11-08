@@ -5,7 +5,7 @@
 static GraphRegistrator<DirectedGraph> registrator("directed");
 
 DirectedGraph::DirectedGraph(const String& id) :
-	GraphBase(id)
+	Graph(id)
 {
 }
 
@@ -14,7 +14,7 @@ void DirectedGraph::addEdge(Vertex& start, Vertex& end, OutgoingEdge::Weight wei
 	verifyOwnershipOf(start);
 	verifyOwnershipOf(end);
 
-	if (!hasEdgeFromTo(start, end))
+	if (!hasEdge(start, end))
 	{
 		addEdgeFromTo(start, end, weight);
 	}

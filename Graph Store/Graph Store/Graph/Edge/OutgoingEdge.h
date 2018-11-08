@@ -5,7 +5,7 @@ class Vertex;
 
 class OutgoingEdge
 {
-	friend class GraphBase;
+	friend class Graph;
 
 public:
 	typedef unsigned Weight;

@@ -5,6 +5,10 @@
 #include "../../Iterator/Iterator.h"
 #include "../Vertex/Vertex.h"
 #include "../Edge/OutgoingEdge.h"
+#include "../../Dynamic Array/DynamicArray.h"
+#include "../../Hash/Hash.h"
+#include "../../Hash/Hash Function/HashFunctionStringSpecialization.h"
+#include "../../Hash/Identifier Accessor/IdentifierAccessor.h"
 #include <memory>
 
 class Graph
@@ -13,6 +17,15 @@ public:
 	typedef std::unique_ptr<ConstIterator<const Vertex*>> VerticesConstIterator;
 	typedef std::unique_ptr<ConstIterator<OutgoingEdge>> OutgoingEdgesConstIterator;
 
+protected:
+	typedef DynamicArray<Vertex*>::Iterator VerticesConcreteIterator;
+	typedef LinkedList<OutgoingEdge>::Iterator OutgoingEdgesConcreteIterator;
+
+private:
+	typedef Hash<Vertex, String, IdentifierAccessor> Hash;
+	typedef DynamicArray<Vertex*> Array;
+
+public:
 	class Edge
 	{
 	public:
@@ -31,28 +44,54 @@ public:
 	};
 
 public:
-	virtual ~Graph() = default;
+	virtual ~Graph();
 
-	virtual void addVertex(const String& id) = 0;
-	virtual void removeVertex(Vertex& v) = 0;
+	void addVertex(const String& id);
+	void removeVertex(Vertex& v);
 	virtual void addEdge(Vertex& start, Vertex& end, OutgoingEdge::Weight weight) = 0;
 	virtual void removeEdge(Vertex& start, Vertex& end) = 0;
 
-	virtual Vertex& getVertexWithID(const String& id) = 0;
-	virtual VerticesConstIterator getConstIteratorOfVertices() const = 0;
-	virtual OutgoingEdgesConstIterator getConstIteratorOfEdgesLeaving(const Vertex& v) const = 0;
-	virtual unsigned getVerticesCount() const = 0;
+	Vertex& getVertexWithID(const String& id);
+	VerticesConstIterator getConstIteratorOfVertices() const;
+	OutgoingEdgesConstIterator getConstIteratorOfEdgesLeaving(const Vertex& v) const;
+	unsigned getVerticesCount() const;
+
+	bool hasVertexWithID(const String& id) const;
+	bool hasEdge(const Vertex& start, const Vertex& end) const;
 
 	const String& getID() const;
 	void setID(String id);
 
 protected:
 	Graph(const String& id);
-	Graph(const Graph&) = default;
-	Graph& operator=(const Graph&) = default;
+	Graph(const Graph&) = delete;
+	Graph& operator=(const Graph&) = delete;
+
+	virtual void removeEdgesEndingIn(Vertex& v) = 0;
+	virtual void removeEdgesLeaving(Vertex& v);
+	void removeEdgeFromTo(Vertex& start, const Vertex& end);
+	void addEdgeFromTo(Vertex& start, Vertex& end, OutgoingEdge::Weight weight);
+	void verifyOwnershipOf(const Vertex& v) const;
+	bool isOwnerOf(const Vertex& v) const;
+	VerticesConcreteIterator getConcreteIteratorOfVertices();
+	OutgoingEdgesConcreteIterator getConcreteIteratorOfEdgesLeaving(Vertex& v);
+
+private:
+	void tryToAddNewVertex(const String& id);
+	void addVertexToCollection(std::unique_ptr<Vertex> vertex);
+	void removeVertexFromCollection(const Vertex& vertex);
+	OutgoingEdgesConcreteIterator searchForEdgeFromTo(Vertex& start, const Vertex& end);
+	LinkedList<OutgoingEdge>& getEdgesLeaving(Vertex& v);
+	std::unique_ptr<Vertex> createVertex(const String& id) const;
+	void destroyAllVertices();
+
+private:
+	static const size_t INITIAL_COLLECTION_SIZE = 16;
 
 private:
 	String id;
+	Array vertices;
+	Hash vertexSearchSet;
 };
 
 #endif //__GRAPH_HEADER_INCLUDED__

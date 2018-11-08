@@ -49,9 +49,6 @@
     <Filter Include="Graph\Abstraction">
       <UniqueIdentifier>{dee3a313-5a63-433f-9d47-ff80ea26882e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graph\Graph Base">
-      <UniqueIdentifier>{b512bb41-d138-4d52-8abd-8ddd386f8827}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graph\Directed Graph">
       <UniqueIdentifier>{8872f1e2-a4d7-4bd2-8a3d-6b4ff9b80eea}</UniqueIdentifier>
     </Filter>
@@ -246,9 +243,6 @@
     <ClInclude Include="Distance\Distance.h">
       <Filter>Distance</Filter>
     </ClInclude>
-    <ClInclude Include="Graph\GraphBase\GraphBase.h">
-      <Filter>Graph\Graph Base</Filter>
-    </ClInclude>
     <ClInclude Include="Graph\Graph Exception\GraphException.h">
       <Filter>Graph\Graph Exceptions\Graph Exception</Filter>
     </ClInclude>
@@ -436,9 +430,6 @@
     </ClCompile>
     <ClCompile Include="Distance\Distance.cpp">
       <Filter>Distance</Filter>
-    </ClCompile>
-    <ClCompile Include="Graph\GraphBase\GraphBase.cpp">
-      <Filter>Graph\Graph Base</Filter>
     </ClCompile>
     <ClCompile Include="Graph\Undirected Graph\UndirectedGraph.cpp">
       <Filter>Graph\Undirected Graph</Filter>

@@ -7,7 +7,7 @@
 
 class Vertex
 {
-	friend class GraphBase;
+	friend class Graph;
 
 public:
 	Vertex(const Vertex&) = delete;

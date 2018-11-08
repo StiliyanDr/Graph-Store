@@ -5,7 +5,7 @@
 static GraphRegistrator<UndirectedGraph> registrator("undirected");
 
 UndirectedGraph::UndirectedGraph(const String& id) :
-	GraphBase(id)
+	Graph(id)
 {
 }
 
@@ -16,7 +16,7 @@ void UndirectedGraph::addEdge(Vertex& start,
 	verifyOwnershipOf(start);
 	verifyOwnershipOf(end);
 
-	if (!hasEdgeFromTo(start, end))
+	if (!hasEdge(start, end))
 	{
 		tryToAddUndirectedEdge(start, end, weight);
 	}
