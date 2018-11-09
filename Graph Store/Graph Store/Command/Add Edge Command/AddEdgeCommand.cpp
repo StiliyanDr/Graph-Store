@@ -15,7 +15,7 @@ void AddEdgeCommand::parseArguments(args::Subparser& parser)
 {
 	args::Positional<String, StringReader> startID(parser, "start vertex id", "The identifier of the start vertex");
 	args::Positional<String, StringReader> endID(parser, "end vertex id", "The identifier of the end vertex");
-	args::Positional<OutgoingEdge::Weight> weight(parser, "weight", "The weight of the edge");
+	args::Positional<Graph::Edge::Weight> weight(parser, "weight", "The weight of the edge");
 
 	parser.Parse();
 
@@ -48,18 +48,18 @@ void AddEdgeCommand::setEndVertexID(args::Positional<String, StringReader>& id)
 	}
 }
 
-void AddEdgeCommand::setWeight(args::Positional<OutgoingEdge::Weight>& weight)
+void AddEdgeCommand::setWeight(args::Positional<Graph::Edge::Weight>& weight)
 {
 	this->weight = weight.Matched() ? args::get(weight) : DEFAULT_EDGE_WEIGHT;
 }
 
 void AddEdgeCommand::addEdge(const String& startVertexID,
 							 const String& endVertexID,
-							 OutgoingEdge::Weight weight)
+							 Graph::Edge::Weight weight)
 {
 	Graph& usedGraph = getUsedGraph();
-	Vertex& start = usedGraph.getVertexWithID(startVertexID);
-	Vertex& end = usedGraph.getVertexWithID(endVertexID);
+	Graph::Vertex& start = usedGraph.getVertexWithID(startVertexID);
+	Graph::Vertex& end = usedGraph.getVertexWithID(endVertexID);
 
 	usedGraph.addEdge(start, end, weight);
 }

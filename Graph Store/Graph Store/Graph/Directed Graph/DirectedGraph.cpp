@@ -9,7 +9,7 @@ DirectedGraph::DirectedGraph(const String& id) :
 {
 }
 
-void DirectedGraph::addEdge(Vertex& start, Vertex& end, OutgoingEdge::Weight weight)
+void DirectedGraph::addEdge(Vertex& start, Vertex& end, Edge::Weight weight)
 {
 	verifyOwnershipOf(start);
 	verifyOwnershipOf(end);

@@ -9,8 +9,8 @@ DijkstraShortestPath::DijkstraShortestPath(const String& id) :
 }
 
 void DijkstraShortestPath::initialise(const Graph& graph,
-									  const Vertex& source,
-									  const Vertex& target)
+									  const Graph::Vertex& source,
+									  const Graph::Vertex& target)
 {
 	decorateVerticesOf(graph);
 	initialiseSource(getDecoratedVersionOf(source));
@@ -24,13 +24,13 @@ void DijkstraShortestPath::decorateVerticesOf(const Graph& graph)
 	ShortestPathAlgorithm::decorateVerticesOf(graph);
 }
 
-void DijkstraShortestPath::addDecoratedVersionOf(const Vertex& v)
+void DijkstraShortestPath::addDecoratedVersionOf(const Graph::Vertex& v)
 {
 	decoratedVertices.emplace(v.getID(), v);
 }
 
 DijkstraShortestPath::DijkstraVertex&
-DijkstraShortestPath::getDecoratedVersionOf(const Vertex& v)
+DijkstraShortestPath::getDecoratedVersionOf(const Graph::Vertex& v)
 {
 	return decoratedVertices[v.getID()];
 }
@@ -44,8 +44,8 @@ void DijkstraShortestPath::gatherDecoratedVerticesWithUndeterminedEstimate()
 }
 
 void DijkstraShortestPath::execute(const Graph& graph,
-								   const Vertex& source,
-								   const Vertex& target)
+								   const Graph::Vertex& source,
+								   const Graph::Vertex& target)
 {
 	DijkstraVertex* v;
 
@@ -68,7 +68,7 @@ void DijkstraShortestPath::relaxEdgesLeaving(const DijkstraVertex& start,
 	Graph::OutgoingEdgesConstIterator iterator =
 		graph.getConstIteratorOfEdgesLeaving(*(start.originalVertex));
 
-	forEach(*iterator, [&](const OutgoingEdge& e)
+	forEach(*iterator, [&](const Graph::OutgoingEdge& e)
 	{
 		DijkstraVertex& end = getDecoratedVersionOf(e.getVertex());
 
@@ -78,7 +78,7 @@ void DijkstraShortestPath::relaxEdgesLeaving(const DijkstraVertex& start,
 
 void DijkstraShortestPath::relaxEdge(const DijkstraVertex& start,
 									 DijkstraVertex& end,
-									 OutgoingEdge::Weight weight)
+									 Graph::OutgoingEdge::Weight weight)
 {
 	Distance distanceThroughStart = start.distanceToSource + weight;
 

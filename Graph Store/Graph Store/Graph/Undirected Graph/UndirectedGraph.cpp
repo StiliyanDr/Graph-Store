@@ -11,7 +11,7 @@ UndirectedGraph::UndirectedGraph(const String& id) :
 
 void UndirectedGraph::addEdge(Vertex& start,
 							  Vertex& end,
-							  OutgoingEdge::Weight weight)
+							  Edge::Weight weight)
 {
 	verifyOwnershipOf(start);
 	verifyOwnershipOf(end);
@@ -28,7 +28,7 @@ void UndirectedGraph::addEdge(Vertex& start,
 
 void UndirectedGraph::tryToAddUndirectedEdge(Vertex& start,
 											 Vertex& end,
-											 OutgoingEdge::Weight weight)
+											 Edge::Weight weight)
 {
 	addEdgeFromTo(start, end, weight);
 

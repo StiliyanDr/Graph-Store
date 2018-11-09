@@ -11,8 +11,8 @@ BFSShortestPath::BFSShortestPath(const String& id) :
 }
 
 void BFSShortestPath::initialise(const Graph& graph,
-								 const Vertex& source,
-								 const Vertex& target)
+								 const Graph::Vertex& source,
+								 const Graph::Vertex& target)
 {
 	assert(frontier.isEmpty());
 
@@ -30,7 +30,7 @@ void BFSShortestPath::initialise(const Graph& graph,
 	}
 }
 
-void BFSShortestPath::initialiseSourceAndAddItToFrontier(const Vertex& source)
+void BFSShortestPath::initialiseSourceAndAddItToFrontier(const Graph::Vertex& source)
 {
 	MarkableDecoratedVertex& decoratedSource = getDecoratedVersionOf(source);
 
@@ -44,15 +44,15 @@ void BFSShortestPath::addToFrontier(const MarkableDecoratedVertex& v)
 	frontier.enqueue(&v);
 }
 
-void BFSShortestPath::prepareTrivialPath(const Vertex& source)
+void BFSShortestPath::prepareTrivialPath(const Graph::Vertex& source)
 {
 	addDecoratedVersionOf(source);
 	initialiseSource(getDecoratedVersionOf(source));
 }
 
 void BFSShortestPath::execute(const Graph& graph,
-							  const Vertex& source,
-							  const Vertex& target)
+							  const Graph::Vertex& source,
+							  const Graph::Vertex& target)
 {
 	const MarkableDecoratedVertex* vertex;
 
@@ -69,7 +69,7 @@ void BFSShortestPath::exploreEdgesLeaving(const MarkableDecoratedVertex& predece
 	Graph::OutgoingEdgesConstIterator iterator =
 		graph.getConstIteratorOfEdgesLeaving(*(predecessor.originalVertex));
 
-	forEach(*iterator, [&](const OutgoingEdge& e)
+	forEach(*iterator, [&](const Graph::OutgoingEdge& e)
 	{
 		MarkableDecoratedVertex& successor = getDecoratedVersionOf(e.getVertex());
 

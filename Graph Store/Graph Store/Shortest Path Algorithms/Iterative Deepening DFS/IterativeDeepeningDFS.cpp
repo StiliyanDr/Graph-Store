@@ -10,8 +10,8 @@ IterativeDeepeningDFS::IterativeDeepeningDFS(const String& id) :
 }
 
 void IterativeDeepeningDFS::initialise(const Graph& graph,
-									   const Vertex& source,
-									   const Vertex& target)
+									   const Graph::Vertex& source,
+									   const Graph::Vertex& target)
 {
 	decorateVerticesOf(graph);
 	initialiseSource(getDecoratedVersionOf(source));
@@ -21,8 +21,8 @@ void IterativeDeepeningDFS::initialise(const Graph& graph,
 }
 
 void IterativeDeepeningDFS::execute(const Graph& graph,
-									const Vertex& source,
-									const Vertex& target)
+									const Graph::Vertex& source,
+									const Graph::Vertex& target)
 {
 	unsigned maxLengthOfShortestPath = graph.getVerticesCount() - 1;
 	unsigned depth = 0;

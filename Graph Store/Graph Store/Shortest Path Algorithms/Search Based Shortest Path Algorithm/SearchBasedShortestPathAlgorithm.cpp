@@ -14,13 +14,13 @@ void SearchBasedShortestPathAlgorithm::decorateVerticesOf(const Graph& graph)
 	ShortestPathAlgorithm::decorateVerticesOf(graph);
 }
 
-void SearchBasedShortestPathAlgorithm::addDecoratedVersionOf(const Vertex& v)
+void SearchBasedShortestPathAlgorithm::addDecoratedVersionOf(const Graph::Vertex& v)
 {
 	decoratedVertices.emplace(v.getID(), v);
 }
 
 SearchBasedShortestPathAlgorithm::MarkableDecoratedVertex&
-SearchBasedShortestPathAlgorithm::getDecoratedVersionOf(const Vertex& v)
+SearchBasedShortestPathAlgorithm::getDecoratedVersionOf(const Graph::Vertex& v)
 {
 	return decoratedVertices[v.getID()];
 }
@@ -47,7 +47,7 @@ void SearchBasedShortestPathAlgorithm::checkIfTarget(const MarkableDecoratedVert
 	}
 }
 
-void SearchBasedShortestPathAlgorithm::setTarget(const Vertex& target)
+void SearchBasedShortestPathAlgorithm::setTarget(const Graph::Vertex& target)
 {
 	this->target = &target;
 }

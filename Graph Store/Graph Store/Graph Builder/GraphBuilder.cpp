@@ -108,8 +108,8 @@ void GraphBuilder::addEdge(const RawEdge& edge)
 	String& startID = identifiers[edge.startIDIndex];
 	String& endID = identifiers[edge.endIDIndex];
 
-	Vertex& start = graph->getVertexWithID(startID);
-	Vertex& end = graph->getVertexWithID(endID);
+	Graph::Vertex& start = graph->getVertexWithID(startID);
+	Graph::Vertex& end = graph->getVertexWithID(endID);
 
 	graph->addEdge(start, end, edge.weight);
 }

@@ -178,7 +178,6 @@
     <ClInclude Include="Graph Factory\Invalid Graph Type Exception\InvalidGraphTypeException.h" />
     <ClInclude Include="Graph\Abstract class\Graph.h" />
     <ClInclude Include="Graph\Directed Graph\DirectedGraph.h" />
-    <ClInclude Include="Graph\Edge\OutgoingEdge.h" />
     <ClInclude Include="Graph\Graph Exception\GraphException.h" />
     <ClInclude Include="Graph\Undirected Graph\UndirectedGraph.h" />
     <ClInclude Include="Hash\Hash Function\HashFunction.h" />
@@ -233,7 +232,6 @@
     <ClCompile Include="Graph Store.cpp" />
     <ClCompile Include="Graph\Abstract class\Graph.cpp" />
     <ClCompile Include="Graph\Directed Graph\DirectedGraph.cpp" />
-    <ClCompile Include="Graph\Edge\OutgoingEdge.cpp" />
     <ClCompile Include="Graph\Undirected Graph\UndirectedGraph.cpp" />
     <ClCompile Include="Shortest Path Algorithms\Abstract class\ShortestPathAlgorithm.cpp" />
     <ClCompile Include="Shortest Path Algorithms\BFS\BFSShortestPath.cpp" />

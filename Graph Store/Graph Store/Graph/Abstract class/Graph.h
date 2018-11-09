@@ -89,7 +89,7 @@ public:
 
 	void addVertex(const String& id);
 	void removeVertex(Vertex& v);
-	virtual void addEdge(Vertex& start, Vertex& end, OutgoingEdge::Weight weight) = 0;
+	virtual void addEdge(Vertex& start, Vertex& end, Edge::Weight weight) = 0;
 	virtual void removeEdge(Vertex& start, Vertex& end) = 0;
 
 	Vertex& getVertexWithID(const String& id);

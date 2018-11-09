@@ -40,9 +40,6 @@
     <Filter Include="Graph">
       <UniqueIdentifier>{2713c405-d70c-4eaf-bc5a-b896c2505a7c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graph\Edge">
-      <UniqueIdentifier>{c0659991-9b71-46fa-90d2-47f145771c0c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graph\Abstraction">
       <UniqueIdentifier>{dee3a313-5a63-433f-9d47-ff80ea26882e}</UniqueIdentifier>
     </Filter>
@@ -408,9 +405,6 @@
     <ClInclude Include="Runtime Error\RuntimeError.h">
       <Filter>Runtime Error</Filter>
     </ClInclude>
-    <ClInclude Include="Graph\Edge\OutgoingEdge.h">
-      <Filter>Graph\Edge</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\FileParser.cpp">
@@ -511,9 +505,6 @@
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraShortestPath.cpp">
       <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
-    </ClCompile>
-    <ClCompile Include="Graph\Edge\OutgoingEdge.cpp">
-      <Filter>Graph\Edge</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

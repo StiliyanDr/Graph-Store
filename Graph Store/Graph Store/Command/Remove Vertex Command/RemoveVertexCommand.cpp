@@ -33,7 +33,7 @@ void RemoveVertexCommand::setVertexID(args::Positional<String, StringReader>& id
 void RemoveVertexCommand::removeVertex(const String& id)
 {
 	Graph& usedGraph = getUsedGraph();
-	Vertex& vertex = usedGraph.getVertexWithID(id);
+	Graph::Vertex& vertex = usedGraph.getVertexWithID(id);
 
 	usedGraph.removeVertex(vertex);
 }

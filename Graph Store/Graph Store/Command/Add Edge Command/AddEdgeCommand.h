@@ -19,21 +19,21 @@ public:
 private:
 	static void addEdge(const String& startVertexID,
 						const String& endVertexID,
-						OutgoingEdge::Weight weight);
+						Graph::Edge::Weight weight);
 
 private:
 	void parseArguments(args::Subparser& parser);
 	void setStartVertexID(args::Positional<String, StringReader>& id);
 	void setEndVertexID(args::Positional<String, StringReader>& id);
-	void setWeight(args::Positional<OutgoingEdge::Weight>& weight);
+	void setWeight(args::Positional<Graph::Edge::Weight>& weight);
 
 private:
-	static const OutgoingEdge::Weight DEFAULT_EDGE_WEIGHT = 1;
+	static const Graph::Edge::Weight DEFAULT_EDGE_WEIGHT = 1;
 
 private:
 	String startVertexID;
 	String endVertexID;
-	OutgoingEdge::Weight weight;
+	Graph::Edge::Weight weight;
 };
 
 #endif //__ADD_EDGE_COMMAND_HEADER_INCLUDED__

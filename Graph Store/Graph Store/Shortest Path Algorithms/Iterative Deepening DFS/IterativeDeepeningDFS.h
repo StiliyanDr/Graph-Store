@@ -11,11 +11,11 @@ public:
 	IterativeDeepeningDFS& operator=(const IterativeDeepeningDFS&) = delete;
 
 private:
-	virtual void initialise(const Graph& graph, const Vertex& source, const Vertex& target) override;
-	virtual void execute(const Graph& graph, const Vertex& source, const Vertex& target) override;
-	void depthLimitedSearch(MarkableDecoratedVertex& vertex, unsigned depth);
+	virtual void initialise(const Graph& g, const Graph::Vertex& source, const Graph::Vertex& target) override;
+	virtual void execute(const Graph& g, const Graph::Vertex& source, const Graph::Vertex& target) override;
+	void depthLimitedSearch(MarkableDecoratedVertex& v, unsigned depth);
 	void expandSearch(const MarkableDecoratedVertex& predecessor, unsigned depth);
-	void setGraph(const Graph& graph);
+	void setGraph(const Graph& g);
 
 private:
 	const Graph* graph;

@@ -12,7 +12,7 @@ class DijkstraShortestPath : public ShortestPathAlgorithm
 	struct DijkstraVertex : public DecoratedVertex
 	{
 		DijkstraVertex() = default;
-		DijkstraVertex(const Vertex& originalVertex) :
+		DijkstraVertex(const Graph::Vertex& originalVertex) :
 			DecoratedVertex(originalVertex)
 		{
 		}
@@ -76,15 +76,15 @@ public:
 	DijkstraShortestPath& operator=(const DijkstraShortestPath&) = delete;
 
 private:
-	virtual void initialise(const Graph& graph, const Vertex& source, const Vertex& target) override;
-	virtual void execute(const Graph& graph, const Vertex& source, const Vertex& target) override;
+	virtual void initialise(const Graph& g, const Graph::Vertex& source, const Graph::Vertex& target) override;
+	virtual void execute(const Graph& g, const Graph::Vertex& source, const Graph::Vertex& target) override;
 	virtual void cleanUp() override;
-	virtual void addDecoratedVersionOf(const Vertex& vertex) override;
-	virtual DijkstraVertex& getDecoratedVersionOf(const Vertex& vertex) override;
-	void decorateVerticesOf(const Graph& graph);
+	virtual void addDecoratedVersionOf(const Graph::Vertex& v) override;
+	virtual DijkstraVertex& getDecoratedVersionOf(const Graph::Vertex& v) override;
+	void decorateVerticesOf(const Graph& g);
 	void gatherDecoratedVerticesWithUndeterminedEstimate();
-	void relaxEdgesLeaving(const DijkstraVertex& vertex, const Graph& graph);
-	void relaxEdge(const DijkstraVertex& start, DijkstraVertex& end, OutgoingEdge::Weight weight);
+	void relaxEdgesLeaving(const DijkstraVertex& v, const Graph& g);
+	void relaxEdge(const DijkstraVertex& start, DijkstraVertex& end, Graph::OutgoingEdge::Weight w);
 
 private:
 	PriorityQueue undeterminedEstimateVertices;

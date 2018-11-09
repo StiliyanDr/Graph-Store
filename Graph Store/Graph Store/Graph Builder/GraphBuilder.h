@@ -12,7 +12,7 @@ class GraphBuilder
 	{
 		size_t startIDIndex;
 		size_t endIDIndex;
-		OutgoingEdge::Weight weight;
+		Graph::Edge::Weight weight;
 	};
 
 public:

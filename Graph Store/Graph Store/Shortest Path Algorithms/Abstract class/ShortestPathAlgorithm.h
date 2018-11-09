@@ -3,10 +3,8 @@
 
 #include "../../String/String.h"
 #include "../../Distance/Distance.h"
+#include "../../Graph/Abstract class/Graph.h"
 #include <forward_list>
-
-class Vertex;
-class Graph;
 
 class ShortestPathAlgorithm
 {
@@ -14,14 +12,14 @@ protected:
 	struct DecoratedVertex
 	{
 		DecoratedVertex() = default;
-		DecoratedVertex(const Vertex& originalVertex) :
+		DecoratedVertex(const Graph::Vertex& originalVertex) :
 			originalVertex(&originalVertex),
 			parent(nullptr),
 			distanceToSource(Distance::getInfinity())
 		{
 		}
 
-		const Vertex* originalVertex;
+		const Graph::Vertex* originalVertex;
 		const DecoratedVertex* parent;
 		Distance distanceToSource;
 	};
@@ -59,7 +57,7 @@ public:
 public:
 	virtual ~ShortestPathAlgorithm() = default;
 
-	Path findShortestPath(const Graph& graph, const Vertex& source, const Vertex& target);
+	Path findShortestPath(const Graph& g, const Graph::Vertex& source, const Graph::Vertex& target);
 	const String& getID() const;
 
 protected:
@@ -70,15 +68,15 @@ protected:
 	ShortestPathAlgorithm(const ShortestPathAlgorithm&) = default;
 	ShortestPathAlgorithm& operator=(const ShortestPathAlgorithm&) = default;
 
-	virtual void initialise(const Graph& graph, const Vertex& source, const Vertex& target) = 0;
-	virtual void execute(const Graph& graph, const Vertex& source, const Vertex& target) = 0;
+	virtual void initialise(const Graph& g, const Graph::Vertex& source, const Graph::Vertex& target) = 0;
+	virtual void execute(const Graph& g, const Graph::Vertex& source, const Graph::Vertex& target) = 0;
 	virtual void cleanUp() = 0;
-	virtual void addDecoratedVersionOf(const Vertex& vertex) = 0;
-	virtual DecoratedVertex& getDecoratedVersionOf(const Vertex& vertex) = 0;
-	void decorateVerticesOf(const Graph& graph);
+	virtual void addDecoratedVersionOf(const Graph::Vertex& v) = 0;
+	virtual DecoratedVertex& getDecoratedVersionOf(const Graph::Vertex& v) = 0;
+	void decorateVerticesOf(const Graph& g);
 
 private:
-	Path createPathBetween(const Vertex& source, const Vertex& target);
+	Path createPathBetween(const Graph::Vertex& source, const Graph::Vertex& target);
 	void setID(const String& id);
 
 private:

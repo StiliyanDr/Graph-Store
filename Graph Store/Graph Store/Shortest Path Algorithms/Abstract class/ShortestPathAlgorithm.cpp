@@ -1,6 +1,4 @@
 #include "ShortestPathAlgorithm.h"
-#include "../../Graph/Abstract class/Graph.h"
-#include "../../Graph/Vertex/Vertex.h"
 #include <algorithm>
 #include <stdexcept>
 
@@ -105,8 +103,8 @@ void ShortestPathAlgorithm::setID(const String& id)
 
 ShortestPathAlgorithm::Path
 ShortestPathAlgorithm::findShortestPath(const Graph& graph,
-										const Vertex& source,
-										const Vertex& target)
+										const Graph::Vertex& source,
+										const Graph::Vertex& target)
 {
 	try
 	{
@@ -125,7 +123,8 @@ ShortestPathAlgorithm::findShortestPath(const Graph& graph,
 }
 
 ShortestPathAlgorithm::Path
-ShortestPathAlgorithm::createPathBetween(const Vertex& source, const Vertex& target)
+ShortestPathAlgorithm::createPathBetween(const Graph::Vertex& source,
+										 const Graph::Vertex& target)
 {
 	DecoratedVertex& decoratedSource = getDecoratedVersionOf(source);
 	DecoratedVertex& decoratedTarget = getDecoratedVersionOf(target);
@@ -135,7 +134,7 @@ ShortestPathAlgorithm::createPathBetween(const Vertex& source, const Vertex& tar
 
 void ShortestPathAlgorithm::decorateVerticesOf(const Graph& graph)
 {
-	forEach(*(graph.getConstIteratorOfVertices()), [&](const Vertex* vertex)
+	forEach(*(graph.getConstIteratorOfVertices()), [&](const Graph::Vertex* vertex)
 	{
 		addDecoratedVersionOf(*vertex);
 	});

@@ -12,16 +12,16 @@ public:
 	BFSShortestPath& operator=(const BFSShortestPath&) = delete;
 
 private:
-	virtual void initialise(const Graph& graph, const Vertex& source, const Vertex& target) override;
-	virtual void execute(const Graph& graph, const Vertex& source, const Vertex& target) override;
+	virtual void initialise(const Graph& g, const Graph::Vertex& source, const Graph::Vertex& target) override;
+	virtual void execute(const Graph& g, const Graph::Vertex& source, const Graph::Vertex& target) override;
 	virtual void cleanUp() override;
 	virtual void visitVertex(MarkableDecoratedVertex& successor,
 							 const MarkableDecoratedVertex& predecessor) override;
-	void initialiseSourceAndAddItToFrontier(const Vertex& source);
+	void initialiseSourceAndAddItToFrontier(const Graph::Vertex& source);
 	void addToFrontier(const MarkableDecoratedVertex& v);
-	void prepareTrivialPath(const Vertex& source);
+	void prepareTrivialPath(const Graph::Vertex& source);
 	const MarkableDecoratedVertex* extractNextVertexFromFrontier();
-	void exploreEdgesLeaving(const MarkableDecoratedVertex& predecessor, const Graph& graph);
+	void exploreEdgesLeaving(const MarkableDecoratedVertex& predecessor, const Graph& g);
 	void exploreEdge(const MarkableDecoratedVertex& predecessor, MarkableDecoratedVertex& successor);
 
 private:

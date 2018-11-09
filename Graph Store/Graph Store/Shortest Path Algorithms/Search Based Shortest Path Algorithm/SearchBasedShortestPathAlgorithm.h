@@ -11,7 +11,7 @@ protected:
 	struct MarkableDecoratedVertex : public DecoratedVertex
 	{
 		MarkableDecoratedVertex() = default;
-		MarkableDecoratedVertex(const Vertex& originalVertex) :
+		MarkableDecoratedVertex(const Graph::Vertex& originalVertex) :
 			DecoratedVertex(originalVertex),
 			isVisited(false)
 		{
@@ -29,19 +29,19 @@ protected:
 	SearchBasedShortestPathAlgorithm& operator=(const SearchBasedShortestPathAlgorithm&) = delete;
 
 	virtual void cleanUp() override;
-	virtual void addDecoratedVersionOf(const Vertex& v) override;
-	virtual MarkableDecoratedVertex& getDecoratedVersionOf(const Vertex& v) override;
+	virtual void addDecoratedVersionOf(const Graph::Vertex& v) override;
+	virtual MarkableDecoratedVertex& getDecoratedVersionOf(const Graph::Vertex& v) override;
 	virtual void visitVertex(MarkableDecoratedVertex& successor,
 							 const MarkableDecoratedVertex& predecessor);
-	void decorateVerticesOf(const Graph& graph);
-	void setTarget(const Vertex& target);
+	void decorateVerticesOf(const Graph& g);
+	void setTarget(const Graph::Vertex& target);
 	void checkIfTarget(const MarkableDecoratedVertex& v);
 
 protected:
 	bool foundAShortestPath;
 
 private:
-	const Vertex* target;
+	const Graph::Vertex* target;
 	Hash decoratedVertices;
 };
 
