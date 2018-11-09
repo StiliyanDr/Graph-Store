@@ -3,7 +3,6 @@
 
 #include "../../String/String.h"
 #include "../../Iterator/Iterator.h"
-#include "../Edge/OutgoingEdge.h"
 #include "../../Dynamic Array/DynamicArray.h"
 #include "../../Hash/Hash.h"
 #include "../../Hash/Hash Function/HashFunctionStringSpecialization.h"
@@ -14,18 +13,29 @@
 class Graph
 {
 public:
-	typedef std::unique_ptr<ConstIterator<const Vertex*>> VerticesConstIterator;
-	typedef std::unique_ptr<ConstIterator<OutgoingEdge>> OutgoingEdgesConstIterator;
+	class Vertex;
 
-protected:
-	typedef DynamicArray<Vertex*>::Iterator VerticesConcreteIterator;
-	typedef LinkedList<OutgoingEdge>::Iterator OutgoingEdgesConcreteIterator;
+	class OutgoingEdge
+	{
+		friend class Graph;
 
-private:
-	typedef Hash<Vertex, String, IdentifierAccessor> Hash;
-	typedef DynamicArray<Vertex*> Array;
+	public:
+		typedef unsigned Weight;
 
-public:
+	public:
+		const Vertex& getVertex() const;
+		Vertex& getVertex();
+		Weight getWeight() const;
+
+	private:
+		OutgoingEdge(Vertex& v, Weight w = 1);
+		void setWeight(Weight w);
+
+	private:
+		Weight weight;
+		Vertex& vertex;
+	};
+
 	class Vertex
 	{
 		friend class Graph;
@@ -62,6 +72,17 @@ public:
 		Vertex& start;
 		OutgoingEdge& incidentToStartEdge;
 	};
+
+	typedef std::unique_ptr<ConstIterator<const Vertex*>> VerticesConstIterator;
+	typedef std::unique_ptr<ConstIterator<OutgoingEdge>> OutgoingEdgesConstIterator;
+
+protected:
+	typedef DynamicArray<Vertex*>::Iterator VerticesConcreteIterator;
+	typedef LinkedList<OutgoingEdge>::Iterator OutgoingEdgesConcreteIterator;
+
+private:
+	typedef Hash<Vertex, String, IdentifierAccessor> Hash;
+	typedef DynamicArray<Vertex*> Array;
 
 public:
 	virtual ~Graph();

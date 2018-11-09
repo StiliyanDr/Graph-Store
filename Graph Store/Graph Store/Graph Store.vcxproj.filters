@@ -43,9 +43,6 @@
     <Filter Include="Graph\Edge">
       <UniqueIdentifier>{c0659991-9b71-46fa-90d2-47f145771c0c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graph\Vertex">
-      <UniqueIdentifier>{7bf2074e-861c-4488-adc3-7ac67a9ded77}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graph\Abstraction">
       <UniqueIdentifier>{dee3a313-5a63-433f-9d47-ff80ea26882e}</UniqueIdentifier>
     </Filter>
@@ -249,9 +246,6 @@
     <ClInclude Include="Graph\Undirected Graph\UndirectedGraph.h">
       <Filter>Graph\Undirected Graph</Filter>
     </ClInclude>
-    <ClInclude Include="Graph\Vertex\Vertex.h">
-      <Filter>Graph\Vertex</Filter>
-    </ClInclude>
     <ClInclude Include="Graph Builder\Graph Builder Exception\GraphBuilderException.h">
       <Filter>Graph Builder\Graph Builder Exception</Filter>
     </ClInclude>
@@ -433,9 +427,6 @@
     </ClCompile>
     <ClCompile Include="Graph\Undirected Graph\UndirectedGraph.cpp">
       <Filter>Graph\Undirected Graph</Filter>
-    </ClCompile>
-    <ClCompile Include="Graph\Vertex\Vertex.cpp">
-      <Filter>Graph\Vertex</Filter>
     </ClCompile>
     <ClCompile Include="Graph Builder\GraphBuilder.cpp">
       <Filter>Graph Builder</Filter>

@@ -35,6 +35,32 @@ bool operator==(const Graph::Vertex& lhs, const Graph::Vertex& rhs)
 	return &lhs == &rhs;
 }
 
+Graph::OutgoingEdge::OutgoingEdge(Vertex& v, Weight w) :
+	vertex(v)
+{
+	setWeight(w);
+}
+
+void Graph::OutgoingEdge::setWeight(Weight w)
+{
+	weight = w;
+}
+
+Graph::OutgoingEdge::Weight Graph::OutgoingEdge::getWeight() const
+{
+	return weight;
+}
+
+const Graph::Vertex& Graph::OutgoingEdge::getVertex() const
+{
+	return vertex;
+}
+
+Graph::Vertex& Graph::OutgoingEdge::getVertex()
+{
+	return vertex;
+}
+
 Graph::Edge::Edge(Vertex& start, OutgoingEdge& e) :
 	start(start), incidentToStartEdge(e)
 {
@@ -211,7 +237,7 @@ void Graph::tryToAddNewVertex(const String& id)
 	}
 }
 
-std::unique_ptr<Vertex> Graph::createVertex(const String& id) const
+std::unique_ptr<Graph::Vertex> Graph::createVertex(const String& id) const
 {
 	return std::unique_ptr<Vertex>(new Vertex(id, vertices.getCount()));
 }
@@ -236,7 +262,7 @@ void Graph::addVertexToCollection(std::unique_ptr<Vertex> vertex)
 	vertex.release();
 }
 
-Vertex& Graph::getVertexWithID(const String& id)
+Graph::Vertex& Graph::getVertexWithID(const String& id)
 {
 	try
 	{
@@ -255,7 +281,7 @@ void Graph::addEdgeFromTo(Vertex& start, Vertex& end, OutgoingEdge::Weight weigh
 
 	try
 	{
-		getEdgesLeaving(start).addFront(OutgoingEdge(&end, weight));
+		getEdgesLeaving(start).addFront(OutgoingEdge(end, weight));
 	}
 	catch (std::bad_alloc&)
 	{
@@ -307,7 +333,7 @@ bool Graph::isOwnerOf(const Vertex& v) const
 	return v.index < vertices.getCount() && vertices[v.index] == &v;
 }
 
-LinkedList<OutgoingEdge>& Graph::getEdgesLeaving(Vertex& v)
+LinkedList<Graph::OutgoingEdge>& Graph::getEdgesLeaving(Vertex& v)
 {
 	assert(isOwnerOf(v));
 
