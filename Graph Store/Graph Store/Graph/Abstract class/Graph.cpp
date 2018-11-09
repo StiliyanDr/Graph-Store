@@ -2,17 +2,50 @@
 #include "../Graph Exception/GraphException.h"
 #include "../../Iterator/ConcreteIteratorAdapter.h"
 
+Graph::Vertex::Vertex(String id, size_t index) :
+	index(index)
+{
+	setID(std::move(id));
+}
+
+void Graph::Vertex::setID(String id)
+{
+	if (id != ""_s)
+	{
+		this->id = std::move(id);
+	}
+	else
+	{
+		throw GraphException("Invalid vertex id: " + id);
+	}
+}
+
+const String& Graph::Vertex::getID() const
+{
+	return id;
+}
+
+bool operator!=(const Graph::Vertex& lhs, const Graph::Vertex& rhs)
+{
+	return !(lhs == rhs);
+}
+
+bool operator==(const Graph::Vertex& lhs, const Graph::Vertex& rhs)
+{
+	return &lhs == &rhs;
+}
+
 Graph::Edge::Edge(Vertex& start, OutgoingEdge& e) :
 	start(start), incidentToStartEdge(e)
 {
 }
 
-const Vertex& Graph::Edge::getStart() const
+const Graph::Vertex& Graph::Edge::getStart() const
 {
 	return start;
 }
 
-const Vertex& Graph::Edge::getEnd() const
+const Graph::Vertex& Graph::Edge::getEnd() const
 {
 	return incidentToStartEdge.getVertex();
 }

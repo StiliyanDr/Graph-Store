@@ -3,12 +3,12 @@
 
 #include "../../String/String.h"
 #include "../../Iterator/Iterator.h"
-#include "../Vertex/Vertex.h"
 #include "../Edge/OutgoingEdge.h"
 #include "../../Dynamic Array/DynamicArray.h"
 #include "../../Hash/Hash.h"
 #include "../../Hash/Hash Function/HashFunctionStringSpecialization.h"
 #include "../../Hash/Identifier Accessor/IdentifierAccessor.h"
+#include "../../Linked List/LinkedList.h"
 #include <memory>
 
 class Graph
@@ -26,6 +26,26 @@ private:
 	typedef DynamicArray<Vertex*> Array;
 
 public:
+	class Vertex
+	{
+		friend class Graph;
+
+	public:
+		Vertex(const Vertex&) = delete;
+		Vertex& operator=(const Vertex&) = delete;
+
+		const String& getID() const;
+
+	private:
+		Vertex(String id, size_t index);
+		void setID(String id);
+
+	private:
+		String id;
+		size_t index;
+		LinkedList<OutgoingEdge> edges;
+	};
+
 	class Edge
 	{
 	public:
@@ -93,5 +113,8 @@ private:
 	Array vertices;
 	Hash vertexSearchSet;
 };
+
+bool operator==(const Graph::Vertex& lhs, const Graph::Vertex& rhs);
+bool operator!=(const Graph::Vertex& lhs, const Graph::Vertex& rhs);
 
 #endif //__GRAPH_HEADER_INCLUDED__
