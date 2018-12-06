@@ -88,14 +88,6 @@ Graph::EdgesConstIterator::EdgesConstIterator(const VerticesConcreteIterator& ve
 {
 }
 
-Graph::EdgesConstIterator Graph::EdgesConstIterator::operator++(int)
-{
-	EdgesConstIterator iterator(*this);
-	++(*this);
-
-	return iterator;
-}
-
 Graph::EdgesConstIterator& Graph::EdgesConstIterator::operator++()
 {
 	++edgesIterator;

@@ -91,20 +91,20 @@ public:
 
 	public:
 		EdgesConstIterator& operator++();
-		EdgesConstIterator operator++(int);
 		Edge operator*() const;
 		operator bool() const;
 		bool operator!() const;
 
-	private:
+	protected:
 		EdgesConstIterator(const VerticesConcreteIterator& verticesIterator,
 			               const OutgoingEdgesConcreteIterator& edgesIterator);
+		bool pointsToEdge() const;
 
+	private:
+		virtual bool pointsToUniteratedEdge() const;
 		void skipIteratedEdges();
 		void goToNextEdge();
 		void goToNextListIfCurrentOneEnded();
-		bool pointsToUniteratedEdge() const;
-		bool pointsToEdge() const;
 		bool thereAreMoreEdges() const;
 
 	private:
