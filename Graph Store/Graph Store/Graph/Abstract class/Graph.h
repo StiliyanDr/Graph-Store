@@ -85,6 +85,34 @@ private:
 	typedef DynamicArray<Vertex*> Array;
 
 public:
+	class EdgesConstIterator
+	{
+		friend class Graph;
+
+	public:
+		EdgesConstIterator& operator++();
+		EdgesConstIterator operator++(int);
+		Edge operator*() const;
+		operator bool() const;
+		bool operator!() const;
+
+	private:
+		EdgesConstIterator(const VerticesConcreteIterator& verticesIterator,
+			               const OutgoingEdgesConcreteIterator& edgesIterator);
+
+		void skipIteratedEdges();
+		void goToNextEdge();
+		void goToNextListIfCurrentOneEnded();
+		bool pointsToUniteratedEdge() const;
+		bool pointsToEdge() const;
+		bool thereAreMoreEdges() const;
+
+	private:
+		VerticesConcreteIterator verticesIterator;
+		OutgoingEdgesConcreteIterator edgesIterator;
+	};
+
+public:
 	virtual ~Graph();
 
 	void addVertex(const String& id);

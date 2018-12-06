@@ -81,6 +81,98 @@ Graph::Edge::Weight Graph::Edge::getWeight() const
 	return incidentToStartEdge.getWeight();
 }
 
+Graph::EdgesConstIterator::EdgesConstIterator(const VerticesConcreteIterator& verticesIterator,
+	                                          const OutgoingEdgesConcreteIterator& edgesIterator) :
+	verticesIterator(verticesIterator),
+	edgesIterator(edgesIterator)
+{
+}
+
+Graph::EdgesConstIterator Graph::EdgesConstIterator::operator++(int)
+{
+	EdgesConstIterator iterator(*this);
+	++(*this);
+
+	return iterator;
+}
+
+Graph::EdgesConstIterator& Graph::EdgesConstIterator::operator++()
+{
+	++edgesIterator;
+	skipIteratedEdges();
+
+	return *this;
+}
+
+void Graph::EdgesConstIterator::skipIteratedEdges()
+{
+	while (thereAreMoreEdges() && !pointsToUniteratedEdge())
+	{
+		goToNextEdge();
+	}
+}
+
+bool Graph::EdgesConstIterator::thereAreMoreEdges() const
+{
+	return static_cast<bool>(verticesIterator);
+}
+
+bool Graph::EdgesConstIterator::pointsToUniteratedEdge() const
+{
+	return pointsToEdge()
+		   && (*verticesIterator)->index < edgesIterator->getVertex().index;
+}
+
+bool Graph::EdgesConstIterator::pointsToEdge() const
+{
+	return static_cast<bool>(verticesIterator)
+		   && static_cast<bool>(edgesIterator);
+}
+
+void Graph::EdgesConstIterator::goToNextEdge()
+{
+	++edgesIterator;
+	goToNextListIfCurrentOneEnded();
+}
+
+void Graph::EdgesConstIterator::goToNextListIfCurrentOneEnded()
+{
+	if (!edgesIterator)
+	{
+		++verticesIterator;
+
+		if (verticesIterator)
+		{
+			Vertex* v = *verticesIterator;
+			edgesIterator = v->edges.getIteratorToFirst();
+		}
+	}
+}
+
+Graph::Edge Graph::EdgesConstIterator::operator*() const
+{
+	if (pointsToEdge())
+	{
+		assert(pointsToUniteratedEdge());
+
+		return Edge(*(*verticesIterator), *edgesIterator);
+	}
+	else
+	{
+		throw std::out_of_range("Iterator out of range!");
+	}
+}
+
+Graph::EdgesConstIterator::operator bool() const
+{
+	return pointsToEdge();
+}
+
+bool Graph::EdgesConstIterator::operator!() const
+{
+	return !pointsToEdge();
+}
+
 Graph::Graph(const String& id) :
 	vertices(INITIAL_COLLECTION_SIZE),
 	vertexSearchSet(INITIAL_COLLECTION_SIZE)
