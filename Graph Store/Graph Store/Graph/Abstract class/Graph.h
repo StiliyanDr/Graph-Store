@@ -84,12 +84,14 @@ private:
 	typedef Hash<Vertex, String, IdentifierAccessor> Hash;
 	typedef DynamicArray<Vertex*> Array;
 
-public:
+protected:
 	class EdgesConstIteratorBase
 	{
-		friend class Graph;
-
 	public:
+		EdgesConstIteratorBase(const VerticesConcreteIterator& verticesIterator,
+			                   const OutgoingEdgesConcreteIterator& edgesIterator);
+		EdgesConstIteratorBase(const EdgesConstIteratorBase&) = default;
+		EdgesConstIteratorBase& operator=(const EdgesConstIteratorBase&) = default;
 		virtual ~EdgesConstIteratorBase() = default;
 
 		EdgesConstIteratorBase& operator++();
@@ -98,11 +100,6 @@ public:
 		bool operator!() const;
 
 	protected:
-		EdgesConstIteratorBase(const VerticesConcreteIterator& verticesIterator,
-			               const OutgoingEdgesConcreteIterator& edgesIterator);
-		EdgesConstIteratorBase(const EdgesConstIteratorBase&) = default;
-		EdgesConstIteratorBase& operator=(const EdgesConstIteratorBase&) = default;
-
 		bool pointsToEdge() const;
 
 	private:
@@ -118,6 +115,9 @@ public:
 	};
 
 public:
+	typedef std::unique_ptr<EdgesConstIteratorBase> EdgesConstIterator;
+
+public:
 	virtual ~Graph();
 
 	void addVertex(const String& id);
@@ -128,6 +128,7 @@ public:
 	Vertex& getVertexWithID(const String& id);
 	VerticesConstIterator getConstIteratorOfVertices() const;
 	OutgoingEdgesConstIterator getConstIteratorOfEdgesLeaving(const Vertex& v) const;
+	virtual EdgesConstIterator getConstIteratorOfEdges() const = 0;
 	unsigned getVerticesCount() const;
 
 	bool hasVertexWithID(const String& id) const;
