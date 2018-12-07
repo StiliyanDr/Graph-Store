@@ -5,6 +5,23 @@
 
 class DirectedGraph : public Graph
 {
+private:
+	class DirectedEdgesConstIterator : public EdgesConstIterator
+	{
+	public:
+		DirectedEdgesConstIterator(const VerticesConcreteIterator& verticesIterator,
+			                       const OutgoingEdgesConcreteIterator& edgesIterator) :
+			EdgesConstIterator(verticesIterator, edgesIterator)
+		{
+		}
+
+	private:
+		virtual bool pointsToUniteratedEdge() const override
+		{
+			return pointsToEdge();
+		}
+	};
+
 public:
 	explicit DirectedGraph(const String& id);
 
