@@ -79,6 +79,8 @@ public:
 protected:
 	typedef DynamicArray<Vertex*>::Iterator VerticesConcreteIterator;
 	typedef LinkedList<OutgoingEdge>::Iterator OutgoingEdgesConcreteIterator;
+	typedef DynamicArray<Vertex*>::ConstIterator VerticesConcreteConstIterator;
+	typedef LinkedList<OutgoingEdge>::ConstIterator OutgoingEdgesConcreteConstIterator;
 
 private:
 	typedef Hash<Vertex, String, IdentifierAccessor> Hash;
@@ -150,6 +152,8 @@ protected:
 	bool isOwnerOf(const Vertex& v) const;
 	VerticesConcreteIterator getConcreteIteratorOfVertices();
 	OutgoingEdgesConcreteIterator getConcreteIteratorOfEdgesLeaving(Vertex& v);
+	VerticesConcreteConstIterator getConcreteConstIteratorOfVertices() const;
+	OutgoingEdgesConcreteConstIterator getConcreteConstIteratorOfEdgesLeaving(const Vertex& v) const;
 
 private:
 	void tryToAddNewVertex(const String& id);
