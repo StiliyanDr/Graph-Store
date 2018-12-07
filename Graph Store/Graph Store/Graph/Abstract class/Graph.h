@@ -90,6 +90,8 @@ public:
 		friend class Graph;
 
 	public:
+		virtual ~EdgesConstIterator() = default;
+
 		EdgesConstIterator& operator++();
 		Edge operator*() const;
 		operator bool() const;
@@ -98,6 +100,9 @@ public:
 	protected:
 		EdgesConstIterator(const VerticesConcreteIterator& verticesIterator,
 			               const OutgoingEdgesConcreteIterator& edgesIterator);
+		EdgesConstIterator(const EdgesConstIterator&) = default;
+		EdgesConstIterator& operator=(const EdgesConstIterator&) = default;
+
 		bool pointsToEdge() const;
 
 	private:
