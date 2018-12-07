@@ -85,23 +85,23 @@ private:
 	typedef DynamicArray<Vertex*> Array;
 
 public:
-	class EdgesConstIterator
+	class EdgesConstIteratorBase
 	{
 		friend class Graph;
 
 	public:
-		virtual ~EdgesConstIterator() = default;
+		virtual ~EdgesConstIteratorBase() = default;
 
-		EdgesConstIterator& operator++();
+		EdgesConstIteratorBase& operator++();
 		Edge operator*() const;
 		operator bool() const;
 		bool operator!() const;
 
 	protected:
-		EdgesConstIterator(const VerticesConcreteIterator& verticesIterator,
+		EdgesConstIteratorBase(const VerticesConcreteIterator& verticesIterator,
 			               const OutgoingEdgesConcreteIterator& edgesIterator);
-		EdgesConstIterator(const EdgesConstIterator&) = default;
-		EdgesConstIterator& operator=(const EdgesConstIterator&) = default;
+		EdgesConstIteratorBase(const EdgesConstIteratorBase&) = default;
+		EdgesConstIteratorBase& operator=(const EdgesConstIteratorBase&) = default;
 
 		bool pointsToEdge() const;
 

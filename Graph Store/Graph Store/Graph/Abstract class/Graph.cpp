@@ -81,14 +81,15 @@ Graph::Edge::Weight Graph::Edge::getWeight() const
 	return incidentToStartEdge.getWeight();
 }
 
-Graph::EdgesConstIterator::EdgesConstIterator(const VerticesConcreteIterator& verticesIterator,
-	                                          const OutgoingEdgesConcreteIterator& edgesIterator) :
+Graph::EdgesConstIteratorBase::EdgesConstIteratorBase(const VerticesConcreteIterator& verticesIterator,
+	                                                  const OutgoingEdgesConcreteIterator& edgesIterator) :
 	verticesIterator(verticesIterator),
 	edgesIterator(edgesIterator)
 {
 }
 
-Graph::EdgesConstIterator& Graph::EdgesConstIterator::operator++()
+Graph::EdgesConstIteratorBase&
+Graph::EdgesConstIteratorBase::operator++()
 {
 	++edgesIterator;
 	skipIteratedEdges();
@@ -96,7 +97,7 @@ Graph::EdgesConstIterator& Graph::EdgesConstIterator::operator++()
 	return *this;
 }
 
-void Graph::EdgesConstIterator::skipIteratedEdges()
+void Graph::EdgesConstIteratorBase::skipIteratedEdges()
 {
 	while (thereAreMoreEdges() && !pointsToUniteratedEdge())
 	{
@@ -104,30 +105,30 @@ void Graph::EdgesConstIterator::skipIteratedEdges()
 	}
 }
 
-bool Graph::EdgesConstIterator::thereAreMoreEdges() const
+bool Graph::EdgesConstIteratorBase::thereAreMoreEdges() const
 {
 	return static_cast<bool>(verticesIterator);
 }
 
-bool Graph::EdgesConstIterator::pointsToUniteratedEdge() const
+bool Graph::EdgesConstIteratorBase::pointsToUniteratedEdge() const
 {
 	return pointsToEdge()
 		   && (*verticesIterator)->index < edgesIterator->getVertex().index;
 }
 
-bool Graph::EdgesConstIterator::pointsToEdge() const
+bool Graph::EdgesConstIteratorBase::pointsToEdge() const
 {
 	return static_cast<bool>(verticesIterator)
 		   && static_cast<bool>(edgesIterator);
 }
 
-void Graph::EdgesConstIterator::goToNextEdge()
+void Graph::EdgesConstIteratorBase::goToNextEdge()
 {
 	++edgesIterator;
 	goToNextListIfCurrentOneEnded();
 }
 
-void Graph::EdgesConstIterator::goToNextListIfCurrentOneEnded()
+void Graph::EdgesConstIteratorBase::goToNextListIfCurrentOneEnded()
 {
 	if (!edgesIterator)
 	{
@@ -141,7 +142,7 @@ void Graph::EdgesConstIterator::goToNextListIfCurrentOneEnded()
 	}
 }
 
-Graph::Edge Graph::EdgesConstIterator::operator*() const
+Graph::Edge Graph::EdgesConstIteratorBase::operator*() const
 {
 	if (pointsToEdge())
 	{
@@ -155,12 +156,12 @@ Graph::Edge Graph::EdgesConstIterator::operator*() const
 	}
 }
 
-Graph::EdgesConstIterator::operator bool() const
+Graph::EdgesConstIteratorBase::operator bool() const
 {
 	return pointsToEdge();
 }
 
-bool Graph::EdgesConstIterator::operator!() const
+bool Graph::EdgesConstIteratorBase::operator!() const
 {
 	return !pointsToEdge();
 }

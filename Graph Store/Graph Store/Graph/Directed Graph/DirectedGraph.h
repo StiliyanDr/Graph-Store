@@ -6,12 +6,12 @@
 class DirectedGraph : public Graph
 {
 private:
-	class DirectedEdgesConstIterator : public EdgesConstIterator
+	class DirectedEdgesConstIterator : public EdgesConstIteratorBase
 	{
 	public:
 		DirectedEdgesConstIterator(const VerticesConcreteIterator& verticesIterator,
 			                       const OutgoingEdgesConcreteIterator& edgesIterator) :
-			EdgesConstIterator(verticesIterator, edgesIterator)
+			EdgesConstIteratorBase(verticesIterator, edgesIterator)
 		{
 		}
 
