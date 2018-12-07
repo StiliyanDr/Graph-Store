@@ -61,7 +61,7 @@ Graph::Vertex& Graph::OutgoingEdge::getVertex()
 	return vertex;
 }
 
-Graph::Edge::Edge(Vertex& start, OutgoingEdge& e) :
+Graph::Edge::Edge(const Vertex& start, const OutgoingEdge& e) :
 	start(start), incidentToStartEdge(e)
 {
 }

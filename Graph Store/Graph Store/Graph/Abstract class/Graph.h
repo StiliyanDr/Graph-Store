@@ -62,15 +62,15 @@ public:
 		typedef OutgoingEdge::Weight Weight;
 		
 	public:
-		Edge(Vertex& start, OutgoingEdge& e);
+		Edge(const Vertex& start, const OutgoingEdge& e);
 
 		const Vertex& getStart() const;
 		const Vertex& getEnd() const;
 		Weight getWeight() const;
 
 	private:
-		Vertex& start;
-		OutgoingEdge& incidentToStartEdge;
+		const Vertex& start;
+		const OutgoingEdge& incidentToStartEdge;
 	};
 
 	typedef std::unique_ptr<ConstIterator<const Vertex*>> VerticesConstIterator;
