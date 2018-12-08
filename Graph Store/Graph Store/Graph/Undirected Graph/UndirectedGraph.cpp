@@ -64,3 +64,9 @@ void UndirectedGraph::removeEdgesEndingIn(Vertex& v)
 		removeEdgeFromTo(endOfEdge, v);
 	});
 }
+
+Graph::EdgesConstIterator
+UndirectedGraph::getConstIteratorOfEdges() const
+{
+	return createConstIteratorOfEdges<EdgesConstIteratorBase>();
+}

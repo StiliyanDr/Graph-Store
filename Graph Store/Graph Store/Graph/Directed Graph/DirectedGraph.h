@@ -9,8 +9,8 @@ private:
 	class DirectedEdgesConstIterator : public EdgesConstIteratorBase
 	{
 	public:
-		DirectedEdgesConstIterator(const VerticesConcreteIterator& verticesIterator,
-			                       const OutgoingEdgesConcreteIterator& edgesIterator) :
+		DirectedEdgesConstIterator(const VerticesConcreteConstIterator& verticesIterator,
+			                       const OutgoingEdgesConcreteConstIterator& edgesIterator) :
 			EdgesConstIteratorBase(verticesIterator, edgesIterator)
 		{
 		}
@@ -27,6 +27,7 @@ public:
 
 	virtual void addEdge(Vertex& start, Vertex& end, Edge::Weight weight) override;
 	virtual void removeEdge(Vertex& start, Vertex& end) override;
+	virtual EdgesConstIterator getConstIteratorOfEdges() const override;
 
 protected:
 	virtual void removeEdgesEndingIn(Vertex& v) override;

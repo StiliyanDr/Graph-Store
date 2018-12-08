@@ -50,3 +50,9 @@ void DirectedGraph::removeEdgesEndingIn(Vertex& end)
 		}
 	});
 }
+
+Graph::EdgesConstIterator
+DirectedGraph::getConstIteratorOfEdges() const
+{
+	return createConstIteratorOfEdges<DirectedEdgesConstIterator>();
+}

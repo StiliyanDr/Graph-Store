@@ -81,8 +81,8 @@ Graph::Edge::Weight Graph::Edge::getWeight() const
 	return incidentToStartEdge.getWeight();
 }
 
-Graph::EdgesConstIteratorBase::EdgesConstIteratorBase(const VerticesConcreteIterator& verticesIterator,
-	                                                  const OutgoingEdgesConcreteIterator& edgesIterator) :
+Graph::EdgesConstIteratorBase::EdgesConstIteratorBase(const VerticesConcreteConstIterator& verticesIterator,
+	                                                  const OutgoingEdgesConcreteConstIterator& edgesIterator) :
 	verticesIterator(verticesIterator),
 	edgesIterator(edgesIterator)
 {
@@ -136,8 +136,8 @@ void Graph::EdgesConstIteratorBase::goToNextListIfCurrentOneEnded()
 
 		if (verticesIterator)
 		{
-			Vertex* v = *verticesIterator;
-			edgesIterator = v->edges.getIteratorToFirst();
+			const Vertex* v = *verticesIterator;
+			edgesIterator = v->edges.getConstIterator();
 		}
 	}
 }
@@ -403,6 +403,19 @@ Graph::getConcreteConstIteratorOfEdgesLeaving(const Vertex& v) const
 	assert(isOwnerOf(v));
 
 	return v.edges.getConstIterator();
+}
+
+template <class ConcreteIterator>
+typename Graph::EdgesConstIterator
+Graph::createConstIteratorOfEdges() const
+{
+	VerticesConcreteConstIterator verticesIterator =
+		getConcreteConstIteratorOfVertices();
+	OutgoingEdgesConcreteConstIterator edgesIterator =
+		verticesIterator ? getConcreteConstIteratorOfEdgesLeaving(*(*verticesIterator)) :
+		                   LinkedList<OutgoingEdge>().getConstIterator();
+
+	return std::make_unique<ConcreteIterator>(verticesIterator, edgesIterator);
 }
 
 void Graph::verifyOwnershipOf(const Vertex& v) const

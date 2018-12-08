@@ -90,8 +90,8 @@ protected:
 	class EdgesConstIteratorBase
 	{
 	public:
-		EdgesConstIteratorBase(const VerticesConcreteIterator& verticesIterator,
-			                   const OutgoingEdgesConcreteIterator& edgesIterator);
+		EdgesConstIteratorBase(const VerticesConcreteConstIterator& verticesIterator,
+			                   const OutgoingEdgesConcreteConstIterator& edgesIterator);
 		EdgesConstIteratorBase(const EdgesConstIteratorBase&) = default;
 		EdgesConstIteratorBase& operator=(const EdgesConstIteratorBase&) = default;
 		virtual ~EdgesConstIteratorBase() = default;
@@ -112,8 +112,8 @@ protected:
 		bool thereAreMoreEdges() const;
 
 	private:
-		VerticesConcreteIterator verticesIterator;
-		OutgoingEdgesConcreteIterator edgesIterator;
+		VerticesConcreteConstIterator verticesIterator;
+		OutgoingEdgesConcreteConstIterator edgesIterator;
 	};
 
 public:
@@ -154,6 +154,8 @@ protected:
 	OutgoingEdgesConcreteIterator getConcreteIteratorOfEdgesLeaving(Vertex& v);
 	VerticesConcreteConstIterator getConcreteConstIteratorOfVertices() const;
 	OutgoingEdgesConcreteConstIterator getConcreteConstIteratorOfEdgesLeaving(const Vertex& v) const;
+	template <class ConcreteIterator>
+	EdgesConstIterator createConstIteratorOfEdges() const;
 
 private:
 	void tryToAddNewVertex(const String& id);

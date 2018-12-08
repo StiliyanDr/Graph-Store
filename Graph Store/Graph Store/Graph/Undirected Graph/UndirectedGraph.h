@@ -10,6 +10,7 @@ public:
 
 	virtual void addEdge(Vertex& start, Vertex& end, Edge::Weight weight) override;
 	virtual void removeEdge(Vertex& start, Vertex& end) override;
+	virtual EdgesConstIterator getConstIteratorOfEdges() const override;
 
 protected:
 	virtual void removeEdgesEndingIn(Vertex& v) override;
