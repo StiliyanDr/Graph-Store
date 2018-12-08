@@ -310,7 +310,7 @@ void Graph::tryToAddNewVertex(const String& id)
 
 std::unique_ptr<Graph::Vertex> Graph::createVertex(const String& id) const
 {
-	return std::unique_ptr<Vertex>(new Vertex(id, vertices.getCount()));
+	return std::make_unique<Vertex>(id, vertices.getCount());
 }
 
 void Graph::addVertexToCollection(std::unique_ptr<Vertex> vertex)
@@ -362,9 +362,9 @@ void Graph::addEdgeFromTo(Vertex& start, Vertex& end, OutgoingEdge::Weight weigh
 
 Graph::VerticesConstIterator Graph::getConstIteratorOfVertices() const
 {
-	typedef ConcreteIteratorAdapter<const Vertex*, DynamicArray<Vertex*>::ConstIterator, true> ConcreteConstIterator;
+	typedef ConcreteConstIteratorAdapter<const Vertex*, DynamicArray<Vertex*>::ConstIterator> ConcreteConstIterator;
 
-	return VerticesConstIterator(new ConcreteConstIterator(vertices.getConstIterator()));
+	return std::make_unique<ConcreteConstIterator>(getConcreteConstIteratorOfVertices());
 }
 
 Graph::VerticesConcreteIterator Graph::getConcreteIteratorOfVertices()
@@ -381,12 +381,11 @@ Graph::getConcreteConstIteratorOfVertices() const
 Graph::OutgoingEdgesConstIterator
 Graph::getConstIteratorOfEdgesLeaving(const Vertex& v) const
 {
-	typedef ConcreteIteratorAdapter<OutgoingEdge, LinkedList<OutgoingEdge>::ConstIterator, true> ConcreteConstIterator;
+	typedef ConcreteConstIteratorAdapter<OutgoingEdge, LinkedList<OutgoingEdge>::ConstIterator> ConcreteConstIterator;
 
 	verifyOwnershipOf(v);
-	const LinkedList<OutgoingEdge>& edges = v.edges;
 
-	return OutgoingEdgesConstIterator(new ConcreteConstIterator(edges.getConstIterator()));
+	return std::make_unique<ConcreteConstIterator>(getConcreteConstIteratorOfEdgesLeaving(v));
 }
 
 Graph::OutgoingEdgesConcreteIterator

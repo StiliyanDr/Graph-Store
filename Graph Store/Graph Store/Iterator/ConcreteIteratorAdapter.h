@@ -43,4 +43,7 @@ private:
 	ConcreteIterator iterator;
 };
 
+template <class Item, class ConcreteIterator>
+using ConcreteConstIteratorAdapter = ConcreteIteratorAdapter<Item, ConcreteIterator, true>;
+
 #endif //__CONCRETE_ITERATOR_ADAPTER_HEADER_INCLUDED__
