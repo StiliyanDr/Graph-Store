@@ -237,17 +237,10 @@ Graph::searchForEdgeFromTo(Vertex& start, const Vertex& end)
 	OutgoingEdgesConcreteIterator iterator =
 		getConcreteIteratorOfEdgesLeaving(start);
 
-	while (iterator)
+	return forEachUntil(iterator, [&](OutgoingEdge& e)
 	{
-		if (iterator->getVertex() == end)
-		{
-			break;
-		}
-
-		++iterator;
-	}
-
-	return iterator;
+		return e.getVertex() == end;
+	});
 }
 
 bool Graph::hasEdge(const Vertex& start, const Vertex& end) const
@@ -258,17 +251,10 @@ bool Graph::hasEdge(const Vertex& start, const Vertex& end) const
 	OutgoingEdgesConcreteConstIterator iterator =
 		getConcreteConstIteratorOfEdgesLeaving(start);
 
-	while (iterator)
+	return forEachUntil(iterator, [&](const OutgoingEdge& e)
 	{
-		if (iterator->getVertex() == end)
-		{
-			return true;
-		}
-
-		++iterator;
-	}
-
-	return false;
+		return e.getVertex() == end;
+	});
 }
 
 void Graph::removeEdgesLeaving(Vertex& v)
