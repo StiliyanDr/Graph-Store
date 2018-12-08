@@ -372,6 +372,12 @@ Graph::VerticesConcreteIterator Graph::getConcreteIteratorOfVertices()
 	return vertices.getIterator();
 }
 
+Graph::VerticesConcreteConstIterator
+Graph::getConcreteConstIteratorOfVertices() const
+{
+	return vertices.getConstIterator();
+}
+
 Graph::OutgoingEdgesConstIterator
 Graph::getConstIteratorOfEdgesLeaving(const Vertex& v) const
 {
@@ -389,6 +395,14 @@ Graph::getConcreteIteratorOfEdgesLeaving(Vertex& v)
 	assert(isOwnerOf(v));
 
 	return getEdgesLeaving(v).getIteratorToFirst();
+}
+
+Graph::OutgoingEdgesConcreteConstIterator
+Graph::getConcreteConstIteratorOfEdgesLeaving(const Vertex& v) const
+{
+	assert(isOwnerOf(v));
+
+	return v.edges.getConstIterator();
 }
 
 void Graph::verifyOwnershipOf(const Vertex& v) const
