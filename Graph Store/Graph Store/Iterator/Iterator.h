@@ -40,4 +40,20 @@ void forEach(Iterator& iterator, const Function& function)
 	}
 }
 
+template <class Iterator, class Predicate>
+Iterator forEachUntil(Iterator& iterator, const Predicate& predicate)
+{
+	while (iterator)
+	{
+		if (predicate(*iterator))
+		{
+			break;
+		}
+
+		++iterator;
+	}
+
+	return iterator;
+}
+
 #endif //__ITERATOR_HEADER_INCLUDED__
