@@ -255,8 +255,8 @@ bool Graph::hasEdge(const Vertex& start, const Vertex& end) const
 	verifyOwnershipOf(start);
 	verifyOwnershipOf(end);
 
-	const LinkedList<OutgoingEdge>& edges = start.edges;
-	LinkedList<OutgoingEdge>::ConstIterator iterator = edges.getConstIterator();
+	OutgoingEdgesConcreteConstIterator iterator =
+		getConcreteConstIteratorOfEdgesLeaving(start);
 
 	while (iterator)
 	{
