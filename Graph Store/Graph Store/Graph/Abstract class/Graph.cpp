@@ -38,15 +38,10 @@ bool operator==(const Graph::Vertex& lhs, const Graph::Vertex& rhs)
 	return &lhs == &rhs;
 }
 
-Graph::OutgoingEdge::OutgoingEdge(Vertex& v, Weight w) :
-	vertex(v)
+Graph::OutgoingEdge::OutgoingEdge(Vertex& end, Weight w) :
+	weight(w),
+	end(end)
 {
-	setWeight(w);
-}
-
-void Graph::OutgoingEdge::setWeight(Weight w)
-{
-	weight = w;
 }
 
 Graph::OutgoingEdge::Weight Graph::OutgoingEdge::getWeight() const
@@ -54,14 +49,14 @@ Graph::OutgoingEdge::Weight Graph::OutgoingEdge::getWeight() const
 	return weight;
 }
 
-const Graph::Vertex& Graph::OutgoingEdge::getVertex() const
+const Graph::Vertex& Graph::OutgoingEdge::getEnd() const
 {
-	return vertex;
+	return end;
 }
 
-Graph::Vertex& Graph::OutgoingEdge::getVertex()
+Graph::Vertex& Graph::OutgoingEdge::getEnd()
 {
-	return vertex;
+	return end;
 }
 
 Graph::Edge::Edge(const Vertex& start, const OutgoingEdge& e) :

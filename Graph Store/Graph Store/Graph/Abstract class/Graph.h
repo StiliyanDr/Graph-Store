@@ -23,21 +23,22 @@ public:
 		typedef unsigned Weight;
 
 	public:
-		const Vertex& getVertex() const;
-		Vertex& getVertex();
+		const Vertex& getEnd() const;
+		Vertex& getEnd();
 		Weight getWeight() const;
 
 	private:
-		OutgoingEdge(Vertex& v, Weight w = 1);
-		void setWeight(Weight w);
+		OutgoingEdge(Vertex& end, Weight w);
 
 	private:
 		Weight weight;
-		Vertex& vertex;
+		Vertex& end;
 	};
 
+private:
 	using AdjacencyList = LinkedList<OutgoingEdge>;
 
+public:
 	class Vertex
 	{
 		friend class Graph;
