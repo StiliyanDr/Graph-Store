@@ -36,24 +36,28 @@ public:
 		Vertex& vertex;
 	};
 
+	using AdjacencyList = LinkedList<OutgoingEdge>;
+
 	class Vertex
 	{
 		friend class Graph;
+		using AdjacencyListsIterator = LinkedList<AdjacencyList>::Iterator;
 
 	public:
-		Vertex(const Vertex&) = delete;
-		Vertex& operator=(const Vertex&) = delete;
+		Vertex(const Vertex&) = default;
+		Vertex& operator=(const Vertex&) = default;
+		~Vertex() = default;
 
 		const String& getID() const;
 
 	private:
-		Vertex(String id, size_t index);
+		Vertex(String id, size_t index, const AdjacencyListsIterator& iterator);
 		void setID(String id);
 
 	private:
 		String id;
 		size_t index;
-		LinkedList<OutgoingEdge> edges;
+		AdjacencyListsIterator iterator;
 	};
 
 	class Edge

@@ -2,8 +2,11 @@
 #include "../Graph Exception/GraphException.h"
 #include "../../Iterator/ConcreteIteratorAdapter.h"
 
-Graph::Vertex::Vertex(String id, size_t index) :
-	index(index)
+Graph::Vertex::Vertex(String id,
+	                  size_t index,
+	                  const AdjacencyListsIterator& iterator) :
+	index(index),
+	iterator(iterator)
 {
 	setID(std::move(id));
 }
