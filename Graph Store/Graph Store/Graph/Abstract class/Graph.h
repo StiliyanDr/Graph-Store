@@ -81,18 +81,18 @@ public:
 		AdjacencyListsIterator iterator;
 	};
 
-	typedef std::unique_ptr<ConstIterator<const Vertex*>> VerticesConstIterator;
-	typedef std::unique_ptr<ConstIterator<OutgoingEdge>> OutgoingEdgesConstIterator;
-
-protected:
-	typedef DynamicArray<Vertex*>::Iterator VerticesConcreteIterator;
-	typedef LinkedList<OutgoingEdge>::Iterator OutgoingEdgesConcreteIterator;
-	typedef DynamicArray<Vertex*>::ConstIterator VerticesConcreteConstIterator;
-	typedef LinkedList<OutgoingEdge>::ConstIterator OutgoingEdgesConcreteConstIterator;
+	using VerticesConstIterator = std::unique_ptr<ConstIterator<Vertex>>;
+	using OutgoingEdgesConstIterator = std::unique_ptr<ConstIterator<OutgoingEdge>>;
 
 private:
-	typedef Hash<Vertex, String, IdentifierAccessor> Hash;
-	typedef DynamicArray<Vertex*> Array;
+	using Hash = Hash<Vertex, String, IdentifierAccessor>;
+	using Array = DynamicArray<Vertex>;
+
+protected:
+	using VerticesConcreteIterator = Array::Iterator;
+	using VerticesConcreteConstIterator = Array::ConstIterator;
+	using OutgoingEdgesConcreteIterator = AdjacencyList::Iterator;
+	using OutgoingEdgesConcreteConstIterator = AdjacencyList::ConstIterator;
 
 protected:
 	class EdgesConstIteratorBase
