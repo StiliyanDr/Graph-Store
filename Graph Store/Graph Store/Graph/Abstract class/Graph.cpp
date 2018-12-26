@@ -71,7 +71,7 @@ const Graph::Vertex& Graph::Edge::getStart() const
 
 const Graph::Vertex& Graph::Edge::getEnd() const
 {
-	return incidentToStartEdge.getVertex();
+	return incidentToStartEdge.getEnd();
 }
 
 Graph::Edge::Weight Graph::Edge::getWeight() const

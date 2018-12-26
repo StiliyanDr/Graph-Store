@@ -35,6 +35,26 @@ public:
 		Vertex& end;
 	};
 
+	class Edge
+	{
+		friend class Graph;
+
+	public:
+		typedef OutgoingEdge::Weight Weight;
+
+	public:
+		const Vertex& getStart() const;
+		const Vertex& getEnd() const;
+		Weight getWeight() const;
+
+	private:
+		Edge(const Vertex& start, const OutgoingEdge& e);
+
+	private:
+		const Vertex& start;
+		const OutgoingEdge& incidentToStartEdge;
+	};
+
 private:
 	using AdjacencyList = LinkedList<OutgoingEdge>;
 
@@ -59,23 +79,6 @@ public:
 		String id;
 		size_t index;
 		AdjacencyListsIterator iterator;
-	};
-
-	class Edge
-	{
-	public:
-		typedef OutgoingEdge::Weight Weight;
-		
-	public:
-		Edge(const Vertex& start, const OutgoingEdge& e);
-
-		const Vertex& getStart() const;
-		const Vertex& getEnd() const;
-		Weight getWeight() const;
-
-	private:
-		const Vertex& start;
-		const OutgoingEdge& incidentToStartEdge;
 	};
 
 	typedef std::unique_ptr<ConstIterator<const Vertex*>> VerticesConstIterator;
