@@ -74,6 +74,7 @@ public:
 	private:
 		Vertex(String id, size_t index, const AdjacencyListsIterator& iterator);
 		void setID(String id);
+		void exchangeContentsWith(Vertex& v);
 
 	private:
 		String id;

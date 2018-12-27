@@ -23,6 +23,13 @@ void Graph::Vertex::setID(String id)
 	}
 }
 
+void Graph::Vertex::exchangeContentsWith(Vertex& v)
+{
+	std::swap(id, v.id);
+	std::swap(index, v.index);
+	std::swap(iterator, v.iterator);
+}
+
 const String& Graph::Vertex::getID() const
 {
 	return id;
