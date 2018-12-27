@@ -434,6 +434,18 @@ unsigned Graph::getVerticesCount() const
 	return vertices.getCount();
 }
 
+unsigned Graph::getEdgesCount() const
+{
+	unsigned count = 0;
+
+	forEach(adjacencyLists.getConstIterator(), [&](const AdjacencyList& edges)
+	{
+		count += edges.getSize();
+	});
+
+	return count;
+}
+
 const String& Graph::getID() const
 {
 	return id;
