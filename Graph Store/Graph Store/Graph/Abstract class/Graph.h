@@ -140,8 +140,8 @@ public:
 	VerticesConstIterator getConstIteratorOfVertices() const;
 	OutgoingEdgesConstIterator getConstIteratorOfEdgesLeaving(const Vertex& v) const;
 	virtual EdgesConstIterator getConstIteratorOfEdges() const = 0;
+	virtual unsigned getEdgesCount() const;
 	unsigned getVerticesCount() const;
-	unsigned getEdgesCount() const;
 
 	bool hasVertexWithID(const String& id) const;
 	bool hasEdge(const Vertex& start, const Vertex& end) const;
