@@ -429,6 +429,14 @@ Graph::AdjacencyList& Graph::getEdgesLeaving(const Vertex& v)
 	return *(v.iterator);
 }
 
+const Graph::AdjacencyList&
+Graph::getEdgesLeaving(const Vertex& v) const
+{
+	assert(isOwnerOf(v));
+
+	return *(v.iterator);
+}
+
 unsigned Graph::getVerticesCount() const
 {
 	return vertices.getCount();
