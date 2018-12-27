@@ -419,14 +419,14 @@ void Graph::verifyOwnershipOf(const Vertex& v) const
 
 bool Graph::isOwnerOf(const Vertex& v) const
 {
-	return v.index < vertices.getCount() && vertices[v.index] == &v;
+	return v.index < getVerticesCount() && vertices[v.index] == v;
 }
 
-LinkedList<Graph::OutgoingEdge>& Graph::getEdgesLeaving(Vertex& v)
+Graph::AdjacencyList& Graph::getEdgesLeaving(const Vertex& v)
 {
 	assert(isOwnerOf(v));
 
-	return v.edges;
+	return *(v.iterator);
 }
 
 unsigned Graph::getVerticesCount() const
