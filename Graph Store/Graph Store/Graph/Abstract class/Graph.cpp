@@ -337,7 +337,7 @@ Graph::Vertex& Graph::getVertexWithID(const String& id)
 	}
 }
 
-void Graph::addEdgeFromTo(Vertex& start, Vertex& end, OutgoingEdge::Weight weight)
+void Graph::addEdgeFromTo(const Vertex& start, Vertex& end, OutgoingEdge::Weight weight)
 {
 	assert(isOwnerOf(start));
 	assert(isOwnerOf(end));
@@ -354,7 +354,7 @@ void Graph::addEdgeFromTo(Vertex& start, Vertex& end, OutgoingEdge::Weight weigh
 
 Graph::VerticesConstIterator Graph::getConstIteratorOfVertices() const
 {
-	typedef ConcreteConstIteratorAdapter<const Vertex*, DynamicArray<Vertex*>::ConstIterator> ConcreteConstIterator;
+	using ConcreteConstIterator = ConcreteConstIteratorAdapter<Vertex, Array::ConstIterator>;
 
 	return std::make_unique<ConcreteConstIterator>(getConcreteConstIteratorOfVertices());
 }
@@ -373,7 +373,7 @@ Graph::getConcreteConstIteratorOfVertices() const
 Graph::OutgoingEdgesConstIterator
 Graph::getConstIteratorOfEdgesLeaving(const Vertex& v) const
 {
-	typedef ConcreteConstIteratorAdapter<OutgoingEdge, LinkedList<OutgoingEdge>::ConstIterator> ConcreteConstIterator;
+	using ConcreteConstIterator = ConcreteConstIteratorAdapter<OutgoingEdge, AdjacencyList::ConstIterator>;
 
 	verifyOwnershipOf(v);
 
@@ -381,7 +381,7 @@ Graph::getConstIteratorOfEdgesLeaving(const Vertex& v) const
 }
 
 Graph::OutgoingEdgesConcreteIterator
-Graph::getConcreteIteratorOfEdgesLeaving(Vertex& v)
+Graph::getConcreteIteratorOfEdgesLeaving(const Vertex& v)
 {
 	assert(isOwnerOf(v));
 
@@ -393,7 +393,7 @@ Graph::getConcreteConstIteratorOfEdgesLeaving(const Vertex& v) const
 {
 	assert(isOwnerOf(v));
 
-	return v.edges.getConstIterator();
+	return getEdgesLeaving(v).getConstIterator();
 }
 
 template <class ConcreteIterator>
