@@ -258,16 +258,16 @@ void Graph::removeVertexFromCollection(Vertex& v)
 	assert(isOwnerOf(v));
 
 	vertexSearchSet.remove(v.id);
-
+	
 	size_t indexOfLastVertex = getVerticesCount() - 1;
+	vertexSearchSet.remove(vertices[indexOfLastVertex].id);
+	
 	size_t indexToRemoveAt = v.index;
-
-	std::swap(vertices[indexToRemoveAt], vertices[indexOfLastVertex]);
-
-	vertexSearchSet.remove(vertices[indexToRemoveAt].id);
-	vertexSearchSet.add(vertices[indexToRemoveAt]);
-
+	vertices[indexOfLastVertex].index = indexToRemoveAt;
+	vertices[indexToRemoveAt].exchangeContentsWith(vertices[indexOfLastVertex]);
 	vertices.removeAt(indexOfLastVertex);
+
+	vertexSearchSet.add(vertices[indexToRemoveAt]);
 }
 
 void Graph::addVertex(const String& id)
