@@ -125,7 +125,7 @@ protected:
 	};
 
 public:
-	typedef std::unique_ptr<EdgesConstIteratorBase> EdgesConstIterator;
+	using EdgesConstIterator = std::unique_ptr<EdgesConstIteratorBase>;
 
 public:
 	virtual ~Graph();

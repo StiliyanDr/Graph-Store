@@ -111,7 +111,7 @@ bool Graph::EdgesConstIteratorBase::thereAreMoreEdges() const
 bool Graph::EdgesConstIteratorBase::pointsToUniteratedEdge() const
 {
 	return pointsToEdge()
-		   && (*verticesIterator)->index < edgesIterator->getVertex().index;
+		   && verticesIterator->index < edgesIterator->getEnd().index;
 }
 
 bool Graph::EdgesConstIteratorBase::pointsToEdge() const
@@ -134,8 +134,8 @@ void Graph::EdgesConstIteratorBase::goToNextListIfCurrentOneEnded()
 
 		if (verticesIterator)
 		{
-			const Vertex* v = *verticesIterator;
-			edgesIterator = v->edges.getConstIterator();
+			const AdjacencyList& edges = *(verticesIterator->iterator);
+			edgesIterator = edges.getConstIterator();
 		}
 	}
 }
@@ -146,7 +146,7 @@ Graph::Edge Graph::EdgesConstIteratorBase::operator*() const
 	{
 		assert(pointsToUniteratedEdge());
 
-		return Edge(*(*verticesIterator), *edgesIterator);
+		return Edge(*verticesIterator, *edgesIterator);
 	}
 	else
 	{
