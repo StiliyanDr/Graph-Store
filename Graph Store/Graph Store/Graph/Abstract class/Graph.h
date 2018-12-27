@@ -128,51 +128,52 @@ public:
 	using EdgesConstIterator = std::unique_ptr<EdgesConstIteratorBase>;
 
 public:
-	virtual ~Graph();
+	virtual ~Graph() = default;
 
 	void addVertex(const String& id);
 	void removeVertex(Vertex& v);
 	virtual void addEdge(Vertex& start, Vertex& end, Edge::Weight weight) = 0;
-	virtual void removeEdge(Vertex& start, Vertex& end) = 0;
+	virtual void removeEdge(const Vertex& start, const Vertex& end) = 0;
 
 	Vertex& getVertexWithID(const String& id);
 	VerticesConstIterator getConstIteratorOfVertices() const;
 	OutgoingEdgesConstIterator getConstIteratorOfEdgesLeaving(const Vertex& v) const;
 	virtual EdgesConstIterator getConstIteratorOfEdges() const = 0;
 	unsigned getVerticesCount() const;
+	unsigned getEdgesCount() const;
 
 	bool hasVertexWithID(const String& id) const;
 	bool hasEdge(const Vertex& start, const Vertex& end) const;
 
 	const String& getID() const;
-	void setID(String id);
 
 protected:
 	Graph(const String& id);
 	Graph(const Graph&) = delete;
 	Graph& operator=(const Graph&) = delete;
 
-	virtual void removeEdgesEndingIn(Vertex& v) = 0;
-	virtual void removeEdgesLeaving(Vertex& v);
-	void removeEdgeFromTo(Vertex& start, const Vertex& end);
-	void addEdgeFromTo(Vertex& start, Vertex& end, OutgoingEdge::Weight weight);
+	void removeEdgeFromTo(const Vertex& start, const Vertex& end);
+	void addEdgeFromTo(const Vertex& start, Vertex& end, OutgoingEdge::Weight weight);
 	void verifyOwnershipOf(const Vertex& v) const;
 	bool isOwnerOf(const Vertex& v) const;
 	VerticesConcreteIterator getConcreteIteratorOfVertices();
-	OutgoingEdgesConcreteIterator getConcreteIteratorOfEdgesLeaving(Vertex& v);
 	VerticesConcreteConstIterator getConcreteConstIteratorOfVertices() const;
+	OutgoingEdgesConcreteIterator getConcreteIteratorOfEdgesLeaving(const Vertex& v);
 	OutgoingEdgesConcreteConstIterator getConcreteConstIteratorOfEdgesLeaving(const Vertex& v) const;
 	template <class ConcreteIterator>
 	EdgesConstIterator createConstIteratorOfEdges() const;
 
 private:
+	virtual void removeEdgesEndingIn(const Vertex& v) = 0;
+	virtual void removeEdgesLeaving(const Vertex& v);
 	void tryToAddNewVertex(const String& id);
-	void addVertexToCollection(std::unique_ptr<Vertex> vertex);
-	void removeVertexFromCollection(const Vertex& vertex);
-	OutgoingEdgesConcreteIterator searchForEdgeFromTo(Vertex& start, const Vertex& end);
-	LinkedList<OutgoingEdge>& getEdgesLeaving(Vertex& v);
-	std::unique_ptr<Vertex> createVertex(const String& id) const;
-	void destroyAllVertices();
+	void addVertexToCollection(const Vertex& v);
+	void removeVertexFromCollection(Vertex& v);
+	OutgoingEdgesConcreteIterator searchForEdgeFromTo(const Vertex& start, const Vertex& end);
+	AdjacencyList& getEdgesLeaving(const Vertex& v);
+	const AdjacencyList& getEdgesLeaving(const Vertex& v) const;
+	Vertex createVertex(String id);
+	void setID(String id);
 
 private:
 	static const size_t INITIAL_COLLECTION_SIZE = 16;
@@ -180,6 +181,7 @@ private:
 private:
 	String id;
 	Array vertices;
+	LinkedList<AdjacencyList> adjacencyLists;
 	Hash vertexSearchSet;
 };
 
