@@ -183,21 +183,6 @@ void Graph::setID(String id)
 	}
 }
 
-Graph::~Graph()
-{
-	destroyAllVertices();
-}
-
-void Graph::destroyAllVertices()
-{
-	VerticesConcreteIterator iterator = getConcreteIteratorOfVertices();
-
-	forEach(iterator, [&](Vertex* v)
-	{
-		delete v;
-	});
-}
-
 void Graph::removeVertex(Vertex& v)
 {
 	verifyOwnershipOf(v);
@@ -205,11 +190,9 @@ void Graph::removeVertex(Vertex& v)
 	removeEdgesEndingIn(v);
 	removeEdgesLeaving(v);
 	removeVertexFromCollection(v);
-
-	delete &v;
 }
 
-void Graph::removeEdgeFromTo(Vertex& start, const Vertex& end)
+void Graph::removeEdgeFromTo(const Vertex& start, const Vertex& end)
 {
 	assert(isOwnerOf(start));
 	assert(isOwnerOf(end));
@@ -227,7 +210,7 @@ void Graph::removeEdgeFromTo(Vertex& start, const Vertex& end)
 }
 
 Graph::OutgoingEdgesConcreteIterator
-Graph::searchForEdgeFromTo(Vertex& start, const Vertex& end)
+Graph::searchForEdgeFromTo(const Vertex& start, const Vertex& end)
 {
 	assert(isOwnerOf(start));
 	assert(isOwnerOf(end));
@@ -235,9 +218,9 @@ Graph::searchForEdgeFromTo(Vertex& start, const Vertex& end)
 	OutgoingEdgesConcreteIterator iterator =
 		getConcreteIteratorOfEdgesLeaving(start);
 
-	return forEachUntil(iterator, [&](OutgoingEdge& e)
+	return forEachUntil(iterator, [&](const OutgoingEdge& e)
 	{
-		return e.getVertex() == end;
+		return e.getEnd() == end;
 	});
 }
 
@@ -251,28 +234,32 @@ bool Graph::hasEdge(const Vertex& start, const Vertex& end) const
 
 	return forEachUntil(iterator, [&](const OutgoingEdge& e)
 	{
-		return e.getVertex() == end;
+		return e.getEnd() == end;
 	});
 }
 
-void Graph::removeEdgesLeaving(Vertex& v)
+void Graph::removeEdgesLeaving(const Vertex& v)
 {
 	assert(isOwnerOf(v));
 
-	getEdgesLeaving(v).empty();
+	Vertex::AdjacencyListsIterator iterator = v.iterator;
+	adjacencyLists.removeAt(iterator);
 }
 
-void Graph::removeVertexFromCollection(const Vertex& vertex)
+void Graph::removeVertexFromCollection(Vertex& v)
 {
-	assert(isOwnerOf(vertex));
+	assert(isOwnerOf(v));
 
-	vertexSearchSet.remove(vertex.id);
+	vertexSearchSet.remove(v.id);
 
-	size_t indexOfLastVertex = vertices.getCount() - 1;
-	assert(vertices[indexOfLastVertex]->index == indexOfLastVertex);
+	size_t indexOfLastVertex = getVerticesCount() - 1;
+	size_t indexToRemoveAt = v.index;
 
-	vertices[indexOfLastVertex]->index = vertex.index;
-	std::swap(vertices[indexOfLastVertex], vertices[vertex.index]);
+	std::swap(vertices[indexToRemoveAt], vertices[indexOfLastVertex]);
+
+	vertexSearchSet.remove(vertices[indexToRemoveAt].id);
+	vertexSearchSet.add(vertices[indexToRemoveAt]);
+
 	vertices.removeAt(indexOfLastVertex);
 }
 
@@ -409,8 +396,8 @@ Graph::createConstIteratorOfEdges() const
 	VerticesConcreteConstIterator verticesIterator =
 		getConcreteConstIteratorOfVertices();
 	OutgoingEdgesConcreteConstIterator edgesIterator =
-		verticesIterator ? getConcreteConstIteratorOfEdgesLeaving(*(*verticesIterator)) :
-		                   LinkedList<OutgoingEdge>().getConstIterator();
+		verticesIterator ? getConcreteConstIteratorOfEdgesLeaving(*verticesIterator) :
+		                   AdjacencyList().getConstIterator();
 
 	return std::make_unique<ConcreteIterator>(verticesIterator, edgesIterator);
 }
