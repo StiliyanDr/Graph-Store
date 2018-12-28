@@ -405,6 +405,9 @@
     <ClInclude Include="Runtime Error\RuntimeError.h">
       <Filter>Runtime Error</Filter>
     </ClInclude>
+    <ClInclude Include="Iterator\STLIteratorAdapter.h">
+      <Filter>Iterator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\FileParser.cpp">
