@@ -174,6 +174,8 @@ private:
 	AdjacencyList& getEdgesLeaving(const Vertex& v);
 	const AdjacencyList& getEdgesLeaving(const Vertex& v) const;
 	Vertex createVertex(String id);
+	AdjacencyListsIterator createAdjacencyListAndReturnIterator();
+	void removeNewlyCreatedAdjacencyList();
 	void setID(String id);
 
 private:

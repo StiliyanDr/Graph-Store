@@ -249,7 +249,7 @@ void Graph::removeEdgesLeaving(const Vertex& v)
 {
 	assert(isOwnerOf(v));
 
-	Vertex::AdjacencyListsIterator iterator = v.iterator;
+	AdjacencyListsIterator iterator = v.iterator;
 	adjacencyLists.removeAt(iterator);
 }
 
@@ -291,8 +291,7 @@ void Graph::tryToAddNewVertex(const String& id)
 {
 	try
 	{
-		std::unique_ptr<Vertex> newVertex = createVertex(id);
-		addVertexToCollection(std::move(newVertex));
+		addVertexToCollection(createVertex(id));
 	}
 	catch (std::bad_alloc&)
 	{
@@ -300,29 +299,57 @@ void Graph::tryToAddNewVertex(const String& id)
 	}
 }
 
-std::unique_ptr<Graph::Vertex> Graph::createVertex(const String& id) const
+Graph::Vertex Graph::createVertex(String id)
 {
-	return std::make_unique<Vertex>(id, vertices.getCount());
+	try
+	{
+		return Vertex(std::move(id),
+		              getVerticesCount(),
+		              createAdjacencyListAndReturnIterator());
+	}
+	catch (GraphException&)
+	{
+		removeNewlyCreatedAdjacencyList();
+		throw;
+	}
 }
 
-void Graph::addVertexToCollection(std::unique_ptr<Vertex> vertex)
+Graph::AdjacencyListsIterator
+Graph::createAdjacencyListAndReturnIterator()
 {
-	assert(vertex != nullptr);
-	assert(vertex->index == vertices.getCount());
+	adjacencyLists.addFront(AdjacencyList());
+	
+	return adjacencyLists.getIteratorToFirst();
+}
 
-	vertices.add(vertex.get());
+void Graph::removeNewlyCreatedAdjacencyList()
+{
+	adjacencyLists.removeFirst();
+}
+
+void Graph::addVertexToCollection(const Vertex& v)
+{
+	assert(v.iterator == adjacencyLists.getIteratorToFirst());
 
 	try
 	{
-		vertexSearchSet.add(*vertex);
+		vertices.add(v);
+
+		try
+		{
+			vertexSearchSet.add(vertices[getVerticesCount() - 1]);
+		}
+		catch (std::bad_alloc&)
+		{
+			vertices.removeLast();
+			throw;
+		}
 	}
 	catch (std::bad_alloc&)
 	{
-		vertices.removeAt(vertex->index);
+		removeNewlyCreatedAdjacencyList();
 		throw;
 	}
-
-	vertex.release();
 }
 
 Graph::Vertex& Graph::getVertexWithID(const String& id)
