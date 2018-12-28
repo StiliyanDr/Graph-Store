@@ -265,7 +265,7 @@ void Graph::removeVertexFromCollection(Vertex& v)
 	size_t indexToRemoveAt = v.index;
 	vertices[indexOfLastVertex].index = indexToRemoveAt;
 	vertices[indexToRemoveAt].exchangeContentsWith(vertices[indexOfLastVertex]);
-	vertices.removeAt(indexOfLastVertex);
+	vertices.pop_back();
 
 	vertexSearchSet.add(vertices[indexToRemoveAt]);
 }
@@ -333,15 +333,15 @@ void Graph::addVertexToCollection(const Vertex& v)
 
 	try
 	{
-		vertices.add(v);
+		vertices.push_back(v);
 
 		try
 		{
-			vertexSearchSet.add(vertices[getVerticesCount() - 1]);
+			vertexSearchSet.add(vertices.back());
 		}
 		catch (std::bad_alloc&)
 		{
-			vertices.removeLast();
+			vertices.pop_back();
 			throw;
 		}
 	}
@@ -381,20 +381,18 @@ void Graph::addEdgeFromTo(const Vertex& start, Vertex& end, OutgoingEdge::Weight
 
 Graph::VerticesConstIterator Graph::getConstIteratorOfVertices() const
 {
-	using ConcreteConstIterator = ConcreteConstIteratorAdapter<Vertex, Array::ConstIterator>;
-
-	return std::make_unique<ConcreteConstIterator>(getConcreteConstIteratorOfVertices());
+	return std::make_unique<VerticesConcreteConstIterator>(getConcreteConstIteratorOfVertices());
 }
 
 Graph::VerticesConcreteIterator Graph::getConcreteIteratorOfVertices()
 {
-	return vertices.getIterator();
+	return VerticesConcreteIterator(vertices.begin(), vertices.end());
 }
 
 Graph::VerticesConcreteConstIterator
 Graph::getConcreteConstIteratorOfVertices() const
 {
-	return vertices.getConstIterator();
+	return VerticesConcreteConstIterator(vertices.cbegin(), vertices.cend());
 }
 
 Graph::OutgoingEdgesConstIterator
@@ -466,7 +464,7 @@ Graph::getEdgesLeaving(const Vertex& v) const
 
 unsigned Graph::getVerticesCount() const
 {
-	return vertices.getCount();
+	return vertices.size();
 }
 
 unsigned Graph::getEdgesCount() const

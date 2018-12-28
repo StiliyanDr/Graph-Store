@@ -3,12 +3,13 @@
 
 #include "../../String/String.h"
 #include "../../Iterator/Iterator.h"
-#include "../../Dynamic Array/DynamicArray.h"
+#include "../../Iterator/STLIteratorAdapter.h"
 #include "../../Hash/Hash.h"
 #include "../../Hash/Hash Function/HashFunctionStringSpecialization.h"
 #include "../../Hash/Identifier Accessor/IdentifierAccessor.h"
 #include "../../Linked List/LinkedList.h"
 #include <memory>
+#include <vector>
 
 class Graph
 {
@@ -87,11 +88,11 @@ public:
 
 private:
 	using Hash = Hash<Vertex, String, IdentifierAccessor>;
-	using Array = DynamicArray<Vertex>;
+	using Array = std::vector<Vertex>;
 
 protected:
-	using VerticesConcreteIterator = Array::Iterator;
-	using VerticesConcreteConstIterator = Array::ConstIterator;
+	using VerticesConcreteIterator = STLIteratorAdapter<Array::iterator>;
+	using VerticesConcreteConstIterator = STLConstIteratorAdapter<Array::const_iterator>;
 	using OutgoingEdgesConcreteIterator = AdjacencyList::Iterator;
 	using OutgoingEdgesConcreteConstIterator = AdjacencyList::ConstIterator;
 
