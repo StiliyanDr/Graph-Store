@@ -57,12 +57,12 @@ public:
 
 private:
 	using AdjacencyList = LinkedList<OutgoingEdge>;
+	using AdjacencyListsIterator = LinkedList<AdjacencyList>::Iterator;
 
 public:
 	class Vertex
 	{
 		friend class Graph;
-		using AdjacencyListsIterator = LinkedList<AdjacencyList>::Iterator;
 
 	public:
 		Vertex(const Vertex&) = default;
