@@ -9,7 +9,9 @@ DirectedGraph::DirectedGraph(const String& id) :
 {
 }
 
-void DirectedGraph::addEdge(Vertex& start, Vertex& end, Edge::Weight weight)
+void DirectedGraph::addEdge(Vertex& start,
+							Vertex& end,
+							Edge::Weight weight)
 {
 	verifyOwnershipOf(start);
 	verifyOwnershipOf(end);
@@ -24,7 +26,8 @@ void DirectedGraph::addEdge(Vertex& start, Vertex& end, Edge::Weight weight)
 	}
 }
 
-void DirectedGraph::removeEdge(const Vertex& start, const Vertex& end)
+void DirectedGraph::removeEdge(const Vertex& start,
+							   const Vertex& end)
 {
 	verifyOwnershipOf(start);
 	verifyOwnershipOf(end);
@@ -36,7 +39,8 @@ void DirectedGraph::removeEdgesEndingIn(const Vertex& end)
 {
 	assert(isOwnerOf(end));
 
-	VerticesConcreteIterator iterator = getConcreteIteratorOfVertices();
+	VerticesConcreteIterator iterator =
+		getConcreteIteratorOfVertices();
 
 	forEach(iterator, [&](const Vertex& start)
 	{
