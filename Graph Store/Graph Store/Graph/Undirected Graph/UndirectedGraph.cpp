@@ -15,6 +15,7 @@ void UndirectedGraph::addEdge(Vertex& start,
 {
 	verifyOwnershipOf(start);
 	verifyOwnershipOf(end);
+	verifyEdgeWouldNotBeALoop(start, end);
 
 	if (!hasEdge(start, end))
 	{
@@ -23,6 +24,18 @@ void UndirectedGraph::addEdge(Vertex& start,
 	else
 	{
 		throw GraphException("There already is such an edge in the graph!"_s);
+	}
+}
+
+void UndirectedGraph::verifyEdgeWouldNotBeALoop(const Vertex& start,
+												const Vertex& end) const
+{
+	assert(isOwnerOf(start));
+	assert(isOwnerOf(end));
+
+	if (start == end)
+	{
+		throw GraphException("Proposed edge is a loop!"_s);
 	}
 }
 
@@ -43,7 +56,7 @@ void UndirectedGraph::tryToAddUndirectedEdge(Vertex& start,
 	}
 }
 
-void UndirectedGraph::removeEdge(Vertex& start, Vertex& end)
+void UndirectedGraph::removeEdge(const Vertex& start, const Vertex& end)
 {
 	verifyOwnershipOf(start);
 	verifyOwnershipOf(end);
@@ -52,17 +65,20 @@ void UndirectedGraph::removeEdge(Vertex& start, Vertex& end)
 	removeEdgeFromTo(end, start);
 }
 
-void UndirectedGraph::removeEdgesEndingIn(Vertex& v)
+void UndirectedGraph::removeEdgesEndingIn(const Vertex& v)
 {
 	OutgoingEdgesConcreteIterator iterator =
 		getConcreteIteratorOfEdgesLeaving(v);
 
-	forEach(iterator, [&](OutgoingEdge& e)
+	forEach(iterator, [&](const OutgoingEdge& e)
 	{
-		Vertex& endOfEdge = e.getVertex();
-
-		removeEdgeFromTo(endOfEdge, v);
+		removeEdgeFromTo(e.getEnd(), v);
 	});
+}
+
+unsigned UndirectedGraph::getEdgesCount() const
+{
+	return Graph::getEdgesCount() / 2;
 }
 
 Graph::EdgesConstIterator
