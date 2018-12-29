@@ -9,14 +9,14 @@ public:
 	explicit UndirectedGraph(const String& id);
 
 	virtual void addEdge(Vertex& start, Vertex& end, Edge::Weight weight) override;
-	virtual void removeEdge(Vertex& start, Vertex& end) override;
+	virtual void removeEdge(const Vertex& start, const Vertex& end) override;
 	virtual EdgesConstIterator getConstIteratorOfEdges() const override;
-
-protected:
-	virtual void removeEdgesEndingIn(Vertex& v) override;
+	virtual unsigned getEdgesCount() const override;
 
 private:
+	virtual void removeEdgesEndingIn(const Vertex& v) override;
 	void tryToAddUndirectedEdge(Vertex& start, Vertex& end, Edge::Weight weight);
+	void verifyEdgeWouldNotBeALoop(const Vertex& start, const Vertex& end) const;
 };
 
 #endif //__UNDIRECTED_GRAPH_HEADER_INCLUDED__
