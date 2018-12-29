@@ -156,6 +156,7 @@ protected:
 
 	void removeEdgeFromTo(const Vertex& start, const Vertex& end);
 	void addEdgeFromTo(const Vertex& start, Vertex& end, OutgoingEdge::Weight weight);
+	void verifyNoSuchEdgeExists(const Vertex& start, const Vertex& end) const;
 	void verifyOwnershipOf(const Vertex& v) const;
 	bool isOwnerOf(const Vertex& v) const;
 	VerticesConcreteIterator getConcreteIteratorOfVertices();

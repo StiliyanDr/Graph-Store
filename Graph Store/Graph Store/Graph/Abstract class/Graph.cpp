@@ -440,6 +440,18 @@ Graph::createConstIteratorOfEdges() const
 	return std::make_unique<ConcreteIterator>(verticesIterator, edgesIterator);
 }
 
+void Graph::verifyNoSuchEdgeExists(const Vertex& start,
+								   const Vertex& end) const
+{
+	assert(isOwnerOf(start));
+	assert(isOwnerOf(end));
+
+	if (hasEdge(start, end))
+	{
+		throw GraphException("There already is such an edge in the graph!"_s);
+	}
+}
+
 void Graph::verifyOwnershipOf(const Vertex& v) const
 {
 	if (!isOwnerOf(v))

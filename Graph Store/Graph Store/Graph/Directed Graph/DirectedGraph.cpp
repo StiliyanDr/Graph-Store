@@ -15,15 +15,8 @@ void DirectedGraph::addEdge(Vertex& start,
 {
 	verifyOwnershipOf(start);
 	verifyOwnershipOf(end);
-
-	if (!hasEdge(start, end))
-	{
-		addEdgeFromTo(start, end, weight);
-	}
-	else
-	{
-		throw GraphException("There already is such an edge in the graph!"_s);
-	}
+	verifyNoSuchEdgeExists(start, end);
+	addEdgeFromTo(start, end, weight);
 }
 
 void DirectedGraph::removeEdge(const Vertex& start,

@@ -16,15 +16,8 @@ void UndirectedGraph::addEdge(Vertex& start,
 	verifyOwnershipOf(start);
 	verifyOwnershipOf(end);
 	verifyEdgeWouldNotBeALoop(start, end);
-
-	if (!hasEdge(start, end))
-	{
-		tryToAddUndirectedEdge(start, end, weight);
-	}
-	else
-	{
-		throw GraphException("There already is such an edge in the graph!"_s);
-	}
+	verifyNoSuchEdgeExists(start, end);
+	tryToAddUndirectedEdge(start, end, weight);
 }
 
 void UndirectedGraph::verifyEdgeWouldNotBeALoop(const Vertex& start,
