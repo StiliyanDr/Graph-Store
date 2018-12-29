@@ -204,7 +204,8 @@ void Graph::removeEdgeFromTo(const Vertex& start, const Vertex& end)
 	assert(isOwnerOf(start));
 	assert(isOwnerOf(end));
 
-	OutgoingEdgesConcreteIterator iteratorToEdge = searchForEdgeFromTo(start, end);
+	OutgoingEdgesConcreteIterator iteratorToEdge =
+		searchForEdgeFromTo(start, end);
 
 	if (iteratorToEdge)
 	{
@@ -364,7 +365,9 @@ Graph::Vertex& Graph::getVertexWithID(const String& id)
 	}
 }
 
-void Graph::addEdgeFromTo(const Vertex& start, Vertex& end, OutgoingEdge::Weight weight)
+void Graph::addEdgeFromTo(const Vertex& start,
+						  Vertex& end,
+						  OutgoingEdge::Weight weight)
 {
 	assert(isOwnerOf(start));
 	assert(isOwnerOf(end));
@@ -379,12 +382,14 @@ void Graph::addEdgeFromTo(const Vertex& start, Vertex& end, OutgoingEdge::Weight
 	}
 }
 
-Graph::VerticesConstIterator Graph::getConstIteratorOfVertices() const
+Graph::VerticesConstIterator
+Graph::getConstIteratorOfVertices() const
 {
 	return std::make_unique<VerticesConcreteConstIterator>(getConcreteConstIteratorOfVertices());
 }
 
-Graph::VerticesConcreteIterator Graph::getConcreteIteratorOfVertices()
+Graph::VerticesConcreteIterator
+Graph::getConcreteIteratorOfVertices()
 {
 	return VerticesConcreteIterator(vertices.begin(), vertices.end());
 }
@@ -398,7 +403,8 @@ Graph::getConcreteConstIteratorOfVertices() const
 Graph::OutgoingEdgesConstIterator
 Graph::getConstIteratorOfEdgesLeaving(const Vertex& v) const
 {
-	using ConcreteConstIterator = ConcreteConstIteratorAdapter<OutgoingEdge, AdjacencyList::ConstIterator>;
+	using ConcreteConstIterator =
+		ConcreteConstIteratorAdapter<OutgoingEdge, AdjacencyList::ConstIterator>;
 
 	verifyOwnershipOf(v);
 
@@ -447,7 +453,8 @@ bool Graph::isOwnerOf(const Vertex& v) const
 	return v.index < getVerticesCount() && vertices[v.index] == v;
 }
 
-Graph::AdjacencyList& Graph::getEdgesLeaving(const Vertex& v)
+Graph::AdjacencyList&
+Graph::getEdgesLeaving(const Vertex& v)
 {
 	assert(isOwnerOf(v));
 
