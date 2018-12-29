@@ -24,7 +24,7 @@ void DirectedGraph::addEdge(Vertex& start, Vertex& end, Edge::Weight weight)
 	}
 }
 
-void DirectedGraph::removeEdge(Vertex& start, Vertex& end)
+void DirectedGraph::removeEdge(const Vertex& start, const Vertex& end)
 {
 	verifyOwnershipOf(start);
 	verifyOwnershipOf(end);
@@ -32,17 +32,17 @@ void DirectedGraph::removeEdge(Vertex& start, Vertex& end)
 	removeEdgeFromTo(start, end);
 }
 
-void DirectedGraph::removeEdgesEndingIn(Vertex& end)
+void DirectedGraph::removeEdgesEndingIn(const Vertex& end)
 {
 	assert(isOwnerOf(end));
 
 	VerticesConcreteIterator iterator = getConcreteIteratorOfVertices();
 
-	forEach(iterator, [&](Vertex* start)
+	forEach(iterator, [&](const Vertex& start)
 	{
 		try
 		{
-			removeEdgeFromTo(*start, end);
+			removeEdgeFromTo(start, end);
 		}
 		catch (GraphException&)
 		{
