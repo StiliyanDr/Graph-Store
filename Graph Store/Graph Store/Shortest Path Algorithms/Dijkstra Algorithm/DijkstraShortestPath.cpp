@@ -70,7 +70,7 @@ void DijkstraShortestPath::relaxEdgesLeaving(const DijkstraVertex& start,
 
 	forEach(*iterator, [&](const Graph::OutgoingEdge& e)
 	{
-		DijkstraVertex& end = getDecoratedVersionOf(e.getVertex());
+		DijkstraVertex& end = getDecoratedVersionOf(e.getEnd());
 
 		relaxEdge(start, end, e.getWeight());
 	});

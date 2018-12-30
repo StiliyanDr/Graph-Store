@@ -71,7 +71,7 @@ void BFSShortestPath::exploreEdgesLeaving(const MarkableDecoratedVertex& predece
 
 	forEach(*iterator, [&](const Graph::OutgoingEdge& e)
 	{
-		MarkableDecoratedVertex& successor = getDecoratedVersionOf(e.getVertex());
+		MarkableDecoratedVertex& successor = getDecoratedVersionOf(e.getEnd());
 
 		exploreEdge(predecessor, successor);
 	});

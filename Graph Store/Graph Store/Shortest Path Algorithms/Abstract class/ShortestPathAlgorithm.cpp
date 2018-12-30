@@ -134,9 +134,9 @@ ShortestPathAlgorithm::createPathBetween(const Graph::Vertex& source,
 
 void ShortestPathAlgorithm::decorateVerticesOf(const Graph& graph)
 {
-	forEach(*(graph.getConstIteratorOfVertices()), [&](const Graph::Vertex* vertex)
+	forEach(*(graph.getConstIteratorOfVertices()), [&](const Graph::Vertex& v)
 	{
-		addDecoratedVersionOf(*vertex);
+		addDecoratedVersionOf(v);
 	});
 }
 

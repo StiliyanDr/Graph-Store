@@ -60,7 +60,7 @@ void IterativeDeepeningDFS::expandSearch(const MarkableDecoratedVertex& predeces
 	while (!foundAShortestPath && *iterator)
 	{
 		MarkableDecoratedVertex& successor =
-			getDecoratedVersionOf((*iterator)->getVertex());
+			getDecoratedVersionOf((*iterator)->getEnd());
 
 		if (!successor.isVisited)
 		{
