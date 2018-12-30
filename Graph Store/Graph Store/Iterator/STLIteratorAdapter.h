@@ -5,7 +5,7 @@
 #include <stdexcept>
 
 template <class STLIterator, bool isConst = false>
-class STLIteratorAdapter : public AbstractIterator<STLIterator::value_type, isConst>
+class STLIteratorAdapter : public AbstractIterator<typename STLIterator::value_type, isConst>
 {
 public:
 	STLIteratorAdapter(STLIterator rangeStart, STLIterator rangeEnd) :
