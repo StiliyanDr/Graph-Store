@@ -194,4 +194,17 @@ private:
 bool operator==(const Graph::Vertex& lhs, const Graph::Vertex& rhs);
 bool operator!=(const Graph::Vertex& lhs, const Graph::Vertex& rhs);
 
+template <class ConcreteIterator>
+typename Graph::EdgesConstIterator
+Graph::createConstIteratorOfEdges() const
+{
+	VerticesConcreteConstIterator verticesIterator =
+		getConcreteConstIteratorOfVertices();
+	OutgoingEdgesConcreteConstIterator edgesIterator =
+		verticesIterator ? getConcreteConstIteratorOfEdgesLeaving(*verticesIterator) :
+						   AdjacencyList().getConstIterator();
+
+	return std::make_unique<ConcreteIterator>(verticesIterator, edgesIterator);
+}
+
 #endif //__GRAPH_HEADER_INCLUDED__

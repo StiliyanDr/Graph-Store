@@ -427,19 +427,6 @@ Graph::getConcreteConstIteratorOfEdgesLeaving(const Vertex& v) const
 	return getEdgesLeaving(v).getConstIterator();
 }
 
-template <class ConcreteIterator>
-typename Graph::EdgesConstIterator
-Graph::createConstIteratorOfEdges() const
-{
-	VerticesConcreteConstIterator verticesIterator =
-		getConcreteConstIteratorOfVertices();
-	OutgoingEdgesConcreteConstIterator edgesIterator =
-		verticesIterator ? getConcreteConstIteratorOfEdgesLeaving(*verticesIterator) :
-		                   AdjacencyList().getConstIterator();
-
-	return std::make_unique<ConcreteIterator>(verticesIterator, edgesIterator);
-}
-
 void Graph::verifyNoSuchEdgeExists(const Vertex& start,
 								   const Vertex& end) const
 {
