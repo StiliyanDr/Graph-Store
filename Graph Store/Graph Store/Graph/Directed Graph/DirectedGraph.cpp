@@ -53,3 +53,10 @@ DirectedGraph::getConstIteratorOfEdges() const
 {
 	return createConstIteratorOfEdges<DirectedEdgesConstIterator>();
 }
+
+const String& DirectedGraph::getType() const
+{
+	static const String type = "directed"_s;
+
+	return type;
+}

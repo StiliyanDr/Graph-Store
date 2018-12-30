@@ -148,6 +148,7 @@ public:
 	bool hasEdge(const Vertex& start, const Vertex& end) const;
 
 	const String& getID() const;
+	virtual const String& getType() const = 0;
 
 protected:
 	Graph(const String& id);

@@ -28,6 +28,7 @@ public:
 	virtual void addEdge(Vertex& start, Vertex& end, Edge::Weight weight) override;
 	virtual void removeEdge(const Vertex& start, const Vertex& end) override;
 	virtual EdgesConstIterator getConstIteratorOfEdges() const override;
+	virtual const String& getType() const override;
 
 private:
 	virtual void removeEdgesEndingIn(const Vertex& v) override;

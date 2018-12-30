@@ -79,3 +79,10 @@ UndirectedGraph::getConstIteratorOfEdges() const
 {
 	return createConstIteratorOfEdges<EdgesConstIteratorBase>();
 }
+
+const String& UndirectedGraph::getType() const
+{
+	static const String type = "undirected"_s;
+
+	return type;
+}
