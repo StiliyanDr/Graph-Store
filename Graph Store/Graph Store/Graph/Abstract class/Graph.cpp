@@ -172,9 +172,9 @@ bool Graph::EdgesConstIteratorBase::operator!() const
 }
 
 Graph::Graph(const String& id) :
-	vertices(INITIAL_COLLECTION_SIZE),
 	vertexSearchSet(INITIAL_COLLECTION_SIZE)
 {
+	vertices.reserve(INITIAL_COLLECTION_SIZE);
 	setID(id);
 }
 
