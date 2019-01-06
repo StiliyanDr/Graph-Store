@@ -176,6 +176,7 @@
     <ClInclude Include="Graph Factory\Graph Registrator\GraphRegistrator.h" />
     <ClInclude Include="Graph Factory\GraphFactory.h" />
     <ClInclude Include="Graph Factory\Invalid Graph Type Exception\InvalidGraphTypeException.h" />
+    <ClInclude Include="Graph Saver\GraphSaver.h" />
     <ClInclude Include="Graph\Abstract class\Graph.h" />
     <ClInclude Include="Graph\Directed Graph\DirectedGraph.h" />
     <ClInclude Include="Graph\Graph Exception\GraphException.h" />
@@ -230,6 +231,7 @@
     <ClCompile Include="Graph Collection\GraphCollection.cpp" />
     <ClCompile Include="Graph Factory\Graph Creator\GraphCreator.cpp" />
     <ClCompile Include="Graph Factory\GraphFactory.cpp" />
+    <ClCompile Include="Graph Saver\GraphSaver.cpp" />
     <ClCompile Include="Graph Store.cpp" />
     <ClCompile Include="Graph\Abstract class\Graph.cpp" />
     <ClCompile Include="Graph\Directed Graph\DirectedGraph.cpp" />

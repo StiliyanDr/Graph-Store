@@ -205,6 +205,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
+    <Filter Include="Graph Saver">
+      <UniqueIdentifier>{68a3c842-0b29-4348-bbeb-262941dcd859}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -408,6 +411,9 @@
     <ClInclude Include="Iterator\STLIteratorAdapter.h">
       <Filter>Iterator</Filter>
     </ClInclude>
+    <ClInclude Include="Graph Saver\GraphSaver.h">
+      <Filter>Graph Saver</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\FileParser.cpp">
@@ -508,6 +514,9 @@
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraShortestPath.cpp">
       <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph Saver\GraphSaver.cpp">
+      <Filter>Graph Saver</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
