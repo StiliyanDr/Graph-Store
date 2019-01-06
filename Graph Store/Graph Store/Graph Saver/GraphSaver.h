@@ -9,17 +9,7 @@
 class GraphSaver
 {
 	using VertexID = String;
-	
-	struct IndexedVertex
-	{	
-		IndexedVertex(size_t index, const VertexID& id) :
-			index(index), id(id) { }
-
-		size_t index;
-		const VertexID& id;
-	};
-
-	using Map = std::unordered_map<VertexID, IndexedVertex, HashFunction<VertexID>>;
+	using Map = std::unordered_map<std::reference_wrapper<const VertexID>, size_t, HashFunction<VertexID>>;
 
 public:
 	void save(const Graph& graph);

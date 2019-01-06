@@ -22,7 +22,7 @@ void GraphSaver::decorateVerticesOf(const Graph& g)
 
 	forEach(*iterator, [&](const Graph::Vertex& v)
 	{
-		decoratedVertices.emplace(index, v.getID());
+		decoratedVertices.emplace(v.getID(), index);
 		++index;
 	});
 }
@@ -109,7 +109,5 @@ void GraphSaver::saveEdgesOf(const Graph& g)
 
 size_t GraphSaver::getIndexOf(const Graph::Vertex& v) const
 {
-	const IndexedVertex& vertex = decoratedVertices.at(v.getID());
-	
-	return vertex.index;
+	return decoratedVertices.at(v.getID());
 }
