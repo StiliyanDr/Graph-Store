@@ -21,7 +21,8 @@ protected:
 	};
 
 private:
-	typedef std::unordered_map<String, MarkableDecoratedVertex, HashFunction<String>> Hash;
+	using Hash =
+		std::unordered_map<std::reference_wrapper<const String>, MarkableDecoratedVertex, HashFunction<String>>;
 
 protected:
 	SearchBasedShortestPathAlgorithm(const String& id);
