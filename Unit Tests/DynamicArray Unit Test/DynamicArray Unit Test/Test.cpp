@@ -317,6 +317,30 @@ namespace DynamicArrayUnitTest
 			}
 		}
 
+		TEST_METHOD(testRemoveLast)
+		{
+			Array arr = createArrayFromRange(0, 5);
+
+			arr.removeLast();
+
+			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr, 0, 4));
+		}
+
+		TEST_METHOD(testRemoveLastFromEmptyArrayThrowsException)
+		{
+			Array emptyArray;
+
+			try
+			{
+				emptyArray.removeLast();
+				Assert::Fail(L"The method did not throw an exception!");
+			}
+			catch (std::logic_error& e)
+			{
+				Assert::IsTrue(areEqual("There is no last element!", e.what()));
+			}
+		}
+
 		TEST_METHOD(testAddAtIndexShiftsRightTheNextElements)
 		{
 			Array arr = createArrayFromRange(11, 15);

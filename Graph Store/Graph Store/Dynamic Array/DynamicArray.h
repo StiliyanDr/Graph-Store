@@ -56,6 +56,7 @@ public:
 
 	void add(const T& item);
 	void removeAt(size_t index);
+	void removeLast();
 
 	void addAt(size_t index, const T& item);
 	void ensureSize(size_t size);

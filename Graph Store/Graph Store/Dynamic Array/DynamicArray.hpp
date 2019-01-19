@@ -142,7 +142,8 @@ inline void DynamicArray<T>::add(const T& item)
 {
 	extendIfFull();
 
-	items[count++] = item;
+	items[count] = item;
+	++count;
 }
 
 template <class T>
@@ -195,6 +196,19 @@ void DynamicArray<T>::shiftRight(size_t first, size_t last)
 	for (size_t i = last + 1; i > first; --i)
 	{
 		items[i] = items[i - 1];
+	}
+}
+
+template <class T>
+void DynamicArray<T>::removeLast()
+{
+	if (!isEmpty())
+	{
+		removeAt(count - 1);
+	}
+	else
+	{
+		throw std::logic_error("There is no last element!");
 	}
 }
 
