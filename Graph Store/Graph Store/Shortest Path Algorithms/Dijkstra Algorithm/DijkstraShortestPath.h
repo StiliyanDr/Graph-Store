@@ -44,7 +44,7 @@ class DijkstraShortestPath : public ShortestPathAlgorithm
 	};
 
 	using PriorityQueue = PriorityQueue<DijkstraVertex*, Less, Distance, KeyAccessor, HandleUpdator>;
-	using Hash = std::unordered_map<String, DijkstraVertex, HashFunction<String>>;
+	using Hash = std::unordered_map<std::reference_wrapper<const String>, DijkstraVertex, HashFunction<String>>;
 
 	class HashIterator
 	{
