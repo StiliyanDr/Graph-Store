@@ -19,24 +19,24 @@ public:
 		typedef typename std::conditional<isConst, const Item*, Item*>::type Pointer;
 
 	public:
-		DynamicArrayIterator(const DynamicArrayIterator<Item, false>& source);
+		DynamicArrayIterator(const DynamicArrayIterator<Item, false>& source) noexcept;
 
-		DynamicArrayIterator<Item, isConst>& operator++();
-		DynamicArrayIterator<Item, isConst> operator++(int);
+		DynamicArrayIterator<Item, isConst>& operator++() noexcept;
+		DynamicArrayIterator<Item, isConst> operator++(int) noexcept;
 		Reference operator*() const;
 		Pointer operator->() const;
-		bool operator!() const;
-		operator bool() const;
+		bool operator!() const noexcept;
+		operator bool() const noexcept;
 
 		template <class Item, bool isConst>
 		friend bool operator==(typename const DynamicArray<Item>::DynamicArrayIterator<Item, isConst>& lhs,
-							   typename const DynamicArray<Item>::DynamicArrayIterator<Item, isConst>& rhs);
+							   typename const DynamicArray<Item>::DynamicArrayIterator<Item, isConst>& rhs) noexcept;
 
 	private:
 		DynamicArrayIterator(Position currentPosition, OwnerPtr owner);
 
 		Reference getCurrentItem() const;
-		bool isValid() const;
+		bool isValid() const noexcept;
 
 	private:
 		Position currentPosition;
@@ -98,7 +98,7 @@ private:
 
 template <class Item, bool isConst>
 bool operator!=(typename const DynamicArray<Item>::DynamicArrayIterator<Item, isConst>& lhs,
-				typename const DynamicArray<Item>::DynamicArrayIterator<Item, isConst>& rhs);
+				typename const DynamicArray<Item>::DynamicArrayIterator<Item, isConst>& rhs) noexcept;
 
 template <class T>
 DynamicArray<T> operator+(const DynamicArray<T>& lhs, const DynamicArray<T>& rhs);

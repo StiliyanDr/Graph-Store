@@ -10,7 +10,7 @@ inline DynamicArray<T>::DynamicArrayIterator<Item, isConst>::DynamicArrayIterato
 
 template <class T>
 template <class Item, bool isConst>
-inline DynamicArray<T>::DynamicArrayIterator<Item, isConst>::DynamicArrayIterator(const DynamicArrayIterator<Item, false>& source) :
+inline DynamicArray<T>::DynamicArrayIterator<Item, isConst>::DynamicArrayIterator(const DynamicArrayIterator<Item, false>& source) noexcept :
 	currentPosition(source.currentPosition), owner(source.owner)
 {
 }
@@ -18,7 +18,7 @@ inline DynamicArray<T>::DynamicArrayIterator<Item, isConst>::DynamicArrayIterato
 template <class T>
 template <class Item, bool isConst>
 typename DynamicArray<T>::DynamicArrayIterator<Item, isConst>
-DynamicArray<T>::DynamicArrayIterator<Item, isConst>::operator++(int)
+DynamicArray<T>::DynamicArrayIterator<Item, isConst>::operator++(int) noexcept
 {
 	DynamicArrayIterator<Item, isConst> iterator(*this);
 	++(*this);
@@ -29,7 +29,7 @@ DynamicArray<T>::DynamicArrayIterator<Item, isConst>::operator++(int)
 template <class T>
 template <class Item, bool isConst>
 typename DynamicArray<T>::DynamicArrayIterator<Item, isConst>&
-DynamicArray<T>::DynamicArrayIterator<Item, isConst>::operator++()
+DynamicArray<T>::DynamicArrayIterator<Item, isConst>::operator++() noexcept
 {
 	if (isValid())
 	{
@@ -41,21 +41,21 @@ DynamicArray<T>::DynamicArrayIterator<Item, isConst>::operator++()
 
 template <class T>
 template <class Item, bool isConst>
-inline bool DynamicArray<T>::DynamicArrayIterator<Item, isConst>::isValid() const
+inline bool DynamicArray<T>::DynamicArrayIterator<Item, isConst>::isValid() const noexcept
 {
 	return currentPosition < owner->getCount();
 }
 
 template <class T>
 template <class Item, bool isConst>
-inline DynamicArray<T>::DynamicArrayIterator<Item, isConst>::operator bool() const
+inline DynamicArray<T>::DynamicArrayIterator<Item, isConst>::operator bool() const noexcept
 {
 	return isValid();
 }
 
 template <class T>
 template <class Item, bool isConst>
-inline bool DynamicArray<T>::DynamicArrayIterator<Item, isConst>::operator!() const
+inline bool DynamicArray<T>::DynamicArrayIterator<Item, isConst>::operator!() const noexcept
 {
 	return !isValid();
 }
@@ -93,14 +93,14 @@ DynamicArray<T>::DynamicArrayIterator<Item, isConst>::operator->() const
 
 template <class Item, bool isConst>
 inline bool operator!=(typename const DynamicArray<Item>::DynamicArrayIterator<Item, isConst>& lhs,
-					   typename const DynamicArray<Item>::DynamicArrayIterator<Item, isConst>& rhs)
+					   typename const DynamicArray<Item>::DynamicArrayIterator<Item, isConst>& rhs) noexcept
 {
 	return !(lhs == rhs);
 }
 
 template <class Item, bool isConst>
 inline bool operator==(typename const DynamicArray<Item>::DynamicArrayIterator<Item, isConst>& lhs,
-					   typename const DynamicArray<Item>::DynamicArrayIterator<Item, isConst>& rhs)
+					   typename const DynamicArray<Item>::DynamicArrayIterator<Item, isConst>& rhs) noexcept
 {
 	return lhs.owner == rhs.owner && lhs.currentPosition == rhs.currentPosition;
 }
