@@ -41,9 +41,9 @@ inline DynamicArray<T>::DynamicArray(DynamicArray<T>&& source) noexcept :
 }
 
 template <class T>
-inline DynamicArray<T>::DynamicArray(const DynamicArray<T>& source)
+inline DynamicArray<T>::DynamicArray(const DynamicArray<T>& source) :
+	DynamicArray()
 {
-	nullifyMembers();
 	copyFrom(source);
 }
 
@@ -186,7 +186,8 @@ using ConditionalReference = typename std::conditional<
 >::type;
 
 template <class T>
-constexpr ConditionalReference<T> moveAssignIfNoexcept(T& object) noexcept
+constexpr ConditionalReference<T>
+moveAssignIfNoexcept(T& object) noexcept
 {
 	return static_cast<ConditionalReference<T>>(object);
 }
