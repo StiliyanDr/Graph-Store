@@ -28,7 +28,7 @@ void DynamicArray<T>::setCount(size_t newCount)
 }
 
 template <class T>
-inline DynamicArray<T>::DynamicArray(DynamicArray<T>&& source) :
+inline DynamicArray<T>::DynamicArray(DynamicArray<T>&& source) noexcept :
 	count(source.count), size(source.size), items(source.items)
 {
 	source.nullifyMembers();
@@ -63,7 +63,7 @@ void DynamicArray<T>::swapContentsWith(DynamicArray<T> other)
 }
 
 template <class T>
-DynamicArray<T>& DynamicArray<T>::operator=(DynamicArray<T>&& rhs)
+DynamicArray<T>& DynamicArray<T>::operator=(DynamicArray<T>&& rhs) noexcept
 {
 	if (this != &rhs)
 	{
@@ -258,7 +258,7 @@ inline void DynamicArray<T>::ensureSize(size_t size)
 }
 
 template <class T>
-inline void DynamicArray<T>::empty()
+inline void DynamicArray<T>::empty() noexcept
 {
 	destroyItems();
 	nullifyMembers();
@@ -266,14 +266,14 @@ inline void DynamicArray<T>::empty()
 
 template <class T>
 inline typename DynamicArray<T>::Iterator
-DynamicArray<T>::getIterator()
+DynamicArray<T>::getIterator() noexcept
 {
 	return Iterator(0, this);
 }
 
 template <class T>
 inline typename DynamicArray<T>::ConstIterator
-DynamicArray<T>::getConstIterator() const
+DynamicArray<T>::getConstIterator() const noexcept
 {
 	return ConstIterator(0, this);
 }
@@ -295,19 +295,19 @@ inline void DynamicArray<T>::validateIndex(size_t i) const
 }
 
 template <class T>
-inline bool DynamicArray<T>::isEmpty() const
+inline bool DynamicArray<T>::isEmpty() const noexcept
 {
 	return count == 0;
 }
 
 template <class T>
-inline size_t DynamicArray<T>::getSize() const
+inline size_t DynamicArray<T>::getSize() const noexcept
 {
 	return size;
 }
 
 template <class T>
-inline size_t DynamicArray<T>::getCount() const
+inline size_t DynamicArray<T>::getCount() const noexcept
 {
 	return count;
 }

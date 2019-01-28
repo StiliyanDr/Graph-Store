@@ -48,9 +48,9 @@ public:
 
 public:
 	explicit DynamicArray(size_t size = 0, size_t count = 0);
-	DynamicArray(DynamicArray<T>&& source);
+	DynamicArray(DynamicArray<T>&& source) noexcept;
 	DynamicArray(const DynamicArray<T>& source);
-	DynamicArray<T>& operator=(DynamicArray<T>&& rhs);
+	DynamicArray<T>& operator=(DynamicArray<T>&& rhs) noexcept;
 	DynamicArray<T>& operator=(const DynamicArray<T>& rhs);
 	~DynamicArray();
 
@@ -60,14 +60,14 @@ public:
 
 	void addAt(size_t index, const T& item);
 	void ensureSize(size_t size);
-	void empty();
-	bool isEmpty() const;
+	void empty() noexcept;
+	bool isEmpty() const noexcept;
 
-	size_t getSize() const;
-	size_t getCount() const;
+	size_t getSize() const noexcept;
+	size_t getCount() const noexcept;
 
-	Iterator getIterator();
-	ConstIterator getConstIterator() const;
+	Iterator getIterator() noexcept;
+	ConstIterator getConstIterator() const noexcept;
 
 public:
 	T& operator[](size_t index);
