@@ -3,7 +3,7 @@
 #include <stdexcept>
 
 template <class T>
-DynamicArray<T>::DynamicArray() noexcept :
+inline DynamicArray<T>::DynamicArray() noexcept :
 	DynamicArray(0, 0)
 {
 }
@@ -97,7 +97,8 @@ inline DynamicArray<T>::~DynamicArray()
 }
 
 template <class T>
-DynamicArray<T> operator+(const DynamicArray<T>& lhs, const DynamicArray<T>& rhs)
+DynamicArray<T> operator+(const DynamicArray<T>& lhs,
+						  const DynamicArray<T>& rhs)
 {
 	DynamicArray<T> newArray(lhs);
 	newArray += rhs;
@@ -136,7 +137,7 @@ DynamicArray<T> operator+(const DynamicArray<T>& arr, const T& item)
 }
 
 template <class T>
-DynamicArray<T>& DynamicArray<T>::operator+=(const T& item)
+inline DynamicArray<T>& DynamicArray<T>::operator+=(const T& item)
 {
 	add(item);
 
@@ -186,7 +187,7 @@ using ConditionalReference = typename std::conditional<
 >::type;
 
 template <class T>
-constexpr ConditionalReference<T>
+inline constexpr ConditionalReference<T>
 moveAssignIfNoexcept(T& object) noexcept
 {
 	return static_cast<ConditionalReference<T>>(object);
