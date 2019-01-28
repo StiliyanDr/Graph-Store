@@ -195,7 +195,7 @@ void DynamicArray<T>::shiftRight(size_t first, size_t last)
 
 	for (size_t i = last + 1; i > first; --i)
 	{
-		items[i] = items[i - 1];
+		items[i] = std::move(items[i - 1]);
 	}
 }
 
@@ -228,7 +228,7 @@ void DynamicArray<T>::shiftLeft(size_t first, size_t last)
 
 	for (size_t i = first - 1; i < last; ++i)
 	{
-		items[i] = items[i + 1];
+		items[i] = std::move(items[i + 1]);
 	}
 }
 
