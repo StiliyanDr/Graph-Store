@@ -172,10 +172,23 @@ void DynamicArray<T>::resize(size_t newSize)
 
 	for (size_t i = 0; i < newCount; ++i)
 	{
-		newArray.items[i] = items[i];
+		newArray.items[i] = moveAssignIfNoexcept(items[i]);
 	}
 
 	swapContentsWith(std::move(newArray));
+}
+
+template <class T>
+using ConditionalReference = typename std::conditional<
+	!std::is_nothrow_move_assignable<T>::value && std::is_copy_assignable<T>::value,
+	const T&,
+	T&&
+>::type;
+
+template <class T>
+constexpr ConditionalReference<T> moveAssignIfNoexcept(T& object) noexcept
+{
+	return static_cast<ConditionalReference<T>>(object);
 }
 
 template <class T>
