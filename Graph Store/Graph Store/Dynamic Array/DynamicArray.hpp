@@ -3,6 +3,12 @@
 #include <stdexcept>
 
 template <class T>
+DynamicArray<T>::DynamicArray() noexcept :
+	DynamicArray(0, 0)
+{
+}
+
+template <class T>
 DynamicArray<T>::DynamicArray(size_t size, size_t count) :
 	size(size), items(nullptr)
 {

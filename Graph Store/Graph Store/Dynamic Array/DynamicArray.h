@@ -47,7 +47,8 @@ public:
 	typedef DynamicArrayIterator<T, true> ConstIterator;
 
 public:
-	explicit DynamicArray(size_t size = 0, size_t count = 0);
+	DynamicArray() noexcept;
+	explicit DynamicArray(size_t size, size_t count = 0);
 	DynamicArray(DynamicArray<T>&& source) noexcept;
 	DynamicArray(const DynamicArray<T>& source);
 	DynamicArray<T>& operator=(DynamicArray<T>&& rhs) noexcept;
