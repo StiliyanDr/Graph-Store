@@ -1,5 +1,5 @@
 #include "StringCutter.h"
-#include <assert.h>
+#include <stdexcept>
 
 std::vector<std::string> StringCutter::cutToWords(char* string)
 {
@@ -17,9 +17,14 @@ std::vector<std::string> StringCutter::cutToWords(char* string)
 
 void StringCutter::setString(char* string)
 {
-	assert(string != nullptr);
-
-	remainingString = string;
+	if (string != nullptr)
+	{
+		remainingString = string;
+	}
+	else
+	{
+		throw std::invalid_argument("Expected a string!");
+	}
 }
 
 bool StringCutter::hasReachedEnd() const
