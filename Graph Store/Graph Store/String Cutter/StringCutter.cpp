@@ -1,6 +1,16 @@
 #include "StringCutter.h"
 #include <stdexcept>
 
+StringCutter::StringCutter() noexcept :
+	StringCutter(std::vector<char>())
+{
+}
+
+StringCutter::StringCutter(std::vector<char> delimiters) :
+	delimiters(std::move(delimiters))
+{
+}
+
 std::vector<std::string> StringCutter::cutToWords(char* string)
 {
 	setString(string);
@@ -88,4 +98,19 @@ void StringCutter::separateSkippedWord()
 const char* StringCutter::skipFirstSymbolIfQuotation(const char* word)
 {
 	return *word != '\'' ? word : word + 1;
+}
+
+bool StringCutter::isDelimiter(char c) const
+{
+	size_t size = delimiters.size();
+
+	for (size_t i = 0; i < size; ++i)
+	{
+		if (delimiters[i] == c)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
