@@ -35,7 +35,7 @@ bool StringCutter::hasReachedEnd() const
 std::string StringCutter::cutWord()
 {
 	skipSpaces();
-	const char* word = remainingString;
+	markWordStart();
 	skipWord();
 	separateSkippedWord();
 	skipSpaces();
@@ -51,6 +51,11 @@ void StringCutter::skipSpaces()
 	{
 		++remainingString;
 	}
+}
+
+void StringCutter::markWordStart()
+{
+	word = remainingString;
 }
 
 void StringCutter::skipWord()

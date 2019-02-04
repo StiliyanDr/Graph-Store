@@ -19,9 +19,11 @@ private:
 	void separateSkippedWord();
 	bool hasReachedEnd() const;
 	void setString(char* string);
+	void markWordStart();
 
 private:
 	char* remainingString;
+	const char* word;
 };
 
 #endif //__STRING_CUTTER_HEADER_INCLUDED__
