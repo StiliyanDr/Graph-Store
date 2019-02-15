@@ -7,6 +7,8 @@ StringCutter::StringCutter() noexcept :
 }
 
 StringCutter::StringCutter(std::vector<char> delimiters) :
+	remainingString(nullptr),
+	word(nullptr),
 	delimiters(std::move(delimiters))
 {
 }
