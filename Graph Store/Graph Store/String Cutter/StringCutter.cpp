@@ -57,6 +57,14 @@ std::string StringCutter::cutWord()
 	return word;
 }
 
+void StringCutter::skipSpaces()
+{
+	while (!hasReachedEnd() && *remainingString == ' ')
+	{
+		++remainingString;
+	}
+}
+
 char StringCutter::skipAndReturnDelimiter()
 {
 	char current = *remainingString;
@@ -72,28 +80,19 @@ char StringCutter::skipAndReturnDelimiter()
 	}
 }
 
-std::string StringCutter::copySkippedWord()
+bool StringCutter::isDelimiter(char c) const
 {
-	return std::string(word);
-}
+	size_t size = delimiters.size();
 
-void StringCutter::markWordEnd()
-{
-	if (hasReachedEnd())
+	for (size_t i = 0; i < size; ++i)
 	{
-		return;
+		if (delimiters[i] == c)
+		{
+			return true;
+		}
 	}
 
-	*remainingString = '\0';
-	++remainingString;
-}
-
-void StringCutter::skipSpaces()
-{
-	while (!hasReachedEnd() && *remainingString == ' ')
-	{
-		++remainingString;
-	}
+	return false;
 }
 
 void StringCutter::markWordStart()
@@ -122,17 +121,18 @@ void StringCutter::verifyDelimitersMatch(char lhs, char rhs)
 	}
 }
 
-bool StringCutter::isDelimiter(char c) const
+void StringCutter::markWordEnd()
 {
-	size_t size = delimiters.size();
-
-	for (size_t i = 0; i < size; ++i)
+	if (hasReachedEnd())
 	{
-		if (delimiters[i] == c)
-		{
-			return true;
-		}
+		return;
 	}
 
-	return false;
+	*remainingString = '\0';
+	++remainingString;
+}
+
+std::string StringCutter::copySkippedWord()
+{
+	return std::string(word);
 }
