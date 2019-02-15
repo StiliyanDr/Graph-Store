@@ -13,13 +13,15 @@ public:
 	std::vector<std::string> cutToWords(char* string);
 
 private:
-	static const char* skipFirstSymbolIfQuotation(const char* word);
+	static void verifyDelimitersMatch(char lhs, char rhs);
 
 private:
 	std::string cutWord();
 	void skipSpaces();
-	void skipWord();
-	void separateSkippedWord();
+	char skipAndReturnDelimiter();
+	void skipTo(char startDelimiter);
+	std::string copySkippedWord();
+	void markWordEnd();
 	bool hasReachedEnd() const;
 	void setString(char* string);
 	void markWordStart();

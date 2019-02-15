@@ -45,14 +45,47 @@ bool StringCutter::hasReachedEnd() const
 std::string StringCutter::cutWord()
 {
 	skipSpaces();
+
+	char delimiter = skipAndReturnDelimiter();
 	markWordStart();
-	skipWord();
-	separateSkippedWord();
+	skipTo(delimiter);
+	markWordEnd();
+
+	std::string word = copySkippedWord();
 	skipSpaces();
 
-	word = skipFirstSymbolIfQuotation(word);
-
 	return word;
+}
+
+char StringCutter::skipAndReturnDelimiter()
+{
+	char current = *remainingString;
+
+	if (isDelimiter(current) && !hasReachedEnd())
+	{
+		++remainingString;
+		return current;
+	}
+	else
+	{
+		return DEFAULT_DELIMITER;
+	}
+}
+
+std::string StringCutter::copySkippedWord()
+{
+	return std::string(word);
+}
+
+void StringCutter::markWordEnd()
+{
+	if (hasReachedEnd())
+	{
+		return;
+	}
+
+	*remainingString = '\0';
+	++remainingString;
 }
 
 void StringCutter::skipSpaces()
@@ -68,36 +101,25 @@ void StringCutter::markWordStart()
 	word = remainingString;
 }
 
-void StringCutter::skipWord()
+void StringCutter::skipTo(char startDelimiter)
 {
-	char delimiter = ' ';
-
-	if (*remainingString == '\'')
-	{
-		delimiter = '\'';
-		++remainingString;
-	}
-
-	while (!(hasReachedEnd() || *remainingString == delimiter))
+	while (!(hasReachedEnd() || *remainingString == startDelimiter))
 	{
 		++remainingString;
 	}
+
+	char endDelimiter =
+		!hasReachedEnd() ? *remainingString : DEFAULT_DELIMITER;
+
+	verifyDelimitersMatch(startDelimiter, endDelimiter);
 }
 
-void StringCutter::separateSkippedWord()
+void StringCutter::verifyDelimitersMatch(char lhs, char rhs)
 {
-	if (hasReachedEnd())
+	if (lhs != rhs)
 	{
-		return;
+		throw std::logic_error("Word delimiters don't match!");
 	}
-
-	*remainingString = '\0';
-	++remainingString;
-}
-
-const char* StringCutter::skipFirstSymbolIfQuotation(const char* word)
-{
-	return *word != '\'' ? word : word + 1;
 }
 
 bool StringCutter::isDelimiter(char c) const
