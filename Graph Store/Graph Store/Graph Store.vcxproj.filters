@@ -208,6 +208,9 @@
     <Filter Include="Graph Saver">
       <UniqueIdentifier>{68a3c842-0b29-4348-bbeb-262941dcd859}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fixed Size Queue">
+      <UniqueIdentifier>{34d0e692-0cea-4955-80c8-4eb9e0c885b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -413,6 +416,12 @@
     </ClInclude>
     <ClInclude Include="Graph Saver\GraphSaver.h">
       <Filter>Graph Saver</Filter>
+    </ClInclude>
+    <ClInclude Include="Fixed Size Queue\FixedSizeQueue.h">
+      <Filter>Fixed Size Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Fixed Size Queue\FixedSizeQueue.hpp">
+      <Filter>Fixed Size Queue</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

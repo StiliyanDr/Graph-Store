@@ -168,6 +168,8 @@
     <ClInclude Include="File Parser\File Parser Exception\FileParserException.h" />
     <ClInclude Include="File Parser\FileParser.h" />
     <ClInclude Include="File Parser\Open File Fail Exception\OpenFileFailException.h" />
+    <ClInclude Include="Fixed Size Queue\FixedSizeQueue.h" />
+    <ClInclude Include="Fixed Size Queue\FixedSizeQueue.hpp" />
     <ClInclude Include="Graph Builder\Graph Builder Exception\GraphBuilderException.h" />
     <ClInclude Include="Graph Builder\GraphBuilder.h" />
     <ClInclude Include="Graph Collection\GraphCollection.h" />
