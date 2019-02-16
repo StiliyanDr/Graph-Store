@@ -130,5 +130,21 @@ namespace FixedSizeQueueUnitTest
 				Assert::IsTrue(areEqual("The queue is empty!", e.what()));
 			}
 		}
+
+		TEST_METHOD(testEnqueuingAndDequeuing)
+		{
+			Queue q = makeQueueFromRange(1, 10);
+
+			Assert::IsTrue(q.isFull());
+			Assert::IsFalse(q.isEmpty());
+
+			for (unsigned i = 1; i <= 10; ++i)
+			{
+				Assert::AreEqual(i, q.dequeue());
+			}
+
+			Assert::IsTrue(q.isEmpty());
+			Assert::IsFalse(q.isFull());
+		}
 	};
 }
