@@ -16,9 +16,6 @@ public:
 
 	GraphRegistrator(const GraphRegistrator<ConcreteGraph>&) = delete;
 	GraphRegistrator<ConcreteGraph>& operator=(const GraphRegistrator<ConcreteGraph>&) = delete;
-	GraphRegistrator(GraphRegistrator<ConcreteGraph>&&) = delete;
-	GraphRegistrator<ConcreteGraph>& operator=(GraphRegistrator<ConcreteGraph>&&) = delete;
-	~GraphRegistrator() = default;
 
 private:
 	const ConcreteGraphCreator<ConcreteGraph> graphCreator;
