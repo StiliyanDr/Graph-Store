@@ -1,12 +1,12 @@
 #include "BFSShortestPath.h"
 #include "../Algorithm Registrator/ShortestPathAlgorithmRegistrator.h"
-#include "../../Graph/Abstract class/Graph.h"
 #include <assert.h>
 
 static ShortestPathAlgorithmRegistrator<BFSShortestPath> registrator("bfs");
 
 BFSShortestPath::BFSShortestPath(const String& id) :
-	SearchBasedShortestPathAlgorithm(id)
+	SearchBasedShortestPathAlgorithm(id),
+	frontier(0)
 {
 }
 
@@ -21,6 +21,7 @@ void BFSShortestPath::initialise(const Graph& graph,
 		foundAShortestPath = false;
 		setTarget(target);
 		decorateVerticesOf(graph);
+		initialiseFrontier(graph.getVerticesCount());
 		initialiseSourceAndAddItToFrontier(source);
 	}
 	else
@@ -30,9 +31,15 @@ void BFSShortestPath::initialise(const Graph& graph,
 	}
 }
 
+void BFSShortestPath::initialiseFrontier(std::size_t maxSize)
+{
+	frontier = Queue(maxSize);
+}
+
 void BFSShortestPath::initialiseSourceAndAddItToFrontier(const Graph::Vertex& source)
 {
-	MarkableDecoratedVertex& decoratedSource = getDecoratedVersionOf(source);
+	MarkableDecoratedVertex& decoratedSource =
+		getDecoratedVersionOf(source);
 
 	decoratedSource.isVisited = true;
 	initialiseSource(decoratedSource);
@@ -71,7 +78,8 @@ void BFSShortestPath::exploreEdgesLeaving(const MarkableDecoratedVertex& predece
 
 	forEach(*iterator, [&](const Graph::OutgoingEdge& e)
 	{
-		MarkableDecoratedVertex& successor = getDecoratedVersionOf(e.getEnd());
+		MarkableDecoratedVertex& successor =
+			getDecoratedVersionOf(e.getEnd());
 
 		exploreEdge(predecessor, successor);
 	});
