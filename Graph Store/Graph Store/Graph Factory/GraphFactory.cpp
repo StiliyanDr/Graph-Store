@@ -60,9 +60,14 @@ GraphFactory::searchForCreator(const String& criterion)
 	return nullptr;
 }
 
-void GraphFactory::addCreator(const GraphCreator& creator)
+void GraphFactory::addCreator(const GraphCreator& c)
 {
-	assert(searchForCreator(creator.getCriterion()) == nullptr);
-
-	creators.add(&creator);
+	if (!searchForCreator(c.getCriterion()))
+	{
+		creators.add(&c);
+	}
+	else
+	{
+		throw std::logic_error("Duplicate creator!");
+	}
 }

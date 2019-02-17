@@ -29,10 +29,10 @@ private:
 
 	const GraphCreator& getCreatorByCriterion(const String& criterion);
 	const GraphCreator* searchForCreator(const String& criterion);
-	void addCreator(const GraphCreator& creator);
+	void addCreator(const GraphCreator& c);
 
 private:
-	static const size_t INITIAL_COLLECTION_SIZE = 4;
+	static const std::size_t INITIAL_COLLECTION_SIZE = 4;
 
 private:
 	Collection creators;
