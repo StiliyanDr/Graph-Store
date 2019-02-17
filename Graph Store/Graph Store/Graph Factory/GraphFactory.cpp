@@ -25,12 +25,12 @@ GraphFactory::createGraph(const String& criterion, const String& id)
 const GraphCreator&
 GraphFactory::getCreatorByCriterion(const String& criterion)
 {
-	const GraphCreator* creator =
+	Collection::ConstIterator iterator =
 		searchForCreator(criterion);
 
-	if (creator != nullptr)
+	if (iterator)
 	{
-		return *creator;
+		return *(*iterator);
 	}
 	else
 	{
@@ -38,26 +38,14 @@ GraphFactory::getCreatorByCriterion(const String& criterion)
 	}
 }
 
-const GraphCreator*
-GraphFactory::searchForCreator(const String& criterion)
+GraphFactory::Collection::ConstIterator
+GraphFactory::searchForCreator(const String& criterion) const
 {
-	ConstIterator iterator =
-		creators.getConstIterator();
-	const GraphCreator* creator;
-
-	while (iterator)
+	return forEachUntil(creators.getConstIterator(),
+		                [&](const GraphCreator* c)
 	{
-		creator = *iterator;
-
-		if (creator->getCriterion() == criterion)
-		{
-			return creator;
-		}
-
-		++iterator;
-	}
-
-	return nullptr;
+		return c->getCriterion() == criterion;
+	});
 }
 
 void GraphFactory::addCreator(const GraphCreator& c)

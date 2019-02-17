@@ -28,7 +28,7 @@ private:
 	~GraphFactory() = default;
 
 	const GraphCreator& getCreatorByCriterion(const String& criterion);
-	const GraphCreator* searchForCreator(const String& criterion);
+	Collection::ConstIterator searchForCreator(const String& criterion) const;
 	void addCreator(const GraphCreator& c);
 
 private:
