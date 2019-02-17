@@ -1,5 +1,5 @@
 #include "Application.h"
-#include <assert.h>
+#include <stdexcept>
 #include <iostream>
 #include "../String Cutter/StringCutter.h"
 #include "../Logger/Logger.h"
@@ -50,10 +50,18 @@ void Application::addCommand(const char* name,
 							 const char* description,
 							 Function function)
 {
-	assert(name != nullptr);
-	assert(description != nullptr);
+	verifyStringIsNotNull(name);
+	verifyStringIsNotNull(description);
 
 	commands.emplace_front(commandsGroup, name, description, function);
+}
+
+void Application::verifyStringIsNotNull(const char* s)
+{
+	if (s == nullptr)
+	{
+		throw std::invalid_argument("Expected a string!");
+	}
 }
 
 void Application::addCommand(const char* name,

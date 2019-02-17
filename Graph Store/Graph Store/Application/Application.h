@@ -18,6 +18,9 @@ public:
 	void addCommand(const char* name, const char* description, Command& command);
 
 private:
+	static void verifyStringIsNotNull(const char* s);
+
+private:
 	Application();
 	Application(const Application&);
 	Application& operator=(const Application&);
