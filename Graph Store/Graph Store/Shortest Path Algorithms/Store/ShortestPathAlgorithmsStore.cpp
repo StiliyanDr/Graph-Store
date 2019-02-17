@@ -6,14 +6,16 @@ ShortestPathAlgorithmsStore::ShortestPathAlgorithmsStore() :
 {
 }
 
-ShortestPathAlgorithmsStore& ShortestPathAlgorithmsStore::instance()
+ShortestPathAlgorithmsStore&
+ShortestPathAlgorithmsStore::instance()
 {
 	static ShortestPathAlgorithmsStore theOnlyInstance;
 	
 	return theOnlyInstance;
 }
 
-ShortestPathAlgorithm& ShortestPathAlgorithmsStore::search(const String& id)
+ShortestPathAlgorithm&
+ShortestPathAlgorithmsStore::search(const String& id)
 {
 	try
 	{
@@ -25,9 +27,14 @@ ShortestPathAlgorithm& ShortestPathAlgorithmsStore::search(const String& id)
 	}
 }
 
-void ShortestPathAlgorithmsStore::addAlgorithm(ShortestPathAlgorithm& algorithm)
+void ShortestPathAlgorithmsStore::addAlgorithm(ShortestPathAlgorithm& a)
 {
-	assert(!algorithms.contains(algorithm.getID()));
-
-	algorithms.add(algorithm);
+	if (!algorithms.contains(a.getID()))
+	{
+		algorithms.add(a);
+	}
+	else
+	{
+		throw std::logic_error("Duplicate algorithm!");
+	}
 }

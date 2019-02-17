@@ -8,13 +8,13 @@
 
 class ShortestPathAlgorithmsStore
 {
-	typedef Hash<ShortestPathAlgorithm, String, IdentifierAccessor> Collection;
+	using Collection = Hash<ShortestPathAlgorithm, String, IdentifierAccessor>;
 
 public:
 	static ShortestPathAlgorithmsStore& instance();
 
 	ShortestPathAlgorithm& search(const String& id);
-	void addAlgorithm(ShortestPathAlgorithm& algorithm);
+	void addAlgorithm(ShortestPathAlgorithm& a);
 
 private:
 	ShortestPathAlgorithmsStore();
@@ -23,7 +23,7 @@ private:
 	~ShortestPathAlgorithmsStore() = default;
 
 private:
-	static const size_t INITIAL_COLLECTION_SIZE = 4;
+	static const std::size_t INITIAL_COLLECTION_SIZE = 4;
 
 private:
 	Collection algorithms;
