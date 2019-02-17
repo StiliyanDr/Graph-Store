@@ -20,7 +20,7 @@ public:
 
 	virtual std::unique_ptr<Graph> createGraph(const String& id) const override
 	{
-		return std::unique_ptr<Graph>(new ConcreteGraph(id));
+		return std::make_unique<ConcreteGraph>(id);
 	}
 };
 
