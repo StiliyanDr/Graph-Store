@@ -15,9 +15,6 @@ public:
 
 	ShortestPathAlgorithmRegistrator(const ShortestPathAlgorithmRegistrator<Algorithm>&) = delete;
 	ShortestPathAlgorithmRegistrator<Algorithm>& operator=(const ShortestPathAlgorithmRegistrator<Algorithm>&) = delete;
-	ShortestPathAlgorithmRegistrator(ShortestPathAlgorithmRegistrator<Algorithm>&&) = delete;
-	ShortestPathAlgorithmRegistrator<Algorithm>& operator=(ShortestPathAlgorithmRegistrator<Algorithm>&&) = delete;
-	~ShortestPathAlgorithmRegistrator() = default;
 
 private:
 	Algorithm algorithm;
