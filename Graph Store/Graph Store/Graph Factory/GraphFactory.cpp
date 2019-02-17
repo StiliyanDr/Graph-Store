@@ -13,16 +13,20 @@ GraphFactory& GraphFactory::instance()
 	return theInstance;
 }
 
-std::unique_ptr<Graph> GraphFactory::createGraph(const String& criterion, const String& id)
+std::unique_ptr<Graph>
+GraphFactory::createGraph(const String& criterion, const String& id)
 {
-	const GraphCreator& creator = getCreatorByCriterion(criterion);
+	const GraphCreator& creator =
+		getCreatorByCriterion(criterion);
 
 	return creator.createGraph(id);
 }
 
-const GraphCreator& GraphFactory::getCreatorByCriterion(const String& criterion)
+const GraphCreator&
+GraphFactory::getCreatorByCriterion(const String& criterion)
 {
-	const GraphCreator* creator = searchForCreator(criterion);
+	const GraphCreator* creator =
+		searchForCreator(criterion);
 
 	if (creator != nullptr)
 	{
@@ -34,9 +38,11 @@ const GraphCreator& GraphFactory::getCreatorByCriterion(const String& criterion)
 	}
 }
 
-const GraphCreator* GraphFactory::searchForCreator(const String& criterion)
+const GraphCreator*
+GraphFactory::searchForCreator(const String& criterion)
 {
-	ConstIterator iterator = creators.getConstIterator();
+	ConstIterator iterator =
+		creators.getConstIterator();
 	const GraphCreator* creator;
 
 	while (iterator)
