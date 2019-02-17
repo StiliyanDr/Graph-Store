@@ -8,7 +8,7 @@ class Command;
 
 class Application
 {
-	typedef std::function<void(args::Subparser&)> Function;
+	using Function = std::function<void(args::Subparser&)>;
 
 public:
 	static Application& instance();
