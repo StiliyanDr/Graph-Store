@@ -10,14 +10,14 @@ class GraphFactory
 	template <class ConcreteGraph>
 	friend class GraphRegistrator;
 
-	typedef DynamicArray<const GraphCreator*> Collection;
-	typedef DynamicArray<const GraphCreator*>::ConstIterator ConstIterator;
+	using Collection = DynamicArray<const GraphCreator*>;
 
 public:
 	static GraphFactory& instance();
 
 public:
-	std::unique_ptr<Graph> createGraph(const String& criterion, const String& id);
+	std::unique_ptr<Graph> createGraph(const String& criterion,
+		                               const String& id) const;
 
 private:
 	GraphFactory();
@@ -27,7 +27,7 @@ private:
 	GraphFactory& operator=(GraphFactory&&);
 	~GraphFactory() = default;
 
-	const GraphCreator& getCreatorByCriterion(const String& criterion);
+	const GraphCreator& getCreator(const String& criterion) const;
 	Collection::ConstIterator searchForCreator(const String& criterion) const;
 	void addCreator(const GraphCreator& c);
 

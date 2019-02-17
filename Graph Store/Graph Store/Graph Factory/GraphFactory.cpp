@@ -14,16 +14,16 @@ GraphFactory& GraphFactory::instance()
 }
 
 std::unique_ptr<Graph>
-GraphFactory::createGraph(const String& criterion, const String& id)
+GraphFactory::createGraph(const String& criterion,
+	                      const String& id) const
 {
-	const GraphCreator& creator =
-		getCreatorByCriterion(criterion);
+	const GraphCreator& creator = getCreator(criterion);
 
 	return creator.createGraph(id);
 }
 
 const GraphCreator&
-GraphFactory::getCreatorByCriterion(const String& criterion)
+GraphFactory::getCreator(const String& criterion) const
 {
 	Collection::ConstIterator iterator =
 		searchForCreator(criterion);
