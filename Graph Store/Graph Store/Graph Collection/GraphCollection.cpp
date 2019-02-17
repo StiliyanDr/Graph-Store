@@ -21,7 +21,7 @@ void GraphCollection::empty()
 
 void GraphCollection::destroyAllGraphs()
 {
-	CollectionIterator iterator = graphs.getIterator();
+	Collection::Iterator iterator = graphs.getIterator();
 
 	forEach(iterator, [&](Graph* graph)
 	{
@@ -109,9 +109,9 @@ Graph& GraphCollection::getGraphWithID(const String& id)
 
 std::unique_ptr<Iterator<Graph*>> GraphCollection::getIterator()
 {
-	typedef ConcreteIteratorAdapter<Graph*, CollectionIterator> ConcreteIterator;
+	using ConcreteIterator = ConcreteIteratorAdapter<Graph*, Collection::Iterator>;
 
-	return std::unique_ptr<Iterator<Graph*>>(new ConcreteIterator(graphs.getIterator()));
+	return std::make_unique<ConcreteIterator>(graphs.getIterator());
 }
 
 bool GraphCollection::isEmpty() const

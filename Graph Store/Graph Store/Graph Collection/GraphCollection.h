@@ -7,8 +7,7 @@
 
 class GraphCollection
 {
-	typedef DynamicArray<Graph*> Collection;
-	typedef DynamicArray<Graph*>::Iterator CollectionIterator;
+	using Collection = DynamicArray<Graph*>;
 
 public:
 	GraphCollection() = default;
