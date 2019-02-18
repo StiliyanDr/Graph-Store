@@ -248,7 +248,7 @@ Item& Hash<Item, Key, KeyAccessor, Function>::operator[](const Key& key)
 	}
 	else
 	{
-		throw std::logic_error("There is no item with such key!");
+		throw std::out_of_range("There is no item with such key!");
 	}
 }
 
@@ -263,7 +263,7 @@ const Item& Hash<Item, Key, KeyAccessor, Function>::operator[](const Key& key) c
 	}
 	else
 	{
-		throw std::logic_error("There is no item with such key!");
+		throw std::out_of_range("There is no item with such key!");
 	}
 }
 
