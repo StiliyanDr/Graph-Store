@@ -62,8 +62,8 @@ public:
 	Item& operator[](const Key& key);
 	const Item& operator[](const Key& key) const;
 
-	std::size_t getCount() const;
-	bool isEmpty() const;
+	std::size_t getCount() const noexcept;
+	bool isEmpty() const noexcept;
 	void empty();
 	void swap(Hash<Item, Key, KeyAccessor, Function>& hash) noexcept;
 

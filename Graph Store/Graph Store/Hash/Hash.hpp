@@ -33,20 +33,23 @@ Hash<Item, Key, KeyAccessor, Function>::Table::operator=(Table&& rhs)
 }
 
 template <class Item, class Key, class KeyAccessor, class Function>
-inline void Hash<Item, Key, KeyAccessor, Function>::Table::swapContentsWith(Table table)
+inline void
+Hash<Item, Key, KeyAccessor, Function>::Table::swapContentsWith(Table table)
 {
 	std::swap(slots, table.slots);
 	std::swap(count, table.count);
 }
 
 template <class Item, class Key, class KeyAccessor, class Function>
-inline void Hash<Item, Key, KeyAccessor, Function>::Table::becomeEmptyWithSize(std::size_t size)
+inline void
+Hash<Item, Key, KeyAccessor, Function>::Table::becomeEmptyWithSize(std::size_t size)
 {
 	*this = Table(size);
 }
 
 template <class Item, class Key, class KeyAccessor, class Function>
-inline void Hash<Item, Key, KeyAccessor, Function>::Table::addAt(std::size_t index, Item& item)
+inline void
+Hash<Item, Key, KeyAccessor, Function>::Table::addAt(std::size_t index, Item& item)
 {
 	assert(!isOccupiedAt(index));
 
@@ -55,7 +58,8 @@ inline void Hash<Item, Key, KeyAccessor, Function>::Table::addAt(std::size_t ind
 }
 
 template <class Item, class Key, class KeyAccessor, class Function>
-inline bool Hash<Item, Key, KeyAccessor, Function>::Table::isOccupiedAt(std::size_t index) const
+inline bool
+Hash<Item, Key, KeyAccessor, Function>::Table::isOccupiedAt(std::size_t index) const
 {
 	assert(index < slots.getSize());
 
@@ -76,7 +80,8 @@ Item* Hash<Item, Key, KeyAccessor, Function>::Table::extractItemAt(std::size_t i
 }
 
 template <class Item, class Key, class KeyAccessor, class Function>
-inline Item& Hash<Item, Key, KeyAccessor, Function>::Table::operator[](std::size_t index)
+inline Item&
+Hash<Item, Key, KeyAccessor, Function>::Table::operator[](std::size_t index)
 {
 	assert(isOccupiedAt(index));
 
@@ -84,7 +89,8 @@ inline Item& Hash<Item, Key, KeyAccessor, Function>::Table::operator[](std::size
 }
 
 template <class Item, class Key, class KeyAccessor, class Function>
-inline const Item& Hash<Item, Key, KeyAccessor, Function>::Table::operator[](std::size_t index) const
+inline const Item&
+Hash<Item, Key, KeyAccessor, Function>::Table::operator[](std::size_t index) const
 {
 	assert(isOccupiedAt(index));
 
@@ -92,7 +98,8 @@ inline const Item& Hash<Item, Key, KeyAccessor, Function>::Table::operator[](std
 }
 
 template <class Item, class Key, class KeyAccessor, class Function>
-inline std::size_t Hash<Item, Key, KeyAccessor, Function>::Table::occupiedSlotsCount() const
+inline std::size_t
+Hash<Item, Key, KeyAccessor, Function>::Table::occupiedSlotsCount() const
 {
 	return count;
 }
@@ -116,7 +123,8 @@ inline Hash<Item, Key, KeyAccessor, Function>::Hash(std::size_t expectedItemsCou
 /// of expectedItemsCount.
 ///
 template <class Item, class Key, class KeyAccessor, class Function>
-inline std::size_t Hash<Item, Key, KeyAccessor, Function>::calculateTableSize(std::size_t expectedItemsCount)
+inline std::size_t
+Hash<Item, Key, KeyAccessor, Function>::calculateTableSize(std::size_t expectedItemsCount)
 {
 	return ((3 * expectedItemsCount) / 2) + MIN_TABLE_SIZE;
 }
@@ -192,13 +200,15 @@ inline bool Hash<Item, Key, KeyAccessor, Function>::isFillingUp() const
 }
 
 template <class Item, class Key, class KeyAccessor, class Function>
-inline std::size_t Hash<Item, Key, KeyAccessor, Function>::computeIndexFromKey(const Key& key) const
+inline std::size_t
+Hash<Item, Key, KeyAccessor, Function>::computeIndexFromKey(const Key& key) const
 {
 	return hashFunction(key) % table.size();
 }
 
 template <class Item, class Key, class KeyAccessor, class Function>
-inline std::size_t Hash<Item, Key, KeyAccessor, Function>::getNextPositionToProbe(std::size_t currentPosition) const
+inline std::size_t
+Hash<Item, Key, KeyAccessor, Function>::getNextPositionToProbe(std::size_t currentPosition) const
 {
 	return (currentPosition + 1) % table.size();
 }
@@ -347,13 +357,13 @@ void Hash<Item, Key, KeyAccessor, Function>::rehashClusterStartingAt(std::size_t
 }
 
 template <class Item, class Key, class KeyAccessor, class Function>
-inline std::size_t Hash<Item, Key, KeyAccessor, Function>::getCount() const
+inline std::size_t Hash<Item, Key, KeyAccessor, Function>::getCount() const noexcept
 {
 	return table.occupiedSlotsCount();
 }
 
 template <class Item, class Key, class KeyAccessor, class Function>
-inline bool Hash<Item, Key, KeyAccessor, Function>::isEmpty() const
+inline bool Hash<Item, Key, KeyAccessor, Function>::isEmpty() const noexcept
 {
 	return getCount() == 0;
 }
