@@ -12,41 +12,47 @@ namespace HashUnitTest
 	{
 		typedef Hash<Book, String, BookTitleAccessor> Hash;
 
-		static const size_t BOOKS_COUNT = 16;
+		static const std::size_t BOOKS_COUNT = 16;
 		static Book books[BOOKS_COUNT];
 
-		static void fillHashWithBooksFromTo(Hash& hash, size_t from, size_t to)
+		static void fillHashWithBooksFromTo(Hash& hash,
+			                                std::size_t from,
+			                                std::size_t to)
 		{
 			assert(isValidIndex(from));
 			assert(isValidIndex(to));
 
-			for (size_t i = from; i <= to; ++i)
+			for (std::size_t i = from; i <= to; ++i)
 			{
 				hash.add(books[i]);
 			}
 		}
 
-		static bool isValidIndex(size_t i)
+		static bool isValidIndex(std::size_t i)
 		{
 			return i < BOOKS_COUNT;
 		}
 
-		static bool hashConsistsOfBooksFromTo(const Hash& hash, size_t from, size_t to)
+		static bool hashConsistsOfBooksFromTo(const Hash& hash,
+			                                  std::size_t from,
+			                                  std::size_t to)
 		{
 			assert(from <= to);
 			
-			size_t booksCount = to - from + 1;
+			std::size_t booksCount = to - from + 1;
 
 			return booksCount == hash.getCount()
 				   && hashContainsBooksFromTo(hash, from, to);
 		}
 
-		static bool hashContainsBooksFromTo(const Hash& hash, size_t from, size_t to)
+		static bool hashContainsBooksFromTo(const Hash& hash,
+			                                std::size_t from,
+			                                std::size_t to)
 		{
 			assert(isValidIndex(from));
 			assert(isValidIndex(to));
 
-			for (size_t i = from; i <= to; ++i)
+			for (std::size_t i = from; i <= to; ++i)
 			{
 				if (!hash.contains(books[i].getTitle()))
 				{
@@ -217,7 +223,7 @@ namespace HashUnitTest
 		{
 			Hash hash(10);
 
-			for (size_t i = 0; i < BOOKS_COUNT; ++i)
+			for (std::size_t i = 0; i < BOOKS_COUNT; ++i)
 			{
 				Assert::IsFalse(hash.contains(books[i].getTitle()));
 			}
@@ -228,7 +234,7 @@ namespace HashUnitTest
 			Hash hash(BOOKS_COUNT);
 			fillHashWithBooksFromTo(hash, 0, BOOKS_COUNT - 1);
 
-			for (size_t i = 0; i < BOOKS_COUNT; ++i)
+			for (std::size_t i = 0; i < BOOKS_COUNT; ++i)
 			{
 				Assert::IsTrue(hash.contains(books[i].getTitle()));
 			}
@@ -239,7 +245,7 @@ namespace HashUnitTest
 			Hash hash(BOOKS_COUNT / 2);
 			fillHashWithBooksFromTo(hash, 0, BOOKS_COUNT / 2);
 
-			for (size_t i = BOOKS_COUNT / 2 + 1; i < BOOKS_COUNT; ++i)
+			for (std::size_t i = BOOKS_COUNT / 2 + 1; i < BOOKS_COUNT; ++i)
 			{
 				Assert::IsFalse(hash.contains(books[i].getTitle()));
 			}
@@ -249,7 +255,7 @@ namespace HashUnitTest
 		{
 			Hash hash(1);
 
-			for (size_t i = 0; i < BOOKS_COUNT; ++i)
+			for (std::size_t i = 0; i < BOOKS_COUNT; ++i)
 			{
 				hash.add(books[i]);
 				Assert::AreEqual(i + 1, hash.getCount());
@@ -263,7 +269,7 @@ namespace HashUnitTest
 			Hash hash(BOOKS_COUNT);
 			fillHashWithBooksFromTo(hash, 0, BOOKS_COUNT - 1);
 
-			for (size_t i = BOOKS_COUNT / 2 + 1; i < BOOKS_COUNT; ++i)
+			for (std::size_t i = BOOKS_COUNT / 2 + 1; i < BOOKS_COUNT; ++i)
 			{
 				hash.remove(books[i].getTitle());
 			}
@@ -276,7 +282,7 @@ namespace HashUnitTest
 			Hash hash(BOOKS_COUNT);
 			fillHashWithBooksFromTo(hash, 0, BOOKS_COUNT - 1);
 
-			for (size_t i = BOOKS_COUNT / 2; i < BOOKS_COUNT; ++i)
+			for (std::size_t i = BOOKS_COUNT / 2; i < BOOKS_COUNT; ++i)
 			{
 				hash.remove(books[i].getTitle());
 				Assert::IsFalse(hash.contains(books[i].getTitle()));
@@ -287,12 +293,12 @@ namespace HashUnitTest
 		{
 			Hash hash(BOOKS_COUNT);
 
-			size_t indexOfMiddleBook = BOOKS_COUNT / 2;
+			std::size_t indexOfMiddleBook = BOOKS_COUNT / 2;
 			fillHashWithBooksFromTo(hash, 0, indexOfMiddleBook);
 
-			size_t correctCount = hash.getCount();
+			std::size_t correctCount = hash.getCount();
 
-			for (size_t i = 0; i <= indexOfMiddleBook; ++i)
+			for (std::size_t i = 0; i <= indexOfMiddleBook; ++i)
 			{
 				hash.remove(books[i].getTitle());
 				Assert::AreEqual(--correctCount, hash.getCount());

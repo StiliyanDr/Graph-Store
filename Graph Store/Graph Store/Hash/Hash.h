@@ -23,33 +23,33 @@ class Hash
 	class Table
 	{
 	public:
-		Table(size_t size = 0);
+		Table(std::size_t size = 0);
 		Table(const Table&) = default;
 		Table& operator=(const Table&) = default;
 		Table(Table&& source);
 		Table& operator=(Table&& rhs);
 
-		void addAt(size_t index, Item& item);
-		Item* extractItemAt(size_t index);
-		void becomeEmptyWithSize(size_t size);
-		bool isOccupiedAt(size_t index) const;
+		void addAt(std::size_t index, Item& item);
+		Item* extractItemAt(std::size_t index);
+		void becomeEmptyWithSize(std::size_t size);
+		bool isOccupiedAt(std::size_t index) const;
 
-		size_t occupiedSlotsCount() const;
-		size_t size() const;
+		std::size_t occupiedSlotsCount() const;
+		std::size_t size() const;
 
-		Item& operator[](size_t index);
-		const Item& operator[](size_t index) const;
+		Item& operator[](std::size_t index);
+		const Item& operator[](std::size_t index) const;
 
 	private:
 		void swapContentsWith(Table table);
 
 	private:
 		DynamicArray<Item*> slots;
-		size_t count;
+		std::size_t count;
 	};
 
 public:
-	explicit Hash(size_t expectedItemsCount = 0);
+	explicit Hash(std::size_t expectedItemsCount = 0);
 	Hash(const Hash<Item, Key, KeyAccessor, Function>&) = default;
 	Hash<Item, Key, KeyAccessor, Function>& operator=(const Hash<Item, Key, KeyAccessor, Function>&) = default;
 	Hash(Hash<Item, Key, KeyAccessor, Function>&& source);
@@ -62,30 +62,30 @@ public:
 	Item& operator[](const Key& key);
 	const Item& operator[](const Key& key) const;
 
-	size_t getCount() const;
+	std::size_t getCount() const;
 	bool isEmpty() const;
 	void empty();
 	void swap(Hash<Item, Key, KeyAccessor, Function>& hash) noexcept;
 
 private:
-	static size_t calculateTableSize(size_t expectedItemsCount);
+	static std::size_t calculateTableSize(std::size_t expectedItemsCount);
 
 private:
 	long getIndexOfFirstItemWithKey(const Key& key) const;
-	size_t computeIndexFromKey(const Key& key) const;
-	void rehashClusterStartingAt(size_t index);
-	void shrinkAfterRemovingItemAt(size_t index);
-	void rehashItemsInTableWithSize(size_t newSize);
+	std::size_t computeIndexFromKey(const Key& key) const;
+	void rehashClusterStartingAt(std::size_t index);
+	void shrinkAfterRemovingItemAt(std::size_t index);
+	void rehashItemsInTableWithSize(std::size_t newSize);
 	void addAllItemsFrom(Table& table);
 	bool hasTooManyEmptySlots() const;
 	bool canBeShrinked() const;
 	void extendIfFillingUp();
 	bool isFillingUp() const;
-	size_t getNextPositionToProbe(size_t currentPosition) const;
+	std::size_t getNextPositionToProbe(std::size_t currentPosition) const;
 
 private:
-	static const size_t GROWTH_RATE = 2;
-	static const size_t MIN_TABLE_SIZE = 3;
+	static const std::size_t GROWTH_RATE = 2;
+	static const std::size_t MIN_TABLE_SIZE = 3;
 
 private:
 	Table table;
