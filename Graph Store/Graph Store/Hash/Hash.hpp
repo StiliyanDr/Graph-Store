@@ -240,16 +240,9 @@ void Hash<Item, Key, KeyAccessor, Function>::addAllItemsFrom(Table& table)
 template <class Item, class Key, class KeyAccessor, class Function>
 Item& Hash<Item, Key, KeyAccessor, Function>::operator[](const Key& key)
 {
-	long index = getIndexOfFirstItemWithKey(key);
+	const Hash<Item, Key, KeyAccessor, Function>& hash = *this;
 
-	if (index != -1)
-	{
-		return table[index];
-	}
-	else
-	{
-		throw std::out_of_range("There is no item with such key!");
-	}
+	return const_cast<Item&>(hash[key]);
 }
 
 template <class Item, class Key, class KeyAccessor, class Function>

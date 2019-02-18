@@ -319,7 +319,7 @@ namespace HashUnitTest
 				hash["key"];
 				Assert::Fail(L"The method did not throw an exception!");
 			}
-			catch (std::logic_error& e)
+			catch (std::out_of_range& e)
 			{
 				Assert::IsTrue(areEqual("There is no item with such key!", e.what()));
 			}
