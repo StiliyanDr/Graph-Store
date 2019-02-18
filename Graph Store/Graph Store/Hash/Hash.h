@@ -65,6 +65,7 @@ public:
 	size_t getCount() const;
 	bool isEmpty() const;
 	void empty();
+	void swap(Hash<Item, Key, KeyAccessor, Function>& hash) noexcept;
 
 private:
 	static size_t calculateTableSize(size_t expectedItemsCount);
@@ -80,7 +81,6 @@ private:
 	bool canBeShrinked() const;
 	void extendIfFillingUp();
 	bool isFillingUp() const;
-	void swapContentsWith(Hash<Item, Key, KeyAccessor, Function> hash);
 	size_t getNextPositionToProbe(size_t currentPosition) const;
 
 private:
@@ -92,6 +92,13 @@ private:
 	KeyAccessor keyAccessor;
 	Function hashFunction;
 };
+
+template <class Item, class Key, class KeyAccessor, class Function>
+inline void swap(Hash<Item, Key, KeyAccessor, Function>& lhs,
+	             Hash<Item, Key, KeyAccessor, Function>& rhs) noexcept
+{
+	lhs.swap(rhs);
+}
 
 #include "Hash.hpp"
 

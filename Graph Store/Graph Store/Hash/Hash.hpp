@@ -137,14 +137,15 @@ Hash<Item, Key, KeyAccessor, Function>::operator=(Hash<Item, Key, KeyAccessor, F
 {
 	if (this != &rhs)
 	{
-		swapContentsWith(std::move(rhs));
+		Hash<Item, Key, KeyAccessor, Function> hash(std::move(rhs));
+		swap(hash);
 	}
 
 	return *this;
 }
 
 template <class Item, class Key, class KeyAccessor, class Function>
-void Hash<Item, Key, KeyAccessor, Function>::swapContentsWith(Hash<Item, Key, KeyAccessor, Function> hash)
+void Hash<Item, Key, KeyAccessor, Function>::swap(Hash<Item, Key, KeyAccessor, Function>& hash) noexcept
 {
 	std::swap(table, hash.table);
 	std::swap(keyAccessor, hash.keyAccessor);
