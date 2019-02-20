@@ -3,10 +3,18 @@
 
 void GraphSaver::save(const Graph& g)
 {
-	decorateVerticesOf(g);
-	openFileFor(g);
-	saveDecoratedGraph(g);
-	releaseResources();
+	try
+	{
+		decorateVerticesOf(g);
+		openFileFor(g);
+		saveDecoratedGraph(g);
+		releaseResources();
+	}
+	catch (...)
+	{
+		releaseResources();
+		throw;
+	}
 }
 
 void GraphSaver::decorateVerticesOf(const Graph& g)
@@ -18,7 +26,7 @@ void GraphSaver::decorateVerticesOf(const Graph& g)
 
 	Graph::VerticesConstIterator iterator =
 		g.getConstIteratorOfVertices();
-	size_t index = 0;
+	std::size_t index = 0;
 
 	forEach(*iterator, [&](const Graph::Vertex& v)
 	{
@@ -38,29 +46,13 @@ void GraphSaver::openFileFor(const Graph& g)
 
 String GraphSaver::getFileNameFor(const Graph& g)
 {
-	try
-	{
-		return g.getID() + ".txt";
-	}
-	catch (std::bad_alloc&)
-	{
-		releaseResources();
-		throw;
-	}
-}
-
-void GraphSaver::releaseResources()
-{
-	file.close();
-	decoratedVertices.clear();
+	return g.getID() + ".txt";
 }
 
 void GraphSaver::verifyFileIsOpen(const String& fileName)
 {
 	if (!file.is_open())
 	{
-		releaseResources();
-
 		throw RuntimeError("Could not open \"" + fileName + "\"!");
 	}
 }
@@ -107,7 +99,13 @@ void GraphSaver::saveEdgesOf(const Graph& g)
 	});
 }
 
-size_t GraphSaver::getIndexOf(const Graph::Vertex& v) const
+std::size_t GraphSaver::getIndexOf(const Graph::Vertex& v) const
 {
 	return decoratedVertices.at(v.getID());
+}
+
+void GraphSaver::releaseResources()
+{
+	file.close();
+	decoratedVertices.clear();
 }

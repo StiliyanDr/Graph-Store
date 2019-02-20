@@ -9,21 +9,23 @@
 class GraphSaver
 {
 	using VertexID = String;
-	using Map = std::unordered_map<std::reference_wrapper<const VertexID>, size_t, HashFunction<VertexID>>;
+	using Map = std::unordered_map<std::reference_wrapper<const VertexID>, std::size_t, HashFunction<VertexID>>;
 
 public:
 	void save(const Graph& graph);
 
 private:
+	static String getFileNameFor(const Graph& g);
+
+private:
 	void decorateVerticesOf(const Graph& g);
 	void openFileFor(const Graph& g);
-	String getFileNameFor(const Graph& g);
 	void verifyFileIsOpen(const String& fileName);
 	void saveDecoratedGraph(const Graph& g);
 	void saveIDAndTypeOf(const Graph& g);
 	void saveVerticesOf(const Graph& g);
 	void saveEdgesOf(const Graph& g);
-	size_t getIndexOf(const Graph::Vertex& v) const;
+	std::size_t getIndexOf(const Graph::Vertex& v) const;
 	void releaseResources();
 
 private:
