@@ -16,7 +16,7 @@ std::unique_ptr<Graph> GraphBuilder::buildFromFile(const String& fileName)
 		handleExceptionDuringBuilding(fileName, e);
 	}
 
-	clean();
+	releaseResources();
 
 	return std::move(graph);
 }
@@ -117,12 +117,12 @@ void GraphBuilder::addEdge(const RawEdge& edge)
 void GraphBuilder::handleExceptionDuringBuilding(const String& fileName, const std::exception& e)
 {
 	graph = nullptr;
-	clean();
+	releaseResources();
 
 	throw GraphBuilderException(e.what() + "\nError in: "_s + fileName);
 }
 
-void GraphBuilder::clean()
+void GraphBuilder::releaseResources()
 {
 	identifiers.empty();
 	fileParser.closeFile();

@@ -10,8 +10,8 @@ class GraphBuilder
 {
 	struct RawEdge
 	{
-		size_t startIDIndex;
-		size_t endIDIndex;
+		std::size_t startIDIndex;
+		std::size_t endIDIndex;
 		Graph::Edge::Weight weight;
 	};
 
@@ -32,7 +32,7 @@ private:
 	void addEdge(const RawEdge& edge);
 	unsigned parseUnsignedAndSkipUntil(char symbol);
 	void handleExceptionDuringBuilding(const String& fileName, const std::exception& e);
-	void clean();
+	void releaseResources();
 
 private:
 	static const char EDGE_START = '(';
