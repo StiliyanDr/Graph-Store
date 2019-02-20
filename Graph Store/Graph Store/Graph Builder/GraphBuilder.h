@@ -19,9 +19,6 @@ public:
 	GraphBuilder() = default;
 	GraphBuilder(const GraphBuilder&) = delete;
 	GraphBuilder& operator=(const GraphBuilder&) = delete;
-	GraphBuilder(GraphBuilder&&) = delete;
-	GraphBuilder& operator=(GraphBuilder&&) = delete;
-	~GraphBuilder() = default;
 
 	std::unique_ptr<Graph> buildFromFile(const String& fileName);
 
