@@ -23,7 +23,8 @@ namespace FileParserUnitTest
 
 		static void writeTextToFile(const char* text, const String& fileName)
 		{
-			std::ofstream file(fileName, std::ios::out | std::ios::trunc);
+			std::ofstream file(fileName.cString(),
+				               std::ios::out | std::ios::trunc);
 			assert(file.is_open());
 
 			file << text;
@@ -56,6 +57,11 @@ namespace FileParserUnitTest
 			}
 
 			return parser;
+		}
+
+		static bool areEqual(const String& lhs, const String& rhs)
+		{
+			return areEqual(lhs.cString(), rhs.cString());
 		}
 
 		static bool areEqual(const char* lhs, const char* rhs)
@@ -217,7 +223,7 @@ namespace FileParserUnitTest
 
 		TEST_METHOD(testReadLineReturnsACopyOfTheRestOfTheCurrentLine)
 		{
-			String lineInFile = "A line in the file";
+			char lineInFile[] = "A line in the file";
 			writeTextToFile(lineInFile, firstTestFileName);
 			FileParser parser(firstTestFileName);
 
