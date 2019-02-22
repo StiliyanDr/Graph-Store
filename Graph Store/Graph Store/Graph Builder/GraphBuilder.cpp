@@ -75,7 +75,7 @@ namespace GraphIO
 		assert(graph != nullptr);
 		assert(identifiers.isEmpty());
 
-		unsigned identifiersCount = parseUnsignedAndSkipUntil(NEW_LINE);
+		unsigned identifiersCount = parseUnsignedAndSkipUntil('\n');
 		identifiers.ensureSize(identifiersCount);
 
 		for (unsigned i = 0; i < identifiersCount; ++i)
@@ -90,7 +90,7 @@ namespace GraphIO
 	{
 		assert(graph != nullptr);
 
-		unsigned edgesCount = parseUnsignedAndSkipUntil(NEW_LINE);
+		unsigned edgesCount = parseUnsignedAndSkipUntil('\n');
 
 		for (unsigned i = 1; i <= edgesCount; ++i)
 		{
@@ -107,7 +107,7 @@ namespace GraphIO
 		edge.startIDIndex = parseUnsignedAndSkipUntil(EDGE_ATTRIBUTE_SEPARATOR);
 		edge.endIDIndex = parseUnsignedAndSkipUntil(EDGE_ATTRIBUTE_SEPARATOR);
 		edge.weight = parseUnsignedAndSkipUntil(EDGE_END);
-		fileParser.skipUntil(NEW_LINE);
+		fileParser.skipUntil('\n');
 
 		return edge;
 	}
