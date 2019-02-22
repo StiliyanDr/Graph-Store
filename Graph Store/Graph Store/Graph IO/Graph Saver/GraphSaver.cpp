@@ -1,6 +1,6 @@
 #include "GraphSaver.h"
-#include "../Runtime Error/RuntimeError.h"
-#include "../Graph IO/GraphIOConstants.h"
+#include "../../Runtime Error/RuntimeError.h"
+#include "../GraphIOConstants.h"
 
 namespace GraphIO
 {

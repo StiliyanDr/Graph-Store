@@ -93,12 +93,6 @@
     <Filter Include="File Parser\File Parser Exception">
       <UniqueIdentifier>{933c051a-8555-458c-8242-f2a81598128e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graph Builder">
-      <UniqueIdentifier>{9461d20c-7e0b-4829-80b3-028baca54d4b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graph Builder\Graph Builder Exception">
-      <UniqueIdentifier>{4b4f94e3-88bd-4eb3-bc17-61e13e67b4a8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="File Parser\Open File Fail Exception">
       <UniqueIdentifier>{9d41ae01-97fa-482d-a9a2-266bd486fb8c}</UniqueIdentifier>
     </Filter>
@@ -205,14 +199,20 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Graph Saver">
-      <UniqueIdentifier>{68a3c842-0b29-4348-bbeb-262941dcd859}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Fixed Size Queue">
       <UniqueIdentifier>{34d0e692-0cea-4955-80c8-4eb9e0c885b6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Graph IO">
       <UniqueIdentifier>{79ea8508-2556-422f-9643-fe30c12cf7a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph IO\Graph Builder">
+      <UniqueIdentifier>{9461d20c-7e0b-4829-80b3-028baca54d4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph IO\Graph Builder\Graph Builder Exception">
+      <UniqueIdentifier>{4b4f94e3-88bd-4eb3-bc17-61e13e67b4a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph IO\Graph Saver">
+      <UniqueIdentifier>{68a3c842-0b29-4348-bbeb-262941dcd859}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -251,12 +251,6 @@
     </ClInclude>
     <ClInclude Include="Graph\Undirected Graph\UndirectedGraph.h">
       <Filter>Graph\Undirected Graph</Filter>
-    </ClInclude>
-    <ClInclude Include="Graph Builder\Graph Builder Exception\GraphBuilderException.h">
-      <Filter>Graph Builder\Graph Builder Exception</Filter>
-    </ClInclude>
-    <ClInclude Include="Graph Builder\GraphBuilder.h">
-      <Filter>Graph Builder</Filter>
     </ClInclude>
     <ClInclude Include="Graph Factory\Graph Creator\ConcreteGraphCreator.h">
       <Filter>Graph Factory\Concrete Graph Creator</Filter>
@@ -417,9 +411,6 @@
     <ClInclude Include="Iterator\STLIteratorAdapter.h">
       <Filter>Iterator</Filter>
     </ClInclude>
-    <ClInclude Include="Graph Saver\GraphSaver.h">
-      <Filter>Graph Saver</Filter>
-    </ClInclude>
     <ClInclude Include="Fixed Size Queue\FixedSizeQueue.h">
       <Filter>Fixed Size Queue</Filter>
     </ClInclude>
@@ -428,6 +419,15 @@
     </ClInclude>
     <ClInclude Include="Graph IO\GraphIOConstants.h">
       <Filter>Graph IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph IO\Graph Builder\Graph Builder Exception\GraphBuilderException.h">
+      <Filter>Graph IO\Graph Builder\Graph Builder Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph IO\Graph Builder\GraphBuilder.h">
+      <Filter>Graph IO\Graph Builder</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph IO\Graph Saver\GraphSaver.h">
+      <Filter>Graph IO\Graph Saver</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -445,9 +445,6 @@
     </ClCompile>
     <ClCompile Include="Graph\Undirected Graph\UndirectedGraph.cpp">
       <Filter>Graph\Undirected Graph</Filter>
-    </ClCompile>
-    <ClCompile Include="Graph Builder\GraphBuilder.cpp">
-      <Filter>Graph Builder</Filter>
     </ClCompile>
     <ClCompile Include="Graph Factory\Graph Creator\GraphCreator.cpp">
       <Filter>Graph Factory\GraphCreator</Filter>
@@ -530,8 +527,11 @@
     <ClCompile Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraShortestPath.cpp">
       <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
     </ClCompile>
-    <ClCompile Include="Graph Saver\GraphSaver.cpp">
-      <Filter>Graph Saver</Filter>
+    <ClCompile Include="Graph IO\Graph Builder\GraphBuilder.cpp">
+      <Filter>Graph IO\Graph Builder</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph IO\Graph Saver\GraphSaver.cpp">
+      <Filter>Graph IO\Graph Saver</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
