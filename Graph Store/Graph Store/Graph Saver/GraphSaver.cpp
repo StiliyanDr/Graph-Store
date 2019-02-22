@@ -1,5 +1,6 @@
 #include "GraphSaver.h"
 #include "../Runtime Error/RuntimeError.h"
+#include "../Graph IO/GraphIOConstants.h"
 
 namespace GraphIO
 {
@@ -94,10 +95,10 @@ namespace GraphIO
 
 		forEach(*iterator, [&](const Graph::Edge& e)
 		{
-			file << '(' << getIndexOf(e.getStart())
-				<< ',' << getIndexOf(e.getEnd())
-				<< ',' << e.getWeight()
-				<< ")\n";
+			file << EDGE_START << getIndexOf(e.getStart())
+				 << EDGE_ATTRIBUTE_SEPARATOR << getIndexOf(e.getEnd())
+				 << EDGE_ATTRIBUTE_SEPARATOR << e.getWeight()
+				 << EDGE_END << '\n';
 		});
 	}
 
