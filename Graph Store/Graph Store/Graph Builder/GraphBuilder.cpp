@@ -6,16 +6,7 @@
 std::unique_ptr<Graph> GraphBuilder::buildFromFile(const String& fileName)
 {
 	openFile(fileName);
-	
-	try
-	{
-		buildAGraph();
-	}
-	catch (std::exception& e)
-	{
-		handleExceptionDuringBuilding(fileName, e);
-	}
-
+	tryToBuildAGraphFromOpenedFile(fileName);
 	releaseResources();
 
 	return std::move(graph);
@@ -33,6 +24,29 @@ void GraphBuilder::openFile(const String& name)
 	{
 		throw GraphBuilderException(String(e.what()));
 	}
+}
+
+void GraphBuilder::tryToBuildAGraphFromOpenedFile(const String& fileName)
+{
+	assert(fileParser.hasOpenedFile());
+
+	try
+	{
+		buildAGraph();
+	}
+	catch (std::exception& e)
+	{
+		handleExceptionDuringBuilding(fileName, e);
+	}
+}
+
+void GraphBuilder::handleExceptionDuringBuilding(const String& fileName,
+	                                             const std::exception& e)
+{
+	graph = nullptr;
+	releaseResources();
+
+	throw GraphBuilderException(e.what() + "\nError in: "_s + fileName);
 }
 
 void GraphBuilder::buildAGraph()
@@ -73,12 +87,11 @@ void GraphBuilder::addEdgesHavingAddedVertices()
 	assert(graph != nullptr);
 
 	unsigned edgesCount = parseUnsignedAndSkipUntil(NEW_LINE);
-	RawEdge rawEdge;
 
 	for (unsigned i = 1; i <= edgesCount; ++i)
 	{
-		rawEdge = parseEdge();
-		addEdge(rawEdge);
+		RawEdge e = parseEdge();
+		addEdge(e);
 	}
 }
 
@@ -112,14 +125,6 @@ void GraphBuilder::addEdge(const RawEdge& edge)
 	Graph::Vertex& end = graph->getVertexWithID(endID);
 
 	graph->addEdge(start, end, edge.weight);
-}
-
-void GraphBuilder::handleExceptionDuringBuilding(const String& fileName, const std::exception& e)
-{
-	graph = nullptr;
-	releaseResources();
-
-	throw GraphBuilderException(e.what() + "\nError in: "_s + fileName);
 }
 
 void GraphBuilder::releaseResources()

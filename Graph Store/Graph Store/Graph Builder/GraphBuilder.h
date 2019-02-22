@@ -24,12 +24,13 @@ public:
 
 private:
 	void openFile(const String& name);
+	void tryToBuildAGraphFromOpenedFile(const String& fileName);
 	void buildAGraph();
 	void createEmptyGraph();
 	void addVerticesToTheCreatedGraph();
 	void addEdgesHavingAddedVertices();
 	RawEdge parseEdge();
-	void addEdge(const RawEdge& edge);
+	void addEdge(const RawEdge& e);
 	unsigned parseUnsignedAndSkipUntil(char symbol);
 	void handleExceptionDuringBuilding(const String& fileName, const std::exception& e);
 	void releaseResources();
