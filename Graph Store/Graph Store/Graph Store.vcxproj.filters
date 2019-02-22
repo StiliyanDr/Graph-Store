@@ -211,6 +211,9 @@
     <Filter Include="Fixed Size Queue">
       <UniqueIdentifier>{34d0e692-0cea-4955-80c8-4eb9e0c885b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graph IO">
+      <UniqueIdentifier>{79ea8508-2556-422f-9643-fe30c12cf7a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -422,6 +425,9 @@
     </ClInclude>
     <ClInclude Include="Fixed Size Queue\FixedSizeQueue.hpp">
       <Filter>Fixed Size Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph IO\GraphIOConstants.h">
+      <Filter>Graph IO</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

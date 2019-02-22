@@ -2,133 +2,138 @@
 #include "../File Parser/Open File Fail Exception/OpenFileFailException.h"
 #include "../Graph Builder/Graph Builder Exception/GraphBuilderException.h"
 #include "../Graph Factory/GraphFactory.h"
+#include "../Graph IO/GraphIOConstants.h"
 
-std::unique_ptr<Graph> GraphBuilder::buildFromFile(const String& fileName)
+namespace GraphIO
 {
-	openFile(fileName);
-	tryToBuildAGraphFromOpenedFile(fileName);
-	releaseResources();
-
-	return std::move(graph);
-}
-
-void GraphBuilder::openFile(const String& name)
-{
-	assert(!fileParser.hasOpenedFile());
-
-	try
+	std::unique_ptr<Graph>
+		GraphBuilder::buildFromFile(const String& fileName)
 	{
-		fileParser.openFile(name);
+		openFile(fileName);
+		tryToBuildAGraphFromOpenedFile(fileName);
+		releaseResources();
+
+		return std::move(graph);
 	}
-	catch (OpenFileFailException& e)
+
+	void GraphBuilder::openFile(const String& name)
 	{
-		throw GraphBuilderException(String(e.what()));
+		assert(!fileParser.hasOpenedFile());
+
+		try
+		{
+			fileParser.openFile(name);
+		}
+		catch (OpenFileFailException& e)
+		{
+			throw GraphBuilderException(String(e.what()));
+		}
 	}
-}
 
-void GraphBuilder::tryToBuildAGraphFromOpenedFile(const String& fileName)
-{
-	assert(fileParser.hasOpenedFile());
-
-	try
+	void GraphBuilder::tryToBuildAGraphFromOpenedFile(const String& fileName)
 	{
-		buildAGraph();
+		assert(fileParser.hasOpenedFile());
+
+		try
+		{
+			buildAGraph();
+		}
+		catch (std::exception& e)
+		{
+			handleExceptionDuringBuilding(fileName, e);
+		}
 	}
-	catch (std::exception& e)
+
+	void GraphBuilder::handleExceptionDuringBuilding(const String& fileName,
+		const std::exception& e)
 	{
-		handleExceptionDuringBuilding(fileName, e);
+		graph = nullptr;
+		releaseResources();
+
+		throw GraphBuilderException(e.what() + "\nError in: "_s + fileName);
 	}
-}
 
-void GraphBuilder::handleExceptionDuringBuilding(const String& fileName,
-	                                             const std::exception& e)
-{
-	graph = nullptr;
-	releaseResources();
-
-	throw GraphBuilderException(e.what() + "\nError in: "_s + fileName);
-}
-
-void GraphBuilder::buildAGraph()
-{
-	createEmptyGraph();
-	addVerticesToTheCreatedGraph();
-	addEdgesHavingAddedVertices();
-}
-
-void GraphBuilder::createEmptyGraph()
-{
-	assert(graph == nullptr);
-
-	String id = fileParser.readLine();
-	String type = fileParser.readLine();
-
-	graph = GraphFactory::instance().createGraph(type, id);
-}
-
-void GraphBuilder::addVerticesToTheCreatedGraph()
-{
-	assert(graph != nullptr);
-	assert(identifiers.isEmpty());
-
-	unsigned identifiersCount = parseUnsignedAndSkipUntil(NEW_LINE);
-	identifiers.ensureSize(identifiersCount);
-
-	for (unsigned i = 0; i < identifiersCount; ++i)
+	void GraphBuilder::buildAGraph()
 	{
-		identifiers.add(fileParser.readLine());
-
-		graph->addVertex(identifiers[i]);
+		createEmptyGraph();
+		addVerticesToTheCreatedGraph();
+		addEdgesHavingAddedVertices();
 	}
-}
 
-void GraphBuilder::addEdgesHavingAddedVertices()
-{
-	assert(graph != nullptr);
-
-	unsigned edgesCount = parseUnsignedAndSkipUntil(NEW_LINE);
-
-	for (unsigned i = 1; i <= edgesCount; ++i)
+	void GraphBuilder::createEmptyGraph()
 	{
-		RawEdge e = parseEdge();
-		addEdge(e);
+		assert(graph == nullptr);
+
+		String id = fileParser.readLine();
+		String type = fileParser.readLine();
+
+		graph = GraphFactory::instance().createGraph(type, id);
 	}
-}
 
-GraphBuilder::RawEdge GraphBuilder::parseEdge()
-{
-	RawEdge edge;
+	void GraphBuilder::addVerticesToTheCreatedGraph()
+	{
+		assert(graph != nullptr);
+		assert(identifiers.isEmpty());
 
-	fileParser.skipUntil(EDGE_START);
-	edge.startIDIndex = parseUnsignedAndSkipUntil(EDGE_ATTRIBUTE_SEPARATOR);
-	edge.endIDIndex = parseUnsignedAndSkipUntil(EDGE_ATTRIBUTE_SEPARATOR);
-	edge.weight = parseUnsignedAndSkipUntil(EDGE_END);
-	fileParser.skipUntil(NEW_LINE);
+		unsigned identifiersCount = parseUnsignedAndSkipUntil(NEW_LINE);
+		identifiers.ensureSize(identifiersCount);
 
-	return edge;
-}
+		for (unsigned i = 0; i < identifiersCount; ++i)
+		{
+			identifiers.add(fileParser.readLine());
 
-unsigned GraphBuilder::parseUnsignedAndSkipUntil(char symbol)
-{
-	unsigned result = fileParser.parseUnsigned();
-	fileParser.skipUntil(symbol);
+			graph->addVertex(identifiers[i]);
+		}
+	}
 
-	return result;
-}
+	void GraphBuilder::addEdgesHavingAddedVertices()
+	{
+		assert(graph != nullptr);
 
-void GraphBuilder::addEdge(const RawEdge& edge)
-{
-	String& startID = identifiers[edge.startIDIndex];
-	String& endID = identifiers[edge.endIDIndex];
+		unsigned edgesCount = parseUnsignedAndSkipUntil(NEW_LINE);
 
-	Graph::Vertex& start = graph->getVertexWithID(startID);
-	Graph::Vertex& end = graph->getVertexWithID(endID);
+		for (unsigned i = 1; i <= edgesCount; ++i)
+		{
+			RawEdge e = parseEdge();
+			addEdge(e);
+		}
+	}
 
-	graph->addEdge(start, end, edge.weight);
-}
+	GraphBuilder::RawEdge GraphBuilder::parseEdge()
+	{
+		RawEdge edge;
 
-void GraphBuilder::releaseResources()
-{
-	identifiers.empty();
-	fileParser.closeFile();
+		fileParser.skipUntil(EDGE_START);
+		edge.startIDIndex = parseUnsignedAndSkipUntil(EDGE_ATTRIBUTE_SEPARATOR);
+		edge.endIDIndex = parseUnsignedAndSkipUntil(EDGE_ATTRIBUTE_SEPARATOR);
+		edge.weight = parseUnsignedAndSkipUntil(EDGE_END);
+		fileParser.skipUntil(NEW_LINE);
+
+		return edge;
+	}
+
+	unsigned GraphBuilder::parseUnsignedAndSkipUntil(char symbol)
+	{
+		unsigned result = fileParser.parseUnsigned();
+		fileParser.skipUntil(symbol);
+
+		return result;
+	}
+
+	void GraphBuilder::addEdge(const RawEdge& edge)
+	{
+		String& startID = identifiers[edge.startIDIndex];
+		String& endID = identifiers[edge.endIDIndex];
+
+		Graph::Vertex& start = graph->getVertexWithID(startID);
+		Graph::Vertex& end = graph->getVertexWithID(endID);
+
+		graph->addEdge(start, end, edge.weight);
+	}
+
+	void GraphBuilder::releaseResources()
+	{
+		identifiers.empty();
+		fileParser.closeFile();
+	}
 }

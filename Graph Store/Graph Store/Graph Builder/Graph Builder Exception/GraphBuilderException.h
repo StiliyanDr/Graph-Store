@@ -3,18 +3,21 @@
 
 #include "../../Runtime Error/RuntimeError.h"
 
-class GraphBuilderException : public RuntimeError
+namespace GraphIO
 {
-public:
-	explicit GraphBuilderException(String errorMessage) :
-		RuntimeError(std::move(errorMessage))
+	class GraphBuilderException : public RuntimeError
 	{
-	}
+	public:
+		explicit GraphBuilderException(String errorMessage) :
+			RuntimeError(std::move(errorMessage))
+		{
+		}
 
-	explicit GraphBuilderException(const std::string& errorMessage) :
-		RuntimeError(errorMessage)
-	{
-	}
-};
+		explicit GraphBuilderException(const std::string& errorMessage) :
+			RuntimeError(errorMessage)
+		{
+		}
+	};
+}
 
 #endif //__GRAPH_BUILDER_EXCEPTION_HEADER_INCLUDED__

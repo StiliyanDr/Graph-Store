@@ -178,6 +178,7 @@
     <ClInclude Include="Graph Factory\Graph Registrator\GraphRegistrator.h" />
     <ClInclude Include="Graph Factory\GraphFactory.h" />
     <ClInclude Include="Graph Factory\Invalid Graph Type Exception\InvalidGraphTypeException.h" />
+    <ClInclude Include="Graph IO\GraphIOConstants.h" />
     <ClInclude Include="Graph Saver\GraphSaver.h" />
     <ClInclude Include="Graph\Abstract class\Graph.h" />
     <ClInclude Include="Graph\Directed Graph\DirectedGraph.h" />
