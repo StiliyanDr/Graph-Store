@@ -199,7 +199,6 @@
     <ClInclude Include="Priority Queue\Handle\PriorityQueueHandle.h" />
     <ClInclude Include="Priority Queue\PriorityQueue.h" />
     <ClInclude Include="Priority Queue\PriorityQueue.hpp" />
-    <ClInclude Include="Queue\Queue.h" />
     <ClInclude Include="Runtime Error\RuntimeError.h" />
     <ClInclude Include="Shortest Path Algorithms\Abstract class\ShortestPathAlgorithm.h" />
     <ClInclude Include="Shortest Path Algorithms\Algorithm Registrator\ShortestPathAlgorithmRegistrator.h" />

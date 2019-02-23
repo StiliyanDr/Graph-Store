@@ -18,9 +18,6 @@
     <Filter Include="String">
       <UniqueIdentifier>{0c393ecb-636c-402e-b466-46106eed10b3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Queue">
-      <UniqueIdentifier>{70728f98-f67e-41bf-b146-b47ffc936534}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Hashing\Hash">
       <UniqueIdentifier>{f2a68877-1e41-4e4c-a557-224c925994f7}</UniqueIdentifier>
     </Filter>
@@ -299,9 +296,6 @@
     </ClInclude>
     <ClInclude Include="Priority Queue\Handle\PriorityQueueHandle.h">
       <Filter>Priority Queue\Priority Queue Handle</Filter>
-    </ClInclude>
-    <ClInclude Include="Queue\Queue.h">
-      <Filter>Queue</Filter>
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Abstract class\ShortestPathAlgorithm.h">
       <Filter>Shortest Path Algorithms\Abstract class</Filter>
