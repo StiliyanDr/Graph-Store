@@ -1,8 +1,8 @@
 #include "DirectoryLoader.h"
 #include <assert.h>
-#include "../Graph IO/Graph Builder/Graph Builder Exception/GraphBuilderException.h"
-#include "../Directory Files Iterator/Directory Files Iterator Exception/DirectoryFilesIteratorException.h"
-#include "../Logger/Logger.h"
+#include "../Graph Builder/Graph Builder Exception/GraphBuilderException.h"
+#include "../../Directory Files Iterator/Directory Files Iterator Exception/DirectoryFilesIteratorException.h"
+#include "../../Logger/Logger.h"
 
 namespace GraphIO
 {

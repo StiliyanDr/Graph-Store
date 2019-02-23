@@ -1,8 +1,8 @@
 #ifndef __DIRECTORY_LOADER_HEADER_INCLUDED__
 #define __DIRECTORY_LOADER_HEADER_INCLUDED__
 
-#include "../Directory Files Iterator/DirectoryFilesIterator.h"
-#include "../Graph IO/Graph Builder/GraphBuilder.h"
+#include "../../Directory Files Iterator/DirectoryFilesIterator.h"
+#include "../Graph Builder/GraphBuilder.h"
 
 namespace GraphIO
 {
