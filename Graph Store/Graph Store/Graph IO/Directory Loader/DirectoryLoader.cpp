@@ -1,48 +1,39 @@
 #include "DirectoryLoader.h"
-#include <assert.h>
 #include "../Graph Builder/Graph Builder Exception/GraphBuilderException.h"
-#include "../../Directory Files Iterator/Directory Files Iterator Exception/DirectoryFilesIteratorException.h"
 #include "../../Logger/Logger.h"
+#include "../../Graph Collection/GraphCollection.h"
+#include "../../Directory Files Iterator/DirectoryFilesIterator.h"
 
 namespace GraphIO
 {
-	void DirectoryLoader::openDirectory(const String& path)
+	GraphCollection DirectoryLoader::load(const String& path)
 	{
-		assert(!directoryIterator.isValid());
+		GraphCollection graphs;
+		DirectoryFilesIterator iterator(path);
 
-		try
+		forEach(iterator, [&](const String& pathName)
 		{
-			directoryIterator.startIterationIn(path);
-		}
-		catch (DirectoryFilesIteratorException& e)
-		{
-			assert(!directoryIterator.isValid());
-			Logger::logError(e);
-		}
+			std::unique_ptr<Graph> graph = loadFile(pathName);
+
+			if (graph != nullptr)
+			{
+				graphs.add(std::move(graph));
+			}
+		});
+
+		return graphs;
 	}
 
-	bool DirectoryLoader::thereAreFilesLeftToLoad() const
+	std::unique_ptr<Graph> DirectoryLoader::loadFile(const String& pathName)
 	{
-		return directoryIterator.isValid();
-	}
-
-	std::unique_ptr<Graph> DirectoryLoader::loadCurrentFile()
-	{
-		assert(directoryIterator.isValid());
-
 		try
 		{
-			return graphBuilder.buildFromFile(directoryIterator.getPathOfCurrentFile());
+			return graphBuilder.buildFromFile(pathName);
 		}
 		catch (GraphBuilderException& e)
 		{
 			Logger::logError(e);
 			return nullptr;
 		}
-	}
-
-	void DirectoryLoader::goToNextFile()
-	{
-		directoryIterator.advance();
 	}
 }

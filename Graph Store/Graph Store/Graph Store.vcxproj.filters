@@ -114,9 +114,6 @@
     <Filter Include="Directory Files Iterator\Directory Files Iterator Exception">
       <UniqueIdentifier>{2b12b12d-3964-4900-a0f8-9dfe48f41c5b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Directory Loader">
-      <UniqueIdentifier>{97e63876-ff37-4276-99d7-68482ff28270}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Logger">
       <UniqueIdentifier>{92bf67f7-66d4-4d16-aaac-35a442db257f}</UniqueIdentifier>
     </Filter>
@@ -210,6 +207,9 @@
     </Filter>
     <Filter Include="Graph IO\Graph Saver">
       <UniqueIdentifier>{68a3c842-0b29-4348-bbeb-262941dcd859}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph IO\Directory Loader">
+      <UniqueIdentifier>{97e63876-ff37-4276-99d7-68482ff28270}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -318,9 +318,6 @@
     <ClInclude Include="Directory Files Iterator\Directory Files Iterator Exception\DirectoryFilesIteratorException.h">
       <Filter>Directory Files Iterator\Directory Files Iterator Exception</Filter>
     </ClInclude>
-    <ClInclude Include="Directory Loader\DirectoryLoader.h">
-      <Filter>Directory Loader</Filter>
-    </ClInclude>
     <ClInclude Include="Logger\Logger.h">
       <Filter>Logger</Filter>
     </ClInclude>
@@ -423,6 +420,9 @@
     <ClInclude Include="Graph IO\Graph Saver\GraphSaver.h">
       <Filter>Graph IO\Graph Saver</Filter>
     </ClInclude>
+    <ClInclude Include="Graph IO\Directory Loader\DirectoryLoader.h">
+      <Filter>Graph IO\Directory Loader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\FileParser.cpp">
@@ -463,9 +463,6 @@
     </ClCompile>
     <ClCompile Include="Directory Files Iterator\DirectoryFilesIterator.cpp">
       <Filter>Directory Files Iterator</Filter>
-    </ClCompile>
-    <ClCompile Include="Directory Loader\DirectoryLoader.cpp">
-      <Filter>Directory Loader</Filter>
     </ClCompile>
     <ClCompile Include="String Cutter\StringCutter.cpp">
       <Filter>String Cutter</Filter>
@@ -526,6 +523,9 @@
     </ClCompile>
     <ClCompile Include="Graph IO\Graph Saver\GraphSaver.cpp">
       <Filter>Graph IO\Graph Saver</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph IO\Directory Loader\DirectoryLoader.cpp">
+      <Filter>Graph IO\Directory Loader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
