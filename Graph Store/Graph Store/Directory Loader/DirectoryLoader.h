@@ -2,49 +2,52 @@
 #define __DIRECTORY_LOADER_HEADER_INCLUDED__
 
 #include "../Directory Files Iterator/DirectoryFilesIterator.h"
-#include "../Graph Builder/GraphBuilder.h"
+#include "../Graph IO/Graph Builder/GraphBuilder.h"
 
-class DirectoryLoader
+namespace GraphIO
 {
-public:
-	DirectoryLoader() = default;
-	DirectoryLoader(const DirectoryLoader&) = delete;
-	DirectoryLoader& operator=(const DirectoryLoader&) = delete;
-	DirectoryLoader(DirectoryLoader&&) = delete;
-	DirectoryLoader& operator=(DirectoryLoader&&) = delete;
-	~DirectoryLoader() = default;
+	class DirectoryLoader
+	{
+	public:
+		DirectoryLoader() = default;
+		DirectoryLoader(const DirectoryLoader&) = delete;
+		DirectoryLoader& operator=(const DirectoryLoader&) = delete;
+		DirectoryLoader(DirectoryLoader&&) = delete;
+		DirectoryLoader& operator=(DirectoryLoader&&) = delete;
+		~DirectoryLoader() = default;
+
+		template <class Function>
+		void loadApplyingFunctionToEachGraph(const String& path, const Function& function);
+
+	private:
+		void openDirectory(const String& path);
+		bool thereAreFilesLeftToLoad() const;
+		std::unique_ptr<Graph> loadCurrentFile();
+		void goToNextFile();
+
+	private:
+		DirectoryFilesIterator directoryIterator;
+		GraphBuilder graphBuilder;
+	};
 
 	template <class Function>
-	void loadApplyingFunctionToEachGraph(const String& path, const Function& function);
-
-private:
-	void openDirectory(const String& path);
-	bool thereAreFilesLeftToLoad() const;
-	std::unique_ptr<Graph> loadCurrentFile();
-	void goToNextFile();
-
-private:
-	DirectoryFilesIterator directoryIterator;
-	GraphBuilder graphBuilder;
-};
-
-template <class Function>
-void DirectoryLoader::loadApplyingFunctionToEachGraph(const String& path, const Function& function)
-{
-	openDirectory(path);
-
-	std::unique_ptr<Graph> graph;
-
-	while (thereAreFilesLeftToLoad())
+	void DirectoryLoader::loadApplyingFunctionToEachGraph(const String& path, const Function& function)
 	{
-		graph = loadCurrentFile();
+		openDirectory(path);
 
-		if (graph != nullptr)
+		std::unique_ptr<Graph> graph;
+
+		while (thereAreFilesLeftToLoad())
 		{
-			function(std::move(graph));
-		}
+			graph = loadCurrentFile();
 
-		goToNextFile();
+			if (graph != nullptr)
+			{
+				function(std::move(graph));
+			}
+
+			goToNextFile();
+		}
 	}
 }
 
