@@ -47,7 +47,7 @@ inline bool allOf(Iterator& iterator, UnaryPredicate p)
 }
 
 template <class UnaryPredicate>
-UnaryPredicate unaryComplementOf(UnaryPredicate p)
+auto unaryComplementOf(UnaryPredicate p)
 {
 	return [p](auto&& x)
 	{
@@ -75,6 +75,12 @@ Iterator skipUntil(Iterator& iterator, UnaryPredicate p)
 	}
 
 	return iterator;
+}
+
+template <class Iterator, class UnaryPredicate>
+inline bool noneOf(Iterator& iterator, UnaryPredicate p)
+{
+	return !anyOf(iterator, p);
 }
 
 #endif //__ITERATOR_HEADER_INCLUDED__
