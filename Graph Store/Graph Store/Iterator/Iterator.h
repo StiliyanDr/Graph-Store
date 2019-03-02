@@ -41,7 +41,7 @@ void forEach(Iterator& iterator, const Function& function)
 }
 
 template <class Iterator, class Predicate>
-Iterator forEachUntil(Iterator& iterator, const Predicate& predicate)
+Iterator skipUntil(Iterator& iterator, const Predicate& predicate)
 {
 	while (iterator)
 	{

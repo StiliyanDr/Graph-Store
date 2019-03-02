@@ -226,7 +226,7 @@ Graph::searchForEdgeFromTo(const Vertex& start, const Vertex& end)
 	OutgoingEdgesConcreteIterator iterator =
 		getConcreteIteratorOfEdgesLeaving(start);
 
-	return forEachUntil(iterator, [&](const OutgoingEdge& e)
+	return skipUntil(iterator, [&](const OutgoingEdge& e)
 	{
 		return e.getEnd() == end;
 	});
@@ -240,7 +240,7 @@ bool Graph::hasEdge(const Vertex& start, const Vertex& end) const
 	OutgoingEdgesConcreteConstIterator iterator =
 		getConcreteConstIteratorOfEdgesLeaving(start);
 
-	return forEachUntil(iterator, [&](const OutgoingEdge& e)
+	return skipUntil(iterator, [&](const OutgoingEdge& e)
 	{
 		return e.getEnd() == end;
 	});

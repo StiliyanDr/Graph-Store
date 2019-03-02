@@ -41,7 +41,7 @@ GraphFactory::getCreator(const String& criterion) const
 GraphFactory::Collection::ConstIterator
 GraphFactory::searchForCreator(const String& criterion) const
 {
-	return forEachUntil(creators.getConstIterator(),
+	return skipUntil(creators.getConstIterator(),
 		                [&](const GraphCreator* c)
 	{
 		return c->getCriterion() == criterion;
