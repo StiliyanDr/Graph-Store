@@ -240,7 +240,7 @@ bool Graph::hasEdge(const Vertex& start, const Vertex& end) const
 	OutgoingEdgesConcreteConstIterator iterator =
 		getConcreteConstIteratorOfEdgesLeaving(start);
 
-	return skipUntil(iterator, [&](const OutgoingEdge& e)
+	return anyOf(iterator, [&](const OutgoingEdge& e)
 	{
 		return e.getEnd() == end;
 	});
