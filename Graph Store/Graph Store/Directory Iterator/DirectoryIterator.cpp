@@ -1,5 +1,5 @@
 #include "DirectoryIterator.h"
-#include "Directory Files Iterator Exception\DirectoryIteratorException.h"
+#include "DirectoryIteratorException.h"
 #include "String\String.h"
 #include <assert.h>
 #include <stdexcept>

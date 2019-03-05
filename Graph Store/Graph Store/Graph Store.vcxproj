@@ -87,6 +87,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>"D:\Repositories\Graph-Store\Graph Store\Graph Store"</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -158,8 +159,9 @@
     <ClInclude Include="Command\Search Command\SearchCommand.h" />
     <ClInclude Include="Command\String Reader\StringReader.h" />
     <ClInclude Include="Command\Use Graph Command\UseGraphCommand.h" />
-    <ClInclude Include="Directory Files Iterator\Directory Files Iterator Exception\DirectoryFilesIteratorException.h" />
-    <ClInclude Include="Directory Files Iterator\DirectoryFilesIterator.h" />
+    <ClInclude Include="Directory Iterator\DirectoryFilesIterator.h" />
+    <ClInclude Include="Directory Iterator\DirectoryIterator.h" />
+    <ClInclude Include="Directory Iterator\DirectoryIteratorException.h" />
     <ClInclude Include="Distance\Distance.h" />
     <ClInclude Include="Dynamic Array\DynamicArray.h" />
     <ClInclude Include="Dynamic Array\DynamicArray.hpp" />
@@ -225,7 +227,8 @@
     <ClCompile Include="Command\Remove Vertex Command\RemoveVertexCommand.cpp" />
     <ClCompile Include="Command\Search Command\SearchCommand.cpp" />
     <ClCompile Include="Command\Use Graph Command\UseGraphCommand.cpp" />
-    <ClCompile Include="Directory Files Iterator\DirectoryFilesIterator.cpp" />
+    <ClCompile Include="Directory Iterator\DirectoryFilesIterator.cpp" />
+    <ClCompile Include="Directory Iterator\DirectoryIterator.cpp" />
     <ClCompile Include="Distance\Distance.cpp" />
     <ClCompile Include="File Parser\FileParser.cpp" />
     <ClCompile Include="Graph Collection\GraphCollection.cpp" />

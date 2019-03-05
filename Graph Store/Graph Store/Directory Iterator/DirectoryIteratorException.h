@@ -1,7 +1,7 @@
 #ifndef __DIRECTORY_ITERATOR_EXCEPTION_HEADER_INCLUDED__
 #define __DIRECTORY_ITERATOR_EXCEPTION_HEADER_INCLUDED__
 
-#include "../../Runtime Error/RuntimeError.h"
+#include "../Runtime Error/RuntimeError.h"
 
 class DirectoryIteratorException : public RuntimeError
 {

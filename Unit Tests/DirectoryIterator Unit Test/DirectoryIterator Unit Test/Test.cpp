@@ -1,6 +1,6 @@
 #include "CppUnitTest.h"
-#include "Directory Files Iterator\DirectoryIterator.h"
-#include "Directory Files Iterator\Directory Files Iterator Exception\DirectoryIteratorException.h"
+#include "Directory Iterator\DirectoryIterator.h"
+#include "Directory Iterator\DirectoryIteratorException.h"
 #include "File.h"
 #include "ExtensionFilter.h"
 #include "Iterator\Iterator.h"

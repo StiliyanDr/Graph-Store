@@ -105,14 +105,8 @@
     <Filter Include="Hashing\Identifier Accessor">
       <UniqueIdentifier>{22075870-293d-4918-9d93-c583698928bf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Directory Files Iterator">
-      <UniqueIdentifier>{638b980e-e128-446e-9b85-252309cab386}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shortest Path Algorithms\Shortest Path Algorithm Registrator">
       <UniqueIdentifier>{92e258eb-cd58-4f59-86b2-713805b2aada}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Directory Files Iterator\Directory Files Iterator Exception">
-      <UniqueIdentifier>{2b12b12d-3964-4900-a0f8-9dfe48f41c5b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Logger">
       <UniqueIdentifier>{92bf67f7-66d4-4d16-aaac-35a442db257f}</UniqueIdentifier>
@@ -210,6 +204,9 @@
     </Filter>
     <Filter Include="Graph IO\Directory Loader">
       <UniqueIdentifier>{97e63876-ff37-4276-99d7-68482ff28270}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Directory Iterator">
+      <UniqueIdentifier>{638b980e-e128-446e-9b85-252309cab386}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -311,12 +308,6 @@
     </ClInclude>
     <ClInclude Include="String\String.h">
       <Filter>String</Filter>
-    </ClInclude>
-    <ClInclude Include="Directory Files Iterator\DirectoryFilesIterator.h">
-      <Filter>Directory Files Iterator</Filter>
-    </ClInclude>
-    <ClInclude Include="Directory Files Iterator\Directory Files Iterator Exception\DirectoryFilesIteratorException.h">
-      <Filter>Directory Files Iterator\Directory Files Iterator Exception</Filter>
     </ClInclude>
     <ClInclude Include="Logger\Logger.h">
       <Filter>Logger</Filter>
@@ -423,6 +414,15 @@
     <ClInclude Include="Graph IO\Directory Loader\DirectoryLoader.h">
       <Filter>Graph IO\Directory Loader</Filter>
     </ClInclude>
+    <ClInclude Include="Directory Iterator\DirectoryFilesIterator.h">
+      <Filter>Directory Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="Directory Iterator\DirectoryIterator.h">
+      <Filter>Directory Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="Directory Iterator\DirectoryIteratorException.h">
+      <Filter>Directory Iterator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\FileParser.cpp">
@@ -460,9 +460,6 @@
     </ClCompile>
     <ClCompile Include="Graph Store.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Directory Files Iterator\DirectoryFilesIterator.cpp">
-      <Filter>Directory Files Iterator</Filter>
     </ClCompile>
     <ClCompile Include="String Cutter\StringCutter.cpp">
       <Filter>String Cutter</Filter>
@@ -526,6 +523,12 @@
     </ClCompile>
     <ClCompile Include="Graph IO\Directory Loader\DirectoryLoader.cpp">
       <Filter>Graph IO\Directory Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Directory Iterator\DirectoryFilesIterator.cpp">
+      <Filter>Directory Iterator</Filter>
+    </ClCompile>
+    <ClCompile Include="Directory Iterator\DirectoryIterator.cpp">
+      <Filter>Directory Iterator</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
