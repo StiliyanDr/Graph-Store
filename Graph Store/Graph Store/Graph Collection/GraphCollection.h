@@ -1,8 +1,8 @@
 #ifndef __GRAPH_COLLECTION_HEADER_INCLUDED__
 #define __GRAPH_COLLECTION_HEADER_INCLUDED__
 
-#include "Dynamic Array/DynamicArray.h"
 #include "Graph\Abstract class\Graph.h"
+#include <vector>
 #include <memory>
 
 class GraphCollection
@@ -22,7 +22,7 @@ public:
 	using GraphPointer = std::unique_ptr<Graph>;
 
 private:
-	using Collection = DynamicArray<GraphPointer>;
+	using Collection = std::vector<GraphPointer>;
 
 public:
 	GraphCollection() = default;
@@ -50,8 +50,10 @@ private:
 	template <class CollectionIterator>
 	static CollectionIterator findGraph(CollectionIterator iterator,
 		                                const String& id);
-	static void verifyExistenceOfGraph(Collection::ConstIterator iterator,
-		                                const String& id);
+	template <class CollectionIterator>
+	static void verifyExistenceOfGraph(CollectionIterator iterator,
+		                               const String& id);
+	static void verifyPointerIsNotNull(const GraphPointer& p);
 
 private:
 	void tryToAdd(GraphPointer graph);
