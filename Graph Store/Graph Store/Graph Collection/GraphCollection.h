@@ -1,36 +1,62 @@
 #ifndef __GRAPH_COLLECTION_HEADER_INCLUDED__
 #define __GRAPH_COLLECTION_HEADER_INCLUDED__
 
-#include "../Dynamic Array/DynamicArray.h"
-#include "../Graph/Abstract class/Graph.h"
-#include "../Iterator/Iterator.h"
+#include "Dynamic Array/DynamicArray.h"
+#include <memory>
+
+class Graph;
+class String;
 
 class GraphCollection
 {
-	using Collection = DynamicArray<Graph*>;
+public:
+	template <bool isConst = false>
+	class GraphCollectionIterator
+	{
+		///
+		///TODO
+		///
+	};
+
+	using Iterator = GraphCollectionIterator<false>;
+	using ConstIterator = GraphCollectionIterator<true>;
+
+	using GraphPointer = std::unique_ptr<Graph>;
+
+private:
+	using Collection = DynamicArray<GraphPointer>;
 
 public:
 	GraphCollection() = default;
+	explicit GraphCollection(std::size_t size);
 	GraphCollection(const GraphCollection&) = delete;
 	GraphCollection& operator=(const GraphCollection&) = delete;
 	GraphCollection(GraphCollection&&) = default;
-	GraphCollection& operator=(GraphCollection&& rhs);
-	~GraphCollection();
+	GraphCollection& operator=(GraphCollection&&) = default;
 
-	void add(Graph& graph);
-	std::unique_ptr<Graph> remove(const String& graphID);
-	Graph& getGraphWithID(const String& id);
-	
-	std::unique_ptr<Iterator<Graph*>> getIterator();
-	size_t getCount() const;
-	bool isEmpty() const;
+	void add(GraphPointer graph);
+	GraphPointer remove(const String& id);
+
+	Graph& operator[](const String& id);
+	const Graph& operator[](const String& id) const;
+	bool contains(const String& id) const noexcept;
+
+	Iterator getIterator() noexcept;
+	ConstIterator getConstIterator() const noexcept;
+
+	std::size_t getCount() const noexcept;
+	bool isEmpty() const noexcept;
 	void empty();
 
 private:
-	bool hasGraphWithID(const String& id) const;
-	void tryToAdd(Graph& graph);
-	size_t getIndexOfGraphWithID(const String& id) const;
-	void destroyAllGraphs();
+	template <class CollectionIterator>
+	static CollectionIterator findGraph(CollectionIterator iterator,
+		                                const String& id);
+	static void verifyExistenceOfGraph(Collection::ConstIterator iterator,
+		                                const String& id);
+
+private:
+	void tryToAdd(GraphPointer graph);
 
 private:
 	Collection graphs;
