@@ -2,10 +2,8 @@
 #define __GRAPH_COLLECTION_HEADER_INCLUDED__
 
 #include "Dynamic Array/DynamicArray.h"
+#include "Graph\Abstract class\Graph.h"
 #include <memory>
-
-class Graph;
-class String;
 
 class GraphCollection
 {
