@@ -101,3 +101,14 @@ GraphCollection::findGraph(const String& id) const
 		return graph->getID() == id;
 	});
 }
+
+void GraphCollection::empty()
+{
+	graphs.clear();
+}
+
+void GraphCollection::remove(const String& id)
+{
+	Collection::const_iterator graphToRemove = getGraph(id);
+	graphs.erase(graphToRemove);
+}

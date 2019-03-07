@@ -33,7 +33,7 @@ public:
 	GraphCollection& operator=(GraphCollection&&) = default;
 
 	void add(GraphPointer graph);
-	GraphPointer remove(const String& id);
+	void remove(const String& id);
 
 	Graph& operator[](const String& id);
 	const Graph& operator[](const String& id) const;

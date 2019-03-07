@@ -102,6 +102,41 @@ namespace GraphCollectionUnitTest
 			Assert::IsFalse(graphs.contains("nonmatching id"));
 		}
 
+		TEST_METHOD(testRemove)
+		{
+			String id = "g";
+			GraphCollection graphs =
+				makeCollectionContainingGraphWithID(id);
+
+			graphs.remove(id);
+
+			Assert::IsTrue(graphs.isEmpty());
+		}
+
+		TEST_METHOD(testRemoveThrowsExceptionForNonmatchingID)
+		{
+			GraphCollection graphs;
+
+			try
+			{
+				graphs.remove("nonmatching id");
+				Assert::Fail(L"The method did not throw an exception!");
+			}
+			catch (std::out_of_range&)
+			{
+			}
+		}
+
+		TEST_METHOD(testEmpty)
+		{
+			GraphCollection graphs =
+				makeCollectionContainingGraphWithID("id");
+
+			graphs.empty();
+
+			Assert::IsTrue(graphs.isEmpty());
+		}
+
 	private:
 		static GraphCollection
 		makeCollectionContainingGraphWithID(const String& id)
