@@ -18,7 +18,22 @@
     <ClCompile Include="Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Graph Store\Graph Store\String\String.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\Graph Store\Graph Store\Graph Collection\GraphCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Graph Store\Graph Store\Graph\Undirected Graph\UndirectedGraph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Graph Store\Graph Store\Graph\Abstract class\Graph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Graph Store\Graph Store\Graph Factory\GraphFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Graph Store\Graph Store\Graph Factory\Graph Creator\GraphCreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

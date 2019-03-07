@@ -37,7 +37,7 @@ public:
 
 	Graph& operator[](const String& id);
 	const Graph& operator[](const String& id) const;
-	bool contains(const String& id) const noexcept;
+	bool contains(const String& id) const;
 
 	Iterator getIterator() noexcept;
 	ConstIterator getConstIterator() const noexcept;
@@ -47,16 +47,12 @@ public:
 	void empty();
 
 private:
-	template <class CollectionIterator>
-	static CollectionIterator findGraph(CollectionIterator iterator,
-		                                const String& id);
-	template <class CollectionIterator>
-	static void verifyExistenceOfGraph(CollectionIterator iterator,
-		                               const String& id);
 	static void verifyPointerIsNotNull(const GraphPointer& p);
 
 private:
 	void tryToAdd(GraphPointer graph);
+	Collection::const_iterator getGraph(const String& id) const;
+	Collection::const_iterator findGraph(const String& id) const;
 
 private:
 	Collection graphs;

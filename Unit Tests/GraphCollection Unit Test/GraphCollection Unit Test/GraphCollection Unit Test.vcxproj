@@ -151,6 +151,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Graph Store\Graph Store\Graph Collection\GraphCollection.cpp" />
+    <ClCompile Include="..\..\..\Graph Store\Graph Store\Graph Factory\Graph Creator\GraphCreator.cpp" />
+    <ClCompile Include="..\..\..\Graph Store\Graph Store\Graph Factory\GraphFactory.cpp" />
+    <ClCompile Include="..\..\..\Graph Store\Graph Store\Graph\Abstract class\Graph.cpp" />
+    <ClCompile Include="..\..\..\Graph Store\Graph Store\Graph\Undirected Graph\UndirectedGraph.cpp" />
+    <ClCompile Include="..\..\..\Graph Store\Graph Store\String\String.cpp" />
     <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

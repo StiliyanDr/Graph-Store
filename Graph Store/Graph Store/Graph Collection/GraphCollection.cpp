@@ -1,9 +1,10 @@
 #include "GraphCollection.h"
 #include "Runtime Error\RuntimeError.h"
+#include <algorithm>
 
-GraphCollection::GraphCollection(std::size_t size) :
-	graphs(size)
+GraphCollection::GraphCollection(std::size_t size)
 {
+	graphs.reserve(size);
 }
 
 void GraphCollection::add(GraphPointer graph)
@@ -50,4 +51,53 @@ bool GraphCollection::isEmpty() const noexcept
 std::size_t GraphCollection::getCount() const noexcept
 {
 	return graphs.size();
+}
+
+Graph& GraphCollection::operator[](const String& id)
+{
+	const GraphCollection& collection = *this;
+
+	return const_cast<Graph&>(collection[id]);
+}
+
+const Graph&
+GraphCollection::operator[](const String& id) const
+{
+	Collection::const_iterator iterator = getGraph(id);
+	
+	return *(*iterator);
+}
+
+bool GraphCollection::contains(const String& id) const
+{
+	return findGraph(id) != graphs.cend();
+}
+
+GraphCollection::Collection::const_iterator
+GraphCollection::getGraph(const String& id) const
+{
+	Collection::const_iterator iterator = findGraph(id);
+
+	if (iterator != graphs.cend())
+	{
+		return iterator;
+	}
+	else
+	{
+		std::string message = "There is no graph with id: ";
+		throw std::out_of_range(message + id.cString());
+	}
+}
+
+GraphCollection::Collection::const_iterator
+GraphCollection::findGraph(const String& id) const
+{
+	return std::find_if(graphs.cbegin(),
+	                    graphs.cend(),
+		                [&](const GraphPointer& graph)
+	{
+		assert(graph != nullptr);
+
+		return graph->getID() == id;
+	});
 }
