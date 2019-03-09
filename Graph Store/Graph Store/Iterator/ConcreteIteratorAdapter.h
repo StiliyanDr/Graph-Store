@@ -7,36 +7,31 @@ template <class Item, class ConcreteIterator, bool isConst = false>
 class ConcreteIteratorAdapter : public AbstractIterator<Item, isConst>
 {
 public:
-	ConcreteIteratorAdapter(const ConcreteIterator& iterator) :
+	ConcreteIteratorAdapter(ConcreteIterator iterator) :
 		iterator(iterator)
 	{
 	}
 
-	virtual ConcreteIteratorAdapter<Item, ConcreteIterator, isConst>& operator++() override
+	ConcreteIteratorAdapter<Item, ConcreteIterator, isConst>&
+	operator++() override
 	{
 		++iterator;
 
 		return *this;
 	}
 
-	virtual Reference operator*() const override
-	{
-		return *iterator;
-	}
-	
-	virtual Pointer operator->() const override
-	{
-		return iterator.operator->();
-	}
-	
-	virtual bool operator!() const override
-	{
-		return !iterator;
-	}
-	
-	virtual operator bool() const override
+protected:
+	bool isValid() const override
 	{
 		return static_cast<bool>(iterator);
+	}
+
+private:
+	Reference getCurrentItem() const override
+	{
+		assert(isValid());
+
+		return *iterator;
 	}
 
 private:
@@ -44,6 +39,7 @@ private:
 };
 
 template <class Item, class ConcreteIterator>
-using ConcreteConstIteratorAdapter = ConcreteIteratorAdapter<Item, ConcreteIterator, true>;
+using ConcreteConstIteratorAdapter =
+	ConcreteIteratorAdapter<Item, ConcreteIterator, true>;
 
 #endif //__CONCRETE_ITERATOR_ADAPTER_HEADER_INCLUDED__
