@@ -112,3 +112,15 @@ void GraphCollection::remove(const String& id)
 	Collection::const_iterator graphToRemove = getGraph(id);
 	graphs.erase(graphToRemove);
 }
+
+GraphCollection::Iterator
+GraphCollection::getIterator() noexcept
+{
+	return Iterator(graphs.begin(), graphs.end());
+}
+
+GraphCollection::ConstIterator
+GraphCollection::getConstIterator() const noexcept
+{
+	return ConstIterator(graphs.cbegin(), graphs.cend());
+}

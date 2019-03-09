@@ -4,25 +4,58 @@
 #include "Graph\Abstract class\Graph.h"
 #include <vector>
 #include <memory>
+#include "Iterator\STLIteratorAdapter.h"
 
 class GraphCollection
 {
 public:
-	template <bool isConst = false>
-	class GraphCollectionIterator
-	{
-		///
-		///TODO
-		///
-	};
-
-	using Iterator = GraphCollectionIterator<false>;
-	using ConstIterator = GraphCollectionIterator<true>;
-
 	using GraphPointer = std::unique_ptr<Graph>;
 
 private:
 	using Collection = std::vector<GraphPointer>;
+
+public:
+	template <bool isConst = false>
+	class GraphCollectionIterator : public AbstractIterator<Graph, isConst>
+	{
+		friend class GraphCollection;
+
+		using STLIteratorType =
+			typename std::conditional<isConst, Collection::const_iterator, Collection::iterator>::type;
+		using IteratorType = STLIteratorAdapter<STLIteratorType, isConst>;
+
+	public:
+		GraphCollectionIterator<isConst>& operator++() override
+		{
+			++iterator;
+
+			return *this;
+		}
+
+	private:
+		GraphCollectionIterator(STLIteratorType iterator, STLIteratorType end) :
+			iterator(iterator, end)
+		{
+		}
+
+		Reference getCurrentItem() const override
+		{
+			assert(isValid());
+
+			return *(*iterator);
+		}
+
+		bool isValid() const override
+		{
+			return static_cast<bool>(iterator);
+		}
+
+	private:
+		IteratorType iterator;
+	};
+
+	using Iterator = GraphCollectionIterator<false>;
+	using ConstIterator = GraphCollectionIterator<true>;
 
 public:
 	GraphCollection() = default;
