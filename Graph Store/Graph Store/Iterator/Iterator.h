@@ -48,6 +48,12 @@ private:
 	virtual Reference getCurrentItem() const = 0;
 };
 
+template <class Item>
+using Iterator = AbstractIterator<Item, false>;
+
+template <class Item>
+using ConstIterator = AbstractIterator<Item, true>;
+
 template <class Item, bool isConst>
 typename AbstractIterator<Item, isConst>::Reference
 AbstractIterator<Item, isConst>::verifyValidityAndReturnCurrentItem() const
@@ -61,12 +67,6 @@ AbstractIterator<Item, isConst>::verifyValidityAndReturnCurrentItem() const
 		throw std::out_of_range("Iterator out of range!");
 	}
 }
-
-template <class Item>
-using Iterator = AbstractIterator<Item, false>;
-
-template <class Item>
-using ConstIterator = AbstractIterator<Item, true>;
 
 template <class Iterator, class UnaryFunction>
 void forEach(Iterator& iterator, UnaryFunction f)
