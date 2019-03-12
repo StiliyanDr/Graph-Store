@@ -414,9 +414,6 @@
     <ClInclude Include="Graph IO\Directory Loader\DirectoryLoader.h">
       <Filter>Graph IO\Directory Loader</Filter>
     </ClInclude>
-    <ClInclude Include="Directory Iterator\DirectoryFilesIterator.h">
-      <Filter>Directory Iterator</Filter>
-    </ClInclude>
     <ClInclude Include="Directory Iterator\DirectoryIterator.h">
       <Filter>Directory Iterator</Filter>
     </ClInclude>
@@ -523,9 +520,6 @@
     </ClCompile>
     <ClCompile Include="Graph IO\Directory Loader\DirectoryLoader.cpp">
       <Filter>Graph IO\Directory Loader</Filter>
-    </ClCompile>
-    <ClCompile Include="Directory Iterator\DirectoryFilesIterator.cpp">
-      <Filter>Directory Iterator</Filter>
     </ClCompile>
     <ClCompile Include="Directory Iterator\DirectoryIterator.cpp">
       <Filter>Directory Iterator</Filter>
