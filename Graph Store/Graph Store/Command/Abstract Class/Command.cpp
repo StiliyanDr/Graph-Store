@@ -36,3 +36,8 @@ void Command::setUsedGraph(Graph& graph)
 {
 	usedGraph = &graph;
 }
+
+void Command::setGraphs(GraphCollection collection)
+{
+	graphs = std::move(collection);
+}

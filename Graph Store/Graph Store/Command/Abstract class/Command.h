@@ -23,7 +23,8 @@ protected:
 	static Graph& getUsedGraph();
 	static void useNoGraph();
 	static void setUsedGraph(Graph& graph);
-	
+	static void setGraphs(GraphCollection graphs);
+
 private:
 	static Graph* usedGraph;
 	static GraphCollection graphs;

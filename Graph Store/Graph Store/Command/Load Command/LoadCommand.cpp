@@ -1,6 +1,6 @@
 #include "LoadCommand.h"
-#include "../../Logger/Logger.h"
-#include "../../Directory Loader/DirectoryLoader.h"
+#include "Logger/Logger.h"
+#include "Graph IO/Directory Loader/DirectoryLoader.h"
 #include "../Command Registrator/CommandRegistrator.h"
 #include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 
@@ -33,24 +33,7 @@ void LoadCommand::setPath(args::Positional<String, StringReader>& path)
 
 void LoadCommand::loadGraphs(const String& path)
 {
-	DirectoryLoader loader;
+	GraphIO::DirectoryLoader loader;
 
-	loader.loadApplyingFunctionToEachGraph(path, tryToAddGraph);
-}
-
-void LoadCommand::tryToAddGraph(std::unique_ptr<Graph> graph)
-{
-	GraphCollection& graphs = getGraphs();
-
-	try
-	{
-		graphs.add(*graph);
-	}
-	catch (RuntimeError& e)
-	{
-		Logger::logError(e);
-		return;
-	}
-
-	graph.release();
+	setGraphs(loader.load(path));
 }

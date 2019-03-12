@@ -19,7 +19,6 @@ public:
 
 private:
 	static void loadGraphs(const String& path);
-	static void tryToAddGraph(std::unique_ptr<Graph> graph);
 
 private:
 	void parseArguments(args::Subparser& parser);
