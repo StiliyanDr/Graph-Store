@@ -15,10 +15,11 @@ void ListGraphsCommand::listIdentifiersOfGraphs()
 {
 	GraphCollection& graphs = getGraphs();
 
-	std::unique_ptr<Iterator<Graph*>> iterator = graphs.getIterator();
+	GraphCollection::ConstIterator iterator =
+		graphs.getConstIterator();
 
-	forEach(*iterator, [&](const Graph* graph)
+	forEach(iterator, [](const Graph& graph)
 	{
-		std::cout << graph->getID() << '\n';
+		std::cout << graph.getID() << '\n';
 	});
 }
