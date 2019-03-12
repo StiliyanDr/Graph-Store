@@ -19,7 +19,7 @@ protected:
 
 protected:
 	static GraphCollection& getGraphs();
-	static bool isUsedGraph(const Graph& graph);
+	static bool isUsedGraph(const String& id);
 	static Graph& getUsedGraph();
 	static void useNoGraph();
 	static void setUsedGraph(Graph& graph);

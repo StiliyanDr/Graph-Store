@@ -9,9 +9,10 @@ GraphCollection& Command::getGraphs()
 	return graphs;
 }
 
-bool Command::isUsedGraph(const Graph& graph)
+bool Command::isUsedGraph(const String& id)
 {
-	return usedGraph == &graph;
+	return usedGraph != nullptr
+		   && usedGraph->getID() == id;
 }
 
 Graph& Command::getUsedGraph()

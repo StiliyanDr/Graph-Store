@@ -31,11 +31,11 @@ void RemoveGraphCommand::setGraphID(args::Positional<String, StringReader>& id)
 
 void RemoveGraphCommand::removeGraph(const String& id)
 {
-	GraphCollection& graphs = getGraphs();
-	std::unique_ptr<Graph> graph = graphs.remove(id);
-
-	if (isUsedGraph(*graph))
+	if (isUsedGraph(id))
 	{
 		useNoGraph();
 	}
+
+	GraphCollection& graphs = getGraphs();
+	graphs.remove(id);
 }
