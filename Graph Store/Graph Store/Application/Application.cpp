@@ -89,7 +89,7 @@ void Application::run()
 
 void Application::invokeCommand(char* commandLine)
 {
-	StringCutter cutter;
+	StringCutter cutter({ '\'', '\"' });
 	std::vector<std::string> arguments = cutter.cutToWords(commandLine);
 
 	try
