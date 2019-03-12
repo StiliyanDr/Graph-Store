@@ -46,9 +46,9 @@ void AddGraphCommand::addGraph(const String& id, const String& type)
 	std::unique_ptr<Graph> newGraph = tryToCreateGraph(id, type);
 	GraphCollection& graphs = getGraphs();
 	
-	graphs.add(*newGraph);
-	setUsedGraph(*newGraph);
-	newGraph.release();
+	Graph* g = newGraph.get();
+	graphs.add(std::move(newGraph));
+	setUsedGraph(*g);
 }
 
 std::unique_ptr<Graph> AddGraphCommand::tryToCreateGraph(const String& id,
