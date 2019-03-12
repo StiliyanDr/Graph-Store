@@ -1,15 +1,15 @@
 #include "DirectoryLoader.h"
 #include "../Graph Builder/Graph Builder Exception/GraphBuilderException.h"
-#include "../../Logger/Logger.h"
-#include "../../Graph Collection/GraphCollection.h"
-#include "../../Directory Files Iterator/DirectoryFilesIterator.h"
+#include "Logger/Logger.h"
+#include "Graph Collection/GraphCollection.h"
+#include "Directory Iterator/DirectoryIterator.h"
 
 namespace GraphIO
 {
 	GraphCollection DirectoryLoader::load(const String& path)
 	{
 		GraphCollection graphs;
-		DirectoryFilesIterator iterator(path);
+		DirectoryIterator iterator(path);
 
 		forEach(iterator, [&](const String& pathName)
 		{
