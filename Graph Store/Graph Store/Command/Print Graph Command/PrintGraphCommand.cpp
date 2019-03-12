@@ -33,7 +33,7 @@ void PrintGraphCommand::setGraphID(args::Positional<String, StringReader>& id)
 void PrintGraphCommand::printGraph(const String& id)
 {
 	GraphCollection& graphs = getGraphs();
-	Graph& graph = graphs.getGraphWithID(id);
+	Graph& graph = graphs[id];
 
 	Graph::VerticesConstIterator iterator =
 		graph.getConstIteratorOfVertices();

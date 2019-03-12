@@ -32,6 +32,6 @@ void UseGraphCommand::setGraphID(args::Positional<String, StringReader>& id)
 void UseGraphCommand::useGraph(const String& id)
 {
 	GraphCollection& graphs = getGraphs();
-	Graph& graph = graphs.getGraphWithID(id);
+	Graph& graph = graphs[id];
 	setUsedGraph(graph);
 }
