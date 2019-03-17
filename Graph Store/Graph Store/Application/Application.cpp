@@ -90,10 +90,12 @@ void Application::run()
 void Application::invokeCommand(char* commandLine)
 {
 	StringCutter cutter({ '\'', '\"' });
-	std::vector<std::string> arguments = cutter.cutToWords(commandLine);
 
 	try
 	{
+		std::vector<std::string> arguments =
+			cutter.cutToWords(commandLine);
+
 		parser.ParseArgs(arguments);
 	}
 	catch (std::exception& e)
