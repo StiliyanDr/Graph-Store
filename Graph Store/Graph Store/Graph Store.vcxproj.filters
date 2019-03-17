@@ -208,6 +208,9 @@
     <Filter Include="Directory Iterator">
       <UniqueIdentifier>{638b980e-e128-446e-9b85-252309cab386}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Command\Save Command">
+      <UniqueIdentifier>{bb65ec61-4b80-481a-a461-57b6c0906cd2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -420,6 +423,9 @@
     <ClInclude Include="Directory Iterator\DirectoryIteratorException.h">
       <Filter>Directory Iterator</Filter>
     </ClInclude>
+    <ClInclude Include="Command\Save Command\SaveCommand.h">
+      <Filter>Command\Save Command</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\FileParser.cpp">
@@ -523,6 +529,9 @@
     </ClCompile>
     <ClCompile Include="Directory Iterator\DirectoryIterator.cpp">
       <Filter>Directory Iterator</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\Save Command\SaveCommand.cpp">
+      <Filter>Command\Save Command</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
