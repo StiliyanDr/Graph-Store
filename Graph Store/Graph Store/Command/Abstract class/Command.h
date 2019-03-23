@@ -2,10 +2,15 @@
 #define __COMMAND_HEADER_INCLUDED__
 
 #include "../../../../../args-master/args-master/args.hxx"
-#include "../../Graph Collection/GraphCollection.h"
+
+class String;
+class Graph;
+class GraphCollection;
 
 class Command
 {
+	friend class Application;
+
 public:
 	virtual ~Command() = default;
 	virtual void execute(args::Subparser& parser) = 0;
@@ -22,12 +27,14 @@ protected:
 	static bool isUsedGraph(const String& id);
 	static Graph& getUsedGraph();
 	static void useNoGraph();
-	static void setUsedGraph(Graph& graph);
-	static void setGraphs(GraphCollection graphs);
+	static void setUsedGraph(Graph& g);
+
+private:
+	static void setGraphs(GraphCollection& graphs);
 
 private:
 	static Graph* usedGraph;
-	static GraphCollection graphs;
+	static GraphCollection* graphs;
 };
 
 #endif //__COMMAND_HEADER_INCLUDED__

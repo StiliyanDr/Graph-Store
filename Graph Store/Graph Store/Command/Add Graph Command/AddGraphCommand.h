@@ -3,6 +3,7 @@
 
 #include "../Abstract class/Command.h"
 #include "../String Reader/StringReader.h"
+#include "Graph/Abstract class/Graph.h"
 
 class AddGraphCommand : public Command
 {

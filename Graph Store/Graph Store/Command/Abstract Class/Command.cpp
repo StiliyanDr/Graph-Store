@@ -1,12 +1,15 @@
 #include "Command.h"
-#include "../../Runtime Error/RuntimeError.h"
+#include "Runtime Error/RuntimeError.h"
+#include "Graph Collection/GraphCollection.h"
 
 Graph* Command::usedGraph = nullptr;
-GraphCollection Command::graphs;
+GraphCollection* Command::graphs = nullptr;
 
 GraphCollection& Command::getGraphs()
 {
-	return graphs;
+	assert(graphs != nullptr);
+
+	return *graphs;
 }
 
 bool Command::isUsedGraph(const String& id)
@@ -37,7 +40,7 @@ void Command::setUsedGraph(Graph& graph)
 	usedGraph = &graph;
 }
 
-void Command::setGraphs(GraphCollection collection)
+void Command::setGraphs(GraphCollection& collection)
 {
-	graphs = std::move(collection);
+	graphs = &collection;
 }
