@@ -23,7 +23,9 @@ Application::Application() :
 
 void Application::addExitCommand()
 {
-	addCommand("EXIT", "Terminates the program", [&](args::Subparser& parser)
+	addCommand("EXIT",
+		       "Terminates the program",
+		       [&](args::Subparser& parser)
 	{
 		parser.Parse();
 		receivedExitCommand = true;
@@ -32,28 +34,31 @@ void Application::addExitCommand()
 
 void Application::addHelpCommand()
 {
-	addCommand("HELP", "Lists the supported commands", [&](args::Subparser& parser)
+	addCommand("HELP", "Lists the supported commands",
+		       [&](args::Subparser& parser)
 	{
 		parser.Parse();
 		
 		std::cout << "Supported commands:\n";
 
-		std::for_each(commands.cbegin(), commands.cend(), [&](const args::Command& command)
+		std::for_each(commands.cbegin(),
+			          commands.cend(),
+			          [](const args::Command& c)
 		{
-			std::cout << '\t' << command.Name()
-					  << ": " << command.Help() << '\n';
+			std::cout << '\t' << c.Name()
+					  << ": " << c.Help() << '\n';
 		});
 	});
 }
 
 void Application::addCommand(const char* name,
 							 const char* description,
-							 Function function)
+							 Function f)
 {
 	verifyStringIsNotNull(name);
 	verifyStringIsNotNull(description);
 
-	commands.emplace_front(commandsGroup, name, description, function);
+	commands.emplace_front(commandsGroup, name, description, f);
 }
 
 void Application::verifyStringIsNotNull(const char* s)
@@ -74,9 +79,9 @@ void Application::addCommand(const char* name,
 	});
 }
 
-void Application::run()
+void Application::interact()
 {
-	const size_t BUFFER_SIZE = 512;
+	const std::size_t BUFFER_SIZE = 512;
 	char buffer[BUFFER_SIZE];
 
 	do
@@ -89,7 +94,8 @@ void Application::run()
 
 void Application::invokeCommand(char* commandLine)
 {
-	StringCutter cutter({ '\'', '\"' });
+	std::vector<char> delimiters = { '\'', '\"' };
+	StringCutter cutter(delimiters);
 
 	try
 	{
