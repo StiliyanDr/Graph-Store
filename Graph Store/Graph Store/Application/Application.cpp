@@ -23,7 +23,7 @@ Application::Application() :
 
 void Application::addExitCommand()
 {
-	addCommand("EXIT",
+	addCommand("exit",
 		       "Terminates the program",
 		       [&](args::Subparser& parser)
 	{
@@ -34,7 +34,7 @@ void Application::addExitCommand()
 
 void Application::addHelpCommand()
 {
-	addCommand("HELP", "Lists the supported commands",
+	addCommand("help", "Lists the supported commands",
 		       [&](args::Subparser& parser)
 	{
 		parser.Parse();

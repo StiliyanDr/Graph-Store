@@ -2,7 +2,7 @@
 #include "../Command Registrator/CommandRegistrator.h"
 #include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 
-static CommandRegistrator<AddVertexCommand> registrator("ADD-VERTEX", "Adds a vertex with a specified identifier");
+static CommandRegistrator<AddVertexCommand> registrator("add-vertex", "Adds a vertex with a specified identifier");
 
 void AddVertexCommand::execute(args::Subparser& parser)
 {

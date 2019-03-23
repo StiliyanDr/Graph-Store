@@ -2,7 +2,7 @@
 #include "../Command Registrator/CommandRegistrator.h"
 #include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 
-static CommandRegistrator<RemoveGraphCommand> registrator("REMOVE-GRAPH", "Removes a specified graph");
+static CommandRegistrator<RemoveGraphCommand> registrator("remove-graph", "Removes a specified graph");
 
 void RemoveGraphCommand::execute(args::Subparser& parser)
 {

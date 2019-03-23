@@ -2,7 +2,7 @@
 #include "../Command Registrator/CommandRegistrator.h"
 #include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 
-static CommandRegistrator<UseGraphCommand> registrator("USE-GRAPH", "Sets a specified graph as the used one");
+static CommandRegistrator<UseGraphCommand> registrator("use-graph", "Sets a specified graph as the used one");
 
 void UseGraphCommand::execute(args::Subparser& parser)
 {

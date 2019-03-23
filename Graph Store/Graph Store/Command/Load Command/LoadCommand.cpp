@@ -4,7 +4,7 @@
 #include "../Command Registrator/CommandRegistrator.h"
 #include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 
-static CommandRegistrator<LoadCommand> registrator("LOAD", "Loads files in a specified directory");
+static CommandRegistrator<LoadCommand> registrator("load", "Loads files in a specified directory");
 
 void LoadCommand::execute(args::Subparser& parser)
 {

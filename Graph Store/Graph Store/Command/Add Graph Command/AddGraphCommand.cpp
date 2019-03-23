@@ -3,7 +3,7 @@
 #include "../Command Registrator/CommandRegistrator.h"
 #include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 
-static CommandRegistrator<AddGraphCommand> registrator("ADD-GRAPH", "Adds a graph with specified identifier and type");
+static CommandRegistrator<AddGraphCommand> registrator("add-graph", "Adds a graph with specified identifier and type");
 
 const String AddGraphCommand::DEFAULT_GRAPH_TYPE = "undirected";
 

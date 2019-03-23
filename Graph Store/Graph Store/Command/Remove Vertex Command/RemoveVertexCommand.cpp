@@ -2,7 +2,7 @@
 #include "../Command Registrator/CommandRegistrator.h"
 #include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 
-static CommandRegistrator<RemoveVertexCommand> registrator("REMOVE-VERTEX",
+static CommandRegistrator<RemoveVertexCommand> registrator("remove-vertex",
 														   "Removes a vertex with a specified identifier");
 
 void RemoveVertexCommand::execute(args::Subparser& parser)

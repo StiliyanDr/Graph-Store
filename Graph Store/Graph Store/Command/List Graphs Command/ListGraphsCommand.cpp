@@ -2,7 +2,7 @@
 #include "../Command Registrator/CommandRegistrator.h"
 #include <iostream>
 
-static CommandRegistrator<ListGraphsCommand> registrator("LIST-GRAPHS",
+static CommandRegistrator<ListGraphsCommand> registrator("list-graphs",
 														 "Lists the identifiers of all graphs");
 
 void ListGraphsCommand::execute(args::Subparser& parser)

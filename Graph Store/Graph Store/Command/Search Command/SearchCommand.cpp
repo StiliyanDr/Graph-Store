@@ -3,7 +3,7 @@
 #include "../Command Registrator/CommandRegistrator.h"
 #include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 
-static CommandRegistrator<SearchCommand> registrator("SEARCH", "Finds a shortest path between two vertices");
+static CommandRegistrator<SearchCommand> registrator("search", "Finds a shortest path between two vertices");
 
 void SearchCommand::execute(args::Subparser& parser)
 {

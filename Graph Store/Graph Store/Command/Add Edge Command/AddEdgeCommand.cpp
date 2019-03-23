@@ -2,7 +2,7 @@
 #include "../Command Registrator/CommandRegistrator.h"
 #include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 
-static CommandRegistrator<AddEdgeCommand> registrator("ADD-EDGE",
+static CommandRegistrator<AddEdgeCommand> registrator("add-edge",
 													  "Adds an edge between two vertices with a specified weight");
 
 void AddEdgeCommand::execute(args::Subparser& parser)

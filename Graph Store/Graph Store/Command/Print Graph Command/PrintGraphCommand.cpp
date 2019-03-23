@@ -3,7 +3,7 @@
 #include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 #include <iostream>
 
-static CommandRegistrator<PrintGraphCommand> registrator("PRINT-GRAPH", "Prints a specified graph");
+static CommandRegistrator<PrintGraphCommand> registrator("print-graph", "Prints a specified graph");
 
 void PrintGraphCommand::execute(args::Subparser& parser)
 {

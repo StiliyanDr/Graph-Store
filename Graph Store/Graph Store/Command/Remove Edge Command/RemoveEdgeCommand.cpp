@@ -2,7 +2,7 @@
 #include "../Command Registrator/CommandRegistrator.h"
 #include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 
-static CommandRegistrator<RemoveEdgeCommand> registrator("REMOVE-EDGE",
+static CommandRegistrator<RemoveEdgeCommand> registrator("remove-edge",
 														 "Removes the edge between two specified vertices");
 
 void RemoveEdgeCommand::execute(args::Subparser& parser)

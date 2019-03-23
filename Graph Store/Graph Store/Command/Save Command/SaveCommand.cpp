@@ -2,7 +2,7 @@
 #include "Graph IO\Graph Saver\GraphSaver.h"
 #include "Command\Command Registrator\CommandRegistrator.h"
 
-static CommandRegistrator<SaveCommand> registrator("SAVE", "Saves all graphs");
+static CommandRegistrator<SaveCommand> registrator("save", "Saves all graphs");
 
 void SaveCommand::execute(args::Subparser& parser)
 {
