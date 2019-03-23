@@ -4,6 +4,9 @@
 #include "../String Cutter/StringCutter.h"
 #include "../Logger/Logger.h"
 #include "../Command/Abstract class/Command.h"
+#include <windows.h>
+#include "Runtime Error\RuntimeError.h"
+#include "Graph IO\Directory Loader\DirectoryLoader.h"
 
 Application& Application::instance()
 {
@@ -77,6 +80,46 @@ void Application::addCommand(const char* name,
 	{
 		command.execute(parser);
 	});
+}
+
+void Application::runIn(const String& directory)
+{
+	try
+	{
+		setCurrentDirectory(directory);
+		loadGraphsFrom(directory);
+	}
+	catch (std::exception& e)
+	{
+		Logger::logError(e);
+		return;
+	}
+
+	passLoadedGraphsToGraphCommands();
+	interact();
+}
+
+void Application::setCurrentDirectory(const String& path)
+{
+	bool changedDirectory =
+		SetCurrentDirectory(path.cString());
+
+	if (!changedDirectory)
+	{
+		throw RuntimeError("Could not change the directory to: " + path);
+	}
+}
+
+void Application::loadGraphsFrom(const String& directory)
+{
+	GraphIO::DirectoryLoader loader;
+
+	graphs = loader.load(directory);
+}
+
+void Application::passLoadedGraphsToGraphCommands()
+{
+	Command::setGraphs(graphs);
 }
 
 void Application::interact()
