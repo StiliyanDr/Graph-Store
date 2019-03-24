@@ -1,6 +1,5 @@
 #include "PrintGraphCommand.h"
 #include "../Command Registrator/CommandRegistrator.h"
-#include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
 #include <iostream>
 
 static CommandRegistrator<PrintGraphCommand> registrator("print-graph", "Prints a specified graph");
@@ -20,14 +19,7 @@ void PrintGraphCommand::parseArguments(args::Subparser& parser)
 
 void PrintGraphCommand::setGraphID(args::Positional<String, StringReader>& id)
 {
-	if (id.Matched())
-	{
-		graphID = args::get(id);
-	}
-	else
-	{
-		throw MissingArgumentException(id.Name());
-	}
+	graphID = id.Matched() ? args::get(id) : getUsedGraph().getID();
 }
 
 void PrintGraphCommand::printGraph(const String& id)
