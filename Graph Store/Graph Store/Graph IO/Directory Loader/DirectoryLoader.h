@@ -9,11 +9,31 @@ namespace GraphIO
 {
 	class DirectoryLoader
 	{
+		class ExtensionFilter
+		{
+		public:
+			explicit ExtensionFilter(String extension) :
+				extension(std::move(extension))
+			{
+			}
+
+			bool operator()(const String& extension) const
+			{
+				return extension == this->extension;
+			}
+
+		private:
+			String extension;
+		};
+
 	public:
 		GraphCollection load(const String& path);
 
 	private:
 		std::unique_ptr<Graph> loadFile(const String& pathName);
+	
+	private:
+		static const String EXTENSION;
 
 	private:
 		GraphBuilder graphBuilder;

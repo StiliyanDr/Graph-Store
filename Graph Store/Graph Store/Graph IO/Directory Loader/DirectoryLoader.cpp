@@ -6,10 +6,12 @@
 
 namespace GraphIO
 {
+	const String DirectoryLoader::EXTENSION = ".txt"_s;
+
 	GraphCollection DirectoryLoader::load(const String& path)
 	{
 		GraphCollection graphs;
-		DirectoryIterator iterator(path);
+		DirectoryIterator iterator(path, ExtensionFilter(EXTENSION));
 
 		forEach(iterator, [&](const String& pathName)
 		{
