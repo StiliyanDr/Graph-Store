@@ -28,9 +28,6 @@ namespace GraphIO
 
 	public:
 		GraphCollection load(const String& path);
-
-	private:
-		std::unique_ptr<Graph> loadFile(const String& pathName);
 	
 	private:
 		static const String EXTENSION;
