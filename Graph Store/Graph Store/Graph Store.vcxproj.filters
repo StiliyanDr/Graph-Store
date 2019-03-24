@@ -126,9 +126,6 @@
     <Filter Include="Command\CommandRegistrator">
       <UniqueIdentifier>{c18f47e0-aee0-45a9-a189-46d373775263}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Command\Load Command">
-      <UniqueIdentifier>{e4f9fa1f-6ceb-466f-8cb3-1a28025e6922}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Command\String Reader">
       <UniqueIdentifier>{2940572c-6cde-4383-9ed1-97b0cf7fb326}</UniqueIdentifier>
     </Filter>
@@ -330,9 +327,6 @@
     <ClInclude Include="Command\Command Registrator\CommandRegistrator.h">
       <Filter>Command\CommandRegistrator</Filter>
     </ClInclude>
-    <ClInclude Include="Command\Load Command\LoadCommand.h">
-      <Filter>Command\Load Command</Filter>
-    </ClInclude>
     <ClInclude Include="Command\String Reader\StringReader.h">
       <Filter>Command\String Reader</Filter>
     </ClInclude>
@@ -475,9 +469,6 @@
     </ClCompile>
     <ClCompile Include="Command\Abstract class\Command.cpp">
       <Filter>Command\Abstract class</Filter>
-    </ClCompile>
-    <ClCompile Include="Command\Load Command\LoadCommand.cpp">
-      <Filter>Command\Load Command</Filter>
     </ClCompile>
     <ClCompile Include="Command\List Graphs Command\ListGraphsCommand.cpp">
       <Filter>Command\List Graphs Command</Filter>
