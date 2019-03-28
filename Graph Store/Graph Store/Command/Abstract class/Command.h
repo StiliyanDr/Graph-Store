@@ -12,15 +12,13 @@ class Command
 	friend class Application;
 
 public:
+	Command(const Command&) = delete;
+	Command& operator=(const Command&) = delete;
 	virtual ~Command() = default;
 	virtual void execute(args::Subparser& parser) = 0;
 
 protected:
 	Command() = default;
-	Command(const Command&) = default;
-	Command& operator=(const Command&) = default;
-	Command(Command&&) = default;
-	Command& operator=(Command&&) = default;
 
 protected:
 	static GraphCollection& getGraphs();
