@@ -12,6 +12,15 @@ class Command
 	friend class Application;
 
 public:
+	class StringReader
+	{
+	public:
+		void operator()(const std::string& name,
+						const std::string& value,
+						String& destination) const;
+	};
+
+public:
 	Command(const Command&) = delete;
 	Command& operator=(const Command&) = delete;
 	virtual ~Command() = default;
@@ -19,6 +28,9 @@ public:
 
 protected:
 	Command() = default;
+
+protected:
+	static String getValueOf(args::Positional<String, StringReader>& argument);
 
 protected:
 	static GraphCollection& getGraphs();

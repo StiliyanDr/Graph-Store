@@ -160,7 +160,6 @@
     <ClInclude Include="Command\Remove Vertex Command\RemoveVertexCommand.h" />
     <ClInclude Include="Command\Save Command\SaveCommand.h" />
     <ClInclude Include="Command\Search Command\SearchCommand.h" />
-    <ClInclude Include="Command\String Reader\StringReader.h" />
     <ClInclude Include="Command\Use Graph Command\UseGraphCommand.h" />
     <ClInclude Include="Directory Iterator\DirectoryIterator.h" />
     <ClInclude Include="Directory Iterator\DirectoryIteratorException.h" />

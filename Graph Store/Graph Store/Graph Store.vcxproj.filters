@@ -126,9 +126,6 @@
     <Filter Include="Command\CommandRegistrator">
       <UniqueIdentifier>{c18f47e0-aee0-45a9-a189-46d373775263}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Command\String Reader">
-      <UniqueIdentifier>{2940572c-6cde-4383-9ed1-97b0cf7fb326}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Command\List Graphs Command">
       <UniqueIdentifier>{a74eaf88-5688-425e-b38e-b1b7c4d67715}</UniqueIdentifier>
     </Filter>
@@ -329,9 +326,6 @@
     </ClInclude>
     <ClInclude Include="Command\Command Registrator\CommandRegistrator.h">
       <Filter>Command\CommandRegistrator</Filter>
-    </ClInclude>
-    <ClInclude Include="Command\String Reader\StringReader.h">
-      <Filter>Command\String Reader</Filter>
     </ClInclude>
     <ClInclude Include="Command\List Graphs Command\ListGraphsCommand.h">
       <Filter>Command\List Graphs Command</Filter>
