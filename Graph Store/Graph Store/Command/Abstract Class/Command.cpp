@@ -9,6 +9,17 @@ void Command::StringReader::operator()(const std::string& name,
 	destination = value.c_str();
 }
 
+void Command::execute(args::Subparser& parser)
+{
+	parseArguments(parser);
+	doExecute();
+}
+
+void Command::parseArguments(args::Subparser& parser)
+{
+	parser.Parse();
+}
+
 String
 Command::getValueOf(args::Positional<String, StringReader>& argument)
 {

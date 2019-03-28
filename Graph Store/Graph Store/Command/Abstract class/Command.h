@@ -20,13 +20,18 @@ public:
 	Command(const Command&) = delete;
 	Command& operator=(const Command&) = delete;
 	virtual ~Command() = default;
-	virtual void execute(args::Subparser& parser) = 0;
+
+	void execute(args::Subparser& parser);
 
 protected:
 	Command() = default;
 
 protected:
 	static String getValueOf(args::Positional<String, StringReader>& argument);
+
+private:
+	virtual void parseArguments(args::Subparser& parser) = 0;
+	virtual void doExecute() = 0;
 };
 
 #endif //__COMMAND_HEADER_INCLUDED__
