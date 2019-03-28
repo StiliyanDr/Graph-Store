@@ -13,8 +13,6 @@ class GraphCommand : public Command
 
 protected:
 	GraphCommand() = default;
-	GraphCommand& operator=(const GraphCommand&) = delete;
-	GraphCommand(const GraphCommand&) = delete;
 
 protected:
 	static GraphCollection& getGraphs();
