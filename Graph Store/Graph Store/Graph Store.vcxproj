@@ -74,6 +74,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -100,6 +101,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>"D:\Repositories\Graph-Store\Graph Store\Graph Store"</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,7 +153,6 @@
     <ClInclude Include="Command\Exceptions\Command Exception\CommandException.h" />
     <ClInclude Include="Command\Exceptions\Missing Argument Exception\MissingArgumentException.h" />
     <ClInclude Include="Command\List Graphs Command\ListGraphsCommand.h" />
-    <ClInclude Include="Command\Load Command\LoadCommand.h" />
     <ClInclude Include="Command\Print Graph Command\PrintGraphCommand.h" />
     <ClInclude Include="Command\Remove Edge Command\RemoveEdgeCommand.h" />
     <ClInclude Include="Command\Remove Graph Command\RemoveGraphCommand.h" />
@@ -220,7 +221,6 @@
     <ClCompile Include="Command\Add Graph Command\AddGraphCommand.cpp" />
     <ClCompile Include="Command\Add Vertex Command\AddVertexCommand.cpp" />
     <ClCompile Include="Command\List Graphs Command\ListGraphsCommand.cpp" />
-    <ClCompile Include="Command\Load Command\LoadCommand.cpp" />
     <ClCompile Include="Command\Print Graph Command\PrintGraphCommand.cpp" />
     <ClCompile Include="Command\Remove Edge Command\RemoveEdgeCommand.cpp" />
     <ClCompile Include="Command\Remove Graph Command\RemoveGraphCommand.cpp" />

@@ -1,9 +1,9 @@
 #include "Application.h"
 #include <stdexcept>
 #include <iostream>
-#include "../String Cutter/StringCutter.h"
-#include "../Logger/Logger.h"
-#include "../Command/Abstract class/Command.h"
+#include "String Cutter/StringCutter.h"
+#include "Logger/Logger.h"
+#include "Command/Abstract class/Command.h"
 #include <windows.h>
 #include "Runtime Error\RuntimeError.h"
 #include "Graph IO\Directory Loader\DirectoryLoader.h"
