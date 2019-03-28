@@ -208,6 +208,9 @@
     <Filter Include="Command\Save Command">
       <UniqueIdentifier>{bb65ec61-4b80-481a-a461-57b6c0906cd2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Command\Graph Command">
+      <UniqueIdentifier>{607bf1b2-2342-429a-b5db-fd0186a2b419}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -420,6 +423,9 @@
     <ClInclude Include="Command\Save Command\SaveCommand.h">
       <Filter>Command\Save Command</Filter>
     </ClInclude>
+    <ClInclude Include="Command\Graph Command\GraphCommand.h">
+      <Filter>Command\Graph Command</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\FileParser.cpp">
@@ -523,6 +529,9 @@
     </ClCompile>
     <ClCompile Include="Command\Save Command\SaveCommand.cpp">
       <Filter>Command\Save Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command\Graph Command\GraphCommand.cpp">
+      <Filter>Command\Graph Command</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
