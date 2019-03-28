@@ -3,7 +3,6 @@
 
 #include "Command\Abstract Class\Command.h"
 
-class String;
 class Graph;
 class GraphCollection;
 
