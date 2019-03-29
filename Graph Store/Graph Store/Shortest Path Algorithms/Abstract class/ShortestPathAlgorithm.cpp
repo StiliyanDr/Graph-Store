@@ -54,6 +54,14 @@ void ShortestPathAlgorithm::Path::swapContentsWith(Path p)
 	std::swap(length, p.length);
 }
 
+std::ostream& operator<<(std::ostream& out,
+	                     const ShortestPathAlgorithm::Path& p)
+{
+	p.print(out);
+
+	return out;
+}
+
 void ShortestPathAlgorithm::Path::print(std::ostream& out) const
 {
 	printIdentifiers(out);
@@ -70,12 +78,10 @@ void ShortestPathAlgorithm::Path::printIdentifiers(std::ostream& out) const
 		{
 			out << id << ", ";
 		});
-
-		out << '\n';
 	}
 	else
 	{
-		out << "No such path exists!\n";
+		out << "No such path exists!";
 	}
 }
 

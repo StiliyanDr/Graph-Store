@@ -83,4 +83,6 @@ private:
 	String id;
 };
 
+std::ostream& operator<<(std::ostream& out, const ShortestPathAlgorithm::Path& p);
+
 #endif //__SHORTEST_PATH_ALGORITHM_HEADER_INCLUDED__
