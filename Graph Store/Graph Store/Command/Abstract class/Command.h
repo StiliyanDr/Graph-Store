@@ -24,13 +24,13 @@ public:
 	void execute(args::Subparser& parser);
 
 protected:
-	Command() = default;
-
-protected:
 	static String getValueOf(args::Positional<String, StringReader>& argument);
 
-private:
+protected:
+	Command() = default;
 	virtual void parseArguments(args::Subparser& parser) = 0;
+
+private:
 	virtual void doExecute() = 0;
 };
 
