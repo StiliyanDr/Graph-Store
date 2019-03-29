@@ -1,19 +1,16 @@
 #ifndef __SAVE_COMMAND_HEADER_INCLUDED__
 #define __SAVE_COMMAND_HEADER_INCLUDED__
 
-#include "Command\Abstract Class\Command.h"
+#include "Command\Graph Command\GraphCommand.h"
 
-class SaveCommand : public Command
+class SaveCommand : public GraphCommand
 {
 public:
 	SaveCommand() = default;
-	SaveCommand(const SaveCommand&) = delete;
-	SaveCommand& operator=(const SaveCommand&) = delete;
-
-	void execute(args::Subparser& parser) override;
 
 private:
-	static void saveGraphs();
+	void parseArguments(args::Subparser& parser) override;
+	void doExecute() override;
 };
 
 #endif //__SAVE_COMMAND_HEADER_INCLUDED__

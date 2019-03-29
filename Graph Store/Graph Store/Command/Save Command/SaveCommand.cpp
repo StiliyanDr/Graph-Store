@@ -4,13 +4,12 @@
 
 static CommandRegistrator<SaveCommand> registrator("save", "Saves all graphs");
 
-void SaveCommand::execute(args::Subparser& parser)
+void SaveCommand::parseArguments(args::Subparser& parser)
 {
-	parser.Parse();
-	saveGraphs();
+	Command::parseArguments(parser);
 }
 
-void SaveCommand::saveGraphs()
+void SaveCommand::doExecute()
 {
 	GraphIO::GraphSaver saver;
 	const GraphCollection& graphs = getGraphs();
