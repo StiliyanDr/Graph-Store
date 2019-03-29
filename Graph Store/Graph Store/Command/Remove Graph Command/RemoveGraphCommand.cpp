@@ -1,41 +1,25 @@
 #include "RemoveGraphCommand.h"
-#include "../Command Registrator/CommandRegistrator.h"
-#include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
+#include "Command\Command Registrator\CommandRegistrator.h"
 
-static CommandRegistrator<RemoveGraphCommand> registrator("remove-graph", "Removes a specified graph");
-
-void RemoveGraphCommand::execute(args::Subparser& parser)
-{
-	parseArguments(parser);
-	removeGraph(graphID);
-}
+static CommandRegistrator<RemoveGraphCommand> registrator("remove-graph",
+	                                                      "Removes a specified graph");
 
 void RemoveGraphCommand::parseArguments(args::Subparser& parser)
 {
-	args::Positional<String, StringReader> id(parser, "graph id", "The identifier of the graph to remove");
+	args::Positional<String, StringReader> id(parser,
+		                                      "graph id",
+		                                      "The id of the graph to remove");
 	parser.Parse();
-	setGraphID(id);
+	graphID = getValueOf(id);
 }
 
-void RemoveGraphCommand::setGraphID(args::Positional<String, StringReader>& id)
+void RemoveGraphCommand::doExecute()
 {
-	if (id.Matched())
-	{
-		graphID = args::get(id);
-	}
-	else
-	{
-		throw MissingArgumentException(id.Name());
-	}
-}
-
-void RemoveGraphCommand::removeGraph(const String& id)
-{
-	if (isUsedGraph(id))
+	if (isUsedGraph(graphID))
 	{
 		useNoGraph();
 	}
 
 	GraphCollection& graphs = getGraphs();
-	graphs.remove(id);
+	graphs.remove(graphID);
 }
