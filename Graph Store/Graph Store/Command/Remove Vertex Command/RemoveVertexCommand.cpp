@@ -1,39 +1,22 @@
 #include "RemoveVertexCommand.h"
-#include "../Command Registrator/CommandRegistrator.h"
-#include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
+#include "Command\Command Registrator\CommandRegistrator.h"
 
 static CommandRegistrator<RemoveVertexCommand> registrator("remove-vertex",
-														   "Removes a vertex with a specified identifier");
-
-void RemoveVertexCommand::execute(args::Subparser& parser)
-{
-	parseArguments(parser);
-	removeVertex(vertexID);
-}
+														   "Removes a vertex with a specified id");
 
 void RemoveVertexCommand::parseArguments(args::Subparser& parser)
 {
-	args::Positional<String, StringReader> id(parser, "vertex id", "The identifier of the vertex to remove");
+	args::Positional<String, StringReader> id(parser,
+		                                      "vertex id",
+		                                      "The id of the vertex to remove");
 	parser.Parse();
-	setVertexID(id);
+	vertexID = getValueOf(id);
 }
 
-void RemoveVertexCommand::setVertexID(args::Positional<String, StringReader>& id)
-{
-	if (id.Matched())
-	{
-		vertexID = args::get(id);
-	}
-	else
-	{
-		throw MissingArgumentException(id.Name());
-	}
-}
-
-void RemoveVertexCommand::removeVertex(const String& id)
+void RemoveVertexCommand::doExecute()
 {
 	Graph& usedGraph = getUsedGraph();
-	Graph::Vertex& vertex = usedGraph.getVertexWithID(id);
+	Graph::Vertex& v = usedGraph.getVertexWithID(vertexID);
 
-	usedGraph.removeVertex(vertex);
+	usedGraph.removeVertex(v);
 }

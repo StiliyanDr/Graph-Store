@@ -1,27 +1,16 @@
 #ifndef __REMOVE_VERTEX_COMMAND_HEADER_INCLUDED__
 #define __REMOVE_VERTEX_COMMAND_HEADER_INCLUDED__
 
-#include "../Abstract class/Command.h"
-#include "../String Reader/StringReader.h"
+#include "Command\Graph Command\GraphCommand.h"
 
-class RemoveVertexCommand : public Command
+class RemoveVertexCommand : public GraphCommand
 {
 public:
 	RemoveVertexCommand() = default;
-	RemoveVertexCommand(const RemoveVertexCommand&) = delete;
-	RemoveVertexCommand& operator=(const RemoveVertexCommand&) = delete;
-	RemoveVertexCommand(RemoveVertexCommand&&) = delete;
-	RemoveVertexCommand& operator=(RemoveVertexCommand&&) = delete;
-	virtual ~RemoveVertexCommand() = default;
-
-	virtual void execute(args::Subparser& parser) override;
 
 private:
-	static void removeVertex(const String& id);
-
-private:
-	void parseArguments(args::Subparser& parser);
-	void setVertexID(args::Positional<String, StringReader>& id);
+	void parseArguments(args::Subparser& parser) override;
+	void doExecute() override;
 
 private:
 	String vertexID;
