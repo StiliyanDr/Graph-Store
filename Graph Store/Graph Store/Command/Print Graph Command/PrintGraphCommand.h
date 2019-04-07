@@ -1,29 +1,21 @@
 #ifndef __PRINT_GRAPH_COMMAND_HEADER_INCLUDED__
 #define __PRINT_GRAPH_COMMAND_HEADER_INCLUDED__
 
-#include "../Abstract class/Command.h"
-#include "../String Reader/StringReader.h"
-#include "Graph/Abstract class/Graph.h"
+#include "Command\Graph Command\GraphCommand.h"
+#include "Graph\Abstract class\Graph.h"
 
-class PrintGraphCommand : public Command
+class PrintGraphCommand : public GraphCommand
 {
 public:
 	PrintGraphCommand() = default;
-	PrintGraphCommand(const PrintGraphCommand&) = delete;
-	PrintGraphCommand& operator=(const PrintGraphCommand&) = delete;
-	PrintGraphCommand(PrintGraphCommand&&) = delete;
-	PrintGraphCommand& operator=(PrintGraphCommand&&) = delete;
-	virtual ~PrintGraphCommand() = default;
-
-	virtual void execute(args::Subparser& parser) override;
 
 private:
-	static void printGraph(const String& id);
-	static void printEdgesLeaving(const Graph::Vertex& vertex, const Graph& graph);
-	static void printEdge(const Graph::OutgoingEdge& edge);
+	static void printEdgesLeaving(const Graph::Vertex& v, const Graph& g);
+	static void printEdge(const Graph::OutgoingEdge& e);
 
 private:
-	void parseArguments(args::Subparser& parser);
+	void parseArguments(args::Subparser& parser) override;
+	void doExecute() override;
 	void setGraphID(args::Positional<String, StringReader>& id);
 
 private:
