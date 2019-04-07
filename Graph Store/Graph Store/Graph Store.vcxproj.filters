@@ -159,12 +159,6 @@
     <Filter Include="Command\Exceptions">
       <UniqueIdentifier>{d1644408-9074-4aa1-8027-33a6c62e4198}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Command\Exceptions\Command Exception">
-      <UniqueIdentifier>{a3c5b94f-d072-4c7f-b240-61ffe5a3059b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Command\Exceptions\Missing Argument Exception">
-      <UniqueIdentifier>{c7dccb6a-ae70-40ff-86a3-3dbc26ffe6f6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shortest Path Algorithms\Shortest Path Algorithms Store">
       <UniqueIdentifier>{64578d2a-b4d0-4f1f-8e7e-314661566a2d}</UniqueIdentifier>
     </Filter>
@@ -360,12 +354,6 @@
     <ClInclude Include="Shortest Path Algorithms\Algorithm Registrator\ShortestPathAlgorithmRegistrator.h">
       <Filter>Shortest Path Algorithms\Shortest Path Algorithm Registrator</Filter>
     </ClInclude>
-    <ClInclude Include="Command\Exceptions\Command Exception\CommandException.h">
-      <Filter>Command\Exceptions\Command Exception</Filter>
-    </ClInclude>
-    <ClInclude Include="Command\Exceptions\Missing Argument Exception\MissingArgumentException.h">
-      <Filter>Command\Exceptions\Missing Argument Exception</Filter>
-    </ClInclude>
     <ClInclude Include="Linked List\LinkedListIterator.hpp">
       <Filter>Linked List</Filter>
     </ClInclude>
@@ -419,6 +407,12 @@
     </ClInclude>
     <ClInclude Include="Command\Graph Command\GraphCommand.h">
       <Filter>Command\Graph Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Command\Exceptions\CommandException.h">
+      <Filter>Command\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Command\Exceptions\MissingArgumentException.h">
+      <Filter>Command\Exceptions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

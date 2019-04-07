@@ -150,8 +150,8 @@
     <ClInclude Include="Command\Add Graph Command\AddGraphCommand.h" />
     <ClInclude Include="Command\Add Vertex Command\AddVertexCommand.h" />
     <ClInclude Include="Command\Command Registrator\CommandRegistrator.h" />
-    <ClInclude Include="Command\Exceptions\Command Exception\CommandException.h" />
-    <ClInclude Include="Command\Exceptions\Missing Argument Exception\MissingArgumentException.h" />
+    <ClInclude Include="Command\Exceptions\CommandException.h" />
+    <ClInclude Include="Command\Exceptions\MissingArgumentException.h" />
     <ClInclude Include="Command\Graph Command\GraphCommand.h" />
     <ClInclude Include="Command\List Graphs Command\ListGraphsCommand.h" />
     <ClInclude Include="Command\Print Graph Command\PrintGraphCommand.h" />

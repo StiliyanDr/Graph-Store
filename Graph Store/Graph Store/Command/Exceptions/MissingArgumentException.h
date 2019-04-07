@@ -1,7 +1,7 @@
 #ifndef __MISSING_ARGUMENT_EXCEPTION_HEADER_INCLUDED__
 #define __MISSING_ARGUMENT_EXCEPTION_HEADER_INCLUDED__
 
-#include "../Command Exception/CommandException.h"
+#include "Command\Exceptions\CommandException.h"
 
 class MissingArgumentException : public CommandException
 {
