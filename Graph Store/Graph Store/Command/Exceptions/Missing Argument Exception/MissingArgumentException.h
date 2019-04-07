@@ -6,11 +6,6 @@
 class MissingArgumentException : public CommandException
 {
 public:
-	explicit MissingArgumentException(const char* argumentName) :
-		MissingArgumentException(std::string(argumentName))
-	{
-	}
-
 	explicit MissingArgumentException(const std::string& argumentName) :
 		CommandException(format(argumentName))
 	{

@@ -1,7 +1,7 @@
 #ifndef __COMMAND_EXCEPTION_HEADER_INCLUDED__
 #define __COMMAND_EXCEPTION_HEADER_INCLUDED__
 
-#include "../../../Runtime Error/RuntimeError.h"
+#include "Runtime Error\RuntimeError.h"
 
 class CommandException : public RuntimeError
 {
