@@ -1,22 +1,16 @@
 #ifndef __LIST_GRAPHS_COMMAND_HEADER_INCLUDED__
 #define __LIST_GRAPHS_COMMAND_HEADER_INCLUDED__
 
-#include "../Abstract class/Command.h"
+#include "Command\Graph Command\GraphCommand.h"
 
-class ListGraphsCommand : public Command
+class ListGraphsCommand : public GraphCommand
 {
 public:
 	ListGraphsCommand() = default;
-	ListGraphsCommand(const ListGraphsCommand&) = delete;
-	ListGraphsCommand& operator=(const ListGraphsCommand&) = delete;
-	ListGraphsCommand(ListGraphsCommand&&) = delete;
-	ListGraphsCommand& operator=(ListGraphsCommand&&) = delete;
-	virtual ~ListGraphsCommand() = default;
-
-	virtual void execute(args::Subparser& parser) override;
 
 private:
-	static void listIdentifiersOfGraphs();
+	void parseArguments(args::Subparser& parser) override;
+	void doExecute() override;
 };
 
 #endif //__LIST_GRAPHS_COMMAND_HEADER_INCLUDED__

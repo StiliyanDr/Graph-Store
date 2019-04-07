@@ -1,25 +1,24 @@
 #include "ListGraphsCommand.h"
-#include "../Command Registrator/CommandRegistrator.h"
+#include "Command\Command Registrator\CommandRegistrator.h"
 #include <iostream>
 
 static CommandRegistrator<ListGraphsCommand> registrator("list-graphs",
-														 "Lists the identifiers of all graphs");
+														 "Lists the ids of all graphs");
 
-void ListGraphsCommand::execute(args::Subparser& parser)
+void ListGraphsCommand::parseArguments(args::Subparser& parser)
 {
-	parser.Parse();
-	listIdentifiersOfGraphs();
+	Command::parseArguments(parser);
 }
 
-void ListGraphsCommand::listIdentifiersOfGraphs()
+void ListGraphsCommand::doExecute()
 {
 	GraphCollection& graphs = getGraphs();
 
 	GraphCollection::ConstIterator iterator =
 		graphs.getConstIterator();
 
-	forEach(iterator, [](const Graph& graph)
+	forEach(iterator, [](const Graph& g)
 	{
-		std::cout << graph.getID() << '\n';
+		std::cout << g.getID() << '\n';
 	});
 }
