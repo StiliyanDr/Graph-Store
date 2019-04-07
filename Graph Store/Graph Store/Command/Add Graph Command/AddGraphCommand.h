@@ -1,28 +1,20 @@
 #ifndef __ADD_GRAPH_COMMAND_HEADER_INCLUDED__
 #define __ADD_GRAPH_COMMAND_HEADER_INCLUDED__
 
-#include "../Abstract class/Command.h"
-#include "../String Reader/StringReader.h"
-#include "Graph/Abstract class/Graph.h"
+#include "Command\Graph Command\GraphCommand.h"
 
-class AddGraphCommand : public Command
+class AddGraphCommand : public GraphCommand
 {
 public:
 	AddGraphCommand() = default;
-	AddGraphCommand(const AddGraphCommand&) = delete;
-	AddGraphCommand& operator=(const AddGraphCommand&) = delete;
-	AddGraphCommand(AddGraphCommand&&) = delete;
-	AddGraphCommand& operator=(AddGraphCommand&&) = delete;
-	virtual ~AddGraphCommand() = default;
-
-	virtual void execute(args::Subparser& parser) override;
 
 private:
-	static void addGraph(const String& id, const String& type);
-	static std::unique_ptr<Graph> tryToCreateGraph(const String& id, const String& type);
+	static GraphCollection::GraphPointer tryToCreateGraph(const String& id,
+		                                                  const String& type);
 
 private:
-	void parseArguments(args::Subparser& parser);
+	void parseArguments(args::Subparser& parser) override;
+	void doExecute() override;
 	void setGraphID(args::Positional<String, StringReader>& id);
 	void setGraphType(args::Positional<String, StringReader>& type);
 
