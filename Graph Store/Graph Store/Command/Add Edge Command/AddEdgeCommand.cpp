@@ -1,22 +1,20 @@
 #include "AddEdgeCommand.h"
-#include "../Command Registrator/CommandRegistrator.h"
-#include "../Exceptions/Missing Argument Exception/MissingArgumentException.h"
+#include "Command\Command Registrator\CommandRegistrator.h"
 
 static CommandRegistrator<AddEdgeCommand> registrator("add-edge",
 													  "Adds an edge between two vertices with a specified weight");
 
-void AddEdgeCommand::execute(args::Subparser& parser)
-{
-	parseArguments(parser);
-	addEdge(startVertexID, endVertexID, weight);
-}
-
 void AddEdgeCommand::parseArguments(args::Subparser& parser)
 {
-	args::Positional<String, StringReader> startID(parser, "start vertex id", "The identifier of the start vertex");
-	args::Positional<String, StringReader> endID(parser, "end vertex id", "The identifier of the end vertex");
-	args::Positional<Graph::Edge::Weight> weight(parser, "weight", "The weight of the edge");
-
+	args::Positional<String, StringReader> startID(parser,
+		                                           "start vertex id",
+		                                           "The id of the start vertex");
+	args::Positional<String, StringReader> endID(parser,
+		                                         "end vertex id",
+		                                         "The id of the end vertex");
+	args::Positional<Graph::Edge::Weight> weight(parser,
+		                                         "weight",
+		                                         "The weight of the edge");
 	parser.Parse();
 
 	setStartVertexID(startID);
@@ -26,36 +24,20 @@ void AddEdgeCommand::parseArguments(args::Subparser& parser)
 
 void AddEdgeCommand::setStartVertexID(args::Positional<String, StringReader>& id)
 {
-	if (id.Matched())
-	{
-		startVertexID = args::get(id);
-	}
-	else
-	{
-		throw MissingArgumentException(id.Name());
-	}
+	startVertexID = getValueOf(id);
 }
 
 void AddEdgeCommand::setEndVertexID(args::Positional<String, StringReader>& id)
 {
-	if (id.Matched())
-	{
-		endVertexID = args::get(id);
-	}
-	else
-	{
-		throw MissingArgumentException(id.Name());
-	}
+	endVertexID = getValueOf(id);
 }
 
-void AddEdgeCommand::setWeight(args::Positional<Graph::Edge::Weight>& weight)
+void AddEdgeCommand::setWeight(args::Positional<Graph::Edge::Weight>& w)
 {
-	this->weight = weight.Matched() ? args::get(weight) : DEFAULT_EDGE_WEIGHT;
+	weight = w.Matched() ? args::get(w) : DEFAULT_EDGE_WEIGHT;
 }
 
-void AddEdgeCommand::addEdge(const String& startVertexID,
-							 const String& endVertexID,
-							 Graph::Edge::Weight weight)
+void AddEdgeCommand::doExecute()
 {
 	Graph& usedGraph = getUsedGraph();
 	Graph::Vertex& start = usedGraph.getVertexWithID(startVertexID);
