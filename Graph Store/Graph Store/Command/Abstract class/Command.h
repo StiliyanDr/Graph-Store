@@ -16,6 +16,9 @@ public:
 						String& destination) const;
 	};
 
+protected:
+	using PositionalString = args::Positional<String, StringReader>;
+
 public:
 	Command(const Command&) = delete;
 	Command& operator=(const Command&) = delete;
@@ -24,7 +27,7 @@ public:
 	void execute(args::Subparser& parser);
 
 protected:
-	static String getValueOf(args::Positional<String, StringReader>& argument);
+	static String getValueOf(PositionalString& argument);
 
 protected:
 	Command() = default;

@@ -10,24 +10,21 @@ const String AddGraphCommand::DEFAULT_GRAPH_TYPE = "undirected";
 
 void AddGraphCommand::parseArguments(args::Subparser& parser)
 {
-	args::Positional<String, StringReader> id(parser,
-		                                      "graph id",
-		                                      "The id of the new graph");
-	args::Positional<String, StringReader> type(parser,
-		                                        "graph type",
-		                                        "The type of the new graph");
+	PositionalString id(parser, "graph id", "The id of the new graph");
+	PositionalString type(parser, "graph type", "The type of the new graph");
+
 	parser.Parse();
 
 	setGraphID(id);
 	setGraphType(type);
 }
 
-void AddGraphCommand::setGraphID(args::Positional<String, StringReader>& id)
+void AddGraphCommand::setGraphID(PositionalString& id)
 {
 	graphID = getValueOf(id);
 }
 
-void AddGraphCommand::setGraphType(args::Positional<String, StringReader>& type)
+void AddGraphCommand::setGraphType(PositionalString& type)
 {
 	graphType = type.Matched() ? args::get(type) : DEFAULT_GRAPH_TYPE;
 }

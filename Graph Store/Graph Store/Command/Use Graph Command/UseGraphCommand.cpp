@@ -6,11 +6,8 @@ static CommandRegistrator<UseGraphCommand> registrator("use-graph",
 
 void UseGraphCommand::parseArguments(args::Subparser& parser)
 {
-	args::Positional<String, StringReader> id(parser,
-		                                      "graph id",
-		                                      "The id of the graph to use");
+	PositionalString id(parser, "graph id", "The id of the graph to use");
 	parser.Parse();
-
 	graphID = getValueOf(id);
 }
 

@@ -15,8 +15,8 @@ private:
 private:
 	void parseArguments(args::Subparser& parser) override;
 	void doExecute() override;
-	void setGraphID(args::Positional<String, StringReader>& id);
-	void setGraphType(args::Positional<String, StringReader>& type);
+	void setGraphID(PositionalString& id);
+	void setGraphType(PositionalString& type);
 
 private:
 	static const String DEFAULT_GRAPH_TYPE;

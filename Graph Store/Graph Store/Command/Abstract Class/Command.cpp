@@ -20,8 +20,7 @@ void Command::parseArguments(args::Subparser& parser)
 	parser.Parse();
 }
 
-String
-Command::getValueOf(args::Positional<String, StringReader>& argument)
+String Command::getValueOf(PositionalString& argument)
 {
 	if (argument.Matched())
 	{

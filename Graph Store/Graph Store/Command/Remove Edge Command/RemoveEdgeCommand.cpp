@@ -6,12 +6,9 @@ static CommandRegistrator<RemoveEdgeCommand> registrator("remove-edge",
 
 void RemoveEdgeCommand::parseArguments(args::Subparser& parser)
 {
-	args::Positional<String, StringReader> startID(parser,
-		                                           "start vertex id",
-		                                           "The id of the start vertex");
-	args::Positional<String, StringReader> endID(parser,
-		                                         "end vertex id",
-		                                         "The id of the end vertex");
+	PositionalString startID(parser, "start vertex id", "The id of the start vertex");
+	PositionalString endID(parser, "end vertex id", "The id of the end vertex");
+
 	parser.Parse();
 
 	this->startID = getValueOf(startID);

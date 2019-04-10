@@ -6,6 +6,8 @@
 
 class AddEdgeCommand : public GraphCommand
 {
+	using PositionalWeight = args::Positional<Graph::Edge::Weight>;
+
 public:
 	AddEdgeCommand() = default;
 
@@ -13,9 +15,9 @@ private:
 	void parseArguments(args::Subparser& parser) override;
 	void doExecute() override;
 
-	void setStartVertexID(args::Positional<String, StringReader>& id);
-	void setEndVertexID(args::Positional<String, StringReader>& id);
-	void setWeight(args::Positional<Graph::Edge::Weight>& w);
+	void setStartVertexID(PositionalString& id);
+	void setEndVertexID(PositionalString& id);
+	void setWeight(PositionalWeight& w);
 
 private:
 	static const Graph::Edge::Weight DEFAULT_EDGE_WEIGHT = 1;

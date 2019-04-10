@@ -8,14 +8,12 @@ static CommandRegistrator<PrintGraphCommand> registrator("print-graph",
 
 void PrintGraphCommand::parseArguments(args::Subparser& parser)
 {
-	args::Positional<String, StringReader> id(parser,
-		                                      "graph id",
-		                                      "The id of the graph to print");
+	PositionalString id(parser, "graph id", "The id of the graph to print");
 	parser.Parse();
 	setGraphID(id);
 }
 
-void PrintGraphCommand::setGraphID(args::Positional<String, StringReader>& id)
+void PrintGraphCommand::setGraphID(PositionalString& id)
 {
 	graphID = id.Matched() ? args::get(id) : getUsedGraph().getID();
 }

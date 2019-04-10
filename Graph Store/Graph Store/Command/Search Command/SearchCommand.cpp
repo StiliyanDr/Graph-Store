@@ -7,15 +7,10 @@ static CommandRegistrator<SearchCommand> registrator("search",
 
 void SearchCommand::parseArguments(args::Subparser& parser)
 {
-	args::Positional<String, StringReader> sourceID(parser,
-		                                            "source id",
-		                                            "The id of the source vertex");
-	args::Positional<String, StringReader> targetID(parser,
-		                                            "target id",
-		                                            "The id of the target vertex");
-	args::Positional<String, StringReader> algorithmID(parser,
-		                                               "algorithm id",
-		                                               "The algorithm to use");
+	PositionalString sourceID(parser, "source id", "The id of the source vertex");
+	PositionalString targetID(parser, "target id", "The id of the target vertex");
+	PositionalString algorithmID(parser, "algorithm id", "The algorithm to use");
+
 	parser.Parse();
 
 	this->sourceID = getValueOf(sourceID);

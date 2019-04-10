@@ -6,9 +6,7 @@ static CommandRegistrator<RemoveVertexCommand> registrator("remove-vertex",
 
 void RemoveVertexCommand::parseArguments(args::Subparser& parser)
 {
-	args::Positional<String, StringReader> id(parser,
-		                                      "vertex id",
-		                                      "The id of the vertex to remove");
+	PositionalString id(parser, "vertex id", "The id of the vertex to remove");
 	parser.Parse();
 	vertexID = getValueOf(id);
 }

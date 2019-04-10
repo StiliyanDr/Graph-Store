@@ -6,9 +6,7 @@ static CommandRegistrator<RemoveGraphCommand> registrator("remove-graph",
 
 void RemoveGraphCommand::parseArguments(args::Subparser& parser)
 {
-	args::Positional<String, StringReader> id(parser,
-		                                      "graph id",
-		                                      "The id of the graph to remove");
+	PositionalString id(parser, "graph id", "The id of the graph to remove");
 	parser.Parse();
 	graphID = getValueOf(id);
 }

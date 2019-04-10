@@ -16,7 +16,7 @@ private:
 private:
 	void parseArguments(args::Subparser& parser) override;
 	void doExecute() override;
-	void setGraphID(args::Positional<String, StringReader>& id);
+	void setGraphID(PositionalString& id);
 
 private:
 	String graphID;

@@ -6,15 +6,10 @@ static CommandRegistrator<AddEdgeCommand> registrator("add-edge",
 
 void AddEdgeCommand::parseArguments(args::Subparser& parser)
 {
-	args::Positional<String, StringReader> startID(parser,
-		                                           "start vertex id",
-		                                           "The id of the start vertex");
-	args::Positional<String, StringReader> endID(parser,
-		                                         "end vertex id",
-		                                         "The id of the end vertex");
-	args::Positional<Graph::Edge::Weight> weight(parser,
-		                                         "weight",
-		                                         "The weight of the edge");
+	PositionalString startID(parser, "start vertex id", "The id of the start vertex");
+	PositionalString endID(parser, "end vertex id", "The id of the end vertex");
+	PositionalWeight weight(parser, "weight", "The weight of the edge");
+
 	parser.Parse();
 
 	setStartVertexID(startID);
@@ -22,17 +17,17 @@ void AddEdgeCommand::parseArguments(args::Subparser& parser)
 	setWeight(weight);
 }
 
-void AddEdgeCommand::setStartVertexID(args::Positional<String, StringReader>& id)
+void AddEdgeCommand::setStartVertexID(PositionalString& id)
 {
 	startVertexID = getValueOf(id);
 }
 
-void AddEdgeCommand::setEndVertexID(args::Positional<String, StringReader>& id)
+void AddEdgeCommand::setEndVertexID(PositionalString& id)
 {
 	endVertexID = getValueOf(id);
 }
 
-void AddEdgeCommand::setWeight(args::Positional<Graph::Edge::Weight>& w)
+void AddEdgeCommand::setWeight(PositionalWeight& w)
 {
 	weight = w.Matched() ? args::get(w) : DEFAULT_EDGE_WEIGHT;
 }

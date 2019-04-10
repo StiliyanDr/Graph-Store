@@ -6,9 +6,7 @@ static CommandRegistrator<AddVertexCommand> registrator("add-vertex",
 
 void AddVertexCommand::parseArguments(args::Subparser& parser)
 {
-	args::Positional<String, StringReader> id(parser,
-		                                      "vertex id",
-		                                      "The id of the new vertex");
+	PositionalString id(parser, "vertex id", "The id of the new vertex");
 	parser.Parse();
 	vertexID = getValueOf(id);
 }
