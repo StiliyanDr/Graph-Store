@@ -1,5 +1,6 @@
 #include "RemoveVertexCommand.h"
 #include "Command\Command Registrator\CommandRegistrator.h"
+#include "Graph\Abstract class\Graph.h"
 
 static CommandRegistrator<RemoveVertexCommand> registrator("remove-vertex",
 														   "Removes a vertex with a specified id");

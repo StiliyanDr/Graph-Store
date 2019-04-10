@@ -1,5 +1,6 @@
 #include "UseGraphCommand.h"
-#include "Command/Command Registrator/CommandRegistrator.h"
+#include "Command\Command Registrator\CommandRegistrator.h"
+#include "Graph Collection\GraphCollection.h"
 
 static CommandRegistrator<UseGraphCommand> registrator("use-graph",
 	                                                   "Sets a specified graph as the used one");

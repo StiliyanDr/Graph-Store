@@ -2,6 +2,7 @@
 #define __REMOVE_GRAPH_COMMAND_HEADER_INCLUDED__
 
 #include "Command\Graph Command\GraphCommand.h"
+#include "String\String.h"
 
 class RemoveGraphCommand : public GraphCommand
 {

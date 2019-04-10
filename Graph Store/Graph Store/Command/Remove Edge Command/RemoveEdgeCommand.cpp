@@ -1,5 +1,6 @@
 #include "RemoveEdgeCommand.h"
 #include "Command\Command Registrator\CommandRegistrator.h"
+#include "Graph\Abstract class\Graph.h"
 
 static CommandRegistrator<RemoveEdgeCommand> registrator("remove-edge",
 														 "Removes the edge between two specified vertices");

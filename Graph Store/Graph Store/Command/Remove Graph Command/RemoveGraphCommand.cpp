@@ -1,5 +1,6 @@
 #include "RemoveGraphCommand.h"
 #include "Command\Command Registrator\CommandRegistrator.h"
+#include "Graph Collection\GraphCollection.h"
 
 static CommandRegistrator<RemoveGraphCommand> registrator("remove-graph",
 	                                                      "Removes a specified graph");

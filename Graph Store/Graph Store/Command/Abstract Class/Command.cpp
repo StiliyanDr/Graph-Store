@@ -1,5 +1,5 @@
 #include "Command.h"
-#include "Command\Exceptions\Missing Argument Exception\MissingArgumentException.h"
+#include "Command\Exceptions\MissingArgumentException.h"
 #include "String\String.h"
 
 void Command::StringReader::operator()(const std::string& name,

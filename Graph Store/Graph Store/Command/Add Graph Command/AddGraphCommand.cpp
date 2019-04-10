@@ -1,5 +1,6 @@
 #include "AddGraphCommand.h"
 #include "Graph Factory\GraphFactory.h"
+#include "Graph Collection\GraphCollection.h"
 #include "Command\Command Registrator\CommandRegistrator.h"
 #include "Command\Exceptions\CommandException.h"
 

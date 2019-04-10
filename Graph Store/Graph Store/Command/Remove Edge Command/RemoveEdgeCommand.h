@@ -2,6 +2,7 @@
 #define __REMOVE_EDGE_COMMAND_HEADER_INCLUDED__
 
 #include "Command\Graph Command\GraphCommand.h"
+#include "String\String.h"
 
 class RemoveEdgeCommand : public GraphCommand
 {
