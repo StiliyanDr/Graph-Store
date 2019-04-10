@@ -3,12 +3,13 @@
 
 #include <string>
 #include <vector>
+#include <initializer_list>
 
 class StringCutter
 {
 public:
-	StringCutter() noexcept;
-	explicit StringCutter(std::vector<char> delimiters);
+	StringCutter() = default;
+	explicit StringCutter(std::initializer_list<char> delimiters);
 
 	std::vector<std::string> cutToWords(char* string);
 

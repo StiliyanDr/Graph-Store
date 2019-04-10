@@ -1,15 +1,10 @@
 #include "StringCutter.h"
 #include <stdexcept>
 
-StringCutter::StringCutter() noexcept :
-	StringCutter(std::vector<char>())
-{
-}
-
-StringCutter::StringCutter(std::vector<char> delimiters) :
+StringCutter::StringCutter(std::initializer_list<char> delimiters) :
 	remainingString(nullptr),
 	word(nullptr),
-	delimiters(std::move(delimiters))
+	delimiters(delimiters)
 {
 }
 
