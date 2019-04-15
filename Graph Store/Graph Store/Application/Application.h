@@ -3,6 +3,7 @@
 
 #include "../../../../args-master/args-master/args.hxx"
 #include "Graph Collection\GraphCollection.h"
+#include "String Cutter\StringCutter.h"
 #include <forward_list>
 
 class Command;
@@ -10,6 +11,8 @@ class Command;
 class Application
 {
 	using Function = std::function<void(args::Subparser&)>;
+	using ArgumentsList = std::vector<std::string>;
+	using Delimiters = std::initializer_list<char>;
 
 public:
 	static Application& instance();
@@ -41,9 +44,13 @@ private:
 		            Function function);
 
 private:
+	static const String COMMAND_PROMPT;
+
+private:
 	args::ArgumentParser parser;
 	args::Group commandsGroup;
 	std::forward_list<args::Command> commands;
+	StringCutter cutter;
 	bool receivedExitCommand;
 	GraphCollection graphs;
 };

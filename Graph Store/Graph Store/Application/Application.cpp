@@ -1,12 +1,13 @@
 #include "Application.h"
 #include <stdexcept>
 #include <iostream>
-#include "String Cutter\StringCutter.h"
 #include "Logger\Logger.h"
 #include "Command\Graph Command\GraphCommand.h"
 #include <windows.h>
 #include "Runtime Error\RuntimeError.h"
 #include "Graph IO\Directory Loader\DirectoryLoader.h"
+
+const String Application::COMMAND_PROMPT = "$ ";
 
 Application& Application::instance()
 {
@@ -18,6 +19,7 @@ Application& Application::instance()
 Application::Application() :
 	parser("GRAPH STORE APPLICATION"),
 	commandsGroup(parser, "SUPPORTED COMMANDS"),
+	cutter(Delimiters({ '\'', '\"' })),
 	receivedExitCommand(false)
 {
 	addExitCommand();
@@ -124,25 +126,24 @@ void Application::passLoadedGraphsToGraphCommands()
 
 void Application::interact()
 {
-	const std::size_t BUFFER_SIZE = 512;
-	char buffer[BUFFER_SIZE];
+	const std::size_t COMMAND_LINE_SIZE = 512;
+	char commandLine[COMMAND_LINE_SIZE];
 
 	do
 	{
-		std::cout << "$ ";
-		std::cin.getline(buffer, BUFFER_SIZE);
-		invokeCommand(buffer);
+		std::cout << COMMAND_PROMPT;
+		std::cin.getline(commandLine, COMMAND_LINE_SIZE);
+		invokeCommand(commandLine);
 	} while (!receivedExitCommand);
 }
 
 void Application::invokeCommand(char* commandLine)
 {
-	auto delimiters = { '\'', '\"' };
-	StringCutter cutter(delimiters);
+	assert(commandLine != nullptr);
 
 	try
 	{
-		std::vector<std::string> arguments =
+		ArgumentsList arguments =
 			cutter.cutToWords(commandLine);
 
 		parser.ParseArgs(arguments);
