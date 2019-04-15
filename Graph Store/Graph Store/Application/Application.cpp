@@ -137,7 +137,7 @@ void Application::interact()
 
 void Application::invokeCommand(char* commandLine)
 {
-	std::vector<char> delimiters = { '\'', '\"' };
+	auto delimiters = { '\'', '\"' };
 	StringCutter cutter(delimiters);
 
 	try
