@@ -1,11 +1,11 @@
 #include "Application.h"
-#include <stdexcept>
-#include <iostream>
 #include "Logger\Logger.h"
 #include "Command\Graph Command\GraphCommand.h"
-#include <windows.h>
 #include "Runtime Error\RuntimeError.h"
 #include "Graph IO\Directory Loader\DirectoryLoader.h"
+#include <stdexcept>
+#include <iostream>
+#include <filesystem>
 
 const String Application::COMMAND_PROMPT = "$ ";
 
@@ -103,10 +103,11 @@ void Application::runIn(const String& directory)
 
 void Application::setCurrentDirectory(const String& path)
 {
-	bool changedDirectory =
-		SetCurrentDirectory(path.cString());
-
-	if (!changedDirectory)
+	try
+	{
+		std::filesystem::current_path(path.cString());
+	}
+	catch (std::filesystem::filesystem_error&)
 	{
 		throw RuntimeError("Could not change the directory to: " + path);
 	}
