@@ -7,6 +7,9 @@ template <class Item, class ConcreteIterator, bool isConst = false>
 class ConcreteIteratorAdapter : public AbstractIterator<Item, isConst>
 {
 public:
+	using typename AbstractIterator<Item, isConst>::Reference;
+
+public:
 	ConcreteIteratorAdapter(ConcreteIterator iterator) :
 		iterator(iterator)
 	{

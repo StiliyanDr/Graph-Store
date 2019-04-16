@@ -25,6 +25,9 @@ public:
 		using IteratorType = STLIteratorAdapter<STLIteratorType, isConst>;
 
 	public:
+		using typename AbstractIterator<Graph, isConst>::Reference;
+
+	public:
 		GraphCollectionIterator<isConst>& operator++() override
 		{
 			++iterator;

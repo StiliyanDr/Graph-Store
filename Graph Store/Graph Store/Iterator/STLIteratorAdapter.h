@@ -3,10 +3,14 @@
 
 #include "Iterator.h"
 #include <assert.h>
+#include <iterator>
 
 template <class STLIterator, bool isConst = false>
-class STLIteratorAdapter : public AbstractIterator<typename STLIterator::value_type, isConst>
+class STLIteratorAdapter : public AbstractIterator<typename std::iterator_traits<STLIterator>::value_type, isConst>
 {
+public:
+	using typename AbstractIterator<typename std::iterator_traits<STLIterator>::value_type, isConst>::Reference;
+
 public:
 	STLIteratorAdapter(STLIterator rangeStart, STLIterator rangeEnd);
 	STLIteratorAdapter<STLIterator, isConst>& operator++() override;
@@ -52,8 +56,8 @@ inline bool STLIteratorAdapter<STLIterator, isConst>::isValid() const
 }
 
 template <class STLIterator, bool isConst>
-inline typename STLIteratorAdapter<STLIterator, isConst>::Reference
-STLIteratorAdapter<STLIterator, isConst>::getCurrentItem() const
+inline auto
+STLIteratorAdapter<STLIterator, isConst>::getCurrentItem() const -> Reference
 {
 	assert(isValid());
 
