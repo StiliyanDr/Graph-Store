@@ -1,15 +1,15 @@
 #ifndef __DIRECTORY_ITERATOR_HEADER_INCLUDED__
 #define __DIRECTORY_ITERATOR_HEADER_INCLUDED__
 
-#include <experimental\filesystem>
+#include <filesystem>
 #include <functional>
 
 class String;
 
 class DirectoryIterator
 {
-	using Iterator = std::experimental::filesystem::directory_iterator;
-	using Path = std::experimental::filesystem::path;
+	using Iterator = std::filesystem::directory_iterator;
+	using Path = std::filesystem::path;
 
 public:
 	using ExtensionFilter = std::function<bool (const String&)>;

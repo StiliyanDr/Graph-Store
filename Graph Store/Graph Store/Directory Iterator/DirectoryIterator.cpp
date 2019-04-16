@@ -22,7 +22,7 @@ void DirectoryIterator::tryToStartIterationIn(const String& path)
 	{
 		iterator = Iterator(Path(path.cString()));
 	}
-	catch (std::experimental::filesystem::filesystem_error& e)
+	catch (std::filesystem::filesystem_error& e)
 	{
 		throw DirectoryIteratorException(String(e.what()));
 	}
