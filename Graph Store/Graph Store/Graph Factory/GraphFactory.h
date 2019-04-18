@@ -1,9 +1,12 @@
 #ifndef __GRAPH_FACTORY_HEADER_INCLUDED__
 #define __GRAPH_FACTORY_HEADER_INCLUDED__
 
-#include "../Graph Factory/Graph Creator/GraphCreator.h"
-#include "../Dynamic Array/DynamicArray.h"
-#include "../Graph/Abstract class/Graph.h"
+#include "Dynamic Array/DynamicArray.h"
+#include <memory>
+
+class String;
+class Graph;
+class GraphCreator;
 
 class GraphFactory
 {

@@ -1,9 +1,10 @@
 #ifndef __GRAPH_CREATOR_HEADER_INCLUDED__
 #define __GRAPH_CREATOR_HEADER_INCLUDED__
 
-#include "../../String/String.h"
-#include "../../Graph/Abstract class/Graph.h"
+#include "String\String.h"
 #include <memory>
+
+class Graph;
 
 class GraphCreator
 {

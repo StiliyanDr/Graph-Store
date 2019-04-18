@@ -1,5 +1,7 @@
 #include "GraphFactory.h"
 #include "Invalid Graph Type Exception/InvalidGraphTypeException.h"
+#include "Graph/Abstract class/Graph.h"
+#include "Graph Creator/GraphCreator.h"
 
 GraphFactory::GraphFactory() :
 	creators(INITIAL_COLLECTION_SIZE)

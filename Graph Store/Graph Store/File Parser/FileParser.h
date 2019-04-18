@@ -2,7 +2,8 @@
 #define __FILE_PARSER_HEADER_INCLUDED__
 
 #include <fstream>
-#include "../String/String.h"
+
+class String;
 
 class FileParser
 {
