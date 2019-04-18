@@ -204,9 +204,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Dynamic Array\DynamicArray.h">
       <Filter>Dynamic Array</Filter>
     </ClInclude>
