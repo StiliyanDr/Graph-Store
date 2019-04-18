@@ -1,7 +1,7 @@
 #include "PrintGraphCommand.h"
-#include "Command\Command Registrator\CommandRegistrator.h"
-#include "Graph Collection\GraphCollection.h"
-#include "Graph IO\GraphIOConstants.h"
+#include "Command/Command Registrator/CommandRegistrator.h"
+#include "Graph Collection/GraphCollection.h"
+#include "Graph IO/GraphIOConstants.h"
 #include <iostream>
 
 static CommandRegistrator<PrintGraphCommand> registrator("print-graph",

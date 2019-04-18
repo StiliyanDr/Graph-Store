@@ -1,8 +1,8 @@
 #ifndef __ADD_GRAPH_COMMAND_HEADER_INCLUDED__
 #define __ADD_GRAPH_COMMAND_HEADER_INCLUDED__
 
-#include "Command\Graph Command\GraphCommand.h"
-#include "Graph Collection\GraphCollection.h"
+#include "Command/Graph Command/GraphCommand.h"
+#include "Graph Collection/GraphCollection.h"
 
 class AddGraphCommand : public GraphCommand
 {

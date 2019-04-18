@@ -1,7 +1,7 @@
 #ifndef __LIST_GRAPHS_COMMAND_HEADER_INCLUDED__
 #define __LIST_GRAPHS_COMMAND_HEADER_INCLUDED__
 
-#include "Command\Graph Command\GraphCommand.h"
+#include "Command/Graph Command/GraphCommand.h"
 
 class ListGraphsCommand : public GraphCommand
 {

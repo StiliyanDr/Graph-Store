@@ -1,7 +1,7 @@
 #ifndef __IDENTIFIER_ACCESSOR_HEADER_INCLUDED__
 #define __IDENTIFIER_ACCESSOR_HEADER_INCLUDED__
 
-#include "../../String/String.h"
+#include "String/String.h"
 
 class IdentifierAccessor
 {

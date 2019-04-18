@@ -2,8 +2,8 @@
 #define __APPLICATION_HEADER_INCLUDED__
 
 #include "../../../../args-master/args-master/args.hxx"
-#include "Graph Collection\GraphCollection.h"
-#include "String Cutter\StringCutter.h"
+#include "Graph Collection/GraphCollection.h"
+#include "String Cutter/StringCutter.h"
 #include <forward_list>
 
 class Command;

@@ -1,7 +1,7 @@
 #ifndef __UNSUPPORTED_ALGORITHM_EXCEPTION_HEADER_INCLUDED__
 #define __UNSUPPORTED_ALGORITHM_EXCEPTION_HEADER_INCLUDED__
 
-#include "../../../Runtime Error/RuntimeError.h"
+#include "Runtime Error/RuntimeError.h"
 
 class UnsupportedAlgorithmException : public RuntimeError
 {

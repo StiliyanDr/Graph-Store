@@ -1,8 +1,8 @@
 #ifndef __GRAPH_REGISTRATOR_HEADER_INCLUDED__
 #define __GRAPH_REGISTRATOR_HEADER_INCLUDED__
 
-#include "../Graph Creator/ConcreteGraphCreator.h"
-#include "../GraphFactory.h"
+#include "Graph Factory/Graph Creator/ConcreteGraphCreator.h"
+#include "Graph Factory/GraphFactory.h"
 
 template <class ConcreteGraph>
 class GraphRegistrator

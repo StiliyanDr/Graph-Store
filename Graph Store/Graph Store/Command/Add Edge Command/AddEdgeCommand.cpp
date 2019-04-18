@@ -1,5 +1,5 @@
 #include "AddEdgeCommand.h"
-#include "Command\Command Registrator\CommandRegistrator.h"
+#include "Command/Command Registrator/CommandRegistrator.h"
 
 static CommandRegistrator<AddEdgeCommand> registrator("add-edge",
 													  "Adds an edge between two vertices with a specified weight");

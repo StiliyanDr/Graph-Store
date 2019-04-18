@@ -1,6 +1,6 @@
 #include "FileParser.h"
-#include "File Parser\Open File Fail Exception\OpenFileFailException.h"
-#include "String\String.h"
+#include "File Parser/Open File Fail Exception/OpenFileFailException.h"
+#include "String/String.h"
 #include <string>
 #include <assert.h>
 

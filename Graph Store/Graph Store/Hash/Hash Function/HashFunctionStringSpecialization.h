@@ -7,7 +7,7 @@
 #define __HASH_FUNCTION_STRING_SPECIALIZATION_HEADER_INCLUDED__
 
 #include "HashFunction.h"
-#include "../../String/String.h"
+#include "String/String.h"
 
 template <>
 class HashFunction<String>

@@ -1,8 +1,8 @@
 #ifndef __USE_GRAPH_COMMAND_HEADER_INCLUDED__
 #define __USE_GRAPH_COMMAND_HEADER_INCLUDED__
 
-#include "Command\Graph Command\GraphCommand.h"
-#include "String\String.h"
+#include "Command/Graph Command/GraphCommand.h"
+#include "String/String.h"
 
 class UseGraphCommand : public GraphCommand
 {

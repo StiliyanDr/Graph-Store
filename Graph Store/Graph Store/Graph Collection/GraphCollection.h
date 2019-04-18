@@ -1,10 +1,10 @@
 #ifndef __GRAPH_COLLECTION_HEADER_INCLUDED__
 #define __GRAPH_COLLECTION_HEADER_INCLUDED__
 
-#include "Graph\Abstract class\Graph.h"
+#include "Graph/Abstract class/Graph.h"
+#include "Iterator/STLIteratorAdapter.h"
 #include <vector>
 #include <memory>
-#include "Iterator\STLIteratorAdapter.h"
 
 class GraphCollection
 {

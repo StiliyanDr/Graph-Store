@@ -1,8 +1,8 @@
 #include "Application.h"
-#include "Logger\Logger.h"
-#include "Command\Graph Command\GraphCommand.h"
-#include "Runtime Error\RuntimeError.h"
-#include "Graph IO\Directory Loader\DirectoryLoader.h"
+#include "Logger/Logger.h"
+#include "Command/Graph Command\GraphCommand.h"
+#include "Runtime Error/RuntimeError.h"
+#include "Graph IO/Directory Loader/DirectoryLoader.h"
 #include <stdexcept>
 #include <iostream>
 #include <filesystem>

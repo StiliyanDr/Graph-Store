@@ -1,6 +1,6 @@
 #include "ListGraphsCommand.h"
-#include "Command\Command Registrator\CommandRegistrator.h"
-#include "Graph Collection\GraphCollection.h"
+#include "Command/Command Registrator/CommandRegistrator.h"
+#include "Graph Collection/GraphCollection.h"
 #include <iostream>
 
 static CommandRegistrator<ListGraphsCommand> registrator("list-graphs",

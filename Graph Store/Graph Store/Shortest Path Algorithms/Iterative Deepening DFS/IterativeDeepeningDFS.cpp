@@ -1,5 +1,5 @@
 #include "IterativeDeepeningDFS.h"
-#include "../../Graph/Abstract class/Graph.h"
+#include "Graph/Abstract class/Graph.h"
 #include "../Algorithm Registrator/ShortestPathAlgorithmRegistrator.h"
 
 static ShortestPathAlgorithmRegistrator<IterativeDeepeningDFS> registrator("dfs-shortest");

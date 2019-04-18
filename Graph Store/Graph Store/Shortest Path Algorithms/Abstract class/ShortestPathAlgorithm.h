@@ -1,9 +1,9 @@
 #ifndef __SHORTEST_PATH_ALGORITHM_HEADER_INCLUDED__
 #define __SHORTEST_PATH_ALGORITHM_HEADER_INCLUDED__
 
-#include "../../String/String.h"
-#include "../../Distance/Distance.h"
-#include "../../Graph/Abstract class/Graph.h"
+#include "String/String.h"
+#include "Distance/Distance.h"
+#include "Graph/Abstract class/Graph.h"
 #include <forward_list>
 
 class ShortestPathAlgorithm

@@ -2,7 +2,7 @@
 #define __RUNTIME_ERROR_HEADER_INCLUDED__
 
 #include <exception>
-#include "../String/String.h"
+#include "String/String.h"
 
 class RuntimeError : public std::exception
 {

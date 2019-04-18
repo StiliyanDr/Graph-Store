@@ -1,6 +1,6 @@
 #include "UndirectedGraph.h"
-#include "../Graph Exception/GraphException.h"
-#include "../../Graph Factory/Graph Registrator/GraphRegistrator.h"
+#include "Graph/Graph Exception/GraphException.h"
+#include "Graph Factory/Graph Registrator/GraphRegistrator.h"
 
 static GraphRegistrator<UndirectedGraph> registrator("undirected");
 

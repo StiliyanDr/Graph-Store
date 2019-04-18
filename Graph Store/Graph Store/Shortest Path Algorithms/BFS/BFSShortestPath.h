@@ -2,7 +2,7 @@
 #define __BFS_SHORTEST_PATH_HEADER_INCLUDED__
 
 #include "../Search Based Shortest Path Algorithm/SearchBasedShortestPathAlgorithm.h"
-#include "../../Fixed Size Queue/FixedSizeQueue.h"
+#include "Fixed Size Queue/FixedSizeQueue.h"
 
 class BFSShortestPath : public SearchBasedShortestPathAlgorithm
 {

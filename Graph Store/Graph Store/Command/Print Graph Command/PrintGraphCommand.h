@@ -1,8 +1,8 @@
 #ifndef __PRINT_GRAPH_COMMAND_HEADER_INCLUDED__
 #define __PRINT_GRAPH_COMMAND_HEADER_INCLUDED__
 
-#include "Command\Graph Command\GraphCommand.h"
-#include "Graph\Abstract class\Graph.h"
+#include "Command/Graph Command/GraphCommand.h"
+#include "Graph/Abstract class/Graph.h"
 
 class PrintGraphCommand : public GraphCommand
 {

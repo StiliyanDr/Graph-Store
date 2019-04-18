@@ -1,7 +1,7 @@
 #ifndef __HASH_HEADER_INCLUDED__
 #define __HASH_HEADER_INCLUDED__
 
-#include "../Dynamic Array/DynamicArray.h"
+#include "Dynamic Array/DynamicArray.h"
 #include "Hash Function/HashFunction.h"
 
 class Identity

@@ -2,9 +2,9 @@
 #define __SHORTEST_PATH_ALGORITHMS_STORE_HEADER_INCLUDED__
 
 #include "../Abstract class/ShortestPathAlgorithm.h"
-#include "../../Hash/Identifier Accessor/IdentifierAccessor.h"
-#include "../../Hash/Hash.h"
-#include "../../Hash/Hash Function/HashFunctionStringSpecialization.h"
+#include "Hash/Identifier Accessor/IdentifierAccessor.h"
+#include "Hash/Hash.h"
+#include "Hash/Hash Function/HashFunctionStringSpecialization.h"
 
 class ShortestPathAlgorithmsStore
 {

@@ -1,6 +1,6 @@
 #include "DirectoryIterator.h"
 #include "DirectoryIteratorException.h"
-#include "String\String.h"
+#include "String/String.h"
 #include <assert.h>
 #include <stdexcept>
 

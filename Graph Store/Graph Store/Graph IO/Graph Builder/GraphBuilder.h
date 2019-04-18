@@ -1,10 +1,10 @@
 #ifndef __GRAPH_BUILDER_HEADER_INCLUDED__
 #define __GRAPH_BUILDER_HEADER_INCLUDED__
 
-#include "../../File Parser/FileParser.h"
-#include "../../String/String.h"
-#include "../../Dynamic Array/DynamicArray.h"
-#include "../../Graph/Abstract class/Graph.h"
+#include "File Parser/FileParser.h"
+#include "String/String.h"
+#include "Dynamic Array/DynamicArray.h"
+#include "Graph/Abstract class/Graph.h"
 
 namespace GraphIO
 {

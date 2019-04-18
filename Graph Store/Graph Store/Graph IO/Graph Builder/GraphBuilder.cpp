@@ -1,8 +1,8 @@
 #include "GraphBuilder.h"
-#include "../../File Parser/Open File Fail Exception/OpenFileFailException.h"
-#include "Graph Builder Exception\GraphBuilderException.h"
-#include "../../Graph Factory/GraphFactory.h"
-#include "../GraphIOConstants.h"
+#include "File Parser/Open File Fail Exception/OpenFileFailException.h"
+#include "Graph Builder Exception/GraphBuilderException.h"
+#include "Graph Factory/GraphFactory.h"
+#include "Graph IO/GraphIOConstants.h"
 
 namespace GraphIO
 {

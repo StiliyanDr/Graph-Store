@@ -1,5 +1,5 @@
 #include "GraphCollection.h"
-#include "Runtime Error\RuntimeError.h"
+#include "Runtime Error/RuntimeError.h"
 #include <algorithm>
 
 GraphCollection::GraphCollection(std::size_t size)

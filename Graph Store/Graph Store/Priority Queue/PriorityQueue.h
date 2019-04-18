@@ -1,7 +1,7 @@
 #ifndef __PRIORITY_QUEUE_HEADER_INCLUDED__
 #define __PRIORITY_QUEUE_HEADER_INCLUDED__
 
-#include "../Dynamic Array/DynamicArray.h"
+#include "Dynamic Array/DynamicArray.h"
 #include "Handle/PriorityQueueHandle.h"
 
 class Less

@@ -1,7 +1,7 @@
 #ifndef __FIXED_SIZE_QUEUE_HEADER_INCLUDED__
 #define __FIXED_SIZE_QUEUE_HEADER_INCLUDED__
 
-#include "../Dynamic Array/DynamicArray.h"
+#include "Dynamic Array/DynamicArray.h"
 
 template <class T>
 class FixedSizeQueue

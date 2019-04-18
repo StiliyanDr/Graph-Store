@@ -1,7 +1,7 @@
 #ifndef __GRAPH_COMMAND_HEADER_INCLUDED__
 #define __GRAPH_COMMAND_HEADER_INCLUDED__
 
-#include "Command\Abstract Class\Command.h"
+#include "Command/Abstract Class/Command.h"
 
 class Graph;
 class GraphCollection;

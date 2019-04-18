@@ -1,6 +1,6 @@
 #include "GraphCommand.h"
-#include "Runtime Error\RuntimeError.h"
-#include  "Graph Collection\GraphCollection.h"
+#include "Runtime Error/RuntimeError.h"
+#include  "Graph Collection/GraphCollection.h"
 #include <assert.h>
 
 Graph* GraphCommand::usedGraph = nullptr;

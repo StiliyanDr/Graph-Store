@@ -1,7 +1,7 @@
 #ifndef __FILE_PARSER_EXCEPTION_HEADER_INCLUDED__
 #define __FILE_PARSER_EXCEPTION_HEADER_INCLUDED__
 
-#include "../../Runtime Error/RuntimeError.h"
+#include "Runtime Error/RuntimeError.h"
 
 class FileParserException : public RuntimeError
 {

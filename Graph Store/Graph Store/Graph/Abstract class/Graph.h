@@ -1,13 +1,13 @@
 #ifndef __GRAPH_HEADER_INCLUDED__
 #define __GRAPH_HEADER_INCLUDED__
 
-#include "../../String/String.h"
-#include "../../Iterator/Iterator.h"
-#include "../../Iterator/STLIteratorAdapter.h"
-#include "../../Hash/Hash.h"
-#include "../../Hash/Hash Function/HashFunctionStringSpecialization.h"
-#include "../../Hash/Identifier Accessor/IdentifierAccessor.h"
-#include "../../Linked List/LinkedList.h"
+#include "String/String.h"
+#include "Iterator/Iterator.h"
+#include "Iterator/STLIteratorAdapter.h"
+#include "Hash/Hash.h"
+#include "Hash/Hash Function/HashFunctionStringSpecialization.h"
+#include "Hash/Identifier Accessor/IdentifierAccessor.h"
+#include "Linked List/LinkedList.h"
 #include <memory>
 #include <vector>
 

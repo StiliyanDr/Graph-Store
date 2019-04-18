@@ -1,7 +1,7 @@
 #include "SaveCommand.h"
-#include "Graph IO\Graph Saver\GraphSaver.h"
-#include "Graph Collection\GraphCollection.h"
-#include "Command\Command Registrator\CommandRegistrator.h"
+#include "Graph IO/Graph Saver/GraphSaver.h"
+#include "Graph Collection/GraphCollection.h"
+#include "Command/Command Registrator/CommandRegistrator.h"
 
 static CommandRegistrator<SaveCommand> registrator("save", "Saves all graphs");
 

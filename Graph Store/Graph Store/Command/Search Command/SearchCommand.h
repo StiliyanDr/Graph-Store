@@ -1,8 +1,8 @@
 #ifndef __SEARCH_COMMAND_HEADER_INCLUDED__
 #define __SEARCH_COMMAND_HEADER_INCLUDED__
 
-#include "Command\Graph Command\GraphCommand.h"
-#include "String\String.h"
+#include "Command/Graph Command/GraphCommand.h"
+#include "String/String.h"
 
 class SearchCommand : public GraphCommand
 {

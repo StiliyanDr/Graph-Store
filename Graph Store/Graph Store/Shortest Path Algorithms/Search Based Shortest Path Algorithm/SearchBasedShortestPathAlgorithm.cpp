@@ -1,5 +1,5 @@
 #include "SearchBasedShortestPathAlgorithm.h"
-#include "../../Graph/Abstract class/Graph.h"
+#include "Graph/Abstract class/Graph.h"
 #include <assert.h>
 
 SearchBasedShortestPathAlgorithm::SearchBasedShortestPathAlgorithm(const String& id) :
