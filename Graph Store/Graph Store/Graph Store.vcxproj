@@ -181,6 +181,7 @@
     <ClInclude Include="Graph IO\Graph Builder\GraphBuilder.h" />
     <ClInclude Include="Graph IO\Graph Saver\GraphSaver.h" />
     <ClInclude Include="Graph IO\GraphIOConstants.h" />
+    <ClInclude Include="Graph IO\GraphTextFilesFunctions.h" />
     <ClInclude Include="Graph\Abstract class\Graph.h" />
     <ClInclude Include="Graph\Directed Graph\DirectedGraph.h" />
     <ClInclude Include="Graph\Graph Exception\GraphException.h" />
@@ -236,6 +237,7 @@
     <ClCompile Include="Graph IO\Directory Loader\DirectoryLoader.cpp" />
     <ClCompile Include="Graph IO\Graph Builder\GraphBuilder.cpp" />
     <ClCompile Include="Graph IO\Graph Saver\GraphSaver.cpp" />
+    <ClCompile Include="Graph IO\GraphTextFilesFunctions.cpp" />
     <ClCompile Include="Graph Store.cpp" />
     <ClCompile Include="Graph\Abstract class\Graph.cpp" />
     <ClCompile Include="Graph\Directed Graph\DirectedGraph.cpp" />

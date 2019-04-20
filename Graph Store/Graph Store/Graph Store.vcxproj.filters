@@ -202,6 +202,9 @@
     <Filter Include="Command\Graph Command">
       <UniqueIdentifier>{607bf1b2-2342-429a-b5db-fd0186a2b419}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graph IO\Graph Text Files Functions">
+      <UniqueIdentifier>{fe5f077f-8d69-440d-8719-ab8674ce48c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dynamic Array\DynamicArray.h">
@@ -411,6 +414,9 @@
     <ClInclude Include="Command\Exceptions\MissingArgumentException.h">
       <Filter>Command\Exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="Graph IO\GraphTextFilesFunctions.h">
+      <Filter>Graph IO\Graph Text Files Functions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\FileParser.cpp">
@@ -517,6 +523,9 @@
     </ClCompile>
     <ClCompile Include="Command\Graph Command\GraphCommand.cpp">
       <Filter>Command\Graph Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph IO\GraphTextFilesFunctions.cpp">
+      <Filter>Graph IO\Graph Text Files Functions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
