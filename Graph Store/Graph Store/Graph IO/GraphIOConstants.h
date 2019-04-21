@@ -3,6 +3,8 @@
 
 namespace GraphIO
 {
+	const char* const FILE_EXTENSION = ".txt";
+
 	const char EDGE_START = '(';
 	const char EDGE_END = ')';
 	const char EDGE_ATTRIBUTE_SEPARATOR = ',';
