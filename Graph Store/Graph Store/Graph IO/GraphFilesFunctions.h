@@ -1,5 +1,5 @@
-#ifndef __GRAPH_TEXT_FILES_FUNCTIONS__
-#define __GRAPH_TEXT_FILES_FUNCTIONS__
+#ifndef __GRAPH_FILES_FUNCTIONS_HEADER_INCLUDED__
+#define __GRAPH_FILES_FUNCTIONS_HEADER_INCLUDED__
 
 class String;
 class Graph;
@@ -10,4 +10,4 @@ namespace GraphIO
 	void removeFileFor(const Graph& g);
 }
 
-#endif //__GRAPH_TEXT_FILES_FUNCTIONS__
+#endif //__GRAPH_FILES_FUNCTIONS_HEADER_INCLUDED__
