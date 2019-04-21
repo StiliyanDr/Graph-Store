@@ -4,7 +4,10 @@
 class String;
 class Graph;
 
-String getFileNameFor(const Graph& g);
-void removeFileFor(const Graph& g);
+namespace GraphIO
+{
+	String getFileNameFor(const Graph& g);
+	void removeFileFor(const Graph& g);
+}
 
 #endif //__GRAPH_TEXT_FILES_FUNCTIONS__

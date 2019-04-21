@@ -2,41 +2,46 @@
 #include "Graph/Abstract class/Graph.h"
 #include "String/String.h"
 #include "Runtime Error/RuntimeError.h"
+#include "Graph IO/GraphIOConstants.h"
 #include <filesystem>
 
-void tryToRemoveExistingFile(const std::filesystem::path& name);
-
-String getFileNameFor(const Graph& g)
+namespace GraphIO
 {
-	return g.getID() + ".txt";
-}
+	void tryToRemoveExistingFile(const std::filesystem::path& name);
 
-void removeFileFor(const Graph& g)
-{
-	try
+	String getFileNameFor(const Graph& g)
 	{
-		std::filesystem::path fileName =
-			getFileNameFor(g).cString();
+		return g.getID() + FILE_EXTENSION;
+	}
 
-		if (std::filesystem::exists(fileName))
+	void removeFileFor(const Graph& g)
+	{
+		try
 		{
-			tryToRemoveExistingFile(fileName);
+			std::filesystem::path fileName =
+				getFileNameFor(g).cString();
+
+			if (std::filesystem::exists(fileName))
+			{
+				tryToRemoveExistingFile(fileName);
+			}
+		}
+		catch (std::filesystem::filesystem_error& e)
+		{
+			throw RuntimeError(String(e.what()));
 		}
 	}
-	catch (std::filesystem::filesystem_error& e)
-	{
-		throw RuntimeError(String(e.what()));
-	}
-}
 
-void tryToRemoveExistingFile(const std::filesystem::path& name)
-{
-	try
+	void tryToRemoveExistingFile(const std::filesystem::path& name)
 	{
-		std::filesystem::remove(name);
+		try
+		{
+			std::filesystem::remove(name);
+		}
+		catch (std::filesystem::filesystem_error&)
+		{
+			throw RuntimeError("Could not remove: " + name.string());
+		}
 	}
-	catch (std::filesystem::filesystem_error&)
-	{
-		throw RuntimeError("Could not remove: " + name.string());
-	}
+
 }
