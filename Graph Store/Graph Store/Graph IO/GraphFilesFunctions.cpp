@@ -1,4 +1,4 @@
-#include "GraphTextFilesFunctions.h"
+#include "GraphFilesFunctions.h"
 #include "Graph/Abstract class/Graph.h"
 #include "String/String.h"
 #include "Runtime Error/RuntimeError.h"
