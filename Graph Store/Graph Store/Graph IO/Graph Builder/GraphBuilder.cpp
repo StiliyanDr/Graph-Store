@@ -7,7 +7,7 @@
 namespace GraphIO
 {
 	std::unique_ptr<Graph>
-		GraphBuilder::buildFromFile(const String& fileName)
+	GraphBuilder::buildFromFile(const String& fileName)
 	{
 		openFile(fileName);
 		tryToBuildAGraphFromOpenedFile(fileName);
@@ -45,7 +45,7 @@ namespace GraphIO
 	}
 
 	void GraphBuilder::handleExceptionDuringBuilding(const String& fileName,
-		const std::exception& e)
+		                                             const std::exception& e)
 	{
 		graph = nullptr;
 		releaseResources();
