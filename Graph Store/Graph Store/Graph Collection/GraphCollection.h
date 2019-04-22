@@ -5,6 +5,7 @@
 #include "Iterator/STLIteratorAdapter.h"
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 class GraphCollection
 {
@@ -21,7 +22,7 @@ public:
 		friend class GraphCollection;
 
 		using STLIteratorType =
-			typename std::conditional<isConst, Collection::const_iterator, Collection::iterator>::type;
+			std::conditional_t<isConst, Collection::const_iterator, Collection::iterator>;
 		using IteratorType = STLIteratorAdapter<STLIteratorType, isConst>;
 
 	public:
@@ -69,7 +70,7 @@ public:
 	GraphCollection& operator=(GraphCollection&&) = default;
 
 	void add(GraphPointer graph);
-	void remove(const String& id);
+	GraphPointer remove(const String& id);
 
 	Graph& operator[](const String& id);
 	const Graph& operator[](const String& id) const;
@@ -84,14 +85,50 @@ public:
 
 private:
 	static void verifyPointerIsNotNull(const GraphPointer& p);
-
+	template <class ForwardIterator>
+	static ForwardIterator getGraph(ForwardIterator begin,
+		                            ForwardIterator end,
+		                            const String& id);
+	template <class ForwardIterator>
+	static ForwardIterator findGraph(ForwardIterator begin,
+		                             ForwardIterator end,
+		                             const String& id);
 private:
 	void tryToAdd(GraphPointer graph);
-	Collection::const_iterator getGraph(const String& id) const;
-	Collection::const_iterator findGraph(const String& id) const;
 
 private:
 	Collection graphs;
 };
+
+template <class ForwardIterator>
+ForwardIterator GraphCollection::getGraph(ForwardIterator begin,
+	                                      ForwardIterator end,
+	                                      const String& id)
+{
+	ForwardIterator iterator = findGraph(begin, end, id);
+
+	if (iterator != end)
+	{
+		return iterator;
+	}
+	else
+	{
+		std::string message = "There is no graph with id: ";
+		throw std::out_of_range(message + id.cString());
+	}
+}
+
+template <class ForwardIterator>
+ForwardIterator GraphCollection::findGraph(ForwardIterator begin,
+	                                       ForwardIterator end,
+	                                       const String& id)
+{
+	return std::find_if(begin, end, [&id](const auto& graph)
+	{
+		assert(graph != nullptr);
+
+		return graph->getID() == id;
+	});
+}
 
 #endif //__GRAPH_COLLECTION_HEADER_INCLUDED__

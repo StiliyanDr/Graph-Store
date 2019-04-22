@@ -108,9 +108,11 @@ namespace GraphCollectionUnitTest
 			GraphCollection graphs =
 				makeCollectionContainingGraphWithID(id);
 
-			graphs.remove(id);
+			GraphCollection::GraphPointer removedGraph =
+				graphs.remove(id);
 
 			Assert::IsTrue(graphs.isEmpty());
+			Assert::IsTrue(removedGraph->getID() == id);
 		}
 
 		TEST_METHOD(testRemoveThrowsExceptionForNonmatchingID)

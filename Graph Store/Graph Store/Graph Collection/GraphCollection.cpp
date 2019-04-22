@@ -1,6 +1,5 @@
 #include "GraphCollection.h"
 #include "Runtime Error/RuntimeError.h"
-#include <algorithm>
 
 GraphCollection::GraphCollection(std::size_t size)
 {
@@ -63,43 +62,17 @@ Graph& GraphCollection::operator[](const String& id)
 const Graph&
 GraphCollection::operator[](const String& id) const
 {
-	Collection::const_iterator iterator = getGraph(id);
+	Collection::const_iterator iterator =
+		getGraph(graphs.cbegin(), graphs.cend(), id);
 	
 	return *(*iterator);
 }
 
 bool GraphCollection::contains(const String& id) const
 {
-	return findGraph(id) != graphs.cend();
-}
-
-GraphCollection::Collection::const_iterator
-GraphCollection::getGraph(const String& id) const
-{
-	Collection::const_iterator iterator = findGraph(id);
-
-	if (iterator != graphs.cend())
-	{
-		return iterator;
-	}
-	else
-	{
-		std::string message = "There is no graph with id: ";
-		throw std::out_of_range(message + id.cString());
-	}
-}
-
-GraphCollection::Collection::const_iterator
-GraphCollection::findGraph(const String& id) const
-{
-	return std::find_if(graphs.cbegin(),
-	                    graphs.cend(),
-		                [&](const GraphPointer& graph)
-	{
-		assert(graph != nullptr);
-
-		return graph->getID() == id;
-	});
+	return findGraph(graphs.cbegin(),
+		             graphs.cend(),
+		             id) != graphs.cend();
 }
 
 void GraphCollection::empty()
@@ -107,10 +80,16 @@ void GraphCollection::empty()
 	graphs.clear();
 }
 
-void GraphCollection::remove(const String& id)
+GraphCollection::GraphPointer
+GraphCollection::remove(const String& id)
 {
-	Collection::const_iterator graphToRemove = getGraph(id);
-	graphs.erase(graphToRemove);
+	Collection::iterator iterator =
+		getGraph(graphs.begin(), graphs.end(), id);
+
+	GraphPointer graphToRemove = std::move(*iterator);
+	graphs.erase(iterator);
+	
+	return graphToRemove;
 }
 
 GraphCollection::Iterator
