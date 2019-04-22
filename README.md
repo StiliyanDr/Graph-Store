@@ -97,7 +97,8 @@ If at least one of \<id\> and \<type\> is invalid or  there already is a graph w
 ### remove-graph
 Syntax: remove-graph \<id\>
 
-If there is a graph with the specified id in the collection, it is removed.  
+If there is a graph with the specified id in the collection, it is removed.
+Its corresponding file in the working directory (if any) is removed too.  
 Otherwise an error message is printed to standard error.
 
 ### add-vertex
