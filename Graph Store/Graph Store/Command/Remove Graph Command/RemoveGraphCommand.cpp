@@ -1,6 +1,7 @@
 #include "RemoveGraphCommand.h"
-#include "Command\Command Registrator\CommandRegistrator.h"
-#include "Graph Collection\GraphCollection.h"
+#include "Command/Command Registrator/CommandRegistrator.h"
+#include "Graph Collection/GraphCollection.h"
+#include "Graph IO/GraphFilesFunctions.h"
 
 static CommandRegistrator<RemoveGraphCommand> registrator("remove-graph",
 	                                                      "Removes a specified graph");
@@ -20,5 +21,8 @@ void RemoveGraphCommand::doExecute()
 	}
 
 	GraphCollection& graphs = getGraphs();
-	graphs.remove(graphID);
+	GraphCollection::GraphPointer graph =
+		graphs.remove(graphID);
+
+	GraphIO::removeFileFor(*graph);
 }
