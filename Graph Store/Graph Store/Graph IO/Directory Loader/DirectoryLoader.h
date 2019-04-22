@@ -28,9 +28,6 @@ namespace GraphIO
 
 	public:
 		GraphCollection load(const String& path);
-	
-	private:
-		static const String EXTENSION;
 
 	private:
 		GraphBuilder graphBuilder;
