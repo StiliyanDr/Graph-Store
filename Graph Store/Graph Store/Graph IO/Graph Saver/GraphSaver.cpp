@@ -1,6 +1,7 @@
 #include "GraphSaver.h"
 #include "Runtime Error/RuntimeError.h"
 #include "Graph IO/GraphIOConstants.h"
+#include "Graph IO/GraphFilesFunctions.h"
 
 namespace GraphIO
 {
@@ -47,11 +48,6 @@ namespace GraphIO
 		verifyFileIsOpen(name);
 	}
 
-	String GraphSaver::getFileNameFor(const Graph& g)
-	{
-		return g.getID() + ".txt";
-	}
-
 	void GraphSaver::verifyFileIsOpen(const String& fileName)
 	{
 		if (!file.is_open())
@@ -70,7 +66,7 @@ namespace GraphIO
 	void GraphSaver::saveIDAndTypeOf(const Graph& g)
 	{
 		file << g.getID() << '\n'
-			<< g.getType() << '\n';
+			 << g.getType() << '\n';
 	}
 
 	void GraphSaver::saveVerticesOf(const Graph& g)

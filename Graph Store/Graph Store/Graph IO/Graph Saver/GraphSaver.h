@@ -17,9 +17,6 @@ namespace GraphIO
 		void save(const Graph& graph);
 
 	private:
-		static String getFileNameFor(const Graph& g);
-
-	private:
 		void decorateVerticesOf(const Graph& g);
 		void openFileFor(const Graph& g);
 		void verifyFileIsOpen(const String& fileName);
