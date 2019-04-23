@@ -199,6 +199,41 @@ In lines for ids and type, however, spaces are not ignored. That is, the whole l
 
 ## Example
 
+Suppose you want to supply files for two graphs *G1* and *G2* which look like this, respectively:
+![Example graphs](https://github.com/StiliyanDr/Graph-Store/blob/master/Example%20graph%20files/graphs.jpg)
+
+I have provided two example files for them:
+the one for *G1* you can find
+[here](https://github.com/StiliyanDr/Graph-Store/blob/master/Example%20graph%20files/G1.txt),
+and the one for *G2* -
+[here](https://github.com/StiliyanDr/Graph-Store/blob/master/Example%20graph%20files/G2.txt).
+
+You simply put the files in the directory which is to be the working directory.  
+Note that the working directory may contain no text files at all, they are optional.  
+The only argument you need to pass to the program when starting it is the path of the directory.  
+
+Here is a very simple example use of the program, once started:
+
+$ list-graphs  
+G1  
+G2  
+$ use-graph G2  
+$ print-graph  
+one: (56, three), (20, two),  
+two:  
+three: (18, four),  
+four: (2, five), (43, two),  
+five: (36, six),  
+six:  
+$ add-edge three six 2  
+$ add-vertex seven  
+$ add-edge six seven  
+$ search one seven dijkstra  
+Path: one, three, six, seven,  
+Path length: 59  
+$ save  
+$ exit
+
 ## License
 
 ## Other information
