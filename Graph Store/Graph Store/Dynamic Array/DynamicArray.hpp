@@ -243,13 +243,13 @@ void DynamicArray<T>::shiftLeft(std::size_t first,
 template <class T>
 inline T& DynamicArray<T>::operator[](std::size_t index)
 {
-	validateIndex(index);
+	const DynamicArray<T>& arr = *this;
 
-	return items[index];
+	return const_cast<T&>(arr[index]);
 }
 
 template <class T>
-inline const T&
+const T&
 DynamicArray<T>::operator[](std::size_t index) const
 {
 	validateIndex(index);
