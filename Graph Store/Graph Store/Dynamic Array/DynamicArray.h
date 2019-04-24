@@ -76,8 +76,6 @@ public:
 public:
 	T& operator[](std::size_t index);
 	const T& operator[](std::size_t index) const;
-	DynamicArray<T>& operator+=(const T& item);
-	DynamicArray<T>& operator+=(const DynamicArray<T>& rhs);
 
 private:
 	template <class U>
@@ -107,15 +105,6 @@ private:
 template <class Item, bool isConst>
 bool operator!=(typename const DynamicArray<Item>::DynamicArrayIterator<Item, isConst>& lhs,
 				typename const DynamicArray<Item>::DynamicArrayIterator<Item, isConst>& rhs) noexcept;
-
-template <class T>
-DynamicArray<T> operator+(const DynamicArray<T>& lhs, const DynamicArray<T>& rhs);
-
-template <class T>
-DynamicArray<T> operator+(const T& item, const DynamicArray<T>& arr);
-
-template <class T>
-DynamicArray<T> operator+(const DynamicArray<T>& arr, const T& item);
 
 #include "DynamicArrayIterator.hpp"
 #include "DynamicArray.hpp"

@@ -97,54 +97,6 @@ inline DynamicArray<T>::~DynamicArray()
 }
 
 template <class T>
-DynamicArray<T> operator+(const DynamicArray<T>& lhs,
-						  const DynamicArray<T>& rhs)
-{
-	DynamicArray<T> newArray(lhs);
-	newArray += rhs;
-
-	return newArray;
-}
-
-template <class T>
-DynamicArray<T>& DynamicArray<T>::operator+=(const DynamicArray<T>& rhs)
-{
-	for (std::size_t i = 0; i < rhs.count; ++i)
-	{
-		*this += rhs[i];
-	}
-
-	return *this;
-}
-
-template <class T>
-DynamicArray<T> operator+(const T& item, const DynamicArray<T>& arr)
-{
-	DynamicArray<T> newArray(arr.getCount() + 1);
-	newArray += item;
-	newArray += arr;
-
-	return newArray;
-}
-
-template <class T>
-DynamicArray<T> operator+(const DynamicArray<T>& arr, const T& item)
-{
-	DynamicArray<T> newArray(arr);
-	newArray += item;
-
-	return newArray;
-}
-
-template <class T>
-inline DynamicArray<T>& DynamicArray<T>::operator+=(const T& item)
-{
-	add(item);
-
-	return *this;
-}
-
-template <class T>
 inline void DynamicArray<T>::add(const T& item)
 {
 	doAdd(item);
