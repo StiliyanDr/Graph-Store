@@ -11,7 +11,7 @@ public:
 	class DynamicArrayIterator
 	{
 		friend class DynamicArray<Item>;
-		
+
 		using Position = std::size_t;
 		using OwnerPtr = std::conditional_t<isConst, const DynamicArray<Item>*, DynamicArray<Item>*>;
 

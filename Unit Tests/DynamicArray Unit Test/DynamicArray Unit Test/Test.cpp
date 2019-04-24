@@ -183,7 +183,7 @@ namespace DynamicArrayUnitTest
 
 			Assert::IsTrue(hasNullForCountAndSize(arrayToChange));
 		}
-			
+
 		TEST_METHOD(testCopyAssignmentEmptyToNonEmptyArray)
 		{	
 			Array arrayToCopy;

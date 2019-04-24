@@ -10,7 +10,8 @@ inline DynamicArray<T>::DynamicArray() noexcept :
 
 template <class T>
 DynamicArray<T>::DynamicArray(std::size_t size, std::size_t count) :
-	size(size), items(nullptr)
+	size(size),
+	items(nullptr)
 {
 	setCount(count);
 
@@ -35,7 +36,9 @@ void DynamicArray<T>::setCount(std::size_t newCount)
 
 template <class T>
 inline DynamicArray<T>::DynamicArray(DynamicArray<T>&& source) noexcept :
-	count(source.count), size(source.size), items(source.items)
+	count(source.count),
+	size(source.size),
+	items(source.items)
 {
 	source.nullifyMembers();
 }
@@ -69,7 +72,8 @@ void DynamicArray<T>::swapContentsWith(DynamicArray<T> other)
 }
 
 template <class T>
-DynamicArray<T>& DynamicArray<T>::operator=(DynamicArray<T>&& rhs) noexcept
+DynamicArray<T>&
+DynamicArray<T>::operator=(DynamicArray<T>&& rhs) noexcept
 {
 	if (this != &rhs)
 	{
@@ -80,7 +84,8 @@ DynamicArray<T>& DynamicArray<T>::operator=(DynamicArray<T>&& rhs) noexcept
 }
 
 template <class T>
-DynamicArray<T>& DynamicArray<T>::operator=(const DynamicArray<T>& rhs)
+DynamicArray<T>&
+DynamicArray<T>::operator=(const DynamicArray<T>& rhs)
 {
 	if (this != &rhs)
 	{
@@ -159,13 +164,15 @@ moveAssignIfNoexcept(T& object) noexcept
 }
 
 template <class T>
-inline void DynamicArray<T>::addAt(std::size_t index, const T& item)
+inline void DynamicArray<T>::addAt(std::size_t index,
+	                               const T& item)
 {
 	doAddAt(index, item);
 }
 
 template <class T>
-inline void DynamicArray<T>::addAt(std::size_t index, T&& item)
+inline void DynamicArray<T>::addAt(std::size_t index,
+	                               T&& item)
 {
 	doAddAt(index, std::move(item));
 }
@@ -188,7 +195,8 @@ void DynamicArray<T>::doAddAt(std::size_t index, U&& item)
 }
 
 template <class T>
-void DynamicArray<T>::shiftRight(std::size_t first, std::size_t last)
+void DynamicArray<T>::shiftRight(std::size_t first,
+	                             std::size_t last)
 {
 	assert(last + 1 < size);
 
@@ -220,7 +228,8 @@ inline void DynamicArray<T>::removeAt(std::size_t index)
 }
 
 template <class T>
-void DynamicArray<T>::shiftLeft(std::size_t first, std::size_t last)
+void DynamicArray<T>::shiftLeft(std::size_t first,
+	                            std::size_t last)
 {
 	assert(first > 0);
 	assert(last < size);
@@ -240,7 +249,8 @@ inline T& DynamicArray<T>::operator[](std::size_t index)
 }
 
 template <class T>
-inline const T& DynamicArray<T>::operator[](std::size_t index) const
+inline const T&
+DynamicArray<T>::operator[](std::size_t index) const
 {
 	validateIndex(index);
 
