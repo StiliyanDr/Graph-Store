@@ -10,7 +10,7 @@ namespace DynamicArrayUnitTest
 {		
 	TEST_CLASS(DynamicArrayTest)
 	{
-		typedef DynamicArray<unsigned> Array;
+		using Array = DynamicArray<unsigned>;
 
 		bool hasNullForCountAndSize(const Array& arr)
 		{

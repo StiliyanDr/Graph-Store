@@ -11,12 +11,13 @@ public:
 	class DynamicArrayIterator
 	{
 		friend class DynamicArray<Item>;
-		typedef std::size_t Position;
-		typedef typename std::conditional<isConst, const DynamicArray<Item>*, DynamicArray<Item>*>::type OwnerPtr;
+		
+		using Position = std::size_t;
+		using OwnerPtr = std::conditional_t<isConst, const DynamicArray<Item>*, DynamicArray<Item>*>;
 
 	public:
-		typedef typename std::conditional<isConst, const Item&, Item&>::type Reference;
-		typedef typename std::conditional<isConst, const Item*, Item*>::type Pointer;
+		using Reference = std::conditional_t<isConst, const Item&, Item&>;
+		using Pointer = std::conditional_t<isConst, const Item*, Item*>;
 
 	public:
 		DynamicArrayIterator(const DynamicArrayIterator<Item, false>& source) noexcept;
@@ -43,8 +44,8 @@ public:
 		OwnerPtr owner;
 	};
 
-	typedef DynamicArrayIterator<T, false> Iterator;
-	typedef DynamicArrayIterator<T, true> ConstIterator;
+	using Iterator = DynamicArrayIterator<T, false>;
+	using ConstIterator = DynamicArrayIterator<T, true>;
 
 public:
 	DynamicArray() noexcept;
