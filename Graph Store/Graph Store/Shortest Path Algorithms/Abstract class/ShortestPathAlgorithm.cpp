@@ -78,16 +78,18 @@ void ShortestPathAlgorithm::Path::printIdentifiers(std::ostream& out) const
 		{
 			out << id << ", ";
 		});
+
+		out << '\n';
 	}
 	else
 	{
-		out << "No such path exists!";
+		out << "No such path exists!\n";
 	}
 }
 
 void ShortestPathAlgorithm::Path::printLength(std::ostream& out) const
 {
-	out << "Path length: " << length << ".\n";
+	out << "Path length: " << length;
 }
 
 ShortestPathAlgorithm::ShortestPathAlgorithm(const String& id)
