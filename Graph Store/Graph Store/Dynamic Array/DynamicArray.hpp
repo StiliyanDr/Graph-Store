@@ -9,7 +9,7 @@ inline DynamicArray<T>::DynamicArray() noexcept :
 }
 
 template <class T>
-DynamicArray<T>::DynamicArray(size_t size, size_t count) :
+DynamicArray<T>::DynamicArray(std::size_t size, std::size_t count) :
 	size(size), items(nullptr)
 {
 	setCount(count);
@@ -21,7 +21,7 @@ DynamicArray<T>::DynamicArray(size_t size, size_t count) :
 }
 
 template <class T>
-void DynamicArray<T>::setCount(size_t newCount)
+void DynamicArray<T>::setCount(std::size_t newCount)
 {
 	if (newCount <= size)
 	{
@@ -52,7 +52,7 @@ void DynamicArray<T>::copyFrom(const DynamicArray<T>& source)
 {
 	DynamicArray<T> theCopy(source.size, source.count);
 
-	for (size_t i = 0; i < source.count; ++i)
+	for (std::size_t i = 0; i < source.count; ++i)
 	{
 		theCopy.items[i] = source.items[i];
 	}
@@ -109,7 +109,7 @@ DynamicArray<T> operator+(const DynamicArray<T>& lhs,
 template <class T>
 DynamicArray<T>& DynamicArray<T>::operator+=(const DynamicArray<T>& rhs)
 {
-	for (size_t i = 0; i < rhs.count; ++i)
+	for (std::size_t i = 0; i < rhs.count; ++i)
 	{
 		*this += rhs[i];
 	}
@@ -165,13 +165,13 @@ void DynamicArray<T>::extendIfFull()
 }
 
 template <class T>
-void DynamicArray<T>::resize(size_t newSize)
+void DynamicArray<T>::resize(std::size_t newSize)
 {
-	size_t newCount = (newSize < count) ? newSize : count;
+	std::size_t newCount = (newSize < count) ? newSize : count;
 
 	DynamicArray<T> newArray(newSize, newCount);
 
-	for (size_t i = 0; i < newCount; ++i)
+	for (std::size_t i = 0; i < newCount; ++i)
 	{
 		newArray.items[i] = moveAssignIfNoexcept(items[i]);
 	}
@@ -194,7 +194,7 @@ moveAssignIfNoexcept(T& object) noexcept
 }
 
 template <class T>
-void DynamicArray<T>::addAt(size_t index, const T& item)
+void DynamicArray<T>::addAt(std::size_t index, const T& item)
 {
 	if (index <= count)
 	{
@@ -210,11 +210,11 @@ void DynamicArray<T>::addAt(size_t index, const T& item)
 }
 
 template <class T>
-void DynamicArray<T>::shiftRight(size_t first, size_t last)
+void DynamicArray<T>::shiftRight(std::size_t first, std::size_t last)
 {
 	assert(last + 1 < size);
 
-	for (size_t i = last + 1; i > first; --i)
+	for (std::size_t i = last + 1; i > first; --i)
 	{
 		items[i] = std::move(items[i - 1]);
 	}
@@ -234,7 +234,7 @@ void DynamicArray<T>::removeLast()
 }
 
 template <class T>
-inline void DynamicArray<T>::removeAt(size_t index)
+inline void DynamicArray<T>::removeAt(std::size_t index)
 {
 	validateIndex(index);
 
@@ -242,19 +242,19 @@ inline void DynamicArray<T>::removeAt(size_t index)
 }
 
 template <class T>
-void DynamicArray<T>::shiftLeft(size_t first, size_t last)
+void DynamicArray<T>::shiftLeft(std::size_t first, std::size_t last)
 {
 	assert(first > 0);
 	assert(last < size);
 
-	for (size_t i = first - 1; i < last; ++i)
+	for (std::size_t i = first - 1; i < last; ++i)
 	{
 		items[i] = std::move(items[i + 1]);
 	}
 }
 
 template <class T>
-inline T& DynamicArray<T>::operator[](size_t index)
+inline T& DynamicArray<T>::operator[](std::size_t index)
 {
 	validateIndex(index);
 
@@ -262,7 +262,7 @@ inline T& DynamicArray<T>::operator[](size_t index)
 }
 
 template <class T>
-inline const T& DynamicArray<T>::operator[](size_t index) const
+inline const T& DynamicArray<T>::operator[](std::size_t index) const
 {
 	validateIndex(index);
 
@@ -270,7 +270,7 @@ inline const T& DynamicArray<T>::operator[](size_t index) const
 }
 
 template <class T>
-inline void DynamicArray<T>::ensureSize(size_t size)
+inline void DynamicArray<T>::ensureSize(std::size_t size)
 {
 	if (size > this->size)
 	{
@@ -307,7 +307,7 @@ inline void DynamicArray<T>::nullifyMembers()
 }
 
 template <class T>
-inline void DynamicArray<T>::validateIndex(size_t i) const
+inline void DynamicArray<T>::validateIndex(std::size_t i) const
 {
 	if (i >= count)
 	{
@@ -322,13 +322,13 @@ inline bool DynamicArray<T>::isEmpty() const noexcept
 }
 
 template <class T>
-inline size_t DynamicArray<T>::getSize() const noexcept
+inline std::size_t DynamicArray<T>::getSize() const noexcept
 {
 	return size;
 }
 
 template <class T>
-inline size_t DynamicArray<T>::getCount() const noexcept
+inline std::size_t DynamicArray<T>::getCount() const noexcept
 {
 	return count;
 }

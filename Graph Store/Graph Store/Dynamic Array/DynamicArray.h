@@ -11,7 +11,7 @@ public:
 	class DynamicArrayIterator
 	{
 		friend class DynamicArray<Item>;
-		typedef size_t Position;
+		typedef std::size_t Position;
 		typedef typename std::conditional<isConst, const DynamicArray<Item>*, DynamicArray<Item>*>::type OwnerPtr;
 
 	public:
@@ -48,7 +48,7 @@ public:
 
 public:
 	DynamicArray() noexcept;
-	explicit DynamicArray(size_t size, size_t count = 0);
+	explicit DynamicArray(std::size_t size, std::size_t count = 0);
 	DynamicArray(DynamicArray<T>&& source) noexcept;
 	DynamicArray(const DynamicArray<T>& source);
 	DynamicArray<T>& operator=(DynamicArray<T>&& rhs) noexcept;
@@ -56,44 +56,44 @@ public:
 	~DynamicArray();
 
 	void add(const T& item);
-	void removeAt(size_t index);
+	void removeAt(std::size_t index);
 	void removeLast();
 
-	void addAt(size_t index, const T& item);
-	void ensureSize(size_t size);
+	void addAt(std::size_t index, const T& item);
+	void ensureSize(std::size_t size);
 	void empty() noexcept;
 	bool isEmpty() const noexcept;
 
-	size_t getSize() const noexcept;
-	size_t getCount() const noexcept;
+	std::size_t getSize() const noexcept;
+	std::size_t getCount() const noexcept;
 
 	Iterator getIterator() noexcept;
 	ConstIterator getConstIterator() const noexcept;
 
 public:
-	T& operator[](size_t index);
-	const T& operator[](size_t index) const;
+	T& operator[](std::size_t index);
+	const T& operator[](std::size_t index) const;
 	DynamicArray<T>& operator+=(const T& item);
 	DynamicArray<T>& operator+=(const DynamicArray<T>& rhs);
 
 private:
-	void shiftLeft(size_t first, size_t last);
-	void shiftRight(size_t first, size_t last);
+	void shiftLeft(std::size_t first, std::size_t last);
+	void shiftRight(std::size_t first, std::size_t last);
 	void extendIfFull();
-	void resize(size_t newSize);
+	void resize(std::size_t newSize);
 	void copyFrom(const DynamicArray<T>& source);
 	void swapContentsWith(DynamicArray<T> other);
 	void destroyItems();
 	void nullifyMembers();
-	void validateIndex(size_t i) const;
-	void setCount(size_t newCount);
+	void validateIndex(std::size_t i) const;
+	void setCount(std::size_t newCount);
 
 private:
-	static const size_t GROWTH_RATE = 2;
+	static const std::size_t GROWTH_RATE = 2;
 
 private:
-	size_t count;
-	size_t size;
+	std::size_t count;
+	std::size_t size;
 	T* items;
 };
 

@@ -37,14 +37,14 @@ namespace DynamicArrayUnitTest
 
 		bool areEqual(const Array& lhs, const Array& rhs)
 		{
-			const size_t lhsCount = lhs.getCount();
+			const std::size_t lhsCount = lhs.getCount();
 
 			if (lhsCount != rhs.getCount())
 			{
 				return false;
 			}
 
-			for (size_t i = 0; i < lhsCount; ++i)
+			for (std::size_t i = 0; i < lhsCount; ++i)
 			{
 				if (lhs[i] != rhs[i])
 				{
@@ -94,7 +94,7 @@ namespace DynamicArrayUnitTest
 
 		TEST_METHOD(testCtorFromSizeAllocatesSizeItems)
 		{
-			size_t size = 10;
+			std::size_t size = 10;
 
 			Array arr(size);
 
@@ -104,8 +104,8 @@ namespace DynamicArrayUnitTest
 
 		TEST_METHOD(testCtorAllocatesSizeAndGivesAccessToCountItems)
 		{
-			size_t size = 10;
-			size_t count = 5;
+			std::size_t size = 10;
+			std::size_t count = 5;
 
 			Array arr(size, count);
 
@@ -140,7 +140,7 @@ namespace DynamicArrayUnitTest
 		{
 			Array arrayToMove;
 			fillArrayWithNumbersFromTo(arrayToMove, 1, 5);
-			size_t size = arrayToMove.getSize();
+			std::size_t size = arrayToMove.getSize();
 
 			Array movedInto(std::move(arrayToMove));
 			
@@ -235,7 +235,7 @@ namespace DynamicArrayUnitTest
 		TEST_METHOD(testMoveAssignmentNonEmptyToEmptyArray)
 		{
 			Array arrayToMove = createArrayFromRange(1, 5);
-			size_t movedArraySize = arrayToMove.getSize();
+			std::size_t movedArraySize = arrayToMove.getSize();
 			Array arrayToMoveInto;
 
 			arrayToMoveInto = std::move(arrayToMove);
@@ -249,7 +249,7 @@ namespace DynamicArrayUnitTest
 		{
 			Array arrayToMove = createArrayFromRange(10, 15);
 			Array arrayToMoveInto = createArrayFromRange(1, 5);
-			size_t movedArraySize = arrayToMove.getSize();
+			std::size_t movedArraySize = arrayToMove.getSize();
 
 			arrayToMoveInto = std::move(arrayToMove);
 
@@ -390,7 +390,7 @@ namespace DynamicArrayUnitTest
 		TEST_METHOD(testEnsureSizeExtendsTheArrayIfPassedAGreaterSize)
 		{
 			Array arr = createArrayFromRange(1, 10);
-			size_t size = arr.getSize();
+			std::size_t size = arr.getSize();
 
 			arr.ensureSize(size + 1);
 
