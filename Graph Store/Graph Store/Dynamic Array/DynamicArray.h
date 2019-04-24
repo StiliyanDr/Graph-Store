@@ -57,10 +57,12 @@ public:
 	~DynamicArray();
 
 	void add(const T& item);
+	void add(T&& item);
 	void removeAt(std::size_t index);
 	void removeLast();
 
 	void addAt(std::size_t index, const T& item);
+	void addAt(std::size_t index, T&& item);
 	void ensureSize(std::size_t size);
 	void empty() noexcept;
 	bool isEmpty() const noexcept;
@@ -78,6 +80,10 @@ public:
 	DynamicArray<T>& operator+=(const DynamicArray<T>& rhs);
 
 private:
+	template <class U>
+	void doAdd(U&& item);
+	template <class U>
+	void doAddAt(std::size_t index, U&& item);
 	void shiftLeft(std::size_t first, std::size_t last);
 	void shiftRight(std::size_t first, std::size_t last);
 	void extendIfFull();

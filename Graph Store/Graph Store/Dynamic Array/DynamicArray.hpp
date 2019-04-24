@@ -147,9 +147,22 @@ inline DynamicArray<T>& DynamicArray<T>::operator+=(const T& item)
 template <class T>
 inline void DynamicArray<T>::add(const T& item)
 {
+	doAdd(item);
+}
+
+template <class T>
+inline void DynamicArray<T>::add(T&& item)
+{
+	doAdd(std::move(item));
+}
+
+template <class T>
+template <class U>
+void DynamicArray<T>::doAdd(U&& item)
+{
 	extendIfFull();
 
-	items[count] = item;
+	items[count] = std::forward<U>(item);
 	++count;
 }
 
@@ -194,13 +207,26 @@ moveAssignIfNoexcept(T& object) noexcept
 }
 
 template <class T>
-void DynamicArray<T>::addAt(std::size_t index, const T& item)
+inline void DynamicArray<T>::addAt(std::size_t index, const T& item)
+{
+	doAddAt(index, item);
+}
+
+template <class T>
+inline void DynamicArray<T>::addAt(std::size_t index, T&& item)
+{
+	doAddAt(index, std::move(item));
+}
+
+template <class T>
+template <class U>
+void DynamicArray<T>::doAddAt(std::size_t index, U&& item)
 {
 	if (index <= count)
 	{
 		extendIfFull();
 		shiftRight(index, count - 1);
-		items[index] = item;
+		items[index] = std::forward<U>(item);
 		++count;
 	}
 	else

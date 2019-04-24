@@ -3,6 +3,7 @@
 #include "../../../Graph Store/Graph Store/Dynamic Array/DynamicArray.h"
 #include <utility>
 #include <assert.h>
+#include <string>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -11,6 +12,11 @@ namespace DynamicArrayUnitTest
 	TEST_CLASS(DynamicArrayTest)
 	{
 		using Array = DynamicArray<unsigned>;
+
+		static bool stringIsMovedFrom(const std::string& s)
+		{
+			return s == "";
+		}
 
 		bool hasNullForCountAndSize(const Array& arr)
 		{
@@ -281,6 +287,18 @@ namespace DynamicArrayUnitTest
 			}
 		}
 
+		TEST_METHOD(testAddingAnRvalueMovesTheObject)
+		{
+			const char word[] = "test";
+			std::string s = word;
+			DynamicArray<std::string> arr;
+
+			arr.add(std::move(s));
+
+			Assert::IsTrue(stringIsMovedFrom(s));
+			Assert::IsTrue(arr[0] == word);
+		}
+
 		TEST_METHOD(testRemoveAtShiftsLeftTheElementsAfterRemovedItem)
 		{
 			Array arr = createArrayFromRange(0, 5);
@@ -385,6 +403,18 @@ namespace DynamicArrayUnitTest
 			}
 
 			Assert::AreEqual(8u, arr.getCount());
+		}
+
+		TEST_METHOD(testAddAtWithAnRvalueMovesTheObject)
+		{
+			const char word[] = "test";
+			std::string s = word;
+			DynamicArray<std::string> arr;
+
+			arr.addAt(0, std::move(s));
+
+			Assert::IsTrue(stringIsMovedFrom(s));
+			Assert::IsTrue(arr[0] == word);
 		}
 
 		TEST_METHOD(testEnsureSizeExtendsTheArrayIfPassedAGreaterSize)
