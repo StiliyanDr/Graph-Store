@@ -83,9 +83,9 @@ template <class Item, class Key, class KeyAccessor, class Function>
 inline Item&
 Hash<Item, Key, KeyAccessor, Function>::Table::operator[](std::size_t index)
 {
-	assert(isOccupiedAt(index));
+	const Table& table = *this;
 
-	return *slots[index];
+	return const_cast<Item&>(table[index]);
 }
 
 template <class Item, class Key, class KeyAccessor, class Function>
