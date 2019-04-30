@@ -97,11 +97,11 @@ auto unaryComplementOf(UnaryPredicate p)
 template <class Iterator, class UnaryPredicate>
 inline bool anyOf(Iterator& iterator, UnaryPredicate p)
 {
-	return static_cast<bool>(skipUntil(iterator, p));
+	return static_cast<bool>(findIf(iterator, p));
 }
 
 template <class Iterator, class UnaryPredicate>
-Iterator skipUntil(Iterator& iterator, UnaryPredicate p)
+Iterator findIf(Iterator& iterator, UnaryPredicate p)
 {
 	while (iterator)
 	{

@@ -226,7 +226,7 @@ Graph::searchForEdgeFromTo(const Vertex& start, const Vertex& end)
 	OutgoingEdgesConcreteIterator iterator =
 		getConcreteIteratorOfEdgesLeaving(start);
 
-	return skipUntil(iterator, [&](const OutgoingEdge& e)
+	return findIf(iterator, [&](const OutgoingEdge& e)
 	{
 		return e.getEnd() == end;
 	});
