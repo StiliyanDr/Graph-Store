@@ -1,20 +1,32 @@
 #ifndef __SHORTEST_PATH_ALGORITHMS_STORE_HEADER_INCLUDED__
 #define __SHORTEST_PATH_ALGORITHMS_STORE_HEADER_INCLUDED__
 
-#include "../Abstract class/ShortestPathAlgorithm.h"
-#include "Hash/Identifier Accessor/IdentifierAccessor.h"
-#include "Hash/Hash.h"
-#include "Hash/Hash Function/HashFunctionStringSpecialization.h"
+#include "Dynamic Array/DynamicArray.h"
+
+class String;
+class ShortestPathAlgorithm;
 
 class ShortestPathAlgorithmsStore
 {
-	using Collection = Hash<ShortestPathAlgorithm, String, IdentifierAccessor>;
+	using Collection = DynamicArray<ShortestPathAlgorithm*>;
+
+	class IDComparator
+	{
+	public:
+		explicit IDComparator(const String& id) noexcept;
+		bool operator()(const ShortestPathAlgorithm* a) const;
+
+	private:
+		const String& id;
+	};
 
 public:
 	static ShortestPathAlgorithmsStore& instance();
 
-	ShortestPathAlgorithm& search(const String& id);
+public:
+	ShortestPathAlgorithm& operator[](const String& id);
 	void addAlgorithm(ShortestPathAlgorithm& a);
+	bool contains(const String& id) const;
 
 private:
 	ShortestPathAlgorithmsStore();

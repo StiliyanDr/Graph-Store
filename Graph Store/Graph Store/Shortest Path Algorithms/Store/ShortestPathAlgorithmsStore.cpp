@@ -1,5 +1,22 @@
 #include "ShortestPathAlgorithmsStore.h"
-#include "Unsupported Alogirhtm Exception/UnsupportedAlgorithmException.h"
+#include "Runtime Error/RuntimeError.h"
+#include "String/String.h"
+#include "Shortest Path Algorithms/Abstract class/ShortestPathAlgorithm.h"
+#include "Iterator/Iterator.h"
+#include <assert.h>
+
+ShortestPathAlgorithmsStore::IDComparator::IDComparator(const String& id) noexcept :
+	id(id)
+{
+}
+
+bool
+ShortestPathAlgorithmsStore::IDComparator::operator()(const ShortestPathAlgorithm* a) const
+{
+	assert(a != nullptr);
+
+	return a->getID() == id;
+}
 
 ShortestPathAlgorithmsStore::ShortestPathAlgorithmsStore() :
 	algorithms(INITIAL_COLLECTION_SIZE)
@@ -15,26 +32,35 @@ ShortestPathAlgorithmsStore::instance()
 }
 
 ShortestPathAlgorithm&
-ShortestPathAlgorithmsStore::search(const String& id)
+ShortestPathAlgorithmsStore::operator[](const String& id)
 {
-	try
+	Collection::Iterator iterator =
+		findIf(algorithms.getIterator(), IDComparator(id));
+
+	if (iterator)
 	{
-		return algorithms[id];
+		return *(*iterator);
 	}
-	catch (std::logic_error&)
+	else
 	{
-		throw UnsupportedAlgorithmException(id + " is not one of the supported algorithms!");
+		throw RuntimeError(id + " is not one of the supported algorithms!");
 	}
 }
 
 void ShortestPathAlgorithmsStore::addAlgorithm(ShortestPathAlgorithm& a)
 {
-	if (!algorithms.contains(a.getID()))
+	if (!contains(a.getID()))
 	{
-		algorithms.add(a);
+		algorithms.add(&a);
 	}
 	else
 	{
 		throw std::logic_error("Duplicate algorithm!");
 	}
+}
+
+bool ShortestPathAlgorithmsStore::contains(const String& id) const
+{
+	return anyOf(algorithms.getConstIterator(),
+		         IDComparator(id));
 }

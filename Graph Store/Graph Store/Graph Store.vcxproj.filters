@@ -159,12 +159,6 @@
     <Filter Include="Command\Exceptions">
       <UniqueIdentifier>{d1644408-9074-4aa1-8027-33a6c62e4198}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shortest Path Algorithms\Shortest Path Algorithms Store">
-      <UniqueIdentifier>{64578d2a-b4d0-4f1f-8e7e-314661566a2d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shortest Path Algorithms\Shortest Path Algorithms Store\Unsupported Algorithm Exception">
-      <UniqueIdentifier>{67ab741e-39dc-4359-a299-aa7727dca3ff}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shortest Path Algorithms\Search Based Shortest Path Algorithm">
       <UniqueIdentifier>{ed3bc4ea-dc52-429b-aab9-4572355912c6}</UniqueIdentifier>
     </Filter>
@@ -204,6 +198,12 @@
     </Filter>
     <Filter Include="Graph IO\Graph Files Functions">
       <UniqueIdentifier>{fe5f077f-8d69-440d-8719-ab8674ce48c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shortest Path Algorithms\Shortest Path Algorithms Store">
+      <UniqueIdentifier>{64578d2a-b4d0-4f1f-8e7e-314661566a2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shortest Path Algorithms\Shortest Path Algorithms Store\Unsupported Algorithm Exception">
+      <UniqueIdentifier>{67ab741e-39dc-4359-a299-aa7727dca3ff}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

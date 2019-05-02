@@ -1,5 +1,6 @@
 #include "SearchCommand.h"
 #include "Shortest Path Algorithms/Store/ShortestPathAlgorithmsStore.h"
+#include "Shortest Path Algorithms/Abstract class/ShortestPathAlgorithm.h"
 #include "Command/Command Registrator/CommandRegistrator.h"
 
 static CommandRegistrator<SearchCommand> registrator("search",
@@ -25,7 +26,7 @@ void SearchCommand::doExecute()
 	Graph::Vertex& target = usedGraph.getVertexWithID(targetID);
 
 	ShortestPathAlgorithm& algorithm =
-		ShortestPathAlgorithmsStore::instance().search(algorithmID);
+		ShortestPathAlgorithmsStore::instance()[algorithmID];
 
 	ShortestPathAlgorithm::Path p =
 		algorithm.findShortestPath(usedGraph, source, target);
