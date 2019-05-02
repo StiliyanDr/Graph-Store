@@ -80,7 +80,7 @@ void forEach(Iterator& iterator, UnaryFunction f)
 }
 
 template <class Iterator, class UnaryPredicate>
-inline bool allOf(Iterator& iterator, UnaryPredicate p)
+inline bool allOf(Iterator iterator, UnaryPredicate p)
 {
 	return !anyOf(iterator, unaryComplementOf(p));
 }
@@ -95,13 +95,13 @@ auto unaryComplementOf(UnaryPredicate p)
 }
 
 template <class Iterator, class UnaryPredicate>
-inline bool anyOf(Iterator& iterator, UnaryPredicate p)
+inline bool anyOf(Iterator iterator, UnaryPredicate p)
 {
 	return static_cast<bool>(findIf(iterator, p));
 }
 
 template <class Iterator, class UnaryPredicate>
-Iterator findIf(Iterator& iterator, UnaryPredicate p)
+Iterator findIf(Iterator iterator, UnaryPredicate p)
 {
 	while (iterator)
 	{
@@ -117,7 +117,7 @@ Iterator findIf(Iterator& iterator, UnaryPredicate p)
 }
 
 template <class Iterator, class UnaryPredicate>
-inline bool noneOf(Iterator& iterator, UnaryPredicate p)
+inline bool noneOf(Iterator iterator, UnaryPredicate p)
 {
 	return !anyOf(iterator, p);
 }
