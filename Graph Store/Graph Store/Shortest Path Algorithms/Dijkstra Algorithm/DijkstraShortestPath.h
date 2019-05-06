@@ -81,7 +81,7 @@ private:
 	virtual void cleanUp() override;
 	virtual void addDecoratedVersionOf(const Graph::Vertex& v) override;
 	virtual DijkstraVertex& getDecoratedVersionOf(const Graph::Vertex& v) override;
-	void decorateVerticesOf(const Graph& g);
+	virtual void decorateVerticesOf(const Graph& g) override;
 	void gatherDecoratedVerticesWithUndeterminedEstimate();
 	void relaxEdgesLeaving(const DijkstraVertex& v, const Graph& g);
 	void relaxEdge(const DijkstraVertex& start, DijkstraVertex& end, Graph::OutgoingEdge::Weight w);

@@ -73,7 +73,7 @@ protected:
 	virtual void cleanUp() = 0;
 	virtual void addDecoratedVersionOf(const Graph::Vertex& v) = 0;
 	virtual DecoratedVertex& getDecoratedVersionOf(const Graph::Vertex& v) = 0;
-	void decorateVerticesOf(const Graph& g);
+	virtual void decorateVerticesOf(const Graph& g);
 
 private:
 	Path createPathBetween(const Graph::Vertex& source, const Graph::Vertex& target);

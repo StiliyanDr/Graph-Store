@@ -34,7 +34,7 @@ protected:
 	virtual MarkableDecoratedVertex& getDecoratedVersionOf(const Graph::Vertex& v) override;
 	virtual void visitVertex(MarkableDecoratedVertex& successor,
 							 const MarkableDecoratedVertex& predecessor);
-	void decorateVerticesOf(const Graph& g);
+	virtual void decorateVerticesOf(const Graph& g) override;
 	void setTarget(const Graph::Vertex& target);
 	void checkIfTarget(const MarkableDecoratedVertex& v);
 
