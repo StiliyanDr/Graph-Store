@@ -21,6 +21,11 @@ namespace FileParserUnitTest
 			writeTextToFile("", fileName);
 		}
 
+		static void writeTextToFile(const String& text, const String& fileName)
+		{
+			writeTextToFile(text.cString(), fileName);
+		}
+
 		static void writeTextToFile(const char* text, const String& fileName)
 		{
 			std::ofstream file(fileName.cString(),
@@ -257,6 +262,29 @@ namespace FileParserUnitTest
 			String extractedLine = parser.readLine();
 
 			Assert::IsTrue(areEqual("", extractedLine));
+		}
+
+		TEST_METHOD(testReadAndTrimLineReturnsATrimmedCopyOfTheRestOfTheLine)
+		{
+			String word = "test";
+			String spaceSurroundedLine = " " + word + " ";
+			writeTextToFile(spaceSurroundedLine, firstTestFileName);
+			FileParser parser(firstTestFileName);
+
+			String extractedLine = parser.readAndTrimLine();
+			
+			Assert::IsTrue(areEqual(word, extractedLine));
+		}
+
+		TEST_METHOD(testReadAndTrimATrimmedLine)
+		{
+			char trimmedLineInFile[] = "test";
+			writeTextToFile(trimmedLineInFile, firstTestFileName);
+			FileParser parser(firstTestFileName);
+
+			String extractedLine = parser.readAndTrimLine();
+
+			Assert::IsTrue(areEqual(trimmedLineInFile, extractedLine));
 		}
 
 		TEST_METHOD(testParseUnsignedSkipsSpacesAndExtractsNumber)

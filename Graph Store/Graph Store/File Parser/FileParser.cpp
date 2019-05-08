@@ -74,13 +74,18 @@ void FileParser::verifySuccessfulOpeningOf(const String& fileName) const
 
 String FileParser::readLine()
 {
+	getLine();
+	
+	return buffer;
+}
+
+void FileParser::getLine()
+{
 	verifyValidState();
 
 	file.getline(buffer, BUFFER_SIZE);
 	throwExceptionIfInErrorState("No more characters left in the file!");
 	++lineNumber;
-
-	return buffer;
 }
 
 void FileParser::verifyValidState() const
@@ -130,6 +135,39 @@ void FileParser::throwExceptionIfInErrorState(const char* message) const
 		std::string suffix = " Error at line " + std::to_string(lineNumber);
 		throw FileParserException(message + suffix);
 	}
+}
+
+String FileParser::readAndTrimLine()
+{
+	getLine();
+	trimEnd();
+
+	return trimStartAndReturnPointer();
+}
+
+void FileParser::trimEnd()
+{
+	int end = strlen(buffer) - 1;
+
+	while (end >= 0 && buffer[end] == ' ')
+	{
+		--end;
+	}
+
+	buffer[end + 1] = '\0';
+}
+
+const char*
+FileParser::trimStartAndReturnPointer() const
+{
+	const char* p = buffer;
+
+	while (*p == ' ')
+	{
+		++p;
+	}
+
+	return p;
 }
 
 void FileParser::skipUntil(char character)

@@ -25,6 +25,7 @@ public:
 	bool hasOpenedFile() const;
 
 	String readLine();
+	String readAndTrimLine();
 	unsigned parseUnsigned();
 	char peek();
 	void skipUntil(char character);
@@ -34,6 +35,9 @@ private:
 	template <class Number>
 	Number parseNumber();
 
+	void getLine();
+	void trimEnd();
+	const char* trimStartAndReturnPointer() const;
 	void verifySuccessfulOpeningOf(const String& fileName) const;
 	void verifyValidState() const;
 	void verifyAFileIsOpened() const;
