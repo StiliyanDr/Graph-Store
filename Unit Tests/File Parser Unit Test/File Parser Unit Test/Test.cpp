@@ -11,9 +11,9 @@ namespace FileParserUnitTest
 	TEST_CLASS(FileParserTest)
 	{
 	private:
-		static const String firstTestFileName;
-		static const String secondTestFileName;
-		static const String nonExistentFileName;
+		static const String FIRST_TEST_FILE_NAME;
+		static const String SECOND_TEST_FILE_NAME;
+		static const String NON_EXISTENT_FILE_NAME;
 
 	private:
 		static void emptyFile(const String& fileName)
@@ -49,9 +49,9 @@ namespace FileParserUnitTest
 
 		static FileParser parserAfterAFailedOperation()
 		{
-			writeTextToFile("-123", firstTestFileName);
+			writeTextToFile("-123", FIRST_TEST_FILE_NAME);
 
-			FileParser parser(firstTestFileName);
+			FileParser parser(FIRST_TEST_FILE_NAME);
 
 			try
 			{
@@ -84,8 +84,8 @@ namespace FileParserUnitTest
 
 		TEST_METHOD(testMoveCtorWithOpenedFile)
 		{
-			writeTextToFile("@", firstTestFileName);
-			FileParser parserToMove(firstTestFileName);
+			writeTextToFile("@", FIRST_TEST_FILE_NAME);
+			FileParser parserToMove(FIRST_TEST_FILE_NAME);
 
 			FileParser parser(std::move(parserToMove));
 
@@ -121,7 +121,7 @@ namespace FileParserUnitTest
 		TEST_METHOD(testMoveAssignmentNotOpenedToOpened)
 		{
 			FileParser parserToMove;
-			FileParser parser(firstTestFileName);
+			FileParser parser(FIRST_TEST_FILE_NAME);
 
 			parser = std::move(parserToMove);
 
@@ -132,8 +132,8 @@ namespace FileParserUnitTest
 
 		TEST_METHOD(testMoveAssignmentOpenedToNotOpened)
 		{
-			writeTextToFile("@", firstTestFileName);
-			FileParser parserToMove(firstTestFileName);
+			writeTextToFile("@", FIRST_TEST_FILE_NAME);
+			FileParser parserToMove(FIRST_TEST_FILE_NAME);
 			FileParser parser;
 
 			parser = std::move(parserToMove);
@@ -146,10 +146,10 @@ namespace FileParserUnitTest
 
 		TEST_METHOD(testMoveAssignmentOpenedToOpened)
 		{
-			emptyFile(firstTestFileName);
-			writeTextToFile("@", secondTestFileName);
-			FileParser parserToMove(secondTestFileName);
-			FileParser parser(firstTestFileName);
+			emptyFile(FIRST_TEST_FILE_NAME);
+			writeTextToFile("@", SECOND_TEST_FILE_NAME);
+			FileParser parserToMove(SECOND_TEST_FILE_NAME);
+			FileParser parser(FIRST_TEST_FILE_NAME);
 
 			parser = std::move(parserToMove);
 
@@ -161,7 +161,7 @@ namespace FileParserUnitTest
 
 		TEST_METHOD(testCtorWithExistingFileOpensIt)
 		{
-			FileParser parser(firstTestFileName);
+			FileParser parser(FIRST_TEST_FILE_NAME);
 
 			Assert::IsTrue(parser.hasOpenedFile());
 		}
@@ -170,12 +170,12 @@ namespace FileParserUnitTest
 		{
 			try
 			{
-				FileParser parser(nonExistentFileName);
+				FileParser parser(NON_EXISTENT_FILE_NAME);
 				Assert::Fail(L"Constructor did not throw an exception!");
 			}
 			catch (OpenFileFailException& ex)
 			{
-				Assert::IsTrue(areEqual("Could not open file for reading, name: " + nonExistentFileName,
+				Assert::IsTrue(areEqual("Could not open file for reading, name: " + NON_EXISTENT_FILE_NAME,
 										ex.what()));
 			}
 		}
@@ -184,7 +184,7 @@ namespace FileParserUnitTest
 		{
 			FileParser parser;
 
-			parser.openFile(firstTestFileName);
+			parser.openFile(FIRST_TEST_FILE_NAME);
 
 			Assert::IsTrue(parser.hasOpenedFile());
 		}
@@ -195,23 +195,23 @@ namespace FileParserUnitTest
 
 			try
 			{
-				parser.openFile(nonExistentFileName);
+				parser.openFile(NON_EXISTENT_FILE_NAME);
 				Assert::Fail(L"The method did not throw an exception!");
 			}
 			catch (OpenFileFailException& ex)
 			{
-				Assert::IsTrue(areEqual("Could not open file for reading, name: " + nonExistentFileName,
+				Assert::IsTrue(areEqual("Could not open file for reading, name: " + NON_EXISTENT_FILE_NAME,
 										ex.what()));
 			}
 		}
 
 		TEST_METHOD(testOpenFileWhenAFileIsAlreadyOpened)
 		{
-			emptyFile(firstTestFileName);
-			FileParser parser(firstTestFileName);
-			writeTextToFile("@", secondTestFileName);
+			emptyFile(FIRST_TEST_FILE_NAME);
+			FileParser parser(FIRST_TEST_FILE_NAME);
+			writeTextToFile("@", SECOND_TEST_FILE_NAME);
 
-			parser.openFile(secondTestFileName);
+			parser.openFile(SECOND_TEST_FILE_NAME);
 
 			Assert::IsTrue(parser.hasOpenedFile());
 			Assert::AreEqual('@', parser.peek());
@@ -219,7 +219,7 @@ namespace FileParserUnitTest
 
 		TEST_METHOD(testCloseFile)
 		{
-			FileParser parser(firstTestFileName);
+			FileParser parser(FIRST_TEST_FILE_NAME);
 
 			parser.closeFile();
 
@@ -229,8 +229,8 @@ namespace FileParserUnitTest
 		TEST_METHOD(testReadLineReturnsACopyOfTheRestOfTheCurrentLine)
 		{
 			char lineInFile[] = "A line in the file";
-			writeTextToFile(lineInFile, firstTestFileName);
-			FileParser parser(firstTestFileName);
+			writeTextToFile(lineInFile, FIRST_TEST_FILE_NAME);
+			FileParser parser(FIRST_TEST_FILE_NAME);
 
 			String extractedLine = parser.readLine();
 
@@ -239,8 +239,8 @@ namespace FileParserUnitTest
 
 		TEST_METHOD(testReadLineWhenNoCharactersAreLeftInFile)
 		{
-			emptyFile(firstTestFileName);
-			FileParser parser(firstTestFileName);
+			emptyFile(FIRST_TEST_FILE_NAME);
+			FileParser parser(FIRST_TEST_FILE_NAME);
 
 			try
 			{
@@ -256,8 +256,8 @@ namespace FileParserUnitTest
 
 		TEST_METHOD(testReadLineWhenNoCharactersAreLeftInTheLine)
 		{
-			writeTextToFile("\n", firstTestFileName);
-			FileParser parser(firstTestFileName);
+			writeTextToFile("\n", FIRST_TEST_FILE_NAME);
+			FileParser parser(FIRST_TEST_FILE_NAME);
 
 			String extractedLine = parser.readLine();
 
@@ -268,8 +268,8 @@ namespace FileParserUnitTest
 		{
 			String word = "test";
 			String spaceSurroundedLine = " " + word + " ";
-			writeTextToFile(spaceSurroundedLine, firstTestFileName);
-			FileParser parser(firstTestFileName);
+			writeTextToFile(spaceSurroundedLine, FIRST_TEST_FILE_NAME);
+			FileParser parser(FIRST_TEST_FILE_NAME);
 
 			String extractedLine = parser.readAndTrimLine();
 			
@@ -279,8 +279,8 @@ namespace FileParserUnitTest
 		TEST_METHOD(testReadAndTrimATrimmedLine)
 		{
 			char trimmedLineInFile[] = "test";
-			writeTextToFile(trimmedLineInFile, firstTestFileName);
-			FileParser parser(firstTestFileName);
+			writeTextToFile(trimmedLineInFile, FIRST_TEST_FILE_NAME);
+			FileParser parser(FIRST_TEST_FILE_NAME);
 
 			String extractedLine = parser.readAndTrimLine();
 
@@ -289,8 +289,8 @@ namespace FileParserUnitTest
 
 		TEST_METHOD(testParseUnsignedSkipsSpacesAndExtractsNumber)
 		{
-			writeTextToFile("   8", firstTestFileName);
-			FileParser parser(firstTestFileName);
+			writeTextToFile("   8", FIRST_TEST_FILE_NAME);
+			FileParser parser(FIRST_TEST_FILE_NAME);
 
 			unsigned number = parser.parseUnsigned();
 
@@ -299,8 +299,8 @@ namespace FileParserUnitTest
 
 		TEST_METHOD(testParseUnsignedWithInvalidNumber)
 		{
-			writeTextToFile("not a number", firstTestFileName);
-			FileParser parser(firstTestFileName);
+			writeTextToFile("not a number", FIRST_TEST_FILE_NAME);
+			FileParser parser(FIRST_TEST_FILE_NAME);
 
 			try
 			{
@@ -316,8 +316,8 @@ namespace FileParserUnitTest
 
 		TEST_METHOD(testParseUnsignedWithNegativeNumber)
 		{
-			writeTextToFile("-128", firstTestFileName);
-			FileParser parser(firstTestFileName);
+			writeTextToFile("-128", FIRST_TEST_FILE_NAME);
+			FileParser parser(FIRST_TEST_FILE_NAME);
 
 			try
 			{
@@ -333,8 +333,8 @@ namespace FileParserUnitTest
 
 		TEST_METHOD(testParseUnsignedWhenNoCharactersAreLeftInFile)
 		{
-			emptyFile(firstTestFileName);
-			FileParser parser(firstTestFileName);
+			emptyFile(FIRST_TEST_FILE_NAME);
+			FileParser parser(FIRST_TEST_FILE_NAME);
 
 			try
 			{
@@ -350,8 +350,8 @@ namespace FileParserUnitTest
 
 		TEST_METHOD(testSkipUntilStopsAfterThePassedSymbol)
 		{
-			writeTextToFile("skip *@", firstTestFileName);
-			FileParser parser(firstTestFileName);
+			writeTextToFile("skip *@", FIRST_TEST_FILE_NAME);
+			FileParser parser(FIRST_TEST_FILE_NAME);
 
 			parser.skipUntil('*');
 
@@ -360,8 +360,8 @@ namespace FileParserUnitTest
 
 		TEST_METHOD(testSkipUntilWithNoMatchingSymbolSkipsTheWholeFile)
 		{
-			writeTextToFile("the symbol is not here", firstTestFileName);
-			FileParser parser(firstTestFileName);
+			writeTextToFile("the symbol is not here", FIRST_TEST_FILE_NAME);
+			FileParser parser(FIRST_TEST_FILE_NAME);
 
 			parser.skipUntil('@');
 
@@ -370,8 +370,8 @@ namespace FileParserUnitTest
 
 		TEST_METHOD(testSkipSpaces)
 		{
-			writeTextToFile("   @", firstTestFileName);
-			FileParser parser(firstTestFileName);
+			writeTextToFile("   @", FIRST_TEST_FILE_NAME);
+			FileParser parser(FIRST_TEST_FILE_NAME);
 
 			parser.skipSpaces();
 
@@ -380,8 +380,8 @@ namespace FileParserUnitTest
 
 		TEST_METHOD(testSkipSpacesStopsAtEndOfFile)
 		{
-			writeTextToFile("   ", firstTestFileName);
-			FileParser parser(firstTestFileName);
+			writeTextToFile("   ", FIRST_TEST_FILE_NAME);
+			FileParser parser(FIRST_TEST_FILE_NAME);
 
 			parser.skipSpaces();
 
@@ -406,8 +406,8 @@ namespace FileParserUnitTest
 
 		TEST_METHOD(testFileOperationsWhenEndOfFileIsReachedThrowException)
 		{
-			emptyFile(firstTestFileName);
-			FileParser parser(firstTestFileName);
+			emptyFile(FIRST_TEST_FILE_NAME);
+			FileParser parser(FIRST_TEST_FILE_NAME);
 			reachEndOfEmptyFile(parser);
 
 			try
@@ -440,7 +440,7 @@ namespace FileParserUnitTest
 
 	};
 
-	const String FileParserTest::firstTestFileName = "testFileOne.txt";
-	const String FileParserTest::secondTestFileName = "testFileTwo.txt";
-	const String FileParserTest::nonExistentFileName = "noSuchFile";
+	const String FileParserTest::FIRST_TEST_FILE_NAME = "testFileOne.txt";
+	const String FileParserTest::SECOND_TEST_FILE_NAME = "testFileTwo.txt";
+	const String FileParserTest::NON_EXISTENT_FILE_NAME = "noSuchFile";
 }
