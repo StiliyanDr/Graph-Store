@@ -195,7 +195,7 @@ Where:
    If the graph is directed, the edge is from \<vertex i id\> to \<vertex j id\>.
 
 Spaces are ignored in lines for edges, number of vertices and number of edges.  
-In lines for ids and type, however, spaces are not ignored. That is, the whole line is used.
+Lines for ids and the graph type are trimmed, that is, spaces at the beginning and the end of the lines are ignored.
 
 ## Example
 
