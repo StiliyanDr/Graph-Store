@@ -64,8 +64,8 @@ namespace GraphIO
 	{
 		assert(graph == nullptr);
 
-		String id = fileParser.readLine();
-		String type = fileParser.readLine();
+		String id = fileParser.readAndTrimLine();
+		String type = fileParser.readAndTrimLine();
 
 		graph = GraphFactory::instance().createGraph(type, id);
 	}
@@ -80,7 +80,7 @@ namespace GraphIO
 
 		for (unsigned i = 0; i < identifiersCount; ++i)
 		{
-			identifiers.add(fileParser.readLine());
+			identifiers.add(fileParser.readAndTrimLine());
 
 			graph->addVertex(identifiers[i]);
 		}
