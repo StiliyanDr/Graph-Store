@@ -1,13 +1,13 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "../../../Graph Store/Graph Store/File Parser/FileParser.h"
-#include "../../../Graph Store/Graph Store/File Parser/File Parser Exception/FileParserException.h"
-#include "../../../Graph Store/Graph Store/File Parser/Open File Fail Exception/OpenFileFailException.h"
+#include "File Parser/FileParser.h"
+#include "File Parser/File Parser Exception/FileParserException.h"
+#include "File Parser/Open File Fail Exception/OpenFileFailException.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace FileParserUnitTest
-{		
+{
 	TEST_CLASS(FileParserTest)
 	{
 	private:
@@ -21,20 +21,20 @@ namespace FileParserUnitTest
 			writeTextToFile("", fileName);
 		}
 
-		static void writeTextToFile(const String& text, const String& fileName)
+		static void writeTextToFile(const String& text,
+			                        const String& fileName)
 		{
 			writeTextToFile(text.cString(), fileName);
 		}
 
-		static void writeTextToFile(const char* text, const String& fileName)
+		static void writeTextToFile(const char* text,
+			                        const String& fileName)
 		{
 			std::ofstream file(fileName.cString(),
 				               std::ios::out | std::ios::trunc);
 			assert(file.is_open());
 
 			file << text;
-
-			file.close();
 		}
 
 		static void reachEndOfEmptyFile(FileParser& parser)
@@ -87,34 +87,34 @@ namespace FileParserUnitTest
 			writeTextToFile("@", FIRST_TEST_FILE_NAME);
 			FileParser parserToMove(FIRST_TEST_FILE_NAME);
 
-			FileParser parser(std::move(parserToMove));
+			FileParser movedIntoParser(std::move(parserToMove));
 
 			Assert::IsFalse(parserToMove.hasOpenedFile(),
 							L"The moved-from parser should not still be associated with the file!");
-			Assert::IsTrue(parser.hasOpenedFile());
-			Assert::AreEqual('@', parser.peek());
+			Assert::IsTrue(movedIntoParser.hasOpenedFile());
+			Assert::AreEqual('@', movedIntoParser.peek());
 		}
 
 		TEST_METHOD(testMoveCtorWithNoOpenedFile)
 		{
 			FileParser parserToMove;
 
-			FileParser parser(std::move(parserToMove));
+			FileParser movedIntoParser(std::move(parserToMove));
 
 			Assert::IsFalse(parserToMove.hasOpenedFile());
-			Assert::IsFalse(parser.hasOpenedFile(),
+			Assert::IsFalse(movedIntoParser.hasOpenedFile(),
 							L"The moved-into parser should not be associated with a file!");
 		}
 
 		TEST_METHOD(testMoveAssignmentNotOpenedToNotOpened)
 		{
 			FileParser parserToMove;
-			FileParser parser;
+			FileParser movedIntoParser;
 
-			parser = std::move(parserToMove);
+			movedIntoParser = std::move(parserToMove);
 			
 			Assert::IsFalse(parserToMove.hasOpenedFile());
-			Assert::IsFalse(parser.hasOpenedFile(),
+			Assert::IsFalse(movedIntoParser.hasOpenedFile(),
 							L"The moved-into parser should not be associated with a file!");
 		}
 
@@ -134,14 +134,14 @@ namespace FileParserUnitTest
 		{
 			writeTextToFile("@", FIRST_TEST_FILE_NAME);
 			FileParser parserToMove(FIRST_TEST_FILE_NAME);
-			FileParser parser;
+			FileParser movedIntoParser;
 
-			parser = std::move(parserToMove);
+			movedIntoParser = std::move(parserToMove);
 
 			Assert::IsFalse(parserToMove.hasOpenedFile(),
 							L"The moved-from parser should not be associated with a file!");
-			Assert::IsTrue(parser.hasOpenedFile());
-			Assert::AreEqual('@', parser.peek());
+			Assert::IsTrue(movedIntoParser.hasOpenedFile());
+			Assert::AreEqual('@', movedIntoParser.peek());
 		}
 
 		TEST_METHOD(testMoveAssignmentOpenedToOpened)
@@ -149,14 +149,14 @@ namespace FileParserUnitTest
 			emptyFile(FIRST_TEST_FILE_NAME);
 			writeTextToFile("@", SECOND_TEST_FILE_NAME);
 			FileParser parserToMove(SECOND_TEST_FILE_NAME);
-			FileParser parser(FIRST_TEST_FILE_NAME);
+			FileParser movedIntoParser(FIRST_TEST_FILE_NAME);
 
-			parser = std::move(parserToMove);
+			movedIntoParser = std::move(parserToMove);
 
 			Assert::IsFalse(parserToMove.hasOpenedFile(),
 							L"The moved-from parser should not be associated with a file!");
-			Assert::IsTrue(parser.hasOpenedFile());
-			Assert::AreEqual('@', parser.peek());
+			Assert::IsTrue(movedIntoParser.hasOpenedFile());
+			Assert::AreEqual('@', movedIntoParser.peek());
 		}
 
 		TEST_METHOD(testCtorWithExistingFileOpensIt)
@@ -173,10 +173,8 @@ namespace FileParserUnitTest
 				FileParser parser(NON_EXISTENT_FILE_NAME);
 				Assert::Fail(L"Constructor did not throw an exception!");
 			}
-			catch (OpenFileFailException& ex)
+			catch (OpenFileFailException&)
 			{
-				Assert::IsTrue(areEqual("Could not open file for reading, name: " + NON_EXISTENT_FILE_NAME,
-										ex.what()));
 			}
 		}
 
@@ -198,10 +196,8 @@ namespace FileParserUnitTest
 				parser.openFile(NON_EXISTENT_FILE_NAME);
 				Assert::Fail(L"The method did not throw an exception!");
 			}
-			catch (OpenFileFailException& ex)
+			catch (OpenFileFailException&)
 			{
-				Assert::IsTrue(areEqual("Could not open file for reading, name: " + NON_EXISTENT_FILE_NAME,
-										ex.what()));
 			}
 		}
 
@@ -228,7 +224,7 @@ namespace FileParserUnitTest
 
 		TEST_METHOD(testReadLineReturnsACopyOfTheRestOfTheCurrentLine)
 		{
-			char lineInFile[] = "A line in the file";
+			char lineInFile[] = "test";
 			writeTextToFile(lineInFile, FIRST_TEST_FILE_NAME);
 			FileParser parser(FIRST_TEST_FILE_NAME);
 
@@ -247,10 +243,10 @@ namespace FileParserUnitTest
 				parser.readLine();
 				Assert::Fail(L"The method did not throw an exception!");
 			}
-			catch (FileParserException& ex)
+			catch (FileParserException& e)
 			{
 				Assert::IsTrue(areEqual("No more characters left in the file! Error at line 1",
-										ex.what()));
+										e.what()));
 			}
 		}
 
@@ -307,10 +303,10 @@ namespace FileParserUnitTest
 				parser.parseUnsigned();
 				Assert::Fail(L"The method did not throw an exception!");
 			}
-			catch (FileParserException& ex)
+			catch (FileParserException& e)
 			{
 				Assert::IsTrue(areEqual("Invalid number format! Error at line 1",
-										ex.what()));
+										e.what()));
 			}
 		}
 
@@ -341,14 +337,14 @@ namespace FileParserUnitTest
 				parser.parseUnsigned();
 				Assert::Fail(L"The method did not throw an exception!");
 			}
-			catch (FileParserException& ex)
+			catch (FileParserException& e)
 			{
 				Assert::IsTrue(areEqual("End of file already reached!",
-										ex.what()));
+										e.what()));
 			}
 		}
 
-		TEST_METHOD(testSkipUntilStopsAfterThePassedSymbol)
+		TEST_METHOD(testSkipUntilStopsAfterThePassedCharacter)
 		{
 			writeTextToFile("skip *@", FIRST_TEST_FILE_NAME);
 			FileParser parser(FIRST_TEST_FILE_NAME);
@@ -358,9 +354,10 @@ namespace FileParserUnitTest
 			Assert::AreEqual('@', parser.peek());
 		}
 
-		TEST_METHOD(testSkipUntilWithNoMatchingSymbolSkipsTheWholeFile)
+		TEST_METHOD(testSkipUntilWithNoMatchingCharacterSkipsTheWholeFile)
 		{
-			writeTextToFile("the symbol is not here", FIRST_TEST_FILE_NAME);
+			writeTextToFile("the character is not here",
+				            FIRST_TEST_FILE_NAME);
 			FileParser parser(FIRST_TEST_FILE_NAME);
 
 			parser.skipUntil('@');
