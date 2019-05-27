@@ -27,24 +27,25 @@ public:
 		using Pointer = std::conditional_t<isConst, const Item*, Item*>;
 
 	public:
-		LinkedListIterator(const LinkedListIterator<Item, false>& source);
+		LinkedListIterator(const LinkedListIterator<Item, false>& source) noexcept;
 
-		LinkedListIterator<Item, isConst>& operator++();
-		LinkedListIterator<Item, isConst> operator++(int);
+		LinkedListIterator<Item, isConst>& operator++() noexcept;
+		LinkedListIterator<Item, isConst> operator++(int) noexcept;
 		Reference operator*() const;
 		Pointer operator->() const;
-		bool operator!() const;
-		operator bool() const;
+		bool operator!() const noexcept;
+		operator bool() const noexcept;
 
 		template <class Item, bool isConst>
 		friend bool operator==(typename const LinkedList<Item>::LinkedListIterator<Item, isConst>& lhs,
-							   typename const LinkedList<Item>::LinkedListIterator<Item, isConst>& rhs);
+							   typename const LinkedList<Item>::LinkedListIterator<Item, isConst>& rhs) noexcept;
 
 	private:
-		LinkedListIterator(Node<Item>* current, const LinkedList<Item>* owner);
+		LinkedListIterator(Node<Item>* current,
+			               const LinkedList<Item>* owner) noexcept;
 
 		Reference getCurrentItem() const;
-		bool isValid() const;
+		bool isValid() const noexcept;
 
 	private:
 		Node<Item>* current;
@@ -111,7 +112,7 @@ private:
 
 template <class Item, bool isConst>
 bool operator!=(typename const LinkedList<Item>::LinkedListIterator<Item, isConst>& lhs,
-				typename const LinkedList<Item>::LinkedListIterator<Item, isConst>& rhs);
+				typename const LinkedList<Item>::LinkedListIterator<Item, isConst>& rhs) noexcept;
 
 #include "LinkedListIterator.hpp"
 #include "LinkedList.hpp"
