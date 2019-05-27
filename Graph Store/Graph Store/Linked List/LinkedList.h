@@ -89,9 +89,6 @@ public:
 	const T& getLast() const;
 
 private:
-	static void destroyChain(Node<T>* firstNode);
-
-private:
 	void appendChainFrom(LinkedList<T> source);
 	void insertAfter(Node<T>* node, const T& item);
 	void insertBefore(Node<T>* node, const T& item);
@@ -103,6 +100,7 @@ private:
 	void nullifyMembers();
 	void verifyOwnershipOf(const Iterator& iterator) const;
 	void verifyThatListIsNotEmpty() const;
+	void destroyChain();
 
 private:
 	std::size_t size;

@@ -33,7 +33,7 @@ void LinkedList<T>::copyFrom(const LinkedList<T>& source)
 		}
 		catch (std::bad_alloc&)
 		{
-			destroyChain(first);
+			destroyChain();
 			throw;
 		}
 
@@ -94,27 +94,24 @@ LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>& rhs)
 template <class T>
 inline LinkedList<T>::~LinkedList()
 {
-	destroyChain(first);
+	destroyChain();
 }
 
 template <class T>
-void LinkedList<T>::destroyChain(Node<T>* firstNode)
+void LinkedList<T>::destroyChain()
 {
-	Node<T>* nodeToDestroy = firstNode;
-	Node<T>* nextNode;
-
-	while (nodeToDestroy != nullptr)
+	while (first != nullptr)
 	{
-		nextNode = nodeToDestroy->next;
-		delete nodeToDestroy;
-		nodeToDestroy = nextNode;
+		Node<T>* nextNode = first->next;
+		delete first;
+		first = nextNode;
 	}
 }
 
 template <class T>
 void LinkedList<T>::empty()
 {
-	destroyChain(first);
+	destroyChain();
 	nullifyMembers();
 }
 
