@@ -47,13 +47,13 @@ void LinkedList<T>::copyChainFrom(const LinkedList<T>& source)
 	assert(!source.isEmpty());
 	assert(isEmpty());
 
-	first = new Box<T>(source.first->item);
-	const Box<T>* readFrom = source.first->next;
-	Box<T>* writeAfter = first;
+	first = new Node<T>(source.first->item);
+	const Node<T>* readFrom = source.first->next;
+	Node<T>* writeAfter = first;
 
 	while (readFrom)
 	{
-		writeAfter->next = new Box<T>(readFrom->item);
+		writeAfter->next = new Node<T>(readFrom->item);
 		writeAfter = writeAfter->next;
 		readFrom = readFrom->next;
 	}
@@ -98,16 +98,16 @@ inline LinkedList<T>::~LinkedList()
 }
 
 template <class T>
-void LinkedList<T>::destroyChain(Box<T>* firstBox)
+void LinkedList<T>::destroyChain(Node<T>* firstNode)
 {
-	Box<T>* boxToDestroy = firstBox;
-	Box<T>* nextBox;
+	Node<T>* nodeToDestroy = firstNode;
+	Node<T>* nextNode;
 
-	while (boxToDestroy != nullptr)
+	while (nodeToDestroy != nullptr)
 	{
-		nextBox = boxToDestroy->next;
-		delete boxToDestroy;
-		boxToDestroy = nextBox;
+		nextNode = nodeToDestroy->next;
+		delete nodeToDestroy;
+		nodeToDestroy = nextNode;
 	}
 }
 
@@ -172,13 +172,13 @@ void LinkedList<T>::insertAfter(const Iterator& iterator, const T& item)
 }
 
 template <class T>
-void LinkedList<T>::insertAfter(Box<T>* box, const T& item)
+void LinkedList<T>::insertAfter(Node<T>* node, const T& item)
 {
-	assert(box != nullptr);
+	assert(node != nullptr);
 
-	if (box->next != nullptr)
+	if (node->next != nullptr)
 	{
-		box->next = new Box<T>(item, box->next);
+		node->next = new Node<T>(item, node->next);
 		++size;
 	}
 	else
@@ -190,18 +190,18 @@ void LinkedList<T>::insertAfter(Box<T>* box, const T& item)
 template <class T>
 void LinkedList<T>::addBack(const T &item)
 {
-	Box<T>* newLastBox = new Box<T>(item);
+	Node<T>* newLastNode = new Node<T>(item);
 
 	if (last != nullptr)
 	{
-		last->next = newLastBox;
+		last->next = newLastNode;
 	}
 	else
 	{
-		first = newLastBox;
+		first = newLastNode;
 	}
 
-	last = newLastBox;
+	last = newLastNode;
 
 	++size;
 }
@@ -222,13 +222,13 @@ void LinkedList<T>::insertBefore(const Iterator& iterator, const T& item)
 }
 
 template <class T>
-void LinkedList<T>::insertBefore(Box<T>* box, const T& item)
+void LinkedList<T>::insertBefore(Node<T>* node, const T& item)
 {
-	Box<T>* previousBox = findBoxBefore(box);
+	Node<T>* previousNode = findNodeBefore(node);
 
-	if (previousBox != nullptr)
+	if (previousNode != nullptr)
 	{
-		insertAfter(previousBox, item);
+		insertAfter(previousNode, item);
 	}
 	else
 	{
@@ -237,19 +237,19 @@ void LinkedList<T>::insertBefore(Box<T>* box, const T& item)
 }
 
 template <class T>
-typename LinkedList<T>::Box<T>*
-LinkedList<T>::findBoxBefore(const Box<T>* box) const
+typename LinkedList<T>::Node<T>*
+LinkedList<T>::findNodeBefore(const Node<T>* node) const
 {
-	assert(box != nullptr);
+	assert(node != nullptr);
 
-	if (box == first)
+	if (node == first)
 	{
 		return nullptr;
 	}
 
-	Box<T>* current = first;
+	Node<T>* current = first;
 
-	while (current != nullptr && current->next != box)
+	while (current != nullptr && current->next != node)
 	{
 		current = current->next;
 	}
@@ -260,14 +260,14 @@ LinkedList<T>::findBoxBefore(const Box<T>* box) const
 template <class T>
 void LinkedList<T>::addFront(const T &item)
 {
-	Box<T>* newFirstBox = new Box<T>(item, first);
+	Node<T>* newFirstNode = new Node<T>(item, first);
 
 	if (first == nullptr)
 	{
-		last = newFirstBox;
+		last = newFirstNode;
 	}
 
-	first = newFirstBox;
+	first = newFirstNode;
 
 	++size;
 }
@@ -285,25 +285,25 @@ void LinkedList<T>::removeAt(Iterator& iterator)
 }
 
 template <class T>
-void LinkedList<T>::removeAt(Box<T>* box)
+void LinkedList<T>::removeAt(Node<T>* node)
 {
-	Box<T>* previousBox = findBoxBefore(box);
+	Node<T>* previousNode = findNodeBefore(node);
 
-	if (previousBox != nullptr)
+	if (previousNode != nullptr)
 	{
-		previousBox->next = box->next;
+		previousNode->next = node->next;
 	}
 	else
 	{
-		first = box->next;
+		first = node->next;
 	}
 
-	if (box->next == nullptr)
+	if (node->next == nullptr)
 	{
-		last = previousBox;
+		last = previousNode;
 	}
 
-	delete box;
+	delete node;
 	--size;
 }
 
@@ -325,11 +325,11 @@ void LinkedList<T>::removeBefore(const Iterator& iterator)
 
 	if (iterator)
 	{
-		Box<T>* previousBox = findBoxBefore(iterator.current);
+		Node<T>* previousNode = findNodeBefore(iterator.current);
 
-		if (previousBox != nullptr)
+		if (previousNode != nullptr)
 		{
-			removeAt(previousBox);
+			removeAt(previousNode);
 		}
 	}
 }

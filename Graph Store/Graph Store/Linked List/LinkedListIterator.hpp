@@ -2,7 +2,7 @@
 
 template <class T>
 template <class Item, bool isConst>
-inline LinkedList<T>::LinkedListIterator<Item, isConst>::LinkedListIterator(Box<Item>* current,
+inline LinkedList<T>::LinkedListIterator<Item, isConst>::LinkedListIterator(Node<Item>* current,
 																			const LinkedList<Item>* owner) :
 	current(current), owner(owner)
 {

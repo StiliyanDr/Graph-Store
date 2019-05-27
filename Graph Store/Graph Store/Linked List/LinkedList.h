@@ -7,12 +7,12 @@ template <class T>
 class LinkedList
 {
 	template <class T>
-	struct Box
+	struct Node
 	{
-		Box(const T& item, Box<T>* next = nullptr) :
+		Node(const T& item, Node<T>* next = nullptr) :
 			item(item), next(next) { }
 
-		Box<T>* next;
+		Node<T>* next;
 		T item;
 	};
 
@@ -41,13 +41,13 @@ public:
 							   typename const LinkedList<Item>::LinkedListIterator<Item, isConst>& rhs);
 
 	private:
-		LinkedListIterator(Box<Item>* current, const LinkedList<Item>* owner);
+		LinkedListIterator(Node<Item>* current, const LinkedList<Item>* owner);
 
 		Reference getCurrentItem() const;
 		bool isValid() const;
 
 	private:
-		Box<Item>* current;
+		Node<Item>* current;
 		const LinkedList<Item>* owner;
 	};
 
@@ -88,14 +88,14 @@ public:
 	const T& getLast() const;
 
 private:
-	static void destroyChain(Box<T>* firstBox);
+	static void destroyChain(Node<T>* firstNode);
 
 private:
 	void appendChainFrom(LinkedList<T> source);
-	void insertAfter(Box<T>* box, const T& item);
-	void insertBefore(Box<T>* box, const T& item);
-	void removeAt(Box<T>* box);
-	Box<T>* findBoxBefore(const Box<T>* box) const;
+	void insertAfter(Node<T>* node, const T& item);
+	void insertBefore(Node<T>* node, const T& item);
+	void removeAt(Node<T>* node);
+	Node<T>* findNodeBefore(const Node<T>* node) const;
 	void copyFrom(const LinkedList<T>& source);
 	void copyChainFrom(const LinkedList<T>& source);
 	void swapContentsWith(LinkedList<T> list);
@@ -105,8 +105,8 @@ private:
 
 private:
 	size_t size;
-	Box<T>* first;
-	Box<T>* last;
+	Node<T>* first;
+	Node<T>* last;
 };
 
 template <class Item, bool isConst>
