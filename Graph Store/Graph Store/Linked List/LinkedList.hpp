@@ -378,7 +378,7 @@ inline bool LinkedList<T>::isEmpty() const
 }
 
 template <class T>
-inline size_t LinkedList<T>::getSize() const
+inline std::size_t LinkedList<T>::getSize() const
 {
 	return size;
 }

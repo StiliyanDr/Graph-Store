@@ -23,8 +23,8 @@ public:
 		friend class LinkedList<Item>;
 	
 	public:
-		typedef typename std::conditional<isConst, const Item&, Item&>::type Reference;
-		typedef typename std::conditional<isConst, const Item*, Item*>::type Pointer;
+		using Reference = std::conditional_t<isConst, const Item&, Item&>;
+		using Pointer = std::conditional_t<isConst, const Item*, Item*>;
 
 	public:
 		LinkedListIterator(const LinkedListIterator<Item, false>& source);
@@ -51,8 +51,8 @@ public:
 		const LinkedList<Item>* owner;
 	};
 
-	typedef LinkedListIterator<T, false> Iterator;
-	typedef LinkedListIterator<T, true> ConstIterator;
+	using Iterator = LinkedListIterator<T, false>;
+	using ConstIterator = LinkedListIterator<T, true>;
 
 public:
 	LinkedList();
@@ -82,7 +82,7 @@ public:
 
 	void empty();
 	bool isEmpty() const;
-	size_t getSize() const;
+	std::size_t getSize() const;
 
 	const T& getFirst() const;
 	const T& getLast() const;
@@ -104,7 +104,7 @@ private:
 	void verifyThatListIsNotEmpty() const;
 
 private:
-	size_t size;
+	std::size_t size;
 	Node<T>* first;
 	Node<T>* last;
 };
