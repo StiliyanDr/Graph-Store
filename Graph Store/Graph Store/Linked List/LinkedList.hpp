@@ -116,41 +116,26 @@ void LinkedList<T>::empty()
 }
 
 template <class T>
-inline void LinkedList<T>::appendList(const LinkedList<T>& list)
+void LinkedList<T>::appendList(LinkedList<T> list) noexcept
 {
-	appendChainFrom(list);
-}
-
-template <class T>
-void LinkedList<T>::appendChainFrom(LinkedList<T> source)
-{
-	if (source.isEmpty())
+	if (list.isEmpty())
 	{
 		return;
 	}
 
 	if (!this->isEmpty())
 	{
-		this->last->next = source.first;
+		this->last->next = list.first;
 	}
 	else
 	{
-		this->first = source.first;
+		this->first = list.first;
 	}
 
-	this->last = source.last;
-	this->size += source.size;
+	this->last = list.last;
+	this->size += list.size;
 
-	source.nullifyMembers();
-}
-
-template <class T>
-void LinkedList<T>::appendList(LinkedList<T>&& list)
-{
-	if (this != &list)
-	{
-		appendChainFrom(std::move(list));
-	}
+	list.nullifyMembers();
 }
 
 template <class T>

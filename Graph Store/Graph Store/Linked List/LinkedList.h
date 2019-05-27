@@ -63,8 +63,7 @@ public:
 	LinkedList<T>& operator=(const LinkedList<T>& rhs);
 	~LinkedList();
 
-	void appendList(const LinkedList<T>& list);
-	void appendList(LinkedList<T>&& list);
+	void appendList(LinkedList<T> list) noexcept;
 
 	void insertAfter(const Iterator& iterator, const T& item);
 	void insertBefore(const Iterator& iterator, const T& item);
@@ -89,7 +88,6 @@ public:
 	const T& getLast() const;
 
 private:
-	void appendChainFrom(LinkedList<T> source);
 	void insertAfter(Node<T>* node, const T& item);
 	void insertBefore(Node<T>* node, const T& item);
 	void removeAt(Node<T>* node);
