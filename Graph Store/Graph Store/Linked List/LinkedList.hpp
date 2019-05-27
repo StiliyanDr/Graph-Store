@@ -235,7 +235,7 @@ void LinkedList<T>::insertBefore(Node<T>* node, const T& item)
 
 template <class T>
 typename LinkedList<T>::Node<T>*
-LinkedList<T>::findNodeBefore(const Node<T>* node) const
+LinkedList<T>::findNodeBefore(const Node<T>* node)
 {
 	assert(node != nullptr);
 

@@ -93,7 +93,7 @@ private:
 	void insertAfter(Node<T>* node, const T& item);
 	void insertBefore(Node<T>* node, const T& item);
 	void removeAt(Node<T>* node);
-	Node<T>* findNodeBefore(const Node<T>* node) const;
+	Node<T>* findNodeBefore(const Node<T>* node);
 	void copyFrom(const LinkedList<T>& source);
 	void copyChainFrom(const LinkedList<T>& source);
 	void swapContentsWith(LinkedList<T> list);
