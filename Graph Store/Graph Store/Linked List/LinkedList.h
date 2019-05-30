@@ -56,10 +56,10 @@ public:
 	using ConstIterator = LinkedListIterator<T, true>;
 
 public:
-	LinkedList();
-	LinkedList(LinkedList<T>&& source);
+	LinkedList() noexcept;
+	LinkedList(LinkedList<T>&& source) noexcept;
 	LinkedList(const LinkedList<T>& source);
-	LinkedList<T>& operator=(LinkedList<T>&& rhs);
+	LinkedList<T>& operator=(LinkedList<T>&& rhs) noexcept;
 	LinkedList<T>& operator=(const LinkedList<T>& rhs);
 	~LinkedList();
 
@@ -76,13 +76,13 @@ public:
 	void removeFirst();
 	void removeLast();
 
-	ConstIterator getConstIterator() const;
-	Iterator getIteratorToFirst();
-	Iterator getIteratorToLast();
+	ConstIterator getConstIterator() const noexcept;
+	Iterator getIteratorToFirst() noexcept;
+	Iterator getIteratorToLast() noexcept;
 
-	void empty();
-	bool isEmpty() const;
-	std::size_t getSize() const;
+	void empty() noexcept;
+	bool isEmpty() const noexcept;
+	std::size_t getSize() const noexcept;
 
 	const T& getFirst() const;
 	const T& getLast() const;

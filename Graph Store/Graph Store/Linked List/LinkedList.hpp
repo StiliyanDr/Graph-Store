@@ -2,13 +2,13 @@
 #include <utility>
 
 template <class T>
-inline LinkedList<T>::LinkedList()
+inline LinkedList<T>::LinkedList() noexcept
 {
 	nullifyMembers();
 }
 
 template <class T>
-LinkedList<T>::LinkedList(LinkedList<T>&& source) :
+LinkedList<T>::LinkedList(LinkedList<T>&& source) noexcept :
 	first(source.first), last(source.last), size(source.size)
 {
 	source.nullifyMembers();
@@ -62,7 +62,8 @@ void LinkedList<T>::copyChainFrom(const LinkedList<T>& source)
 }
 
 template <class T>
-LinkedList<T>& LinkedList<T>::operator=(LinkedList<T>&& rhs)
+LinkedList<T>&
+LinkedList<T>::operator=(LinkedList<T>&& rhs) noexcept
 {
 	if (this != &rhs)
 	{
@@ -109,7 +110,7 @@ void LinkedList<T>::destroyChain()
 }
 
 template <class T>
-void LinkedList<T>::empty()
+void LinkedList<T>::empty() noexcept
 {
 	destroyChain();
 	nullifyMembers();
@@ -334,33 +335,33 @@ void LinkedList<T>::removeLast()
 
 template <class T>
 inline typename LinkedList<T>::ConstIterator
-LinkedList<T>::getConstIterator() const
+LinkedList<T>::getConstIterator() const noexcept
 {
 	return ConstIterator(first, this);
 }
 
 template <class T>
 inline typename LinkedList<T>::Iterator
-LinkedList<T>::getIteratorToFirst()
+LinkedList<T>::getIteratorToFirst() noexcept
 {
 	return Iterator(first, this);
 }
 
 template <class T>
 inline typename LinkedList<T>::Iterator
-LinkedList<T>::getIteratorToLast()
+LinkedList<T>::getIteratorToLast() noexcept
 {
 	return Iterator(last, this);
 }
 
 template <class T>
-inline bool LinkedList<T>::isEmpty() const
+inline bool LinkedList<T>::isEmpty() const noexcept
 {
 	return size == 0;
 }
 
 template <class T>
-inline std::size_t LinkedList<T>::getSize() const
+inline std::size_t LinkedList<T>::getSize() const noexcept
 {
 	return size;
 }
