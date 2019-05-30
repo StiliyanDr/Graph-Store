@@ -297,7 +297,16 @@ namespace LinkedListUnitTest
 			Assert::IsTrue(listToAppend.isEmpty());
 			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 20));
 		}
-		
+
+		TEST_METHOD(testSelfMoveAppend)
+		{
+			List list = createListFromRange(1, 10);
+
+			list.appendList(std::move(list));
+
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 10));
+		}
+
 		TEST_METHOD(testInsertAfterInvalidIteratorInsertsBack)
 		{
 			List list;
