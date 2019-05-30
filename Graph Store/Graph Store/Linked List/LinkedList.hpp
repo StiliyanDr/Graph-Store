@@ -9,13 +9,16 @@ inline LinkedList<T>::LinkedList() noexcept
 
 template <class T>
 LinkedList<T>::LinkedList(LinkedList<T>&& source) noexcept :
-	first(source.first), last(source.last), size(source.size)
+	first(source.first),
+	last(source.last),
+	size(source.size)
 {
 	source.nullifyMembers();
 }
 
 template <class T>
-inline LinkedList<T>::LinkedList(const LinkedList<T>& source)
+LinkedList<T>::LinkedList(const LinkedList<T>& source) :
+	LinkedList<T>()
 {
 	copyFrom(source);
 }
@@ -23,15 +26,13 @@ inline LinkedList<T>::LinkedList(const LinkedList<T>& source)
 template <class T>
 void LinkedList<T>::copyFrom(const LinkedList<T>& source)
 {
-	nullifyMembers();
-
 	if (!source.isEmpty())
 	{
 		try
 		{
 			copyChainFrom(source);
 		}
-		catch (std::bad_alloc&)
+		catch (...)
 		{
 			destroyChain();
 			throw;
@@ -51,7 +52,7 @@ void LinkedList<T>::copyChainFrom(const LinkedList<T>& source)
 	const Node<T>* readFrom = source.first->next;
 	Node<T>* writeAfter = first;
 
-	while (readFrom)
+	while (readFrom != nullptr)
 	{
 		writeAfter->next = new Node<T>(readFrom->item);
 		writeAfter = writeAfter->next;
