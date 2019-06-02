@@ -83,7 +83,8 @@ void LinkedList<T>::swapContentsWith(LinkedList<T> list)
 }
 
 template <class T>
-LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>& rhs)
+LinkedList<T>&
+LinkedList<T>::operator=(const LinkedList<T>& rhs)
 {
 	if (this != &rhs)
 	{
@@ -141,7 +142,8 @@ void LinkedList<T>::appendList(LinkedList<T> list) noexcept
 }
 
 template <class T>
-void LinkedList<T>::insertAfter(const Iterator& iterator, const T& item)
+void LinkedList<T>::insertAfter(const Iterator& iterator,
+	                            const T& item)
 {
 	verifyOwnershipOf(iterator);
 
@@ -156,7 +158,8 @@ void LinkedList<T>::insertAfter(const Iterator& iterator, const T& item)
 }
 
 template <class T>
-void LinkedList<T>::insertAfter(Node<T>* node, const T& item)
+void LinkedList<T>::insertAfter(Node<T>* node,
+	                            const T& item)
 {
 	assert(node != nullptr);
 
@@ -191,7 +194,8 @@ void LinkedList<T>::addBack(const T &item)
 }
 
 template <class T>
-void LinkedList<T>::insertBefore(const Iterator& iterator, const T& item)
+void LinkedList<T>::insertBefore(const Iterator& iterator,
+	                             const T& item)
 {
 	verifyOwnershipOf(iterator);
 
@@ -206,7 +210,8 @@ void LinkedList<T>::insertBefore(const Iterator& iterator, const T& item)
 }
 
 template <class T>
-void LinkedList<T>::insertBefore(Node<T>* node, const T& item)
+void LinkedList<T>::insertBefore(Node<T>* node,
+	                             const T& item)
 {
 	Node<T>* previousNode = findNodeBefore(node);
 
@@ -309,7 +314,8 @@ void LinkedList<T>::removeBefore(const Iterator& iterator)
 
 	if (iterator)
 	{
-		Node<T>* previousNode = findNodeBefore(iterator.current);
+		Node<T>* previousNode =
+			findNodeBefore(iterator.current);
 
 		if (previousNode != nullptr)
 		{
@@ -356,13 +362,15 @@ LinkedList<T>::getIteratorToLast() noexcept
 }
 
 template <class T>
-inline bool LinkedList<T>::isEmpty() const noexcept
+inline bool
+LinkedList<T>::isEmpty() const noexcept
 {
 	return size == 0;
 }
 
 template <class T>
-inline std::size_t LinkedList<T>::getSize() const noexcept
+inline std::size_t
+LinkedList<T>::getSize() const noexcept
 {
 	return size;
 }
@@ -391,7 +399,8 @@ inline void LinkedList<T>::nullifyMembers()
 }
 
 template <class T>
-inline void LinkedList<T>::verifyOwnershipOf(const Iterator& iterator) const
+inline void
+LinkedList<T>::verifyOwnershipOf(const Iterator& iterator) const
 {
 	if (iterator.owner != this)
 	{
