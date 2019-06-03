@@ -15,6 +15,9 @@ namespace LinkedListUnitTest
 		using Iterator = LinkedList<unsigned>::Iterator;
 		using ConstIterator = LinkedList<unsigned>::ConstIterator;
 
+		static const unsigned RANGE_START = 1;
+		static const unsigned RANGE_END = 5;
+
 		static List createListFromRange(unsigned start,
 			                            unsigned end)
 		{
@@ -97,17 +100,22 @@ namespace LinkedListUnitTest
 		TEST_METHOD(testMoveConstructorFromNonEmptyList)
 		{
 			List listToMove;
-			fillListWithNumbersFromTo(listToMove, 1, 10);
-	
+			fillListWithNumbersFromTo(listToMove,
+				                      RANGE_START,
+				                      RANGE_END);
+
 			List list(std::move(listToMove));
 
 			Assert::IsTrue(listToMove.isEmpty());
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 10));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END));
 		}
 
 		TEST_METHOD(testCopyConstructorFromEmptyList)
 		{
 			List emptyList;
+
 			List copy(emptyList);
 
 			Assert::IsTrue(copy.isEmpty());
@@ -115,7 +123,8 @@ namespace LinkedListUnitTest
 
 		TEST_METHOD(testCopyConstructorFromNonEmptyList)
 		{
-			List list = createListFromRange(1, 10);
+			List list =
+				createListFromRange(RANGE_START, RANGE_END);
 			
 			List copy(list);
 
@@ -136,7 +145,8 @@ namespace LinkedListUnitTest
 		TEST_METHOD(testMoveAssignmentEmptyToNonEmptyList)
 		{
 			List listToMove;
-			List list = createListFromRange(1, 10);
+			List list =
+				createListFromRange(RANGE_START, RANGE_END);
 			
 			list = std::move(listToMove);
 			
@@ -146,24 +156,32 @@ namespace LinkedListUnitTest
 
 		TEST_METHOD(testMoveAssignmentNonEmptyToEmptyList)
 		{
-			List listToMove = createListFromRange(1, 10);
+			List listToMove =
+				createListFromRange(RANGE_START, RANGE_END);
 			List list;
 
 			list = std::move(listToMove);
 
 			Assert::IsTrue(listToMove.isEmpty());
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 10));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END));
 		}
 
 		TEST_METHOD(testMoveAssignmentNonEmptyToNonEmptyList)
 		{
-			List listToMove = createListFromRange(1, 10);
-			List list = createListFromRange(11, 20);
+			List listToMove =
+				createListFromRange(RANGE_START, RANGE_END);
+			List list =
+				createListFromRange(RANGE_START + 1,
+				                    RANGE_END + 1);
 
 			list = std::move(listToMove);
 
 			Assert::IsTrue(listToMove.isEmpty());
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 10));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END));
 		}
 
 		TEST_METHOD(testCopyAssignmentEmptyToEmptyList)
@@ -179,7 +197,8 @@ namespace LinkedListUnitTest
 		TEST_METHOD(testCopyAssignmentEmptyToNonEmptyList)
 		{
 			const List emptyList;
-			List list = createListFromRange(1, 10);
+			List list =
+				createListFromRange(RANGE_START, RANGE_END);
 
 			list = emptyList;
 
@@ -188,7 +207,8 @@ namespace LinkedListUnitTest
 
 		TEST_METHOD(testCopyAssignmentNonEmptyToEmptyList)
 		{
-			List listToCopy = createListFromRange(1, 10);
+			List listToCopy =
+				createListFromRange(RANGE_START, RANGE_END);
 			List list;
 
 			list = listToCopy;
@@ -198,8 +218,11 @@ namespace LinkedListUnitTest
 
 		TEST_METHOD(testCopyAssignmentNonEmptyToNonEmptyList)
 		{
-			List listToCopy = createListFromRange(1, 10);
-			List list = createListFromRange(20, 30);
+			List listToCopy =
+				createListFromRange(RANGE_START, RANGE_END);
+			List list =
+				createListFromRange(RANGE_START + 1,
+					                RANGE_END + 1);
 
 			list = listToCopy;
 
@@ -219,16 +242,20 @@ namespace LinkedListUnitTest
 		TEST_METHOD(testCopyAppendEmptyToNonEmptyList)
 		{
 			List listToAppend;
-			List list = createListFromRange(1, 10);
+			List list =
+				createListFromRange(RANGE_START, RANGE_END);
 
 			list.appendList(listToAppend);
 
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 10));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END));
 		}
 
 		TEST_METHOD(testCopyAppendNonEmptyToEmptyList)
 		{
-			List listToAppend = createListFromRange(1, 10);
+			List listToAppend =
+				createListFromRange(RANGE_START, RANGE_END);
 			List list;
 
 			list.appendList(listToAppend);
@@ -238,12 +265,18 @@ namespace LinkedListUnitTest
 
 		TEST_METHOD(testCopyAppendNonEmptyToNonEmptyList)
 		{
-			List listToAppend = createListFromRange(11, 20);
-			List list = createListFromRange(1, 10);
+			List list =
+				createListFromRange(RANGE_START, RANGE_END);
+			unsigned SUFFIX_RANGE_SIZE = 5;
+			List listToAppend =
+				createListFromRange(RANGE_END + 1,
+					                RANGE_END + SUFFIX_RANGE_SIZE);
 
 			list.appendList(listToAppend);
 
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 20));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END + SUFFIX_RANGE_SIZE));
 		}
 
 		TEST_METHOD(testMoveAppendEmptyToEmptyList)
@@ -260,43 +293,58 @@ namespace LinkedListUnitTest
 		TEST_METHOD(testMoveAppendEmptyToNonEmptyList)
 		{
 			List listToAppend;
-			List list = createListFromRange(1, 10);
+			List list =
+				createListFromRange(RANGE_START, RANGE_END);
 
 			list.appendList(std::move(listToAppend));
 
 			Assert::IsTrue(listToAppend.isEmpty());
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 10));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END));
 		}
 
 		TEST_METHOD(testMoveAppendNonEmptyToEmptyList)
 		{
-			List listToAppend = createListFromRange(1, 10);
+			List listToAppend =
+				createListFromRange(RANGE_START, RANGE_END);
 			List list;
 
 			list.appendList(std::move(listToAppend));
 
 			Assert::IsTrue(listToAppend.isEmpty());
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 10));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END));
 		}
 
 		TEST_METHOD(testMoveAppendNonEmptyToNonEmptyList)
 		{
-			List listToAppend = createListFromRange(11, 20);
-			List list = createListFromRange(1, 10);
+			List list =
+				createListFromRange(RANGE_START, RANGE_END);
+			unsigned SUFFIX_RANGE_SIZE = 5;
+			List listToAppend =
+				createListFromRange(RANGE_END + 1,
+					                RANGE_END + SUFFIX_RANGE_SIZE);
 
 			list.appendList(std::move(listToAppend));
 
 			Assert::IsTrue(listToAppend.isEmpty());
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 20));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END + SUFFIX_RANGE_SIZE));
 		}
 
-		TEST_METHOD(testSelfMoveAppend)
+		TEST_METHOD(testSelfMoveAppendDoesNotChangeTheList)
 		{
-			List list = createListFromRange(1, 10);
+			List list =
+				createListFromRange(RANGE_START, RANGE_END);
 
 			list.appendList(std::move(list));
 
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 10));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END));
 		}
 
 		TEST_METHOD(testInsertAfterInvalidIteratorInsertsBack)
