@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "../../../Graph Store/Graph Store/Linked List/LinkedList.h"
+#include "Linked List/LinkedList.h"
+#include "Iterator/Iterator.h"
 #include <utility>
 #include <assert.h>
-#include "../../../Graph Store/Graph Store/Iterator/Iterator.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
