@@ -3,6 +3,7 @@
 #include "../../../Graph Store/Graph Store/Linked List/LinkedList.h"
 #include <utility>
 #include <assert.h>
+#include "../../../Graph Store/Graph Store/Iterator/Iterator.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -10,21 +11,12 @@ namespace LinkedListUnitTest
 {		
 	TEST_CLASS(LinkedListTest)
 	{
-		typedef LinkedList<unsigned> List;
-		typedef LinkedList<unsigned>::Iterator Iterator;
-		typedef LinkedList<unsigned>::ConstIterator ConstIterator;
+		using List = LinkedList<unsigned>;
+		using Iterator = LinkedList<unsigned>::Iterator;
+		using ConstIterator = LinkedList<unsigned>::ConstIterator;
 
-	public:
-
-		void fillListWithNumbersFromTo(List& list, unsigned from, unsigned to)
-		{
-			for (unsigned number = from; number <= to; ++number)
-			{
-				list.addBack(number);
-			}
-		}
-
-		List createListFromRange(unsigned start, unsigned end)
+		static List createListFromRange(unsigned start,
+			                            unsigned end)
 		{
 			List list;
 			fillListWithNumbersFromTo(list, start, end);
@@ -32,59 +24,59 @@ namespace LinkedListUnitTest
 			return list;
 		}
 
-		bool areEqual(const List& expected, const List& actual)
+		static void fillListWithNumbersFromTo(List& list,
+			                                  unsigned from,
+			                                  unsigned to)
 		{
-			return listsHaveSameSize(expected, actual) && listsHaveSameElements(expected, actual);
-		}
-
-		bool listsHaveSameElements(const List& lhs, const List& rhs)
-		{
-			assert(listsHaveSameSize(lhs, rhs));
-
-			ConstIterator lhsIterator = lhs.getConstIterator();
-			ConstIterator rhsIterator = rhs.getConstIterator();
-
-			while (lhsIterator)
+			for (unsigned i = from; i <= to; ++i)
 			{
-				if (*lhsIterator != *rhsIterator)
-				{
-					return false;
-				}
-
-				++lhsIterator;
-				++rhsIterator;
+				list.addBack(i);
 			}
-
-			return true;
 		}
 
-		bool listsHaveSameSize(const List& lhs, const List& rhs)
-		{
-			return lhs.getSize() == rhs.getSize();
-		}
-
-		bool listConsistsOfNumbersInRange(const List& list, unsigned start, unsigned end)
+		static bool listConsistsOfNumbersInRange(const List& list,
+			                                     unsigned start,
+			                                     unsigned end)
 		{
 			if (end - start + 1 != list.getSize())
 			{
 				return false;
 			}
 
-			ConstIterator iterator = list.getConstIterator();
+			List range = createListFromRange(start, end);
 
-			for (unsigned number = start; number <= end; ++number)
-			{
-				if (number != *iterator)
-				{
-					return false;
-				}
-
-				++iterator;
-			}
-
-			return true;
+			return areEqual(range, list);
 		}
 
+		static bool areEqual(const List& expected, const List& actual)
+		{
+			return listsHaveSameSize(expected, actual)
+				   && listsHaveSameElements(expected, actual);
+		}
+
+		static bool listsHaveSameSize(const List& lhs, const List& rhs)
+		{
+			return lhs.getSize() == rhs.getSize();
+		}
+
+		static bool listsHaveSameElements(const List& lhs,
+			                              const List& rhs)
+		{
+			assert(listsHaveSameSize(lhs, rhs));
+
+			ConstIterator lhsIterator = lhs.getConstIterator();
+			ConstIterator rhsIterator = rhs.getConstIterator();
+
+			auto matchesCorrespondingElement =
+				[&rhsIterator](auto lhsElement)
+			{
+				return lhsElement == *(rhsIterator++);
+			};
+
+			return allOf(lhsIterator, matchesCorrespondingElement);
+		}
+
+	public:
 		TEST_METHOD(testDefaultConstructorCreatesAnEmptyList)
 		{
 			List list;
