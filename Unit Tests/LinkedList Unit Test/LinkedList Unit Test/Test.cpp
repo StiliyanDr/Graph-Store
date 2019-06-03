@@ -350,63 +350,73 @@ namespace LinkedListUnitTest
 		TEST_METHOD(testInsertAfterInvalidIteratorInsertsBack)
 		{
 			List list;
-			Iterator iterator = list.getIteratorToFirst();
-			list = createListFromRange(1, 4);
+			Iterator invalidIterator =
+				list.getIteratorToFirst();
+			list = createListFromRange(RANGE_START, RANGE_END);
 			
-			list.insertAfter(iterator, 5);
+			list.insertAfter(invalidIterator, RANGE_END + 1);
 
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 5));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END + 1));
 		}
 
 		TEST_METHOD(testInsertAfterLastItem)
 		{
-			List list = createListFromRange(1, 4);
-			Iterator iteratorToLast = list.getIteratorToLast();
+			List list =
+				createListFromRange(RANGE_START, RANGE_END);
 
-			list.insertAfter(iteratorToLast, 5);
+			list.insertAfter(list.getIteratorToLast(),
+				             RANGE_END + 1);
 
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 5));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END + 1));
 		}
 
 		TEST_METHOD(testInsertAfterMiddleItem)
 		{
-			List list = createListFromRange(1, 1);
-			list.addBack(3);
+			List list = createListFromRange(1, 2);
+			list.addBack(4);
 			Iterator iterator = list.getIteratorToFirst();
 
-			list.insertAfter(iterator, 2);
+			list.insertAfter(++iterator, 3);
 
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 3));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 4));
 		}
 
 		TEST_METHOD(testInsertBeforeInvalidIteratorInsertsAtFront)
 		{
 			List list;
 			Iterator invalidIterator = list.getIteratorToFirst();
-			list = createListFromRange(2, 5);
+			list = createListFromRange(RANGE_START + 1, RANGE_END);
 
-			list.insertBefore(invalidIterator, 1);
+			list.insertBefore(invalidIterator, RANGE_START);
 
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 5));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END));
 		}
 
 		TEST_METHOD(testInsertBeforeFirstInList)
 		{
-			List list = createListFromRange(2, 5);
-			Iterator iteratorToFirst = list.getIteratorToFirst();
+			List list =
+				createListFromRange(RANGE_START + 1, RANGE_END);
 
-			list.insertBefore(iteratorToFirst, 1);
+			list.insertBefore(list.getIteratorToFirst(),
+				              RANGE_START);
 
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 5));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END));
 		}
 
 		TEST_METHOD(testInsertBeforeMiddleItem)
 		{
 			List list = createListFromRange(1, 1);
 			list.addBack(3);
-			Iterator iterator = list.getIteratorToLast();
 
-			list.insertBefore(iterator, 2);
+			list.insertBefore(list.getIteratorToLast(), 2);
 
 			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 3));
 		}
@@ -422,52 +432,65 @@ namespace LinkedListUnitTest
 
 		TEST_METHOD(testAddFrontInNonEmptyList)
 		{
-			List list = createListFromRange(2, 5);
+			List list =
+				createListFromRange(RANGE_START + 1, RANGE_END);
 
-			list.addFront(1);
+			list.addFront(RANGE_START);
 
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 5));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END));
 		}
 
 		TEST_METHOD(testAddBack)
 		{
 			List list;
 
-			for (unsigned number = 1; number <= 5; ++number)
+			for (unsigned i = RANGE_START; i <= RANGE_END; ++i)
 			{
-				list.addBack(number);
+				list.addBack(i);
 			}
 
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 5));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END));
 		}
 
 		TEST_METHOD(testRemoveAtInvalidIteratorDoesNothing)
 		{
 			List list;
 			Iterator invalidIterator = list.getIteratorToFirst();
-			list = createListFromRange(1, 10);
+			list = createListFromRange(RANGE_START, RANGE_END);
 
 			list.removeAt(invalidIterator);
 
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 10));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END));
 		}
 
 		TEST_METHOD(testRemoveAtFrontOfList)
 		{
-			List list = createListFromRange(1, 5);
+			List list =
+				createListFromRange(RANGE_START, RANGE_END);
 
 			list.removeAt(list.getIteratorToFirst());
 
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 2, 5));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START + 1,
+				                                        RANGE_END));
 		}
 
 		TEST_METHOD(testRemoveAtBackOfList)
 		{
-			List list = createListFromRange(1, 5);
+			List list =
+				createListFromRange(RANGE_START, RANGE_END + 1);
 
 			list.removeAt(list.getIteratorToLast());
 
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 4));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END));
 		}
 
 		TEST_METHOD(testRemoveAtMiddleOfList)
@@ -475,9 +498,8 @@ namespace LinkedListUnitTest
 			List list = createListFromRange(1, 2);
 			list.insertAfter(list.getIteratorToFirst(), 100);
 			Iterator iterator = list.getIteratorToFirst();
-			++iterator;
 
-			list.removeAt(iterator);
+			list.removeAt(++iterator);
 
 			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 2));
 		}
@@ -486,20 +508,25 @@ namespace LinkedListUnitTest
 		{
 			List list;
 			Iterator invalidIterator = list.getIteratorToFirst();
-			list = createListFromRange(1, 5);
+			list = createListFromRange(RANGE_START, RANGE_END);
 
 			list.removeAfter(invalidIterator);
 
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 5));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END));
 		}
 
 		TEST_METHOD(testRemoveAfterLastDoesNothing)
 		{
-			List list = createListFromRange(1, 5);
+			List list =
+				createListFromRange(RANGE_START, RANGE_END);
 
 			list.removeAfter(list.getIteratorToLast());
 
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 5));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END));
 		}
 
 		TEST_METHOD(testRemoveAfterMiddleItem)
@@ -516,20 +543,25 @@ namespace LinkedListUnitTest
 		{
 			List list;
 			Iterator invalidIterator = list.getIteratorToFirst();
-			list = createListFromRange(1, 5);
+			list = createListFromRange(RANGE_START, RANGE_END);
 
 			list.removeBefore(invalidIterator);
 
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 5));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END));
 		}
 
 		TEST_METHOD(testRemoveBeforeFirstItemDoesNothing)
 		{
-			List list = createListFromRange(1, 5);
+			List list =
+				createListFromRange(RANGE_START, RANGE_END);
 
 			list.removeBefore(list.getIteratorToFirst());
 
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 5));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END));
 		}
 
 		TEST_METHOD(testRemoveBeforeMiddleItem)
@@ -544,11 +576,14 @@ namespace LinkedListUnitTest
 
 		TEST_METHOD(testRemoveFirst)
 		{
-			List list = createListFromRange(1, 5);
+			List list =
+				createListFromRange(RANGE_START, RANGE_END);
 
 			list.removeFirst();
 
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 2, 5));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START + 1,
+				                                        RANGE_END));
 		}
 
 		TEST_METHOD(testRemoveFirstInOneElementList)
@@ -562,11 +597,14 @@ namespace LinkedListUnitTest
 
 		TEST_METHOD(testRemoveLast)
 		{
-			List list = createListFromRange(1, 5);
+			List list =
+				createListFromRange(RANGE_START, RANGE_END + 1);
 
 			list.removeLast();
 
-			Assert::IsTrue(listConsistsOfNumbersInRange(list, 1, 4));
+			Assert::IsTrue(listConsistsOfNumbersInRange(list,
+				                                        RANGE_START,
+				                                        RANGE_END));
 		}
 
 		TEST_METHOD(testRemoveLastInOneElementList)
@@ -580,7 +618,8 @@ namespace LinkedListUnitTest
 
 		TEST_METHOD(testEmptyANonEmptyList)
 		{
-			List list = createListFromRange(1, 5);
+			List list =
+				createListFromRange(RANGE_START, RANGE_END);
 
 			list.empty();
 
