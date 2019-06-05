@@ -3,7 +3,7 @@
 
 #include <fstream>
 #include <unordered_map>
-#include "Hash/Hash Function/HashFunctionStringSpecialization.h"
+#include "Hash/Hash Function/HashFunction.h"
 #include "Graph/Abstract class/Graph.h"
 
 namespace GraphIO

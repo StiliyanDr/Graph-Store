@@ -1,6 +1,5 @@
 #include "CppUnitTest.h"
 #include "../../../Graph Store/Graph Store/Hash/Hash.h"
-#include "../../../Graph Store/Graph Store/Hash/Hash Function/HashFunctionStringSpecialization.h"
 #include "Book.h"
 #include "BookTitleAccessor.h"
 

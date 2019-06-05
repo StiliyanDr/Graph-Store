@@ -178,9 +178,6 @@
     <Filter Include="Graph IO\Graph Builder">
       <UniqueIdentifier>{9461d20c-7e0b-4829-80b3-028baca54d4b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graph IO\Graph Builder\Graph Builder Exception">
-      <UniqueIdentifier>{4b4f94e3-88bd-4eb3-bc17-61e13e67b4a8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graph IO\Graph Saver">
       <UniqueIdentifier>{68a3c842-0b29-4348-bbeb-262941dcd859}</UniqueIdentifier>
     </Filter>
@@ -262,9 +259,6 @@
       <Filter>Hashing\Hash</Filter>
     </ClInclude>
     <ClInclude Include="Hash\Hash Function\HashFunction.h">
-      <Filter>Hashing\Hash Function</Filter>
-    </ClInclude>
-    <ClInclude Include="Hash\Hash Function\HashFunctionStringSpecialization.h">
       <Filter>Hashing\Hash Function</Filter>
     </ClInclude>
     <ClInclude Include="Hash\Identifier Accessor\IdentifierAccessor.h">
@@ -384,9 +378,6 @@
     <ClInclude Include="Graph IO\GraphIOConstants.h">
       <Filter>Graph IO</Filter>
     </ClInclude>
-    <ClInclude Include="Graph IO\Graph Builder\Graph Builder Exception\GraphBuilderException.h">
-      <Filter>Graph IO\Graph Builder\Graph Builder Exception</Filter>
-    </ClInclude>
     <ClInclude Include="Graph IO\Graph Builder\GraphBuilder.h">
       <Filter>Graph IO\Graph Builder</Filter>
     </ClInclude>
@@ -416,6 +407,9 @@
     </ClInclude>
     <ClInclude Include="Graph IO\GraphFilesFunctions.h">
       <Filter>Graph IO\Graph Files Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph IO\Exception.h">
+      <Filter>Graph IO</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,6 @@
 #include "Iterator/Iterator.h"
 #include "Iterator/STLIteratorAdapter.h"
 #include "Hash/Hash.h"
-#include "Hash/Hash Function/HashFunctionStringSpecialization.h"
 #include "Hash/Identifier Accessor/IdentifierAccessor.h"
 #include "Linked List/LinkedList.h"
 #include <memory>

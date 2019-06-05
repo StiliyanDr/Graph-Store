@@ -177,7 +177,7 @@
     <ClInclude Include="Graph Factory\GraphFactory.h" />
     <ClInclude Include="Graph Factory\Invalid Graph Type Exception\InvalidGraphTypeException.h" />
     <ClInclude Include="Graph IO\Directory Loader\DirectoryLoader.h" />
-    <ClInclude Include="Graph IO\Graph Builder\Graph Builder Exception\GraphBuilderException.h" />
+    <ClInclude Include="Graph IO\Exception.h" />
     <ClInclude Include="Graph IO\Graph Builder\GraphBuilder.h" />
     <ClInclude Include="Graph IO\Graph Saver\GraphSaver.h" />
     <ClInclude Include="Graph IO\GraphFilesFunctions.h" />
@@ -187,7 +187,6 @@
     <ClInclude Include="Graph\Graph Exception\GraphException.h" />
     <ClInclude Include="Graph\Undirected Graph\UndirectedGraph.h" />
     <ClInclude Include="Hash\Hash Function\HashFunction.h" />
-    <ClInclude Include="Hash\Hash Function\HashFunctionStringSpecialization.h" />
     <ClInclude Include="Hash\Hash.h" />
     <ClInclude Include="Hash\Hash.hpp" />
     <ClInclude Include="Hash\Identifier Accessor\IdentifierAccessor.h" />

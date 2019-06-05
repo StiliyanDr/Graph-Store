@@ -2,7 +2,7 @@
 #define __SEARCH_BASED_SHORTEST_PATH_ALGORITHM_HEADER_INCLUDED__
 
 #include "../Abstract class/ShortestPathAlgorithm.h"
-#include "Hash/Hash Function/HashFunctionStringSpecialization.h"
+#include "Hash/Hash Function/HashFunction.h"
 #include <unordered_map>
 
 class SearchBasedShortestPathAlgorithm : public ShortestPathAlgorithm
