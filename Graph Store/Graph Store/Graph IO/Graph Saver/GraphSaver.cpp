@@ -1,5 +1,5 @@
 #include "GraphSaver.h"
-#include "Runtime Error/RuntimeError.h"
+#include "Graph IO/Exception.h"
 #include "Graph IO/GraphIOConstants.h"
 #include "Graph IO/GraphFilesFunctions.h"
 
@@ -28,13 +28,13 @@ namespace GraphIO
 
 		decoratedVertices.reserve(g.getVerticesCount());
 
-		Graph::VerticesConstIterator iterator =
+		auto iterator =
 			g.getConstIteratorOfVertices();
-		std::size_t index = 0;
+		auto index = 0u;
 
-		forEach(*iterator, [&](const Graph::Vertex& v)
+		forEach(*iterator, [&](const auto& vertex)
 		{
-			decoratedVertices.emplace(v.getID(), index);
+			decoratedVertices.emplace(vertex.getID(), index);
 			++index;
 		});
 	}
@@ -43,16 +43,16 @@ namespace GraphIO
 	{
 		assert(!file.is_open());
 
-		String name = getFileNameFor(g);
+		auto name = getFileNameFor(g);
 		file.open(name.cString(), std::ios::out | std::ios::trunc);
 		verifyFileIsOpen(name);
 	}
 
-	void GraphSaver::verifyFileIsOpen(const String& fileName)
+	void GraphSaver::verifyFileIsOpen(const String& fileName) const
 	{
 		if (!file.is_open())
 		{
-			throw RuntimeError("Could not open \"" + fileName + "\"!");
+			throw Exception("Could not open \"" + fileName + "\"!");
 		}
 	}
 
@@ -73,12 +73,12 @@ namespace GraphIO
 	{
 		file << g.getVerticesCount() << '\n';
 
-		Graph::VerticesConstIterator iterator =
+		auto iterator =
 			g.getConstIteratorOfVertices();
 
-		forEach(*iterator, [&](const Graph::Vertex& v)
+		forEach(*iterator, [&](const auto& vertex)
 		{
-			file << v.getID() << '\n';
+			file << vertex.getID() << '\n';
 		});
 	}
 
@@ -86,14 +86,14 @@ namespace GraphIO
 	{
 		file << g.getEdgesCount() << '\n';
 
-		Graph::EdgesConstIterator iterator =
+		auto iterator =
 			g.getConstIteratorOfEdges();
 
-		forEach(*iterator, [&](const Graph::Edge& e)
+		forEach(*iterator, [&](const auto& edge)
 		{
-			file << EDGE_START << getIndexOf(e.getStart())
-				 << EDGE_ATTRIBUTE_SEPARATOR << getIndexOf(e.getEnd())
-				 << EDGE_ATTRIBUTE_SEPARATOR << e.getWeight()
+			file << EDGE_START << getIndexOf(edge.getStart())
+				 << EDGE_ATTRIBUTE_SEPARATOR << getIndexOf(edge.getEnd())
+				 << EDGE_ATTRIBUTE_SEPARATOR << edge.getWeight()
 				 << EDGE_END << '\n';
 		});
 	}

@@ -14,12 +14,12 @@ namespace GraphIO
 		using Map = std::unordered_map<std::reference_wrapper<const VertexID>, std::size_t, HashFunction<VertexID>>;
 
 	public:
-		void save(const Graph& graph);
+		void save(const Graph& g);
 
 	private:
 		void decorateVerticesOf(const Graph& g);
 		void openFileFor(const Graph& g);
-		void verifyFileIsOpen(const String& fileName);
+		void verifyFileIsOpen(const String& fileName) const;
 		void saveDecoratedGraph(const Graph& g);
 		void saveIDAndTypeOf(const Graph& g);
 		void saveVerticesOf(const Graph& g);
