@@ -1,23 +1,23 @@
-#ifndef __GRAPH_BUILDER_EXCEPTION_HEADER_INCLUDED__
-#define __GRAPH_BUILDER_EXCEPTION_HEADER_INCLUDED__
+#ifndef __GRAPH_IO_EXCEPTION_HEADER_INCLUDED__
+#define __GRAPH_IO_EXCEPTION_HEADER_INCLUDED__
 
 #include "Runtime Error/RuntimeError.h"
 
 namespace GraphIO
 {
-	class GraphBuilderException : public RuntimeError
+	class Exception : public RuntimeError
 	{
 	public:
-		explicit GraphBuilderException(String errorMessage) :
+		explicit Exception(String errorMessage) noexcept :
 			RuntimeError(std::move(errorMessage))
 		{
 		}
 
-		explicit GraphBuilderException(const std::string& errorMessage) :
+		explicit Exception(const std::string& errorMessage) :
 			RuntimeError(errorMessage)
 		{
 		}
 	};
 }
 
-#endif //__GRAPH_BUILDER_EXCEPTION_HEADER_INCLUDED__
+#endif //__GRAPH_IO_EXCEPTION_HEADER_INCLUDED__

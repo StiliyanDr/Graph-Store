@@ -7,7 +7,7 @@
 class RuntimeError : public std::exception
 {
 public:
-	explicit RuntimeError(String errorMessage) :
+	explicit RuntimeError(String errorMessage) noexcept :
 		message(std::move(errorMessage))
 	{
 	}
@@ -17,7 +17,7 @@ public:
 	{
 	}
 
-	virtual const char* what() const override
+	const char* what() const override
 	{
 		return message.cString();
 	}
