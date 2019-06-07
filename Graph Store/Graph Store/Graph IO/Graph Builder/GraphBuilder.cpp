@@ -1,6 +1,6 @@
 #include "GraphBuilder.h"
 #include "File Parser/Open File Fail Exception/OpenFileFailException.h"
-#include "Graph Builder Exception/GraphBuilderException.h"
+#include "Graph IO/Exception.h"
 #include "Graph Factory/GraphFactory.h"
 #include "Graph IO/GraphIOConstants.h"
 
@@ -26,7 +26,7 @@ namespace GraphIO
 		}
 		catch (OpenFileFailException& e)
 		{
-			throw GraphBuilderException(String(e.what()));
+			throw Exception(String(e.what()));
 		}
 	}
 
@@ -50,7 +50,7 @@ namespace GraphIO
 		graph = nullptr;
 		releaseResources();
 
-		throw GraphBuilderException(e.what() + "\nError in: "_s + fileName);
+		throw Exception(e.what() + "\nError in: "_s + fileName);
 	}
 
 	void GraphBuilder::buildAGraph()
@@ -64,8 +64,8 @@ namespace GraphIO
 	{
 		assert(graph == nullptr);
 
-		String id = fileParser.readAndTrimLine();
-		String type = fileParser.readAndTrimLine();
+		auto id = fileParser.readAndTrimLine();
+		auto type = fileParser.readAndTrimLine();
 
 		graph = GraphFactory::instance().createGraph(type, id);
 	}
@@ -75,10 +75,10 @@ namespace GraphIO
 		assert(graph != nullptr);
 		assert(identifiers.isEmpty());
 
-		unsigned identifiersCount = parseUnsignedAndSkipUntil('\n');
+		auto identifiersCount = parseUnsignedAndSkipUntil('\n');
 		identifiers.ensureSize(identifiersCount);
 
-		for (unsigned i = 0; i < identifiersCount; ++i)
+		for (auto i = 0u; i < identifiersCount; ++i)
 		{
 			identifiers.add(fileParser.readAndTrimLine());
 
@@ -90,18 +90,18 @@ namespace GraphIO
 	{
 		assert(graph != nullptr);
 
-		unsigned edgesCount = parseUnsignedAndSkipUntil('\n');
+		auto edgesCount = parseUnsignedAndSkipUntil('\n');
 
-		for (unsigned i = 1; i <= edgesCount; ++i)
+		for (auto i = 1u; i <= edgesCount; ++i)
 		{
-			RawEdge e = parseEdge();
+			auto e = parseEdge();
 			addEdge(e);
 		}
 	}
 
 	GraphBuilder::RawEdge GraphBuilder::parseEdge()
 	{
-		RawEdge edge;
+		auto edge = RawEdge();
 
 		fileParser.skipUntil(EDGE_START);
 		edge.startIDIndex = parseUnsignedAndSkipUntil(EDGE_ATTRIBUTE_SEPARATOR);
@@ -112,21 +112,21 @@ namespace GraphIO
 		return edge;
 	}
 
-	unsigned GraphBuilder::parseUnsignedAndSkipUntil(char symbol)
+	unsigned GraphBuilder::parseUnsignedAndSkipUntil(char c)
 	{
-		unsigned result = fileParser.parseUnsigned();
-		fileParser.skipUntil(symbol);
+		auto result = fileParser.parseUnsigned();
+		fileParser.skipUntil(c);
 
 		return result;
 	}
 
 	void GraphBuilder::addEdge(const RawEdge& edge)
 	{
-		String& startID = identifiers[edge.startIDIndex];
-		String& endID = identifiers[edge.endIDIndex];
+		auto& startID = identifiers[edge.startIDIndex];
+		auto& endID = identifiers[edge.endIDIndex];
 
-		Graph::Vertex& start = graph->getVertexWithID(startID);
-		Graph::Vertex& end = graph->getVertexWithID(endID);
+		auto& start = graph->getVertexWithID(startID);
+		auto& end = graph->getVertexWithID(endID);
 
 		graph->addEdge(start, end, edge.weight);
 	}

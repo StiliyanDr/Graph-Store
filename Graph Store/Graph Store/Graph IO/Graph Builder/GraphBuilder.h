@@ -33,8 +33,9 @@ namespace GraphIO
 		void addEdgesHavingAddedVertices();
 		RawEdge parseEdge();
 		void addEdge(const RawEdge& e);
-		unsigned parseUnsignedAndSkipUntil(char symbol);
-		void handleExceptionDuringBuilding(const String& fileName, const std::exception& e);
+		unsigned parseUnsignedAndSkipUntil(char c);
+		void handleExceptionDuringBuilding(const String& fileName,
+			                               const std::exception& e);
 		void releaseResources();
 
 	private:
