@@ -34,15 +34,25 @@ namespace GraphIO
 		RawEdge parseEdge();
 		void addEdge(const RawEdge& e);
 		unsigned parseUnsignedAndSkipUntil(char c);
-		void handleExceptionDuringBuilding(const String& fileName,
-			                               const std::exception& e);
 		void releaseResources();
+		auto createResourceReleaser();
 
 	private:
 		std::unique_ptr<Graph> graph;
 		DynamicArray<String> identifiers;
 		FileParser fileParser;
 	};
+
+	inline auto GraphBuilder::createResourceReleaser()
+	{
+		auto deleter =
+			[](GraphBuilder* builder) { builder->releaseResources(); };
+		auto releaser =
+			std::unique_ptr<GraphBuilder, decltype(deleter)>(this, deleter);
+
+		return releaser;
+	}
+
 }
 
 #endif //__GRAPH_BUILDER_HEADER_INCLUDED__

@@ -9,9 +9,9 @@ namespace GraphIO
 	std::unique_ptr<Graph>
 	GraphBuilder::buildFromFile(const String& fileName)
 	{
+		auto releaser = createResourceReleaser();
 		openFile(fileName);
 		tryToBuildAGraphFromOpenedFile(fileName);
-		releaseResources();
 
 		return std::move(graph);
 	}
@@ -40,17 +40,8 @@ namespace GraphIO
 		}
 		catch (std::exception& e)
 		{
-			handleExceptionDuringBuilding(fileName, e);
+			throw Exception(e.what() + "\nError in: "_s + fileName);
 		}
-	}
-
-	void GraphBuilder::handleExceptionDuringBuilding(const String& fileName,
-		                                             const std::exception& e)
-	{
-		graph = nullptr;
-		releaseResources();
-
-		throw Exception(e.what() + "\nError in: "_s + fileName);
 	}
 
 	void GraphBuilder::buildAGraph()
@@ -133,6 +124,7 @@ namespace GraphIO
 
 	void GraphBuilder::releaseResources()
 	{
+		graph = nullptr;
 		identifiers.empty();
 		fileParser.closeFile();
 	}
