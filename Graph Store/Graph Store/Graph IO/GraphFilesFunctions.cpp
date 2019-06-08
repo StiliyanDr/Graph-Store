@@ -1,6 +1,10 @@
 #include "GraphFilesFunctions.h"
 #include "Graph/Abstract class/Graph.h"
 #include "String/String.h"
+#include "Graph Collection/GraphCollection.h"
+#include "Graph IO/Graph Builder/GraphBuilder.h"
+#include "Directory Iterator/DirectoryIterator.h"
+#include "Directory Iterator/ExtensionFilter.h"
 #include "Graph IO/Exception.h"
 #include "Graph IO/GraphIOConstants.h"
 #include <filesystem>
@@ -11,9 +15,21 @@ namespace GraphIO
 {
 	void tryToRemoveExistingFile(const fs::path& name);
 
-	String getFileNameFor(const Graph& g)
+	GraphCollection loadDirectory(const String& path)
 	{
-		return g.getID() + FILE_EXTENSION;
+		auto graphs = GraphCollection();
+		auto builder = GraphBuilder();
+		auto iterator =
+			DirectoryIterator(path, ExtensionFilter(FILE_EXTENSION));
+
+		forEach(iterator, [&builder, &graphs](const auto& pathName)
+		{
+			auto graph = builder.buildFromFile(pathName);
+
+			graphs.add(std::move(graph));
+		});
+
+		return graphs;
 	}
 
 	void removeFileFor(const Graph& g)
@@ -32,6 +48,11 @@ namespace GraphIO
 		{
 			throw Exception(String(e.what()));
 		}
+	}
+
+	String getFileNameFor(const Graph& g)
+	{
+		return g.getID() + FILE_EXTENSION;
 	}
 
 	void tryToRemoveExistingFile(const fs::path& name)

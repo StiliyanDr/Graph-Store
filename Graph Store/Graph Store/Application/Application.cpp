@@ -1,8 +1,8 @@
 #include "Application.h"
 #include "Logger/Logger.h"
-#include "Command/Graph Command\GraphCommand.h"
+#include "Command/Graph Command/GraphCommand.h"
 #include "Runtime Error/RuntimeError.h"
-#include "Graph IO/Directory Loader/DirectoryLoader.h"
+#include "Graph IO/GraphFilesFunctions.h"
 #include <stdexcept>
 #include <iostream>
 #include <filesystem>
@@ -115,9 +115,7 @@ void Application::setCurrentDirectory(const String& path)
 
 void Application::loadGraphsFrom(const String& directory)
 {
-	GraphIO::DirectoryLoader loader;
-
-	graphs = loader.load(directory);
+	graphs = GraphIO::loadDirectory(directory);
 }
 
 void Application::passLoadedGraphsToGraphCommands()

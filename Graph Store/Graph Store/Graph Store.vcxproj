@@ -161,6 +161,7 @@
     <ClInclude Include="Command\Use Graph Command\UseGraphCommand.h" />
     <ClInclude Include="Directory Iterator\DirectoryIterator.h" />
     <ClInclude Include="Directory Iterator\DirectoryIteratorException.h" />
+    <ClInclude Include="Directory Iterator\ExtensionFilter.h" />
     <ClInclude Include="Distance\Distance.h" />
     <ClInclude Include="Dynamic Array\DynamicArray.h" />
     <ClInclude Include="Dynamic Array\DynamicArray.hpp" />
@@ -176,7 +177,6 @@
     <ClInclude Include="Graph Factory\Graph Registrator\GraphRegistrator.h" />
     <ClInclude Include="Graph Factory\GraphFactory.h" />
     <ClInclude Include="Graph Factory\Invalid Graph Type Exception\InvalidGraphTypeException.h" />
-    <ClInclude Include="Graph IO\Directory Loader\DirectoryLoader.h" />
     <ClInclude Include="Graph IO\Exception.h" />
     <ClInclude Include="Graph IO\Graph Builder\GraphBuilder.h" />
     <ClInclude Include="Graph IO\Graph Saver\GraphSaver.h" />
@@ -233,7 +233,6 @@
     <ClCompile Include="Graph Collection\GraphCollection.cpp" />
     <ClCompile Include="Graph Factory\Graph Creator\GraphCreator.cpp" />
     <ClCompile Include="Graph Factory\GraphFactory.cpp" />
-    <ClCompile Include="Graph IO\Directory Loader\DirectoryLoader.cpp" />
     <ClCompile Include="Graph IO\Graph Builder\GraphBuilder.cpp" />
     <ClCompile Include="Graph IO\Graph Saver\GraphSaver.cpp" />
     <ClCompile Include="Graph IO\GraphFilesFunctions.cpp" />

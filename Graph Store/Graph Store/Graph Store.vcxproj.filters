@@ -181,9 +181,6 @@
     <Filter Include="Graph IO\Graph Saver">
       <UniqueIdentifier>{68a3c842-0b29-4348-bbeb-262941dcd859}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graph IO\Directory Loader">
-      <UniqueIdentifier>{97e63876-ff37-4276-99d7-68482ff28270}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Directory Iterator">
       <UniqueIdentifier>{638b980e-e128-446e-9b85-252309cab386}</UniqueIdentifier>
     </Filter>
@@ -384,9 +381,6 @@
     <ClInclude Include="Graph IO\Graph Saver\GraphSaver.h">
       <Filter>Graph IO\Graph Saver</Filter>
     </ClInclude>
-    <ClInclude Include="Graph IO\Directory Loader\DirectoryLoader.h">
-      <Filter>Graph IO\Directory Loader</Filter>
-    </ClInclude>
     <ClInclude Include="Directory Iterator\DirectoryIterator.h">
       <Filter>Directory Iterator</Filter>
     </ClInclude>
@@ -410,6 +404,9 @@
     </ClInclude>
     <ClInclude Include="Graph IO\Exception.h">
       <Filter>Graph IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Directory Iterator\ExtensionFilter.h">
+      <Filter>Directory Iterator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -505,9 +502,6 @@
     </ClCompile>
     <ClCompile Include="Graph IO\Graph Saver\GraphSaver.cpp">
       <Filter>Graph IO\Graph Saver</Filter>
-    </ClCompile>
-    <ClCompile Include="Graph IO\Directory Loader\DirectoryLoader.cpp">
-      <Filter>Graph IO\Directory Loader</Filter>
     </ClCompile>
     <ClCompile Include="Directory Iterator\DirectoryIterator.cpp">
       <Filter>Directory Iterator</Filter>

@@ -3,11 +3,13 @@
 
 class String;
 class Graph;
+class GraphCollection;
 
 namespace GraphIO
 {
-	String getFileNameFor(const Graph& g);
+	GraphCollection loadDirectory(const String& path);
 	void removeFileFor(const Graph& g);
+	String getFileNameFor(const Graph& g);
 }
 
 #endif //__GRAPH_FILES_FUNCTIONS_HEADER_INCLUDED__
