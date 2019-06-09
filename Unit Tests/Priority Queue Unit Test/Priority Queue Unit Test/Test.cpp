@@ -1,7 +1,7 @@
 #include "CppUnitTest.h"
 #include <utility>
-#include "../../../Graph Store/Graph Store/Priority Queue/PriorityQueue.h"
-#include "../../../Graph Store/Graph Store/Dynamic Array/DynamicArray.h"
+#include "Priority Queue/PriorityQueue.h"
+#include "Dynamic Array/DynamicArray.h"
 #include "HandleUpdator.h"
 #include "KeyAccessor.h"
 #include "Item.h"
