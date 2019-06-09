@@ -1,3 +1,4 @@
+#include "PriorityQueueHandle.h"
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
 HandleUpdator PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::Element::handleUpdator;
@@ -9,8 +10,9 @@ template <class Item, class Comparator, class Key, class KeyAccessor, class Hand
 Comparator PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::Element::comparator;
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-inline PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::Element::Element(const Item& item) :
-	item(item)
+template <class ItemType>
+inline PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::Element::Element(ItemType&& item) :
+	item(std::forward<ItemType>(item))
 {
 }
 
@@ -28,7 +30,8 @@ inline const Key& PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdato
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::Element::optimiseKey(const Key& newKey)
+template <class KeyType>
+void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::Element::optimiseKey(KeyType&& newKey)
 {
 	if (!comparator(getKey(), newKey))
 	{
@@ -47,13 +50,13 @@ inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::El
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::Element::setHandle(const Handle& handle)
+inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::Element::setHandle(const Handle& h)
 {
-	handleUpdator(item, handle);
+	handleUpdator(item, h);
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-inline const Item& PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::Element::getItem() const
+inline const Item& PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::Element::getItem() const noexcept
 {
 	return item;
 }

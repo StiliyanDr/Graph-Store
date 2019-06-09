@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../Graph Store/Graph Store/Priority Queue/Handle/PriorityQueueHandle.h"
+#include "Priority Queue/PriorityQueueHandle.h"
 
 struct Item
 {

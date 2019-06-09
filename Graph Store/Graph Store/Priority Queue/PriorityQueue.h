@@ -2,7 +2,8 @@
 #define __PRIORITY_QUEUE_HEADER_INCLUDED__
 
 #include "Dynamic Array/DynamicArray.h"
-#include "Handle/PriorityQueueHandle.h"
+
+class PriorityQueueHandle;
 
 class Less
 {
@@ -14,11 +15,11 @@ public:
 	}
 };
 
-class EmptyMethodFunctor
+class EmptyFunction
 {
 public:
 	template <class Item>
-	void operator()(Item&, const PriorityQueueHandle&) const
+	void operator()(Item&, const PriorityQueueHandle&) const noexcept
 	{
 	}
 };
@@ -27,15 +28,15 @@ class IdentityKeyAccessor
 {
 public:
 	template <class Item>
-	const Item& getKeyOf(const Item& object) const
+	const Item& getKeyOf(const Item& item) const noexcept
 	{
-		return object;
+		return item;
 	}
 
 	template <class Item>
-	void setKeyOfWith(Item& item, const Item& key) const
+	void setKeyOfWith(Item& item, Item&& key) const
 	{
-		item = key;
+		item = std::forward<Item>(key);
 	}
 };
 
@@ -43,10 +44,10 @@ template <class Item,
 	class Comparator = Less,
 	class Key = Item,
 	class KeyAccessor = IdentityKeyAccessor,
-	class HandleUpdator = EmptyMethodFunctor>
+	class HandleUpdator = EmptyFunction>
 class PriorityQueue
 {
-	typedef PriorityQueueHandle Handle;
+	using Handle = PriorityQueueHandle;
 
 	class Element
 	{
@@ -54,13 +55,16 @@ class PriorityQueue
 		static bool compare(const Element& lhs, const Element& rhs);
 		
 	public:
-		Element(const Item& item = Item());
+		Element() = default;
+		template <class ItemType>
+		explicit Element(ItemType&& item);
 
 		void invalidateHandle();
-		void setHandle(const Handle& handle);
-		void optimiseKey(const Key& newKey);
+		void setHandle(const Handle& h);
+		template <class KeyType>
+		void optimiseKey(KeyType&& newKey);
 		const Key& getKey() const;
-		const Item& getItem() const;
+		const Item& getItem() const noexcept;
 
 	private:
 		static HandleUpdator handleUpdator;
