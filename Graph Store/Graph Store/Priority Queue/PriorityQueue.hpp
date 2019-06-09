@@ -157,9 +157,8 @@ inline void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::se
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&
-PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::operator=(
-	PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>&& rhs)
+auto PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::operator=(PriorityQueue&& rhs)
+-> PriorityQueue&
 {
 	if (this != &rhs)
 	{
@@ -182,10 +181,9 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::invalidat
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::swapContentsWith(
-	PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator> queue)
+void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::swapContentsWith(PriorityQueue q)
 {
-	std::swap(elements, queue.elements);
+	std::swap(elements, q.elements);
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
