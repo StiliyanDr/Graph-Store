@@ -1,24 +1,31 @@
 #ifndef __PRIORITY_QUEUE_HANDLE_HEADER_INCLUDED__
 #define __PRIORITY_QUEUE_HANDLE_HEADER_INCLUDED__
 
+#include <assert.h>
+
 class PriorityQueueHandle
 {
-	template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
+	template <class Item,
+		class Comparator,
+		class Key,
+		class KeyAccessor,
+		class HandleUpdator>
 	friend class PriorityQueue;
 
 public:
-	PriorityQueueHandle() :
+	PriorityQueueHandle() noexcept :
 		PriorityQueueHandle(-1)
 	{
 	}
 
 private:
-	PriorityQueueHandle(long index) :
+	explicit PriorityQueueHandle(long index) noexcept :
 		index(index)
 	{
+		assert(index >= -1);
 	}
 
-	bool isValid() const
+	bool isValid() const noexcept
 	{
 		return index != -1;
 	}
