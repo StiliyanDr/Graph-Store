@@ -47,6 +47,10 @@ template <class Item,
 	class HandleUpdator = EmptyFunction>
 class PriorityQueue
 {
+public:
+	using SizeType = std::size_t;
+
+private:
 	using Handle = PriorityQueueHandle;
 
 	class Element
@@ -79,7 +83,7 @@ public:
 	PriorityQueue() = default;
 
 	template <class Iterator>
-	PriorityQueue(Iterator& iterator, size_t itemsCount);
+	PriorityQueue(Iterator& iterator, SizeType itemsCount);
 	PriorityQueue(const PriorityQueue&) = default;
 	PriorityQueue& operator=(const PriorityQueue&) = default;
 	PriorityQueue(PriorityQueue&&) = default;
@@ -94,22 +98,22 @@ public:
 	bool isEmpty() const;
 
 private:
-	static size_t computeLeftChildOf(size_t index);
-	static size_t computeParentOf(size_t index);
-	static bool isRoot(size_t index);
+	static SizeType computeLeftChildOf(SizeType index);
+	static SizeType computeParentOf(SizeType index);
+	static bool isRoot(SizeType index);
 
 private:
 	void buildHeap();
-	void siftDownElementAt(size_t index);
-	void siftUpElementAt(size_t index);
+	void siftDownElementAt(SizeType index);
+	void siftUpElementAt(SizeType index);
 	void moveLastElementAtTopOfHeap();
 	void addAtEnd(const Element& element);
-	void setElementAtWith(size_t index, const Element& element);
+	void setElementAtWith(SizeType index, const Element& element);
 	void invalidateAllHandles();
-	size_t computeOptimalKeySuccessor(size_t leftSuccessor) const;
-	bool isWithinHeap(size_t index) const;
+	SizeType computeOptimalKeySuccessor(SizeType leftSuccessor) const;
+	bool isWithinHeap(SizeType index) const;
 	template <class Iterator>
-	void copyItems(Iterator& iterator, size_t itemsCount);
+	void copyItems(Iterator& iterator, SizeType itemsCount);
 	void verifyQueueIsNotEmpty() const;
 	void verifyHandleValidity(const Handle& h) const;
 	void swapContentsWith(PriorityQueue q);
