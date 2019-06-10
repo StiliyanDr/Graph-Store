@@ -81,9 +81,8 @@ private:
 
 public:
 	PriorityQueue() = default;
-
 	template <class Iterator>
-	PriorityQueue(Iterator& iterator, SizeType itemsCount);
+	PriorityQueue(Iterator iterator, SizeType itemsCount);
 	PriorityQueue(const PriorityQueue&) = default;
 	PriorityQueue& operator=(const PriorityQueue&) = default;
 	PriorityQueue(PriorityQueue&&) = default;
@@ -91,11 +90,13 @@ public:
 	~PriorityQueue();
 
 	void add(const Item& item);
+	void add(Item&& item);
 	Item extractOptimal();
 	Item getOptimal() const;
-	void optimiseKey(const Handle& handle, const Key& newKey);
+	void optimiseKey(const Handle& h, const Key& newKey);
+	void optimiseKey(const Handle& h, Key&& newKey);
 	void empty();
-	bool isEmpty() const;
+	bool isEmpty() const noexcept;
 
 private:
 	static SizeType computeLeftChildOf(SizeType index);
@@ -103,17 +104,21 @@ private:
 	static bool isRoot(SizeType index);
 
 private:
+	template <class ItemType>
+	void doAdd(ItemType&& item);
+	template <class KeyType>
+	void doOptimiseKey(const Handle& h, KeyType&& newKey);
 	void buildHeap();
 	void siftDownElementAt(SizeType index);
 	void siftUpElementAt(SizeType index);
 	void moveLastElementAtTopOfHeap();
-	void addAtEnd(const Element& element);
-	void setElementAtWith(SizeType index, const Element& element);
+	void addAtEnd(Element&& element);
+	void setElementAtWith(SizeType index, Element& element);
 	void invalidateAllHandles();
-	SizeType computeOptimalKeySuccessor(SizeType leftSuccessor) const;
+	SizeType computeOptimalKeyChild(SizeType leftChild) const;
 	bool isWithinHeap(SizeType index) const;
 	template <class Iterator>
-	void copyItems(Iterator& iterator, SizeType itemsCount);
+	void copyItems(Iterator iterator, SizeType itemsCount);
 	void verifyQueueIsNotEmpty() const;
 	void verifyHandleValidity(const Handle& h) const;
 	void swapContentsWith(PriorityQueue q);
