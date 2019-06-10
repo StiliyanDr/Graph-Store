@@ -1,6 +1,6 @@
 #include <assert.h>
-#include <utility>
 #include <stdexcept>
+#include "Utility.h"
 
 template <class T>
 inline DynamicArray<T>::DynamicArray() noexcept :
@@ -147,20 +147,6 @@ void DynamicArray<T>::resize(std::size_t newSize)
 	}
 
 	swapContentsWith(std::move(newArray));
-}
-
-template <class T>
-using ConditionalReference = typename std::conditional<
-	!std::is_nothrow_move_assignable<T>::value && std::is_copy_assignable<T>::value,
-	const T&,
-	T&&
->::type;
-
-template <class T>
-inline constexpr ConditionalReference<T>
-moveAssignIfNoexcept(T& object) noexcept
-{
-	return static_cast<ConditionalReference<T>>(object);
 }
 
 template <class T>

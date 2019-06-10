@@ -211,6 +211,7 @@
     <ClInclude Include="Shortest Path Algorithms\Store\Unsupported Alogirhtm Exception\UnsupportedAlgorithmException.h" />
     <ClInclude Include="String Cutter\StringCutter.h" />
     <ClInclude Include="String\String.h" />
+    <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application\Application.cpp" />

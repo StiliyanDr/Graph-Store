@@ -1,5 +1,6 @@
 #include "PriorityQueueHandle.h"
 #include "Iterator/Iterator.h"
+#include "Utility.h"
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
 HandleUpdator PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::Element::handleUpdator;
@@ -36,7 +37,8 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::Element::
 {
 	if (!comparator(getKey(), newKey))
 	{
-		keyAccessor.setKeyOfWith(item, newKey);
+		keyAccessor.setKeyOfWith(item,
+			                     std::forward<KeyType>(newKey));
 	}
 	else
 	{
@@ -107,7 +109,7 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::buildHeap
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
 void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::siftDownElementAt(SizeType index)
 {
-	auto elementToMove = elements[index];
+	auto elementToMove = std::move_if_noexcept(elements[index]);
 	auto child = computeLeftChildOf(index);
 
 	while (isWithinHeap(child))
@@ -154,7 +156,7 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::setElemen
 {
 	assert(isWithinHeap(index));
 
-	elements[index] = element;
+	elements[index] = moveAssignIfNoexcept(element);
 	elements[index].setHandle(Handle(index));
 }
 
@@ -240,7 +242,8 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::verifyHan
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
 void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::siftUpElementAt(SizeType index)
 {
-	auto elementToMove = elements[index];
+	auto elementToMove =
+		std::move_if_noexcept(elements[index]);
 
 	while (!isRoot(index))
 	{
@@ -302,8 +305,8 @@ Item PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::extractOp
 {
 	verifyQueueIsNotEmpty();
 
-	elements[0].invalidateHandle();
 	auto optimal = getOptimal();
+	elements[0].invalidateHandle();
 	moveLastElementAtTopOfHeap();
 
 	if (!isEmpty())
