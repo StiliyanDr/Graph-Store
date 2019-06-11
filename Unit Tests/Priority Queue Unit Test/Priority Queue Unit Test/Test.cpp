@@ -18,13 +18,13 @@ namespace PriorityQueueUnitTest
 		static const size_t ARRAY_SIZE = 8;
 		static DynamicArray<Item> items;
 
-		static DynamicArray<Item*> createReversedArrayOfItems()
+		static std::vector<Item*> createReversedArrayOfItems()
 		{
-			DynamicArray<Item*> itemsReversed(ARRAY_SIZE);
+			std::vector<Item*> itemsReversed;
 
 			for (int i = ARRAY_SIZE - 1; i >= 0; --i)
 			{
-				itemsReversed.add(&items[i]);
+				itemsReversed.push_back(&items[i]);
 			}
 
 			return itemsReversed;
@@ -98,23 +98,20 @@ namespace PriorityQueueUnitTest
 			Assert::IsTrue(queue.isEmpty());
 		}
 
-		TEST_METHOD(testCtorFromIteratorAndCountInsertsFirstCountElements)
+		TEST_METHOD(testCtorFromRange)
 		{
-			DynamicArray<Item*> itemsReversed = createReversedArrayOfItems();
-			ConstIterator iterator = itemsReversed.getConstIterator();
-			size_t numberOfItemsToInsert = itemsReversed.getCount();
-			
-			PriorityQueue queue(iterator, numberOfItemsToInsert);
+			std::vector<Item*> items = createReversedArrayOfItems();
+
+			PriorityQueue queue(items.begin(), items.end());
 
 			Assert::IsTrue(queueConsistsOfItemsInRange(queue, 0, ARRAY_SIZE - 1));
 		}
 
-		TEST_METHOD(testCtorFromIteratorAndNullCreatesAnEmptyQueue)
+		TEST_METHOD(testCtorFromEmptyRangeCreatesAnEmptyQueue)
 		{
-			DynamicArray<Item*> items;
-			ConstIterator iterator = items.getConstIterator();
+			std::vector<Item*> items;
 
-			PriorityQueue queue(iterator, 0);
+			PriorityQueue queue(items.begin(), items.end());
 
 			Assert::IsTrue(queue.isEmpty());
 		}

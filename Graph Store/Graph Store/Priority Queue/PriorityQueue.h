@@ -1,7 +1,7 @@
 #ifndef __PRIORITY_QUEUE_HEADER_INCLUDED__
 #define __PRIORITY_QUEUE_HEADER_INCLUDED__
 
-#include "Dynamic Array/DynamicArray.h"
+#include <vector>
 
 class PriorityQueueHandle;
 
@@ -82,7 +82,7 @@ private:
 public:
 	PriorityQueue() = default;
 	template <class Iterator>
-	PriorityQueue(Iterator iterator, SizeType itemsCount);
+	PriorityQueue(Iterator begin, Iterator end);
 	PriorityQueue(const PriorityQueue&) = default;
 	PriorityQueue& operator=(const PriorityQueue&) = default;
 	PriorityQueue(PriorityQueue&&) = default;
@@ -112,19 +112,21 @@ private:
 	void siftDownElementAt(SizeType index);
 	void siftUpElementAt(SizeType index);
 	void moveLastElementAtTopOfHeap();
-	void addAtEnd(Element&& element);
+	template <class ItemType>
+	void addAtEnd(ItemType&& item);
 	void setElementAtWith(SizeType index, Element& element);
+	void updateHandleAt(SizeType index);
 	void invalidateAllHandles();
 	SizeType computeOptimalKeyChild(SizeType leftChild) const;
 	bool isWithinHeap(SizeType index) const;
 	template <class Iterator>
-	void copyItems(Iterator iterator, SizeType itemsCount);
+	void copyItems(Iterator begin, Iterator end);
 	void verifyQueueIsNotEmpty() const;
 	void verifyHandleValidity(const Handle& h) const;
 	void swapContentsWith(PriorityQueue q);
 
 private:
-	DynamicArray<Element> elements;
+	std::vector<Element> elements;
 };
 
 #include "PriorityQueue.hpp"
