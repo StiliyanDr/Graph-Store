@@ -15,7 +15,7 @@ public:
 	}
 };
 
-class EmptyFunction
+class NoOpHandleUpdator
 {
 public:
 	template <class Item>
@@ -33,10 +33,10 @@ public:
 		return item;
 	}
 
-	template <class Item>
-	void setKeyOfWith(Item& item, Item&& key) const
+	template <class Item, class Key>
+	void setKeyOfWith(Item& item, Key&& key) const
 	{
-		item = std::forward<Item>(key);
+		item = std::forward<Key>(key);
 	}
 };
 
@@ -44,7 +44,7 @@ template <class Item,
 	class Comparator = Less,
 	class Key = Item,
 	class KeyAccessor = IdentityKeyAccessor,
-	class HandleUpdator = EmptyFunction>
+	class HandleUpdator = NoOpHandleUpdator>
 class PriorityQueue
 {
 public:
