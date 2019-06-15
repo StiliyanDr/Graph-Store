@@ -2,8 +2,7 @@
 #define __PRIORITY_QUEUE_HEADER_INCLUDED__
 
 #include <vector>
-
-class PriorityQueueHandle;
+#include "PriorityQueueHandle.h"
 
 class Less
 {
@@ -47,28 +46,61 @@ template <class Item,
 	class HandleUpdator = NoOpHandleUpdator>
 class PriorityQueue
 {
-public:
 	using SizeType = std::size_t;
-
-private:
 	using Handle = PriorityQueueHandle;
 
 	class Element
 	{
 	public:
-		static bool compare(const Element& lhs, const Element& rhs);
-		
-	public:
-		Element() = default;
-		template <class ItemType>
-		explicit Element(ItemType&& item);
+		static bool compare(const Element& lhs, const Element& rhs)
+		{
+			return comparator(lhs.getKey(), rhs.getKey());
+		}
 
-		void invalidateHandle();
-		void setHandle(const Handle& h);
+	public:
+		explicit Element(Item&& item) :
+			item(std::move(item))
+		{
+		}
+
+		explicit Element(const Item& item) :
+			item(item)
+		{
+		}
+
+		void invalidateHandle()
+		{
+			setHandle(Handle());
+		}
+
+		void setHandle(const Handle& h)
+		{
+			handleUpdator(item, h);
+		}
+
 		template <class KeyType>
-		void optimiseKey(KeyType&& newKey);
-		const Key& getKey() const;
-		const Item& getItem() const noexcept;
+		void optimiseKey(KeyType&& newKey)
+		{
+			if (!comparator(getKey(), newKey))
+			{
+				keyAccessor.setKeyOfWith(item,
+					                     std::forward<KeyType>(newKey));
+			}
+			else
+			{
+				throw std::invalid_argument("The key can't be worsened!");
+			}
+		}
+
+		const Key& getKey() const
+		{
+			return keyAccessor.getKeyOf(item);
+		}
+
+		const Item& getItem() const noexcept
+		{
+			return item;
+		}
 
 	private:
 		static HandleUpdator handleUpdator;
