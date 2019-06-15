@@ -133,17 +133,6 @@ auto PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::operator=
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
-void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::invalidateAllHandles()
-{
-	std::for_each(elements.begin(),
-				  elements.end(),
-		          [](auto& element)
-	{
-		element.invalidateHandle();
-	});
-}
-
-template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
 void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::swapContentsWith(PriorityQueue q)
 {
 	std::swap(elements, q.elements);
@@ -153,6 +142,17 @@ template <class Item, class Comparator, class Key, class KeyAccessor, class Hand
 inline PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::~PriorityQueue()
 {
 	invalidateAllHandles();
+}
+
+template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
+void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::invalidateAllHandles()
+{
+	std::for_each(elements.begin(),
+		          elements.end(),
+		          [](auto& element)
+	{
+		element.invalidateHandle();
+	});
 }
 
 template <class Item, class Comparator, class Key, class KeyAccessor, class HandleUpdator>
