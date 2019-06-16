@@ -1,28 +1,71 @@
 #include "CppUnitTest.h"
-#include <utility>
+#include "Utility.h"
 #include "Priority Queue/PriorityQueue.h"
-#include "Dynamic Array/DynamicArray.h"
 #include "HandleUpdator.h"
 #include "KeyAccessor.h"
 #include "Item.h"
+#include <vector>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace PriorityQueueUnitTest
-{		
+{
+	struct Item
+	{
+		explicit Item(unsigned key = 0) :
+			key(key)
+		{
+		}
+
+		unsigned key;
+		PriorityQueueHandle handle;
+	};
+
+	class KeyAccessor
+	{
+	public:
+		const unsigned& getKeyOf(const Item* item) const noexcept
+		{
+			assert(item != nullptr);
+
+			return item->key;
+		}
+
+		void setKeyOfWith(Item* item, unsigned newKey) const noexcept
+		{
+			assert(item != nullptr);
+
+			item->key = newKey;
+		}
+	};
+
+	class HandleUpdator
+	{
+	public:
+		void operator()(Item* item, const PriorityQueueHandle& h) const
+		{
+			assert(item != nullptr);
+
+			item->handle = h;
+		}
+	};
+
 	TEST_CLASS(PriorityQueueTest)
 	{
-		typedef PriorityQueue<Item*, Less, unsigned, KeyAccessor, HandleUpdator> PriorityQueue;
-		typedef DynamicArray<Item*>::ConstIterator ConstIterator;
+		using Collection = std::vector<Item*>;
+		using PriorityQueue =
+			PriorityQueue<Item*, Less, unsigned, KeyAccessor, HandleUpdator>;
 
-		static const size_t ARRAY_SIZE = 8;
-		static DynamicArray<Item> items;
+		static const std::size_t ARRAY_SIZE = 8;
+		static std::vector<Item> items;
 
-		static std::vector<Item*> createReversedArrayOfItems()
+		static Collection createReversedArrayOfItems()
 		{
-			std::vector<Item*> itemsReversed;
+			auto itemsReversed = Collection();
 
-			for (int i = ARRAY_SIZE - 1; i >= 0; --i)
+			for (auto i = int(ARRAY_SIZE - 1);
+				 i >= 0;
+				 --i)
 			{
 				itemsReversed.push_back(&items[i]);
 			}
@@ -30,55 +73,54 @@ namespace PriorityQueueUnitTest
 			return itemsReversed;
 		}
 
-		static bool queueConsistsOfItemsInRange(PriorityQueue& queue,
-												unsigned firstNumber,
-												unsigned lastNumber)
+		static bool queueConsistsOfItemsInRange(PriorityQueue& q,
+												std::size_t start,
+												std::size_t end)
 		{
-			assert(isValidRange(firstNumber, lastNumber));
-			Item* item;
+			assert(isValidRange(start, end));
 
-			for (unsigned i = firstNumber; i <= lastNumber; ++i)
+			for (auto i = start; i <= end; ++i)
 			{
-				assert(!queue.isEmpty());
-				item = queue.extractOptimal();
-				
-				if (item != &items[i])
+				if (q.isEmpty()
+				    || q.extractOptimal() != &items[i])
 				{
 					return false;
 				}
 			}
 
-			return queue.isEmpty();
+			return q.isEmpty();
 		}
 
-		static PriorityQueue createQueueFromItemsInRange(unsigned firstNumber,
-														 unsigned lastNumber)
+		static bool isValidRange(std::size_t start, std::size_t end)
 		{
-			PriorityQueue queue;
-			fillQueueWithItemsInRange(queue, firstNumber, lastNumber);
-
-			return queue;
+			return start <= end && end < ARRAY_SIZE;
 		}
 
-		static void fillQueueWithItemsInRange(PriorityQueue& queue,
-											  unsigned firstNumber,
-											  unsigned lastNumber)
+		static PriorityQueue createQueueFromItemsInRange(std::size_t start,
+														 std::size_t end)
 		{
-			assert(isValidRange(firstNumber, lastNumber));
+			auto q = PriorityQueue();
+			fillQueueWithItemsInRange(q, start, end);
 
-			for (unsigned i = firstNumber; i <= lastNumber; ++i)
+			return q;
+		}
+
+		static void fillQueueWithItemsInRange(PriorityQueue& q,
+											  std::size_t start,
+											  std::size_t end)
+		{
+			assert(isValidRange(start, end));
+
+			for (auto i = start; i <= end; ++i)
 			{
-				queue.add(&items[i]);
+				q.add(&items[i]);
 			}
-		}
-
-		static bool isValidRange(unsigned firstNumber, unsigned lastNumber)
-		{
-			return firstNumber <= lastNumber && lastNumber < ARRAY_SIZE;
 		}
 
 		static bool areEqual(const char* lhs, const char* rhs)
 		{
+			assert(lhs != nullptr && rhs != nullptr);
+
 			return strcmp(lhs, rhs) == 0;
 		}
 
@@ -394,5 +436,5 @@ namespace PriorityQueueUnitTest
 
 	};
 
-	DynamicArray<Item> PriorityQueueTest::items(ARRAY_SIZE, ARRAY_SIZE);
+	std::vector<Item> PriorityQueueTest::items(ARRAY_SIZE);
 }
