@@ -39,7 +39,8 @@ namespace PriorityQueueUnitTest
 	class HandleUpdator
 	{
 	public:
-		void operator()(Item* item, const PriorityQueueHandle& h) const
+		void operator()(Item* item, const PriorityQueueHandle& h)
+		const noexcept
 		{
 			assert(item != nullptr);
 

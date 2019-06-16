@@ -2,6 +2,7 @@
 #define __PRIORITY_QUEUE_HEADER_INCLUDED__
 
 #include <vector>
+#include <type_traits>
 #include "PriorityQueueHandle.h"
 
 class Less
@@ -9,6 +10,7 @@ class Less
 public:
 	template <class T>
 	bool operator()(const T& lhs, const T& rhs) const
+	noexcept(noexcept(lhs < rhs))
 	{
 		return lhs < rhs;
 	}
@@ -18,7 +20,8 @@ class NoOpHandleUpdator
 {
 public:
 	template <class Item>
-	void operator()(Item&, const PriorityQueueHandle&) const noexcept
+	void operator()(Item&, const PriorityQueueHandle&)
+	const noexcept
 	{
 	}
 };
@@ -27,7 +30,8 @@ class IdentityKeyAccessor
 {
 public:
 	template <class Item>
-	const Item& getKeyOf(const Item& item) const noexcept
+	const Item& getKeyOf(const Item& item)
+	const noexcept
 	{
 		return item;
 	}
@@ -49,31 +53,55 @@ class PriorityQueue
 	using SizeType = std::size_t;
 	using Handle = PriorityQueueHandle;
 
+	static_assert((std::is_nothrow_copy_constructible_v<Item>
+		           && std::is_nothrow_copy_assignable_v<Item>)
+		          ||
+		          (std::is_nothrow_move_constructible_v<Item>
+			       && std::is_nothrow_move_assignable_v<Item>),
+		          "Item must have safe copy or move operations!");
+	static_assert(std::is_nothrow_invocable_r_v<bool,
+		                                        Comparator,
+		                                        const Item&,
+		                                        const Item&>,
+		          "Comparator must be nothrow-invocable!");
+	static_assert(std::is_nothrow_invocable_r_v<const Key&,
+		                                        decltype(&KeyAccessor::getKeyOf),
+		                                        const KeyAccessor*,
+		                                        const Item&>,
+		          "KeyAccessor::getKeyOf must be nothrow-invocable!");
+	static_assert(std::is_nothrow_invocable_v<HandleUpdator,
+		                                      Item&,
+		                                      const Handle&>,
+		          "HandleUpdator must be nothrow-invocable!");
+
 	class Element
 	{
 	public:
-		static bool compare(const Element& lhs, const Element& rhs)
+		static bool compare(const Element& lhs,
+			                const Element& rhs) noexcept
 		{
 			return comparator(lhs.getKey(), rhs.getKey());
 		}
 
 	public:
-		explicit Element(Item&& item) :
+		explicit Element(Item&& item)
+		noexcept(std::is_nothrow_move_constructible_v<Item>) :
 			item(std::move(item))
 		{
 		}
 
-		explicit Element(const Item& item) :
+		explicit Element(const Item& item)
+		noexcept(std::is_nothrow_copy_constructible_v<Item>) :
 			item(item)
 		{
 		}
 
-		void invalidateHandle()
+		void invalidateHandle() noexcept
 		{
 			setHandle(Handle());
 		}
 
-		void setHandle(const Handle& h)
+		void setHandle(const Handle& h) noexcept
 		{
 			handleUpdator(item, h);
 		}
@@ -92,7 +120,7 @@ class PriorityQueue
 			}
 		}
 
-		const Key& getKey() const
+		const Key& getKey() const noexcept
 		{
 			return keyAccessor.getKeyOf(item);
 		}
@@ -131,26 +159,26 @@ public:
 	bool isEmpty() const noexcept;
 
 private:
-	static SizeType computeLeftChildOf(SizeType index);
-	static SizeType computeParentOf(SizeType index);
-	static bool isRoot(SizeType index);
+	static SizeType computeLeftChildOf(SizeType index) noexcept;
+	static SizeType computeParentOf(SizeType index) noexcept;
+	static bool isRoot(SizeType index) noexcept;
 
 private:
 	template <class ItemType>
 	void doAdd(ItemType&& item);
 	template <class KeyType>
 	void doOptimiseKey(const Handle& h, KeyType&& newKey);
-	void buildHeap();
-	void siftDownElementAt(SizeType index);
-	void siftUpElementAt(SizeType index);
+	void buildHeap() noexcept;
+	void siftDownElementAt(SizeType index) noexcept;
+	void siftUpElementAt(SizeType index) noexcept;
 	void moveLastElementAtTopOfHeap();
 	template <class ItemType>
 	void addAtEnd(ItemType&& item);
-	void setElementAtWith(SizeType index, Element& element);
-	void updateHandleAt(SizeType index);
+	void setElementAtWith(SizeType index, Element& element) noexcept;
+	void updateHandleAt(SizeType index) noexcept;
 	void invalidateAllHandles();
-	SizeType computeOptimalKeyChild(SizeType leftChild) const;
-	bool isWithinHeap(SizeType index) const;
+	SizeType computeOptimalKeyChild(SizeType leftChild) const noexcept;
+	bool isWithinHeap(SizeType index) const noexcept;
 	template <class Iterator>
 	void copyItems(Iterator begin, Iterator end);
 	void verifyQueueIsNotEmpty() const;
