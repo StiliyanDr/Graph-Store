@@ -282,7 +282,11 @@ void PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::moveLastE
 {
 	assert(!isEmpty());
 
-	setElementAtWith(0, elements.back());
+	if (elements.size() > 1)
+	{
+		setElementAtWith(0, elements.back());
+	}
+
 	elements.pop_back();
 }
 

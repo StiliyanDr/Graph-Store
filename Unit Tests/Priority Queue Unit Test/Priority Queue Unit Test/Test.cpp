@@ -292,6 +292,15 @@ namespace PriorityQueueUnitTest
 			Assert::IsTrue(q.getOptimal() == secondOptimalItem);
 		}
 
+		TEST_METHOD(testExtractOptimalInvalidatesTheHandleOfTheExtractedItem)
+		{
+			auto q = createQueueFromItemsInRange(0, 0);
+
+			auto item = q.extractOptimal();
+
+			Assert::IsFalse(item->handle.isValid());
+		}
+
 		TEST_METHOD(testExtractOptimalFromEmptyQueueThrowsException)
 		{
 			auto q = PriorityQueue();
