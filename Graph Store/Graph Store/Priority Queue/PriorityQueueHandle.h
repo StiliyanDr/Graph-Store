@@ -18,16 +18,16 @@ public:
 	{
 	}
 
+	bool isValid() const noexcept
+	{
+		return index != -1;
+	}
+
 private:
 	explicit PriorityQueueHandle(long index) noexcept :
 		index(index)
 	{
 		assert(index >= -1);
-	}
-
-	bool isValid() const noexcept
-	{
-		return index != -1;
 	}
 
 private:

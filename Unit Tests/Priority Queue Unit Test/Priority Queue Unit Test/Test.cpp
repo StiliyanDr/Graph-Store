@@ -1,9 +1,6 @@
 #include "CppUnitTest.h"
 #include "Utility.h"
 #include "Priority Queue/PriorityQueue.h"
-#include "HandleUpdator.h"
-#include "KeyAccessor.h"
-#include "Item.h"
 #include <vector>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -56,14 +53,14 @@ namespace PriorityQueueUnitTest
 		using PriorityQueue =
 			PriorityQueue<Item*, Less, unsigned, KeyAccessor, HandleUpdator>;
 
-		static const std::size_t ARRAY_SIZE = 8;
+		static const std::size_t ITEMS_COUNT = 8;
 		static std::vector<Item> items;
 
-		static Collection createReversedArrayOfItems()
+		static Collection createCollectionOfAllItems()
 		{
 			auto itemsReversed = Collection();
 
-			for (auto i = int(ARRAY_SIZE - 1);
+			for (auto i = int(ITEMS_COUNT - 1);
 				 i >= 0;
 				 --i)
 			{
@@ -93,7 +90,7 @@ namespace PriorityQueueUnitTest
 
 		static bool isValidRange(std::size_t start, std::size_t end)
 		{
-			return start <= end && end < ARRAY_SIZE;
+			return start <= end && end < ITEMS_COUNT;
 		}
 
 		static PriorityQueue createQueueFromItemsInRange(std::size_t start,
@@ -117,6 +114,20 @@ namespace PriorityQueueUnitTest
 			}
 		}
 
+		static bool itemsHaveInvalidHandles(std::size_t start = 0,
+											std::size_t end = ITEMS_COUNT - 1)
+		{
+			for (auto i = start; i <= end; ++i)
+			{
+				if (items[i].handle.isValid())
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		static bool areEqual(const char* lhs, const char* rhs)
 		{
 			assert(lhs != nullptr && rhs != nullptr);
@@ -127,7 +138,7 @@ namespace PriorityQueueUnitTest
 	public:
 		TEST_METHOD_INITIALIZE(initialiseItems)
 		{
-			for (size_t i = 0; i < ARRAY_SIZE; ++i)
+			for (auto i = 0u; i < ITEMS_COUNT; ++i)
 			{
 				items[i] = Item(i);
 			}
@@ -135,162 +146,124 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testDefaultCtorCreatesAnEmptyQueue)
 		{
-			PriorityQueue queue;
+			auto q = PriorityQueue();
 
-			Assert::IsTrue(queue.isEmpty());
+			Assert::IsTrue(q.isEmpty());
 		}
 
 		TEST_METHOD(testCtorFromRange)
 		{
-			std::vector<Item*> items = createReversedArrayOfItems();
+			auto items = createCollectionOfAllItems();
 
-			PriorityQueue queue(items.begin(), items.end());
+			auto q = PriorityQueue(items.begin(), items.end());
 
-			Assert::IsTrue(queueConsistsOfItemsInRange(queue, 0, ARRAY_SIZE - 1));
+			Assert::IsTrue(queueConsistsOfItemsInRange(q, 0, ITEMS_COUNT - 1));
 		}
 
 		TEST_METHOD(testCtorFromEmptyRangeCreatesAnEmptyQueue)
 		{
-			std::vector<Item*> items;
+			auto items = Collection();
 
-			PriorityQueue queue(items.begin(), items.end());
+			auto q = PriorityQueue(items.begin(), items.end());
 
-			Assert::IsTrue(queue.isEmpty());
-		}
-
-		TEST_METHOD(testCopyCtorFromEmptyQueue)
-		{
-			PriorityQueue queueToCopy;
-			
-			PriorityQueue queue(queueToCopy);
-
-			Assert::IsTrue(queue.isEmpty());
-		}
-
-		TEST_METHOD(testCopyCtorFromNonEmptyQueue)
-		{
-			PriorityQueue queueToCopy = createQueueFromItemsInRange(0, ARRAY_SIZE / 2);
-
-			PriorityQueue queue(queueToCopy);
-
-			Assert::IsTrue(queueConsistsOfItemsInRange(queue, 0, ARRAY_SIZE / 2));
-		}
-
-		TEST_METHOD(testCopyAssignmentEmptyToEmptyQueue)
-		{
-			PriorityQueue queueToCopy;
-			PriorityQueue queue;
-
-			queue = queueToCopy;
-
-			Assert::IsTrue(queue.isEmpty());
-		}
-
-		TEST_METHOD(testCopyAssignmentEmptyToNonEmptyQueue)
-		{
-			PriorityQueue queueToCopy;
-			PriorityQueue queue = createQueueFromItemsInRange(0, ARRAY_SIZE / 2);
-
-			queue = queueToCopy;
-
-			Assert::IsTrue(queue.isEmpty());
-		}
-
-		TEST_METHOD(testCopyAssignmentNonEmptyToEmptyQueue)
-		{
-			PriorityQueue queueToCopy = createQueueFromItemsInRange(0, ARRAY_SIZE / 2);
-			PriorityQueue queue;
-
-			queue = queueToCopy;
-
-			Assert::IsTrue(queueConsistsOfItemsInRange(queue, 0, ARRAY_SIZE / 2));
-		}
-
-		TEST_METHOD(testCopyAssignmentNonEmptyToNonEmptyQueue)
-		{
-			PriorityQueue queueToCopy =
-				createQueueFromItemsInRange(0, ARRAY_SIZE / 2);
-			PriorityQueue queue =
-				createQueueFromItemsInRange((ARRAY_SIZE / 2) + 1, ARRAY_SIZE - 1);
-
-			queue = queueToCopy;
-
-			Assert::IsTrue(queueConsistsOfItemsInRange(queue, 0, ARRAY_SIZE / 2));
+			Assert::IsTrue(q.isEmpty());
 		}
 
 		TEST_METHOD(testMoveCtorFromEmptyQueue)
 		{
-			PriorityQueue queueToMove;
+			auto queueToMove = PriorityQueue();
 
-			PriorityQueue queue(std::move(queueToMove));
+			auto q = PriorityQueue(std::move(queueToMove));
 
-			Assert::IsTrue(queue.isEmpty());
-			Assert::IsTrue(queueToMove.isEmpty(), L"The moved-from queue did not become empty!");
+			Assert::IsTrue(q.isEmpty());
+			Assert::IsTrue(queueToMove.isEmpty(),
+				           L"The moved-from queue did not become empty!");
 		}
 
 		TEST_METHOD(testMoveCtorFromNonEmptyQueue)
 		{
-			PriorityQueue queueToMove;
-			fillQueueWithItemsInRange(queueToMove, 0, ARRAY_SIZE / 2);
+			auto queueToMove = PriorityQueue();
+			fillQueueWithItemsInRange(queueToMove, 0, ITEMS_COUNT / 2);
 
-			PriorityQueue queue(std::move(queueToMove));
+			auto q = PriorityQueue(std::move(queueToMove));
 
-			Assert::IsTrue(queueToMove.isEmpty(), L"The moved-from queue did not become empty!");
-			Assert::IsTrue(queueConsistsOfItemsInRange(queue, 0, ARRAY_SIZE / 2));
+			Assert::IsTrue(queueToMove.isEmpty(),
+				           L"The moved-from queue did not become empty!");
+			Assert::IsTrue(queueConsistsOfItemsInRange(q, 0, ITEMS_COUNT / 2));
 		}
 
 		TEST_METHOD(testMoveAssignmentEmptyToEmptyQueue)
 		{
-			PriorityQueue queueToMove;
-			PriorityQueue queue;
+			auto queueToMove = PriorityQueue();
+			auto q = PriorityQueue();
 
-			queue = std::move(queueToMove);
+			q = std::move(queueToMove);
 
-			Assert::IsTrue(queue.isEmpty());
-			Assert::IsTrue(queueToMove.isEmpty(), L"The moved-from queue did not become empty!");
+			Assert::IsTrue(q.isEmpty());
+			Assert::IsTrue(queueToMove.isEmpty(),
+				           L"The moved-from queue did not become empty!");
 		}
 
 		TEST_METHOD(testMoveAssignmentEmptyToNonEmptyQueue)
 		{
-			PriorityQueue queueToMove;
-			PriorityQueue queue = createQueueFromItemsInRange(0, ARRAY_SIZE / 2);
+			auto queueToMove = PriorityQueue();
+			auto q = createQueueFromItemsInRange(0, ITEMS_COUNT / 2);
 
-			queue = std::move(queueToMove);
+			q = std::move(queueToMove);
 
-			Assert::IsTrue(queue.isEmpty(), L"The moved-into queue did not become empty!");
-			Assert::IsTrue(queueToMove.isEmpty());
+			Assert::IsTrue(q.isEmpty(),
+				           L"The moved-into queue did not become empty!");
+			Assert::IsTrue(queueToMove.isEmpty(),
+				           L"The moved-from queue did not become empty!");
+			Assert::IsTrue(itemsHaveInvalidHandles(0, ITEMS_COUNT / 2));
 		}
 
-		TEST_METHOD(testMoveAssignmentNonEmptyToEmpty)
+		TEST_METHOD(testMoveAssignmentNonEmptyToEmptyQueue)
 		{
-			PriorityQueue queueToMove = createQueueFromItemsInRange(0, ARRAY_SIZE / 2);
-			PriorityQueue queue;
+			auto queueToMove =
+				createQueueFromItemsInRange(0, ITEMS_COUNT / 2);
+			auto q = PriorityQueue();
 
-			queue = std::move(queueToMove);
+			q = std::move(queueToMove);
 
-			Assert::IsTrue(queueToMove.isEmpty(), L"The moved-from queue did not become empty!");
-			Assert::IsTrue(queueConsistsOfItemsInRange(queue, 0, ARRAY_SIZE / 2));
+			Assert::IsTrue(queueToMove.isEmpty(),
+				           L"The moved-from queue did not become empty!");
+			Assert::IsTrue(queueConsistsOfItemsInRange(q, 0, ITEMS_COUNT / 2));
 		}
 
 		TEST_METHOD(testMoveAssignmentNonEmptyToNonEmptyQueue)
 		{
-			PriorityQueue queueToMove =
-				createQueueFromItemsInRange(0, ARRAY_SIZE / 2);
-			PriorityQueue queue =
-				createQueueFromItemsInRange((ARRAY_SIZE / 2) + 1, ARRAY_SIZE - 1);
+			auto queueToMove =
+				createQueueFromItemsInRange(0, ITEMS_COUNT / 2);
+			auto q =
+				createQueueFromItemsInRange((ITEMS_COUNT / 2) + 1, ITEMS_COUNT - 1);
 
-			queue = std::move(queueToMove);
+			q = std::move(queueToMove);
 
-			Assert::IsTrue(queueToMove.isEmpty(), L"The moved-from queue did not become empty!");
-			Assert::IsTrue(queueConsistsOfItemsInRange(queue, 0, ARRAY_SIZE / 2));
+			Assert::IsTrue(queueToMove.isEmpty(),
+				           L"The moved-from queue did not become empty!");
+			Assert::IsTrue(itemsHaveInvalidHandles((ITEMS_COUNT / 2) + 1,
+				                                   ITEMS_COUNT - 1),
+				           L"Handles of removed elements did not become invalid!");
+			Assert::IsTrue(queueConsistsOfItemsInRange(q, 0, ITEMS_COUNT / 2));
+		}
+
+		TEST_METHOD(testDestructorInvalidatesAllHandles)
+		{
+			{
+				auto q =
+					createQueueFromItemsInRange(0, ITEMS_COUNT - 1);
+			}
+
+			Assert::IsTrue(itemsHaveInvalidHandles());
 		}
 
 		TEST_METHOD(testAddMaintainsOrderOfPriority)
 		{
 			PriorityQueue queue;
-			size_t middle = ARRAY_SIZE / 2;
+			size_t middle = ITEMS_COUNT / 2;
 
-			fillQueueWithItemsInRange(queue, middle, ARRAY_SIZE - 1);
+			fillQueueWithItemsInRange(queue, middle, ITEMS_COUNT - 1);
 			fillQueueWithItemsInRange(queue, 0, middle - 1);
 
 			const Item* optimalItem = queue.getOptimal();
@@ -308,7 +281,7 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testExtractOptimalMaintainsOrderOfPriority)
 		{
-			PriorityQueue queue = createQueueFromItemsInRange(0, ARRAY_SIZE / 2);
+			PriorityQueue queue = createQueueFromItemsInRange(0, ITEMS_COUNT / 2);
 
 			Item* optimalItem = queue.extractOptimal();
 
@@ -333,7 +306,7 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testGetOptimal)
 		{
-			PriorityQueue queue = createQueueFromItemsInRange(0, ARRAY_SIZE / 2);
+			PriorityQueue queue = createQueueFromItemsInRange(0, ITEMS_COUNT / 2);
 
 			const Item* optimalItem = queue.getOptimal();
 
@@ -357,8 +330,8 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testOptimiseKeyWithNewOptimalKeyUpdatesOptimalItem)
 		{
-			PriorityQueue queue = createQueueFromItemsInRange(ARRAY_SIZE / 2, ARRAY_SIZE - 1);
-			Item& itemWithNonOptimalKey = items[ARRAY_SIZE - 1];
+			PriorityQueue queue = createQueueFromItemsInRange(ITEMS_COUNT / 2, ITEMS_COUNT - 1);
+			Item& itemWithNonOptimalKey = items[ITEMS_COUNT - 1];
 			PriorityQueueHandle handle = itemWithNonOptimalKey.handle;
 
 			queue.optimiseKey(handle, 0);
@@ -370,8 +343,8 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testOptimiseKeyOfOptimalItem)
 		{
-			PriorityQueue queue = createQueueFromItemsInRange(ARRAY_SIZE / 2, ARRAY_SIZE - 1);
-			Item& itemWithOptimalKey = items[ARRAY_SIZE / 2];
+			PriorityQueue queue = createQueueFromItemsInRange(ITEMS_COUNT / 2, ITEMS_COUNT - 1);
+			Item& itemWithOptimalKey = items[ITEMS_COUNT / 2];
 			PriorityQueueHandle handle = itemWithOptimalKey.handle;
 
 			queue.optimiseKey(handle, 0);
@@ -383,8 +356,8 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testOptimiseKeyOfNonOptimalItemWithNonOptimalKey)
 		{
-			PriorityQueue queue = createQueueFromItemsInRange(0, ARRAY_SIZE / 2);
-			Item& itemWithNonOptimalKey = items[ARRAY_SIZE / 2];
+			PriorityQueue queue = createQueueFromItemsInRange(0, ITEMS_COUNT / 2);
+			Item& itemWithNonOptimalKey = items[ITEMS_COUNT / 2];
 			PriorityQueueHandle handle = itemWithNonOptimalKey.handle;
 
 			queue.optimiseKey(handle, 1);
@@ -426,15 +399,15 @@ namespace PriorityQueueUnitTest
 		TEST_METHOD(testAddAndExtractAllItems)
 		{
 			PriorityQueue queue;
-			size_t middle = ARRAY_SIZE / 2;
+			size_t middle = ITEMS_COUNT / 2;
 
-			fillQueueWithItemsInRange(queue, middle, ARRAY_SIZE - 1);
+			fillQueueWithItemsInRange(queue, middle, ITEMS_COUNT - 1);
 			fillQueueWithItemsInRange(queue, 0, middle - 1);
 
-			Assert::IsTrue(queueConsistsOfItemsInRange(queue, 0, ARRAY_SIZE - 1));
+			Assert::IsTrue(queueConsistsOfItemsInRange(queue, 0, ITEMS_COUNT - 1));
 		}
 
 	};
 
-	std::vector<Item> PriorityQueueTest::items(ARRAY_SIZE);
+	std::vector<Item> PriorityQueueTest::items(ITEMS_COUNT);
 }
