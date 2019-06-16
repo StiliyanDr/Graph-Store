@@ -260,42 +260,45 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testAddMaintainsOrderOfPriority)
 		{
-			PriorityQueue queue;
-			size_t middle = ITEMS_COUNT / 2;
+			auto q = PriorityQueue();
+			auto middle = ITEMS_COUNT / 2;
 
-			fillQueueWithItemsInRange(queue, middle, ITEMS_COUNT - 1);
-			fillQueueWithItemsInRange(queue, 0, middle - 1);
+			fillQueueWithItemsInRange(q, middle, ITEMS_COUNT - 1);
+			fillQueueWithItemsInRange(q, 0, middle - 1);
 
-			const Item* optimalItem = queue.getOptimal();
-			Assert::IsTrue(optimalItem == &items[0]);
+			auto optimalItem = &items[0];
+			Assert::IsTrue(q.getOptimal() == optimalItem);
 		}
 
 		TEST_METHOD(testExtractingTheOnlyItemLeavesTheQueueEmpty)
 		{
-			PriorityQueue queue = createQueueFromItemsInRange(0, 0);
+			auto q = createQueueFromItemsInRange(0, 0);
 
-			queue.extractOptimal();
+			q.extractOptimal();
 
-			Assert::IsTrue(queue.isEmpty());
+			Assert::IsTrue(q.isEmpty());
 		}
 
 		TEST_METHOD(testExtractOptimalMaintainsOrderOfPriority)
 		{
-			PriorityQueue queue = createQueueFromItemsInRange(0, ITEMS_COUNT / 2);
+			auto q = createQueueFromItemsInRange(0, ITEMS_COUNT / 2);
+			auto optimalItem = &items[0];
+			auto secondOptimalItem = &items[1];
 
-			Item* optimalItem = queue.extractOptimal();
+			auto extractedItem = q.extractOptimal();
 
-			Assert::IsTrue(optimalItem == &items[0], L"The method did not extract the item with optimal key!");
-			Assert::IsTrue(queue.getOptimal() == &items[1]);
+			Assert::IsTrue(extractedItem == optimalItem,
+				           L"The method did not extract the item with optimal key!");
+			Assert::IsTrue(q.getOptimal() == secondOptimalItem);
 		}
 
 		TEST_METHOD(testExtractOptimalFromEmptyQueueThrowsException)
 		{
-			PriorityQueue queue;
+			auto q = PriorityQueue();
 
 			try
 			{
-				queue.extractOptimal();
+				q.extractOptimal();
 				Assert::Fail(L"The method did not throw an exception!");
 			}
 			catch (std::logic_error& e)
@@ -306,20 +309,19 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testGetOptimal)
 		{
-			PriorityQueue queue = createQueueFromItemsInRange(0, ITEMS_COUNT / 2);
+			auto q = createQueueFromItemsInRange(0, ITEMS_COUNT / 2);
+			auto optimalItem = &items[0];
 
-			const Item* optimalItem = queue.getOptimal();
-
-			Assert::IsTrue(optimalItem == &items[0]);
+			Assert::IsTrue(q.getOptimal() == optimalItem);
 		}
 
 		TEST_METHOD(testGetOptimalFromEmptyQueueThrowsException)
 		{
-			PriorityQueue queue;
+			auto q = PriorityQueue();
 
 			try
 			{
-				queue.getOptimal();
+				q.getOptimal();
 				Assert::Fail(L"The method did not throw an exception!");
 			}
 			catch (std::logic_error& e)
@@ -330,48 +332,50 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testOptimiseKeyWithNewOptimalKeyUpdatesOptimalItem)
 		{
-			PriorityQueue queue = createQueueFromItemsInRange(ITEMS_COUNT / 2, ITEMS_COUNT - 1);
-			Item& itemWithNonOptimalKey = items[ITEMS_COUNT - 1];
-			PriorityQueueHandle handle = itemWithNonOptimalKey.handle;
+			auto q =
+				createQueueFromItemsInRange(ITEMS_COUNT / 2, ITEMS_COUNT - 1);
+			auto itemWithNonOptimalKey = &items[ITEMS_COUNT - 1];
 
-			queue.optimiseKey(handle, 0);
+			q.optimiseKey(itemWithNonOptimalKey->handle, 0);
 
-			const Item* optimalItem = queue.getOptimal();
+			auto optimalItem = q.getOptimal();
 			Assert::AreEqual(0u, optimalItem->key);
-			Assert::IsTrue(optimalItem == &itemWithNonOptimalKey);
+			Assert::IsTrue(optimalItem == itemWithNonOptimalKey);
 		}
 
 		TEST_METHOD(testOptimiseKeyOfOptimalItem)
 		{
-			PriorityQueue queue = createQueueFromItemsInRange(ITEMS_COUNT / 2, ITEMS_COUNT - 1);
-			Item& itemWithOptimalKey = items[ITEMS_COUNT / 2];
-			PriorityQueueHandle handle = itemWithOptimalKey.handle;
+			auto q =
+				createQueueFromItemsInRange(ITEMS_COUNT / 2, ITEMS_COUNT - 1);
+			auto itemWithOptimalKey = &items[ITEMS_COUNT / 2];
+	
+			q.optimiseKey(itemWithOptimalKey->handle, 0);
 
-			queue.optimiseKey(handle, 0);
-
-			const Item* optimalItem = queue.getOptimal();
+			auto optimalItem = q.getOptimal();
 			Assert::AreEqual(0u, optimalItem->key);
-			Assert::IsTrue(optimalItem == &itemWithOptimalKey);
+			Assert::IsTrue(optimalItem == itemWithOptimalKey);
 		}
 
 		TEST_METHOD(testOptimiseKeyOfNonOptimalItemWithNonOptimalKey)
 		{
-			PriorityQueue queue = createQueueFromItemsInRange(0, ITEMS_COUNT / 2);
-			Item& itemWithNonOptimalKey = items[ITEMS_COUNT / 2];
-			PriorityQueueHandle handle = itemWithNonOptimalKey.handle;
+			auto q = createQueueFromItemsInRange(0, ITEMS_COUNT / 2);
+			auto itemWithNonOptimalKey = &items[ITEMS_COUNT / 2];
 
-			queue.optimiseKey(handle, 1);
+			q.optimiseKey(itemWithNonOptimalKey->handle, 1);
 
-			Assert::IsTrue(queue.getOptimal() == &items[0]);
+			auto optimalItem = &items[0];
+			Assert::IsTrue(q.getOptimal() == optimalItem);
 		}
 
 		TEST_METHOD(testOptimiseKeyWithWorseKeyThrowsException)
 		{
-			PriorityQueue queue = createQueueFromItemsInRange(0, 0);
+			auto q = createQueueFromItemsInRange(0, 0);
+			auto item = q.getOptimal();
+			auto worseKey = item->key + 1;
 
 			try
 			{
-				queue.optimiseKey(items[0].handle, 1);
+				q.optimiseKey(item->handle, worseKey);
 				Assert::Fail(L"The method did not throw an exception!");
 			}
 			catch (std::invalid_argument& e)
@@ -382,12 +386,12 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testOptimiseKeyWithInvalidHandleThrowsException)
 		{
-			PriorityQueue queue;
-			PriorityQueueHandle invalidHandle;
+			auto q = PriorityQueue();
+			auto invalidHandle = PriorityQueueHandle();
 
 			try
 			{
-				queue.optimiseKey(invalidHandle, 100);
+				q.optimiseKey(invalidHandle, 100);
 				Assert::Fail(L"The method did not throw an exception!");
 			}
 			catch (std::invalid_argument& e)
@@ -396,15 +400,27 @@ namespace PriorityQueueUnitTest
 			}
 		}
 
+		TEST_METHOD(testEmptyInvalidatesAllHandles)
+		{
+			auto q =
+				createQueueFromItemsInRange(0, ITEMS_COUNT - 1);
+
+			q.empty();
+
+			Assert::IsTrue(q.isEmpty(),
+				           L"The queue did not become empty!");
+			Assert::IsTrue(itemsHaveInvalidHandles());
+		}
+
 		TEST_METHOD(testAddAndExtractAllItems)
 		{
-			PriorityQueue queue;
-			size_t middle = ITEMS_COUNT / 2;
+			auto q = PriorityQueue();
+			auto middle = ITEMS_COUNT / 2;
 
-			fillQueueWithItemsInRange(queue, middle, ITEMS_COUNT - 1);
-			fillQueueWithItemsInRange(queue, 0, middle - 1);
+			fillQueueWithItemsInRange(q, middle, ITEMS_COUNT - 1);
+			fillQueueWithItemsInRange(q, 0, middle - 1);
 
-			Assert::IsTrue(queueConsistsOfItemsInRange(queue, 0, ITEMS_COUNT - 1));
+			Assert::IsTrue(queueConsistsOfItemsInRange(q, 0, ITEMS_COUNT - 1));
 		}
 
 	};
