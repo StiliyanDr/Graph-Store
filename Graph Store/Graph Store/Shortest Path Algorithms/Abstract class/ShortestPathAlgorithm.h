@@ -12,7 +12,7 @@ protected:
 	struct DecoratedVertex
 	{
 		DecoratedVertex() = default;
-		DecoratedVertex(const Graph::Vertex& originalVertex) :
+		DecoratedVertex(const Graph::Vertex& originalVertex) noexcept :
 			originalVertex(&originalVertex),
 			parent(nullptr),
 			distanceToSource(Distance::getInfinity())

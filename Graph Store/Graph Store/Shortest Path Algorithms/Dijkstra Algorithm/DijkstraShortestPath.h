@@ -12,7 +12,7 @@ class DijkstraShortestPath : public ShortestPathAlgorithm
 	struct DijkstraVertex : public DecoratedVertex
 	{
 		DijkstraVertex() = default;
-		DijkstraVertex(const Graph::Vertex& originalVertex) :
+		DijkstraVertex(const Graph::Vertex& originalVertex) noexcept :
 			DecoratedVertex(originalVertex)
 		{
 		}
@@ -23,12 +23,14 @@ class DijkstraShortestPath : public ShortestPathAlgorithm
 	class KeyAccessor
 	{
 	public:
-		const Distance& getKeyOf(const DijkstraVertex* v) const
+		const Distance& getKeyOf(const DijkstraVertex* v)
+		const noexcept
 		{
 			return v->distanceToSource;
 		}
 
-		void setKeyOfWith(DijkstraVertex* v, const Distance& d) const
+		void setKeyOfWith(DijkstraVertex* v, const Distance& d)
+		const noexcept
 		{
 			v->distanceToSource = d;
 		}
@@ -37,7 +39,8 @@ class DijkstraShortestPath : public ShortestPathAlgorithm
 	class HandleUpdator
 	{
 	public:
-		void operator()(DijkstraVertex* v, const PriorityQueueHandle& h) const
+		void operator()(DijkstraVertex* v, const PriorityQueueHandle& h)
+		const noexcept
 		{
 			v->handle = h;
 		}
@@ -49,6 +52,12 @@ class DijkstraShortestPath : public ShortestPathAlgorithm
 	class HashIterator
 	{
 	public:
+		using difference_type = Hash::iterator::difference_type;
+		using value_type = Hash::iterator::value_type*;
+		using pointer = value_type*;
+		using reference = value_type&;
+		using iterator_category = Hash::iterator::iterator_category;
+
 		HashIterator(const Hash::iterator& iterator) :
 			iterator(iterator)
 		{
@@ -64,6 +73,12 @@ class DijkstraShortestPath : public ShortestPathAlgorithm
 		DijkstraVertex* operator*() const
 		{
 			return &(iterator->second);
+		}
+
+		friend bool operator!=(const HashIterator& lhs,
+			                   const HashIterator& rhs)
+		{
+			return lhs.iterator != rhs.iterator;
 		}
 
 	private:

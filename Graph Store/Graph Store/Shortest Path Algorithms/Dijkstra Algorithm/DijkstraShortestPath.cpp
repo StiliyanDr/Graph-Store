@@ -37,10 +37,10 @@ DijkstraShortestPath::getDecoratedVersionOf(const Graph::Vertex& v)
 
 void DijkstraShortestPath::gatherDecoratedVerticesWithUndeterminedEstimate()
 {
-	HashIterator iterator = decoratedVertices.begin();
+	auto begin = HashIterator(decoratedVertices.begin());
+	auto end = HashIterator(decoratedVertices.end());
 
-	undeterminedEstimateVertices =
-		PriorityQueue(iterator, decoratedVertices.size());
+	undeterminedEstimateVertices = PriorityQueue(begin, end);
 }
 
 void DijkstraShortestPath::execute(const Graph& graph,
