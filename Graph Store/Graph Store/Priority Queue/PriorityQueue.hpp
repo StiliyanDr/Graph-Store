@@ -14,7 +14,7 @@ template <class Item, class Comparator, class Key, class KeyAccessor, class Hand
 template <class Iterator>
 PriorityQueue<Item, Comparator, Key, KeyAccessor, HandleUpdator>::PriorityQueue(Iterator begin,
 																				Iterator end) :
-	PriorityQueue()
+	PriorityQueue{}
 {
 	copyItems(begin, end);
 	buildHeap();

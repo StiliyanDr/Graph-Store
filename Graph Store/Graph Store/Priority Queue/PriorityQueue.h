@@ -98,7 +98,7 @@ class PriorityQueue
 
 		void invalidateHandle() noexcept
 		{
-			setHandle(Handle());
+			setHandle(Handle{});
 		}
 
 		void setHandle(const Handle& h) noexcept

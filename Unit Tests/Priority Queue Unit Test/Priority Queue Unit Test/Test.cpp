@@ -59,7 +59,7 @@ namespace PriorityQueueUnitTest
 
 		static Collection createCollectionOfAllItems()
 		{
-			auto itemsReversed = Collection();
+			auto itemsReversed = Collection{};
 
 			for (auto i = int(ITEMS_COUNT - 1);
 				 i >= 0;
@@ -97,7 +97,7 @@ namespace PriorityQueueUnitTest
 		static PriorityQueue createQueueFromItemsInRange(std::size_t start,
 														 std::size_t end)
 		{
-			auto q = PriorityQueue();
+			auto q = PriorityQueue{};
 			fillQueueWithItemsInRange(q, start, end);
 
 			return q;
@@ -147,7 +147,7 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testDefaultCtorCreatesAnEmptyQueue)
 		{
-			auto q = PriorityQueue();
+			auto q = PriorityQueue{};
 
 			Assert::IsTrue(q.isEmpty());
 		}
@@ -163,7 +163,7 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testCtorFromEmptyRangeCreatesAnEmptyQueue)
 		{
-			auto items = Collection();
+			auto items = Collection{};
 
 			auto q = PriorityQueue(items.begin(), items.end());
 
@@ -172,7 +172,7 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testMoveCtorFromEmptyQueue)
 		{
-			auto queueToMove = PriorityQueue();
+			auto queueToMove = PriorityQueue{};
 
 			auto q = PriorityQueue(std::move(queueToMove));
 
@@ -183,7 +183,7 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testMoveCtorFromNonEmptyQueue)
 		{
-			auto queueToMove = PriorityQueue();
+			auto queueToMove = PriorityQueue{};
 			fillQueueWithItemsInRange(queueToMove, 0, ITEMS_COUNT / 2);
 
 			auto q = PriorityQueue(std::move(queueToMove));
@@ -195,8 +195,8 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testMoveAssignmentEmptyToEmptyQueue)
 		{
-			auto queueToMove = PriorityQueue();
-			auto q = PriorityQueue();
+			auto queueToMove = PriorityQueue{};
+			auto q = PriorityQueue{};
 
 			q = std::move(queueToMove);
 
@@ -207,7 +207,7 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testMoveAssignmentEmptyToNonEmptyQueue)
 		{
-			auto queueToMove = PriorityQueue();
+			auto queueToMove = PriorityQueue{};
 			auto q = createQueueFromItemsInRange(0, ITEMS_COUNT / 2);
 
 			q = std::move(queueToMove);
@@ -223,7 +223,7 @@ namespace PriorityQueueUnitTest
 		{
 			auto queueToMove =
 				createQueueFromItemsInRange(0, ITEMS_COUNT / 2);
-			auto q = PriorityQueue();
+			auto q = PriorityQueue{};
 
 			q = std::move(queueToMove);
 
@@ -261,7 +261,7 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testAddMaintainsOrderOfPriority)
 		{
-			auto q = PriorityQueue();
+			auto q = PriorityQueue{};
 			auto middle = ITEMS_COUNT / 2;
 
 			fillQueueWithItemsInRange(q, middle, ITEMS_COUNT - 1);
@@ -304,7 +304,7 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testExtractOptimalFromEmptyQueueThrowsException)
 		{
-			auto q = PriorityQueue();
+			auto q = PriorityQueue{};
 
 			try
 			{
@@ -327,7 +327,7 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testGetOptimalFromEmptyQueueThrowsException)
 		{
-			auto q = PriorityQueue();
+			auto q = PriorityQueue{};
 
 			try
 			{
@@ -396,8 +396,8 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testOptimiseKeyWithInvalidHandleThrowsException)
 		{
-			auto q = PriorityQueue();
-			auto invalidHandle = PriorityQueueHandle();
+			auto q = PriorityQueue{};
+			auto invalidHandle = PriorityQueueHandle{};
 
 			try
 			{
@@ -424,7 +424,7 @@ namespace PriorityQueueUnitTest
 
 		TEST_METHOD(testAddAndExtractAllItems)
 		{
-			auto q = PriorityQueue();
+			auto q = PriorityQueue{};
 			auto middle = ITEMS_COUNT / 2;
 
 			fillQueueWithItemsInRange(q, middle, ITEMS_COUNT - 1);
