@@ -22,27 +22,24 @@ template <>
 class HashFunction<String>
 {
 public:
-	unsigned operator()(const String& key) const noexcept;
+	unsigned operator()(const String& key) const noexcept
+	{
+		auto string = key.cString();
+		auto hashValue = FNV_OFFSET_BASIS;
+
+		while (*string)
+		{
+			hashValue *= FNV_PRIME;
+			hashValue ^= *string;
+			++string;
+		}
+
+		return hashValue;
+	}
 
 private:
 	static const unsigned FNV_OFFSET_BASIS = 2166136261;
 	static const unsigned FNV_PRIME = 16777619;
 };
-
-unsigned
-HashFunction<String>::operator()(const String& key) const noexcept
-{
-	auto string = key.cString();
-	auto hashValue = FNV_OFFSET_BASIS;
-
-	while (*string)
-	{
-		hashValue *= FNV_PRIME;
-		hashValue ^= *string;
-		++string;
-	}
-
-	return hashValue;
-}
 
 #endif //__HASH_FUNCTION_HEADER_INCLUDED__
