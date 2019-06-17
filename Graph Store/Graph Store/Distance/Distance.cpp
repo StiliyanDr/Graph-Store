@@ -2,43 +2,34 @@
 
 const Distance Distance::infinity;
 
-const Distance& Distance::getInfinity()
+const Distance& Distance::getInfinity() noexcept
 {
 	return infinity;
 }
 
-Distance::Distance() :
+Distance::Distance() noexcept :
+	distance(0),
 	isInfinity(true)
 {
 }
 
-Distance::Distance(unsigned distance)
+Distance::Distance(unsigned distance) noexcept :
+	distance(distance),
+	isInfinity(false)
 {
-	setDistance(distance);
 }
 
-Distance& Distance::operator=(unsigned distance)
+const Distance operator+(const Distance& lhs,
+	                     const Distance& rhs) noexcept
 {
-	setDistance(distance);
-
-	return *this;
-}
-
-void Distance::setDistance(unsigned distance)
-{
-	this->distance = distance;
-	isInfinity = false;
-}
-
-Distance operator+(const Distance& lhs, const Distance& rhs)
-{
-	Distance result = lhs;
+	auto result = lhs;
 	result += rhs;
 
 	return result;
 }
 
-Distance& Distance::operator+=(const Distance& rhs)
+Distance&
+Distance::operator+=(const Distance& rhs) noexcept
 {
 	if (!(this->isInfinity || rhs.isInfinity))
 	{
@@ -52,42 +43,52 @@ Distance& Distance::operator+=(const Distance& rhs)
 	return *this;
 }
 
-bool operator!=(const Distance& lhs, const Distance& rhs)
+bool operator!=(const Distance& lhs,
+	            const Distance& rhs) noexcept
 {
 	return !(lhs == rhs);
 }
 
-bool operator==(const Distance& lhs, const Distance& rhs)
+bool operator==(const Distance& lhs,
+	            const Distance& rhs) noexcept
 {
-	return !(lhs.isInfinity || rhs.isInfinity) && (lhs.distance == rhs.distance);
+	return !(lhs.isInfinity || rhs.isInfinity)
+		   && (lhs.distance == rhs.distance);
 }
 
-bool operator>(const Distance& lhs, const Distance& rhs)
+bool operator>(const Distance& lhs,
+	           const Distance& rhs) noexcept
 {
 	return rhs < lhs;
 }
 
-bool operator<=(const Distance& lhs, const Distance& rhs)
+bool operator<=(const Distance& lhs,
+	            const Distance& rhs) noexcept
 {
 	return !(rhs < lhs);
 }
 
-bool operator>=(const Distance& lhs, const Distance& rhs)
+bool operator>=(const Distance& lhs,
+	            const Distance& rhs) noexcept
 {
 	return !(lhs < rhs);
 }
 
-bool operator<(const Distance& lhs, const Distance& rhs)
+bool operator<(const Distance& lhs,
+	           const Distance& rhs) noexcept
 {
-	return (!(lhs.isInfinity || rhs.isInfinity) && (lhs.distance < rhs.distance))
-		|| (!lhs.isInfinity && rhs.isInfinity);
+	return (!(lhs.isInfinity || rhs.isInfinity)
+		    && (lhs.distance < rhs.distance))
+		   ||
+		   (!lhs.isInfinity && rhs.isInfinity);
 }
 
-std::ostream& operator<<(std::ostream& output, const Distance& distance)
+std::ostream& operator<<(std::ostream& output,
+	                     const Distance& d)
 {
-	if (!distance.isInfinity)
+	if (!d.isInfinity)
 	{
-		output << distance.distance;
+		output << d.distance;
 	}
 	else
 	{

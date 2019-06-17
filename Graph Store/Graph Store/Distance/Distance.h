@@ -6,28 +6,20 @@
 class Distance
 {
 public:
-	static const Distance& getInfinity();
+	static const Distance& getInfinity() noexcept;
 
 public:
-	Distance();
-	Distance(unsigned distance);
-	Distance(const Distance&) = default;
-	Distance(Distance&&) = default;
-	Distance& operator=(const Distance&) = default;
-	Distance& operator=(Distance&&) = default;
-	~Distance() = default;
+	Distance() noexcept;
+	Distance(unsigned distance) noexcept;
 
-	Distance& operator=(unsigned distance);
-	Distance& operator+=(const Distance& rhs);
+	Distance& operator+=(const Distance& rhs) noexcept;
 
-	friend std::ostream& operator<<(std::ostream& output, const Distance& distance);
-	
-	friend bool operator==(const Distance& lhs, const Distance& rhs);
-	friend bool operator<(const Distance& lhs, const Distance& rhs);
-
-private:
-	void setDistance(unsigned distance);
-
+	friend std::ostream& operator<<(std::ostream& output,
+		                            const Distance& d);
+	friend bool operator==(const Distance& lhs,
+		                   const Distance& rhs) noexcept;
+	friend bool operator<(const Distance& lhs,
+		                  const Distance& rhs) noexcept;
 private:
 	static const Distance infinity;
 
@@ -36,11 +28,12 @@ private:
 	bool isInfinity;
 };
 
-Distance operator+(const Distance& lhs, const Distance& rhs);
+const Distance operator+(const Distance& lhs,
+	                     const Distance& rhs) noexcept;
 
-bool operator!=(const Distance& lhs, const Distance& rhs);
-bool operator>(const Distance& lhs, const Distance& rhs);
-bool operator<=(const Distance& lhs, const Distance& rhs);
-bool operator>=(const Distance& lhs, const Distance& rhs);
+bool operator!=(const Distance& lhs, const Distance& rhs) noexcept;
+bool operator>(const Distance& lhs, const Distance& rhs) noexcept;
+bool operator<=(const Distance& lhs, const Distance& rhs) noexcept;
+bool operator>=(const Distance& lhs, const Distance& rhs) noexcept;
 
 #endif //__DISTANCE_HEADER_INCLUDED__
