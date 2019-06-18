@@ -2,12 +2,13 @@
 #include <algorithm>
 #include <stdexcept>
 
-ShortestPathAlgorithm::Path::Path(const DecoratedVertex& source, const DecoratedVertex& target) :
+ShortestPathAlgorithm::Path::Path(const DecoratedVertex& source,
+	                              const DecoratedVertex& target) :
 	length(target.distanceToSource)
 {
 	if (existsPathBetween(source, target))
 	{
-		collectIdentifiersOnThePath(target);
+		collectIDsOnThePath(target);
 	}
 }
 
@@ -18,20 +19,20 @@ bool ShortestPathAlgorithm::Path::existsPathBetween(const DecoratedVertex& sourc
 		   || target.parent != nullptr;
 }
 
-void ShortestPathAlgorithm::Path::collectIdentifiersOnThePath(const DecoratedVertex& target)
+void ShortestPathAlgorithm::Path::collectIDsOnThePath(const DecoratedVertex& target)
 {
-	const DecoratedVertex* current = &target;
+	auto current = &target;
 
 	while (current != nullptr)
 	{
-		identifiers.push_front(current->originalVertex->getID());
+		ids.push_front(current->originalVertex->getID());
 
 		current = current->parent;
 	}
 }
 
 ShortestPathAlgorithm::Path::Path(Path&& source) :
-	identifiers(std::move(source.identifiers)),
+	ids(std::move(source.ids)),
 	length(std::move(source.length))
 {
 	source.length = Distance::getInfinity();
@@ -50,7 +51,7 @@ ShortestPathAlgorithm::Path::operator=(Path&& rhs)
 
 void ShortestPathAlgorithm::Path::swapContentsWith(Path p)
 {
-	std::swap(identifiers, p.identifiers);
+	std::swap(ids, p.ids);
 	std::swap(length, p.length);
 }
 
@@ -64,17 +65,19 @@ std::ostream& operator<<(std::ostream& out,
 
 void ShortestPathAlgorithm::Path::print(std::ostream& out) const
 {
-	printIdentifiers(out);
+	printIDs(out);
 	printLength(out);
 }
 
-void ShortestPathAlgorithm::Path::printIdentifiers(std::ostream& out) const
+void ShortestPathAlgorithm::Path::printIDs(std::ostream& out) const
 {
-	if (!identifiers.empty())
+	if (!ids.empty())
 	{
 		out << "Path: ";
 
-		std::for_each(identifiers.cbegin(), identifiers.cend(), [&](const String& id)
+		std::for_each(ids.cbegin(),
+			          ids.cend(),
+			          [&out](const auto& id)
 		{
 			out << id << ", ";
 		});
