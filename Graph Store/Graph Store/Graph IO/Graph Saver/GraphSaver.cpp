@@ -2,23 +2,17 @@
 #include "Graph IO/Exception.h"
 #include "Graph IO/GraphIOConstants.h"
 #include "Graph IO/GraphFilesFunctions.h"
+#include "Invocer/Invocer.h"
 
 namespace GraphIO
 {
 	void GraphSaver::save(const Graph& g)
 	{
-		try
-		{
-			decorateVerticesOf(g);
-			openFileFor(g);
-			saveDecoratedGraph(g);
-			releaseResources();
-		}
-		catch (...)
-		{
-			releaseResources();
-			throw;
-		}
+		auto resourceReleaser =
+			Invocer{ [this]() noexcept { releaseResources(); } };
+		decorateVerticesOf(g);
+		openFileFor(g);
+		saveDecoratedGraph(g);
 	}
 
 	void GraphSaver::decorateVerticesOf(const Graph& g)

@@ -35,23 +35,12 @@ namespace GraphIO
 		void addEdge(const RawEdge& e);
 		unsigned parseUnsignedAndSkipUntil(char c);
 		void releaseResources();
-		auto createResourceReleaser();
 
 	private:
 		std::unique_ptr<Graph> graph;
 		DynamicArray<String> identifiers;
 		FileParser fileParser;
 	};
-
-	inline auto GraphBuilder::createResourceReleaser()
-	{
-		auto deleter =
-			[](GraphBuilder* builder) { builder->releaseResources(); };
-		auto releaser =
-			std::unique_ptr<GraphBuilder, decltype(deleter)>(this, deleter);
-
-		return releaser;
-	}
 
 }
 

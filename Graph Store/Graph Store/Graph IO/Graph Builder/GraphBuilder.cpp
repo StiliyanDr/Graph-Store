@@ -3,13 +3,15 @@
 #include "Graph IO/Exception.h"
 #include "Graph Factory/GraphFactory.h"
 #include "Graph IO/GraphIOConstants.h"
+#include "Invocer/Invocer.h"
 
 namespace GraphIO
 {
 	std::unique_ptr<Graph>
 	GraphBuilder::buildFromFile(const String& fileName)
 	{
-		auto releaser = createResourceReleaser();
+		auto resourceReleaser =
+			Invocer{ [this]() noexcept { releaseResources(); } };
 		openFile(fileName);
 		tryToBuildAGraphFromOpenedFile(fileName);
 
