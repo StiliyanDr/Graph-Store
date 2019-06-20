@@ -1,17 +1,18 @@
 #include "SearchBasedShortestPathAlgorithm.h"
-#include "Graph/Abstract class/Graph.h"
 #include <assert.h>
 
-SearchBasedShortestPathAlgorithm::SearchBasedShortestPathAlgorithm(const String& id) :
-	ShortestPathAlgorithm(id)
+SearchBasedShortestPathAlgorithm::SearchBasedShortestPathAlgorithm(String id) :
+	ShortestPathAlgorithm(std::move(id)),
+	foundAShortestPath(false),
+	target(nullptr)
 {
 }
 
-void SearchBasedShortestPathAlgorithm::decorateVerticesOf(const Graph& graph)
+void SearchBasedShortestPathAlgorithm::decorateVerticesOf(const Graph& g)
 {
-	decoratedVertices.reserve(graph.getVerticesCount());
+	decoratedVertices.reserve(g.getVerticesCount());
 
-	ShortestPathAlgorithm::decorateVerticesOf(graph);
+	ShortestPathAlgorithm::decorateVerticesOf(g);
 }
 
 void SearchBasedShortestPathAlgorithm::addDecoratedVersionOf(const Graph::Vertex& v)
@@ -22,11 +23,13 @@ void SearchBasedShortestPathAlgorithm::addDecoratedVersionOf(const Graph::Vertex
 SearchBasedShortestPathAlgorithm::MarkableDecoratedVertex&
 SearchBasedShortestPathAlgorithm::getDecoratedVersionOf(const Graph::Vertex& v)
 {
-	return decoratedVertices[v.getID()];
+	return decoratedVertices.at(v.getID());
 }
 
 void SearchBasedShortestPathAlgorithm::cleanUp()
 {
+	foundAShortestPath = false;
+	target = nullptr;
 	decoratedVertices.clear();
 }
 
@@ -47,7 +50,7 @@ void SearchBasedShortestPathAlgorithm::checkIfTarget(const MarkableDecoratedVert
 	}
 }
 
-void SearchBasedShortestPathAlgorithm::setTarget(const Graph::Vertex& target)
+void SearchBasedShortestPathAlgorithm::setTarget(const Graph::Vertex& v)
 {
-	this->target = &target;
+	target = &v;
 }

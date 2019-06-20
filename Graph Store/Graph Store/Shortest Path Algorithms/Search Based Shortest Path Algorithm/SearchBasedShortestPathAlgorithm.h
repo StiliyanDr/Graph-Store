@@ -11,8 +11,9 @@ protected:
 	struct MarkableDecoratedVertex : public DecoratedVertex
 	{
 		MarkableDecoratedVertex() = default;
-		MarkableDecoratedVertex(const Graph::Vertex& originalVertex) :
-			DecoratedVertex(originalVertex),
+		explicit MarkableDecoratedVertex(const Graph::Vertex& originalVertex)
+		noexcept :
+			DecoratedVertex{ originalVertex },
 			isVisited(false)
 		{
 		}
@@ -21,20 +22,23 @@ protected:
 	};
 
 private:
-	using Hash =
-		std::unordered_map<std::reference_wrapper<const String>, MarkableDecoratedVertex, HashFunction<String>>;
+	using Map = std::unordered_map<std::reference_wrapper<const String>,
+		                           MarkableDecoratedVertex,
+		                           HashFunction<String>>;
 
 protected:
-	SearchBasedShortestPathAlgorithm(const String& id);
+	explicit SearchBasedShortestPathAlgorithm(String id);
 	SearchBasedShortestPathAlgorithm(const SearchBasedShortestPathAlgorithm&) = delete;
-	SearchBasedShortestPathAlgorithm& operator=(const SearchBasedShortestPathAlgorithm&) = delete;
+	SearchBasedShortestPathAlgorithm&
+		operator=(const SearchBasedShortestPathAlgorithm&) = delete;
 
-	virtual void cleanUp() override;
-	virtual void addDecoratedVersionOf(const Graph::Vertex& v) override;
-	virtual MarkableDecoratedVertex& getDecoratedVersionOf(const Graph::Vertex& v) override;
+	void decorateVerticesOf(const Graph& g) override;
+	void addDecoratedVersionOf(const Graph::Vertex& v) override;
+	MarkableDecoratedVertex&
+		getDecoratedVersionOf(const Graph::Vertex& v) override;
 	virtual void visitVertex(MarkableDecoratedVertex& successor,
 							 const MarkableDecoratedVertex& predecessor);
-	virtual void decorateVerticesOf(const Graph& g) override;
+	void cleanUp() override;
 	void setTarget(const Graph::Vertex& target);
 	void checkIfTarget(const MarkableDecoratedVertex& v);
 
@@ -43,7 +47,7 @@ protected:
 
 private:
 	const Graph::Vertex* target;
-	Hash decoratedVertices;
+	Map decoratedVertices;
 };
 
 #endif //__SEARCH_BASED_SHORTEST_PATH_ALGORITHM_HEADER_INCLUDED__
