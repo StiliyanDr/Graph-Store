@@ -1,4 +1,5 @@
 #include "ShortestPathAlgorithm.h"
+#include "Invocer/Invocer.h"
 #include <algorithm>
 #include <stdexcept>
 
@@ -95,16 +96,16 @@ void ShortestPathAlgorithm::Path::printLength(std::ostream& out) const
 	out << "Path length: " << length;
 }
 
-ShortestPathAlgorithm::ShortestPathAlgorithm(const String& id)
+ShortestPathAlgorithm::ShortestPathAlgorithm(String id)
 {
-	setID(id);
+	setID(std::move(id));
 }
 
-void ShortestPathAlgorithm::setID(const String& id)
+void ShortestPathAlgorithm::setID(String id)
 {
 	if (id != ""_s)
 	{
-		this->id = id;
+		this->id = std::move(id);
 	}
 	else
 	{
@@ -117,37 +118,30 @@ ShortestPathAlgorithm::findShortestPath(const Graph& graph,
 										const Graph::Vertex& source,
 										const Graph::Vertex& target)
 {
-	try
-	{
-		initialise(graph, source, target);
-		execute(graph, source, target);
-		Path result = createPathBetween(source, target);
-		cleanUp();
+	auto resourceReleaser =
+		Invocer{[this]() noexcept { cleanUp(); }};
+	initialise(graph, source, target);
+	execute(graph, source, target);
+	auto path = createPathBetween(source, target);
 
-		return result;
-	}
-	catch (std::bad_alloc&)
-	{
-		cleanUp();
-		throw;
-	}
+	return path;
 }
 
 ShortestPathAlgorithm::Path
 ShortestPathAlgorithm::createPathBetween(const Graph::Vertex& source,
 										 const Graph::Vertex& target)
 {
-	DecoratedVertex& decoratedSource = getDecoratedVersionOf(source);
-	DecoratedVertex& decoratedTarget = getDecoratedVersionOf(target);
-
-	return Path(decoratedSource, decoratedTarget);
+	return Path(getDecoratedVersionOf(source),
+		        getDecoratedVersionOf(target));
 }
 
-void ShortestPathAlgorithm::decorateVerticesOf(const Graph& graph)
+void ShortestPathAlgorithm::decorateVerticesOf(const Graph& g)
 {
-	forEach(*(graph.getConstIteratorOfVertices()), [&](const Graph::Vertex& v)
+	auto iterator = g.getConstIteratorOfVertices();
+	
+	forEach(*iterator, [this](const auto& vertex)
 	{
-		addDecoratedVersionOf(v);
+		addDecoratedVersionOf(vertex);
 	});
 }
 
@@ -157,7 +151,7 @@ void ShortestPathAlgorithm::initialiseSource(DecoratedVertex& source)
 	source.distanceToSource = 0;
 }
 
-const String& ShortestPathAlgorithm::getID() const
+const String& ShortestPathAlgorithm::getID() const noexcept
 {
 	return id;
 }

@@ -58,27 +58,34 @@ public:
 public:
 	virtual ~ShortestPathAlgorithm() = default;
 
-	Path findShortestPath(const Graph& g, const Graph::Vertex& source, const Graph::Vertex& target);
-	const String& getID() const;
+	Path findShortestPath(const Graph& g,
+		                  const Graph::Vertex& source,
+		                  const Graph::Vertex& target);
+	const String& getID() const noexcept;
 
 protected:
 	static void initialiseSource(DecoratedVertex& source);
 
 protected:
-	ShortestPathAlgorithm(const String& id);
+	explicit ShortestPathAlgorithm(String id);
 	ShortestPathAlgorithm(const ShortestPathAlgorithm&) = default;
 	ShortestPathAlgorithm& operator=(const ShortestPathAlgorithm&) = default;
 
-	virtual void initialise(const Graph& g, const Graph::Vertex& source, const Graph::Vertex& target) = 0;
-	virtual void execute(const Graph& g, const Graph::Vertex& source, const Graph::Vertex& target) = 0;
-	virtual void cleanUp() = 0;
 	virtual void addDecoratedVersionOf(const Graph::Vertex& v) = 0;
 	virtual DecoratedVertex& getDecoratedVersionOf(const Graph::Vertex& v) = 0;
 	virtual void decorateVerticesOf(const Graph& g);
 
 private:
-	Path createPathBetween(const Graph::Vertex& source, const Graph::Vertex& target);
-	void setID(const String& id);
+	virtual void initialise(const Graph& g,
+							const Graph::Vertex& source,
+							const Graph::Vertex& target) = 0;
+	virtual void execute(const Graph& g,
+						 const Graph::Vertex& source,
+						 const Graph::Vertex& target) = 0;
+	virtual void cleanUp() = 0;
+	Path createPathBetween(const Graph::Vertex& source,
+		                   const Graph::Vertex& target);
+	void setID(String id);
 
 private:
 	String id;
