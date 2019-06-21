@@ -4,8 +4,8 @@
 
 static ShortestPathAlgorithmRegistrator<BFSShortestPath> registrator("bfs");
 
-BFSShortestPath::BFSShortestPath(const String& id) :
-	SearchBasedShortestPathAlgorithm(id),
+BFSShortestPath::BFSShortestPath(String id) :
+	SearchBasedShortestPathAlgorithm(std::move(id)),
 	frontier(0)
 {
 }
@@ -15,10 +15,10 @@ void BFSShortestPath::initialise(const Graph& graph,
 								 const Graph::Vertex& target)
 {
 	assert(frontier.isEmpty());
+	assert(!foundAShortestPath);
 
 	if (source != target)
 	{
-		foundAShortestPath = false;
 		setTarget(target);
 		decorateVerticesOf(graph);
 		initialiseFrontier(graph.getVerticesCount());
@@ -38,7 +38,7 @@ void BFSShortestPath::initialiseFrontier(std::size_t maxSize)
 
 void BFSShortestPath::initialiseSourceAndAddItToFrontier(const Graph::Vertex& source)
 {
-	MarkableDecoratedVertex& decoratedSource =
+	auto& decoratedSource =
 		getDecoratedVersionOf(source);
 
 	decoratedSource.isVisited = true;
@@ -57,31 +57,28 @@ void BFSShortestPath::prepareTrivialPath(const Graph::Vertex& source)
 	initialiseSource(getDecoratedVersionOf(source));
 }
 
-void BFSShortestPath::execute(const Graph& graph,
+void BFSShortestPath::execute(const Graph& g,
 							  const Graph::Vertex& source,
 							  const Graph::Vertex& target)
 {
-	const MarkableDecoratedVertex* vertex;
-
 	while (!(foundAShortestPath || frontier.isEmpty()))
 	{
-		vertex = extractNextVertexFromFrontier();
-		exploreEdgesLeaving(*vertex, graph);
+		auto v = extractNextVertexFromFrontier();
+		exploreEdgesLeaving(*v, g);
 	}
 }
 
-void BFSShortestPath::exploreEdgesLeaving(const MarkableDecoratedVertex& predecessor,
-										  const Graph& graph)
+void BFSShortestPath::exploreEdgesLeaving(const MarkableDecoratedVertex& v,
+										  const Graph& g)
 {
-	Graph::OutgoingEdgesConstIterator iterator =
-		graph.getConstIteratorOfEdgesLeaving(*(predecessor.originalVertex));
+	auto iterator =
+		g.getConstIteratorOfEdgesLeaving(*(v.originalVertex));
 
-	forEach(*iterator, [&](const Graph::OutgoingEdge& e)
+	forEach(*iterator, [this, &v](const auto& edge)
 	{
-		MarkableDecoratedVertex& successor =
-			getDecoratedVersionOf(e.getEnd());
-
-		exploreEdge(predecessor, successor);
+		auto& successor =
+			getDecoratedVersionOf(edge.getEnd());
+		exploreEdge(v, successor);
 	});
 }
 
@@ -98,13 +95,13 @@ void BFSShortestPath::exploreEdge(const MarkableDecoratedVertex& predecessor,
 	checkIfTarget(successor);
 }
 
-void BFSShortestPath::visitVertex(MarkableDecoratedVertex& successor,
+void BFSShortestPath::visitVertex(MarkableDecoratedVertex& v,
 								  const MarkableDecoratedVertex& predecessor)
 {
-	assert(!successor.isVisited);
-	successor.isVisited = true;
+	assert(!v.isVisited);
+	v.isVisited = true;
 
-	SearchBasedShortestPathAlgorithm::visitVertex(successor, predecessor);
+	SearchBasedShortestPathAlgorithm::visitVertex(v, predecessor);
 }
 
 const BFSShortestPath::MarkableDecoratedVertex*
