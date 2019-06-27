@@ -68,12 +68,36 @@ AbstractIterator<Item, isConst>::verifyValidityAndReturnCurrentItem() const
 	}
 }
 
+template <class Iterator, class UnaryPredicate, class UnaryFunction>
+inline void forEachUntil(Iterator& iterator,
+	                     UnaryPredicate p,
+	                     UnaryFunction f)
+{
+	forEachWhile(iterator, unaryComplementOf(p), f);
+}
+
 template <class Iterator, class UnaryFunction>
 void forEach(Iterator& iterator, UnaryFunction f)
 {
+	auto alwaysTrue =
+		[](const auto&) noexcept { return true; };
+	forEachWhile(iterator, alwaysTrue, f);
+}
+
+template <class Iterator, class UnaryPredicate, class UnaryFunction>
+void forEachWhile(Iterator& iterator, UnaryPredicate p, UnaryFunction f)
+{
 	while (iterator)
 	{
-		f(*iterator);
+		auto&& item = *iterator;
+
+		if (!p(item))
+		{
+			break;
+		}
+
+		using T = decltype(item);
+		f(std::forward<T>(item));
 
 		++iterator;
 	}
