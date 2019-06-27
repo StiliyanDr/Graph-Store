@@ -1,31 +1,30 @@
 #include "IterativeDeepeningDFS.h"
-#include "Graph/Abstract class/Graph.h"
 #include "../Algorithm Registrator/ShortestPathAlgorithmRegistrator.h"
 
 static ShortestPathAlgorithmRegistrator<IterativeDeepeningDFS> registrator("dfs-shortest");
 
-IterativeDeepeningDFS::IterativeDeepeningDFS(const String& id) :
-	SearchBasedShortestPathAlgorithm(id)
+IterativeDeepeningDFS::IterativeDeepeningDFS(String id) :
+	SearchBasedShortestPathAlgorithm(std::move(id)),
+	graph(nullptr)
 {
 }
 
-void IterativeDeepeningDFS::initialise(const Graph& graph,
+void IterativeDeepeningDFS::initialise(const Graph& g,
 									   const Graph::Vertex& source,
 									   const Graph::Vertex& target)
 {
-	decorateVerticesOf(graph);
+	decorateVerticesOf(g);
 	initialiseSource(getDecoratedVersionOf(source));
-	setGraph(graph);
+	setGraph(g);
 	setTarget(target);
-	foundAShortestPath = false;
 }
 
-void IterativeDeepeningDFS::execute(const Graph& graph,
+void IterativeDeepeningDFS::execute(const Graph& g,
 									const Graph::Vertex& source,
 									const Graph::Vertex& target)
 {
-	unsigned maxLengthOfShortestPath = graph.getVerticesCount() - 1;
-	unsigned depth = 0;
+	auto maxLengthOfShortestPath = g.getVerticesCount() - 1;
+	auto depth = 0u;
 
 	while (!foundAShortestPath && depth <= maxLengthOfShortestPath)
 	{
@@ -34,45 +33,53 @@ void IterativeDeepeningDFS::execute(const Graph& graph,
 	}
 }
 
-void IterativeDeepeningDFS::depthLimitedSearch(MarkableDecoratedVertex& vertex,
+void IterativeDeepeningDFS::depthLimitedSearch(MarkableDecoratedVertex& v,
 											   unsigned depth)
 {
-	vertex.isVisited = true;
+	v.isVisited = true;
 
 	if (depth == 0)
 	{
-		checkIfTarget(vertex);
+		checkIfTarget(v);
 	}
 	else
 	{
-		expandSearch(vertex, depth - 1);
+		expandSearch(v, depth - 1);
 	}
 
-	vertex.isVisited = false;
+	v.isVisited = false;
 }
 
-void IterativeDeepeningDFS::expandSearch(const MarkableDecoratedVertex& predecessor,
+void IterativeDeepeningDFS::expandSearch(const MarkableDecoratedVertex& v,
 										 unsigned depth)
 {
-	Graph::OutgoingEdgesConstIterator iterator =
-		graph->getConstIteratorOfEdgesLeaving(*(predecessor.originalVertex));
+	auto iterator =
+		graph->getConstIteratorOfEdgesLeaving(*(v.originalVertex));
+	auto hasFoundAShortestPath =
+		[this](const auto&) noexcept { return foundAShortestPath; };
 
-	while (!foundAShortestPath && *iterator)
+	forEachUntil(*iterator,
+		         hasFoundAShortestPath,
+				 [this, &v, depth](const auto& edge)
 	{
-		MarkableDecoratedVertex& successor =
-			getDecoratedVersionOf((*iterator)->getEnd());
+		auto& successor =
+			getDecoratedVersionOf(edge.getEnd());
 
 		if (!successor.isVisited)
 		{
-			visitVertex(successor, predecessor);
+			visitVertex(successor, v);
 			depthLimitedSearch(successor, depth);
 		}
-
-		++(*iterator);
-	}
+	});
 }
 
-void IterativeDeepeningDFS::setGraph(const Graph& graph)
+void IterativeDeepeningDFS::setGraph(const Graph& g) noexcept
 {
-	this->graph = &graph;
+	graph = &g;
+}
+
+void IterativeDeepeningDFS::cleanUp()
+{
+	graph = nullptr;
+	SearchBasedShortestPathAlgorithm::cleanUp();
 }
