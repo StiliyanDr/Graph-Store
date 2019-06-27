@@ -12,8 +12,8 @@ class DijkstraShortestPath : public ShortestPathAlgorithm
 	struct DijkstraVertex : public DecoratedVertex
 	{
 		DijkstraVertex() = default;
-		DijkstraVertex(const Graph::Vertex& originalVertex) noexcept :
-			DecoratedVertex(originalVertex)
+		explicit DijkstraVertex(const Graph::Vertex& v) noexcept :
+			DecoratedVertex{ v }
 		{
 		}
 
@@ -26,12 +26,14 @@ class DijkstraShortestPath : public ShortestPathAlgorithm
 		const Distance& getKeyOf(const DijkstraVertex* v)
 		const noexcept
 		{
+			assert(v != nullptr);
 			return v->distanceToSource;
 		}
 
 		void setKeyOfWith(DijkstraVertex* v, const Distance& d)
 		const noexcept
 		{
+			assert(v != nullptr);
 			v->distanceToSource = d;
 		}
 	};
@@ -42,28 +44,35 @@ class DijkstraShortestPath : public ShortestPathAlgorithm
 		void operator()(DijkstraVertex* v, const PriorityQueueHandle& h)
 		const noexcept
 		{
+			assert(v != nullptr);
 			v->handle = h;
 		}
 	};
 
-	using PriorityQueue = PriorityQueue<DijkstraVertex*, Less, Distance, KeyAccessor, HandleUpdator>;
-	using Hash = std::unordered_map<std::reference_wrapper<const String>, DijkstraVertex, HashFunction<String>>;
+	using PriorityQueue = PriorityQueue<DijkstraVertex*,
+		                                Less,
+		                                Distance,
+		                                KeyAccessor,
+		                                HandleUpdator>;
+	using Map = std::unordered_map<std::reference_wrapper<const String>,
+		                           DijkstraVertex,
+		                           HashFunction<String>>;
 
-	class HashIterator
+	class MapIterator
 	{
 	public:
-		using difference_type = Hash::iterator::difference_type;
-		using value_type = Hash::iterator::value_type*;
+		using difference_type = Map::iterator::difference_type;
+		using value_type = Map::iterator::value_type*;
 		using pointer = value_type*;
 		using reference = value_type&;
-		using iterator_category = Hash::iterator::iterator_category;
+		using iterator_category = Map::iterator::iterator_category;
 
-		HashIterator(const Hash::iterator& iterator) :
+		explicit MapIterator(Map::iterator iterator) :
 			iterator(iterator)
 		{
 		}
 
-		HashIterator& operator++()
+		MapIterator& operator++()
 		{
 			++iterator;
 
@@ -75,14 +84,14 @@ class DijkstraShortestPath : public ShortestPathAlgorithm
 			return &(iterator->second);
 		}
 
-		friend bool operator!=(const HashIterator& lhs,
-			                   const HashIterator& rhs)
+		friend bool operator!=(const MapIterator& lhs,
+			                   const MapIterator& rhs)
 		{
 			return lhs.iterator != rhs.iterator;
 		}
 
 	private:
-		Hash::iterator iterator;
+		Map::iterator iterator;
 	};
 
 public:
@@ -103,7 +112,7 @@ private:
 
 private:
 	PriorityQueue undeterminedEstimateVertices;
-	Hash decoratedVertices;
+	Map decoratedVertices;
 };
 
 #endif //__DIJKSTRA_SHORTEST_PATH_HEADER_INCLUDED__
