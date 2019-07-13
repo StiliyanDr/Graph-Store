@@ -2,42 +2,40 @@
 #define __DYNAMIC_ARRAY_HEADER_INCLUDED__
 
 #include <type_traits>
+#include "Iterator/Iterator.h"
 
 template <class T>
 class DynamicArray
 {
 public:
 	template <class Item, bool isConst = false>
-	class DynamicArrayIterator
+	class DynamicArrayIterator : public AbstractIterator<Item, isConst>
 	{
 		friend class DynamicArray<Item>;
 
 		using Position = std::size_t;
-		using OwnerPtr = std::conditional_t<isConst, const DynamicArray<Item>*, DynamicArray<Item>*>;
-
+		using OwnerPtr = std::conditional_t<isConst,
+			                                const DynamicArray<Item>*,
+			                                DynamicArray<Item>*>;
 	public:
-		using Reference = std::conditional_t<isConst, const Item&, Item&>;
-		using Pointer = std::conditional_t<isConst, const Item*, Item*>;
+		using typename AbstractIterator<Item, isConst>::Reference;
+		using typename AbstractIterator<Item, isConst>::Pointer;
 
 	public:
 		DynamicArrayIterator(const DynamicArrayIterator<Item, false>& source) noexcept;
 
-		DynamicArrayIterator<Item, isConst>& operator++() noexcept;
-		DynamicArrayIterator<Item, isConst> operator++(int) noexcept;
-		Reference operator*() const;
-		Pointer operator->() const;
-		bool operator!() const noexcept;
-		operator bool() const noexcept;
+		DynamicArrayIterator& operator++() noexcept override;
+		const DynamicArrayIterator operator++(int) noexcept;
 
 		template <class Item, bool isConst>
 		friend bool operator==(typename const DynamicArray<Item>::DynamicArrayIterator<Item, isConst>& lhs,
 							   typename const DynamicArray<Item>::DynamicArrayIterator<Item, isConst>& rhs) noexcept;
 
 	private:
-		DynamicArrayIterator(Position currentPosition, OwnerPtr owner);
+		DynamicArrayIterator(Position currentPosition, OwnerPtr owner) noexcept;
 
-		Reference getCurrentItem() const;
-		bool isValid() const noexcept;
+		Reference getCurrentItem() const override;
+		bool isValid() const noexcept override;
 
 	private:
 		Position currentPosition;
