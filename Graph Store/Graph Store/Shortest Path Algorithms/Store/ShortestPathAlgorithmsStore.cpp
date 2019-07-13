@@ -34,8 +34,8 @@ ShortestPathAlgorithmsStore::instance()
 ShortestPathAlgorithm&
 ShortestPathAlgorithmsStore::operator[](const String& id)
 {
-	Collection::Iterator iterator =
-		findIf(algorithms.getIterator(), IDComparator(id));
+	auto iterator =
+		findIf(algorithms.getIterator(), IDComparator{ id });
 
 	if (iterator)
 	{
@@ -43,7 +43,7 @@ ShortestPathAlgorithmsStore::operator[](const String& id)
 	}
 	else
 	{
-		throw RuntimeError(id + " is not one of the supported algorithms!");
+		throw RuntimeError{ id + " is not one of the supported algorithms!" };
 	}
 }
 
@@ -55,12 +55,12 @@ void ShortestPathAlgorithmsStore::addAlgorithm(ShortestPathAlgorithm& a)
 	}
 	else
 	{
-		throw std::logic_error("Duplicate algorithm!");
+		throw std::logic_error{ "Duplicate algorithm!" };
 	}
 }
 
 bool ShortestPathAlgorithmsStore::contains(const String& id) const
 {
 	return anyOf(algorithms.getConstIterator(),
-		         IDComparator(id));
+		         IDComparator{ id });
 }

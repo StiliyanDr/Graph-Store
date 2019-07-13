@@ -24,18 +24,19 @@ public:
 	static ShortestPathAlgorithmsStore& instance();
 
 public:
+	ShortestPathAlgorithmsStore(const ShortestPathAlgorithmsStore&) = delete;
+	ShortestPathAlgorithmsStore&
+		operator=(const ShortestPathAlgorithmsStore&) = delete;
 	ShortestPathAlgorithm& operator[](const String& id);
 	void addAlgorithm(ShortestPathAlgorithm& a);
 	bool contains(const String& id) const;
 
 private:
 	ShortestPathAlgorithmsStore();
-	ShortestPathAlgorithmsStore(const ShortestPathAlgorithmsStore&);
-	ShortestPathAlgorithmsStore& operator=(const ShortestPathAlgorithmsStore&);
 	~ShortestPathAlgorithmsStore() = default;
 
 private:
-	static const std::size_t INITIAL_COLLECTION_SIZE = 4;
+	static const std::size_t INITIAL_COLLECTION_SIZE = 4u;
 
 private:
 	Collection algorithms;

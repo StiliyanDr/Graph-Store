@@ -13,8 +13,9 @@ public:
 		ShortestPathAlgorithmsStore::instance().addAlgorithm(algorithm);
 	}
 
-	ShortestPathAlgorithmRegistrator(const ShortestPathAlgorithmRegistrator<Algorithm>&) = delete;
-	ShortestPathAlgorithmRegistrator<Algorithm>& operator=(const ShortestPathAlgorithmRegistrator<Algorithm>&) = delete;
+	ShortestPathAlgorithmRegistrator(const ShortestPathAlgorithmRegistrator&) = delete;
+	ShortestPathAlgorithmRegistrator&
+		operator=(const ShortestPathAlgorithmRegistrator&) = delete;
 
 private:
 	Algorithm algorithm;
