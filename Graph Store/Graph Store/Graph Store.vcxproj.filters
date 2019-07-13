@@ -196,9 +196,6 @@
     <Filter Include="Shortest Path Algorithms\Shortest Path Algorithms Store">
       <UniqueIdentifier>{64578d2a-b4d0-4f1f-8e7e-314661566a2d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shortest Path Algorithms\Shortest Path Algorithms Store\Unsupported Algorithm Exception">
-      <UniqueIdentifier>{67ab741e-39dc-4359-a299-aa7727dca3ff}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Invocer">
       <UniqueIdentifier>{27156600-961b-48bc-8634-73ed23db1328}</UniqueIdentifier>
     </Filter>
@@ -290,9 +287,6 @@
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Store\ShortestPathAlgorithmsStore.h">
       <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
-    </ClInclude>
-    <ClInclude Include="Shortest Path Algorithms\Store\Unsupported Alogirhtm Exception\UnsupportedAlgorithmException.h">
-      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store\Unsupported Algorithm Exception</Filter>
     </ClInclude>
     <ClInclude Include="String\String.h">
       <Filter>String</Filter>
