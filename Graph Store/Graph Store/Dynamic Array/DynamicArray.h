@@ -89,8 +89,8 @@ private:
 	void doAdd(U&& item);
 	template <class U>
 	void doAddAt(SizeType index, U&& item);
-	void shiftLeft(SizeType first, SizeType last);
-	void shiftRight(SizeType first, SizeType last);
+	void shiftLeft(SizeType first, SizeType last) noexcept;
+	void shiftRight(SizeType first, SizeType last) noexcept;
 	void extendIfFull();
 	void resize(SizeType newCapacity);
 	void copyFrom(const DynamicArray& source);

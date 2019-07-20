@@ -182,13 +182,13 @@ void DynamicArray<T>::doAddAt(SizeType index, U&& item)
 
 template <class T>
 void DynamicArray<T>::shiftRight(SizeType first,
-	                             SizeType last)
+	                             SizeType last) noexcept
 {
 	assert(last + 1 < capacity);
 
 	for (SizeType i = last + 1; i > first; --i)
 	{
-		items[i] = std::move(items[i - 1]);
+		items[i] = moveAssignIfNoexcept(items[i - 1]);
 	}
 }
 
@@ -215,14 +215,14 @@ inline void DynamicArray<T>::removeAt(SizeType index)
 
 template <class T>
 void DynamicArray<T>::shiftLeft(SizeType first,
-	                            SizeType last)
+	                            SizeType last) noexcept
 {
 	assert(first > 0);
 	assert(last < capacity);
 
 	for (SizeType i = first - 1; i < last; ++i)
 	{
-		items[i] = std::move(items[i + 1]);
+		items[i] = moveAssignIfNoexcept(items[i + 1]);
 	}
 }
 
