@@ -9,7 +9,7 @@ inline DynamicArray<T>::DynamicArray() noexcept :
 }
 
 template <class T>
-DynamicArray<T>::DynamicArray(std::size_t capacity, std::size_t size) :
+DynamicArray<T>::DynamicArray(SizeType capacity, SizeType size) :
 	capacity(capacity),
 	items(nullptr)
 {
@@ -22,7 +22,7 @@ DynamicArray<T>::DynamicArray(std::size_t capacity, std::size_t size) :
 }
 
 template <class T>
-void DynamicArray<T>::setSize(std::size_t newSize)
+void DynamicArray<T>::setSize(SizeType newSize)
 {
 	if (newSize <= capacity)
 	{
@@ -55,7 +55,7 @@ void DynamicArray<T>::copyFrom(const DynamicArray<T>& source)
 {
 	DynamicArray<T> theCopy(source.capacity, source.size);
 
-	for (std::size_t i = 0; i < source.size; ++i)
+	for (SizeType i = 0; i < source.size; ++i)
 	{
 		theCopy.items[i] = source.items[i];
 	}
@@ -135,13 +135,13 @@ void DynamicArray<T>::extendIfFull()
 }
 
 template <class T>
-void DynamicArray<T>::resize(std::size_t newCapacity)
+void DynamicArray<T>::resize(SizeType newCapacity)
 {
-	std::size_t newSize = (newCapacity < size) ? newCapacity : size;
+	SizeType newSize = (newCapacity < size) ? newCapacity : size;
 
 	DynamicArray<T> newArray(newCapacity, newSize);
 
-	for (std::size_t i = 0; i < newSize; ++i)
+	for (SizeType i = 0; i < newSize; ++i)
 	{
 		newArray.items[i] = moveAssignIfNoexcept(items[i]);
 	}
@@ -150,14 +150,14 @@ void DynamicArray<T>::resize(std::size_t newCapacity)
 }
 
 template <class T>
-inline void DynamicArray<T>::addAt(std::size_t index,
+inline void DynamicArray<T>::addAt(SizeType index,
 	                               const T& item)
 {
 	doAddAt(index, item);
 }
 
 template <class T>
-inline void DynamicArray<T>::addAt(std::size_t index,
+inline void DynamicArray<T>::addAt(SizeType index,
 	                               T&& item)
 {
 	doAddAt(index, std::move(item));
@@ -165,7 +165,7 @@ inline void DynamicArray<T>::addAt(std::size_t index,
 
 template <class T>
 template <class U>
-void DynamicArray<T>::doAddAt(std::size_t index, U&& item)
+void DynamicArray<T>::doAddAt(SizeType index, U&& item)
 {
 	if (index <= size)
 	{
@@ -181,12 +181,12 @@ void DynamicArray<T>::doAddAt(std::size_t index, U&& item)
 }
 
 template <class T>
-void DynamicArray<T>::shiftRight(std::size_t first,
-	                             std::size_t last)
+void DynamicArray<T>::shiftRight(SizeType first,
+	                             SizeType last)
 {
 	assert(last + 1 < capacity);
 
-	for (std::size_t i = last + 1; i > first; --i)
+	for (SizeType i = last + 1; i > first; --i)
 	{
 		items[i] = std::move(items[i - 1]);
 	}
@@ -206,7 +206,7 @@ void DynamicArray<T>::removeLast()
 }
 
 template <class T>
-inline void DynamicArray<T>::removeAt(std::size_t index)
+inline void DynamicArray<T>::removeAt(SizeType index)
 {
 	validateIndex(index);
 
@@ -214,20 +214,20 @@ inline void DynamicArray<T>::removeAt(std::size_t index)
 }
 
 template <class T>
-void DynamicArray<T>::shiftLeft(std::size_t first,
-	                            std::size_t last)
+void DynamicArray<T>::shiftLeft(SizeType first,
+	                            SizeType last)
 {
 	assert(first > 0);
 	assert(last < capacity);
 
-	for (std::size_t i = first - 1; i < last; ++i)
+	for (SizeType i = first - 1; i < last; ++i)
 	{
 		items[i] = std::move(items[i + 1]);
 	}
 }
 
 template <class T>
-inline T& DynamicArray<T>::operator[](std::size_t index)
+inline T& DynamicArray<T>::operator[](SizeType index)
 {
 	const DynamicArray<T>& arr = *this;
 
@@ -236,7 +236,7 @@ inline T& DynamicArray<T>::operator[](std::size_t index)
 
 template <class T>
 const T&
-DynamicArray<T>::operator[](std::size_t index) const
+DynamicArray<T>::operator[](SizeType index) const
 {
 	validateIndex(index);
 
@@ -244,7 +244,7 @@ DynamicArray<T>::operator[](std::size_t index) const
 }
 
 template <class T>
-inline void DynamicArray<T>::reserve(std::size_t capacity)
+inline void DynamicArray<T>::reserve(SizeType capacity)
 {
 	if (capacity > this->capacity)
 	{
@@ -281,7 +281,7 @@ inline void DynamicArray<T>::nullifyMembers()
 }
 
 template <class T>
-inline void DynamicArray<T>::validateIndex(std::size_t i) const
+inline void DynamicArray<T>::validateIndex(SizeType i) const
 {
 	if (i >= size)
 	{
@@ -296,13 +296,15 @@ inline bool DynamicArray<T>::isEmpty() const noexcept
 }
 
 template <class T>
-inline std::size_t DynamicArray<T>::getSize() const noexcept
+inline auto DynamicArray<T>::getSize() const noexcept
+-> SizeType
 {
 	return size;
 }
 
 template <class T>
-inline std::size_t DynamicArray<T>::getCapacity() const noexcept
+inline auto DynamicArray<T>::getCapacity() const noexcept
+-> SizeType
 {
 	return capacity;
 }

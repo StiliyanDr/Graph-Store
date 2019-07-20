@@ -8,12 +8,14 @@ template <class T>
 class DynamicArray
 {
 public:
+	using SizeType = std::size_t;
+
 	template <class Item, bool isConst = false>
 	class DynamicArrayIterator : public AbstractIterator<Item, isConst>
 	{
 		friend class DynamicArray<Item>;
 
-		using Position = std::size_t;
+		using Position = SizeType;
 		using OwnerPtr = std::conditional_t<isConst,
 			                                const DynamicArray<Item>*,
 			                                DynamicArray<Item>*>;
@@ -47,7 +49,7 @@ public:
 
 public:
 	DynamicArray() noexcept;
-	explicit DynamicArray(std::size_t capacity, std::size_t size = 0);
+	explicit DynamicArray(SizeType capacity, SizeType size = 0);
 	DynamicArray(DynamicArray<T>&& source) noexcept;
 	DynamicArray(const DynamicArray<T>& source);
 	DynamicArray<T>& operator=(DynamicArray<T>&& rhs) noexcept;
@@ -56,47 +58,47 @@ public:
 
 	void add(const T& item);
 	void add(T&& item);
-	void removeAt(std::size_t index);
+	void removeAt(SizeType index);
 	void removeLast();
 
-	void addAt(std::size_t index, const T& item);
-	void addAt(std::size_t index, T&& item);
-	void reserve(std::size_t capacity);
+	void addAt(SizeType index, const T& item);
+	void addAt(SizeType index, T&& item);
+	void reserve(SizeType capacity);
 	void empty() noexcept;
 	bool isEmpty() const noexcept;
 
-	std::size_t getCapacity() const noexcept;
-	std::size_t getSize() const noexcept;
+	SizeType getCapacity() const noexcept;
+	SizeType getSize() const noexcept;
 
 	Iterator getIterator() noexcept;
 	ConstIterator getConstIterator() const noexcept;
 
 public:
-	T& operator[](std::size_t index);
-	const T& operator[](std::size_t index) const;
+	T& operator[](SizeType index);
+	const T& operator[](SizeType index) const;
 
 private:
 	template <class U>
 	void doAdd(U&& item);
 	template <class U>
-	void doAddAt(std::size_t index, U&& item);
-	void shiftLeft(std::size_t first, std::size_t last);
-	void shiftRight(std::size_t first, std::size_t last);
+	void doAddAt(SizeType index, U&& item);
+	void shiftLeft(SizeType first, SizeType last);
+	void shiftRight(SizeType first, SizeType last);
 	void extendIfFull();
-	void resize(std::size_t newCapacity);
+	void resize(SizeType newCapacity);
 	void copyFrom(const DynamicArray<T>& source);
 	void swapContentsWith(DynamicArray<T> other);
 	void destroyItems();
 	void nullifyMembers();
-	void validateIndex(std::size_t i) const;
-	void setSize(std::size_t newSize);
+	void validateIndex(SizeType i) const;
+	void setSize(SizeType newSize);
 
 private:
-	static const std::size_t GROWTH_RATE = 2;
+	static const SizeType GROWTH_RATE = 2;
 
 private:
-	std::size_t size;
-	std::size_t capacity;
+	SizeType size;
+	SizeType capacity;
 	T* items;
 };
 
