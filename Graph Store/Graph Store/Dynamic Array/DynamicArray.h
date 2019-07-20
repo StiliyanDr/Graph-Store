@@ -7,6 +7,8 @@
 template <class T>
 class DynamicArray
 {
+	static_assert(std::is_default_constructible_v<T>,
+		          "T must be default constructible!");
 	static_assert((std::is_nothrow_copy_constructible_v<T>
 		           && std::is_nothrow_copy_assignable_v<T>)
 		          ||
