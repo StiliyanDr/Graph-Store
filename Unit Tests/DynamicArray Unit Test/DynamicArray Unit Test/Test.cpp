@@ -18,9 +18,9 @@ namespace DynamicArrayUnitTest
 			return s == "";
 		}
 
-		bool hasNullForCountAndSize(const Array& arr)
+		bool hasNullForCapacityAndSize(const Array& arr)
 		{
-			return (arr.getSize() == 0 && arr.getCount() == 0);
+			return (arr.getCapacity() == 0 && arr.getSize() == 0);
 		}
 
 		void fillArrayWithNumbersFromTo(Array &arr, unsigned firstNumber, unsigned lastNumber)
@@ -43,14 +43,14 @@ namespace DynamicArrayUnitTest
 
 		bool areEqual(const Array& lhs, const Array& rhs)
 		{
-			const std::size_t lhsCount = lhs.getCount();
+			const std::size_t lhsSize = lhs.getSize();
 
-			if (lhsCount != rhs.getCount())
+			if (lhsSize != rhs.getSize())
 			{
 				return false;
 			}
 
-			for (std::size_t i = 0; i < lhsCount; ++i)
+			for (std::size_t i = 0; i < lhsSize; ++i)
 			{
 				if (lhs[i] != rhs[i])
 				{
@@ -66,7 +66,7 @@ namespace DynamicArrayUnitTest
 			assert(firstNumber <= lastNumber);
 			unsigned rangeSize = lastNumber - firstNumber + 1;
 
-			if (rangeSize != arr.getCount())
+			if (rangeSize != arr.getSize())
 			{
 				return false;
 			}
@@ -94,32 +94,32 @@ namespace DynamicArrayUnitTest
 		{
 			Array arr;
 
-			Assert::IsTrue(hasNullForCountAndSize(arr));
+			Assert::IsTrue(hasNullForCapacityAndSize(arr));
 			Assert::IsTrue(arr.isEmpty());
 		}
 
-		TEST_METHOD(testCtorFromSizeAllocatesSizeItems)
+		TEST_METHOD(testCtorFromCapacity)
 		{
-			std::size_t size = 10;
+			std::size_t capacity = 10;
 
-			Array arr(size);
+			Array arr(capacity);
 
-			Assert::AreEqual(size, arr.getSize());
+			Assert::AreEqual(capacity, arr.getCapacity());
 			Assert::IsTrue(arr.isEmpty());
 		}
 
-		TEST_METHOD(testCtorAllocatesSizeAndGivesAccessToCountItems)
+		TEST_METHOD(testCtorAllocatesCapacityAndGivesAccessToSizeItems)
 		{
-			std::size_t size = 10;
-			std::size_t count = 5;
+			std::size_t capacity = 10;
+			std::size_t size = 5;
 
-			Array arr(size, count);
+			Array arr(capacity, size);
 
 			Assert::AreEqual(size, arr.getSize());
-			Assert::AreEqual(count, arr.getCount());
+			Assert::AreEqual(capacity, arr.getCapacity());
 		}
 
-		TEST_METHOD(testCtorWithCountGreaterThanSizeThrowsException)
+		TEST_METHOD(testCtorWithSizeExceedingCapacityThrowsException)
 		{
 			try
 			{
@@ -128,7 +128,7 @@ namespace DynamicArrayUnitTest
 			}
 			catch (std::invalid_argument& e)
 			{
-				Assert::IsTrue(areEqual("Count must not exceed size!", e.what()));
+				Assert::IsTrue(areEqual("Size must not exceed capacity!", e.what()));
 			}
 		}
 
@@ -138,20 +138,20 @@ namespace DynamicArrayUnitTest
 
 			Array movedInto(std::move(arrayToMove));
 
-			Assert::IsTrue(hasNullForCountAndSize(movedInto), L"The moved-into array did not become empty!");
-			Assert::IsTrue(hasNullForCountAndSize(arrayToMove), L"The moved-from array did not become empty!");
+			Assert::IsTrue(hasNullForCapacityAndSize(movedInto), L"The moved-into array did not become empty!");
+			Assert::IsTrue(hasNullForCapacityAndSize(arrayToMove), L"The moved-from array did not become empty!");
 		}
 
 		TEST_METHOD(testMoveConstructorFromNonEmptyArray)
 		{
 			Array arrayToMove;
 			fillArrayWithNumbersFromTo(arrayToMove, 1, 5);
-			std::size_t size = arrayToMove.getSize();
+			std::size_t capacity = arrayToMove.getCapacity();
 
 			Array movedInto(std::move(arrayToMove));
 			
-			Assert::IsTrue(hasNullForCountAndSize(arrayToMove), L"The moved-from array did not become empty!");
-			Assert::AreEqual(size, movedInto.getSize(), L"The moved-into array should have the same size!");
+			Assert::IsTrue(hasNullForCapacityAndSize(arrayToMove), L"The moved-from array did not become empty!");
+			Assert::AreEqual(capacity, movedInto.getCapacity(), L"The moved-into array should have the same capacity!");
 			Assert::IsTrue(arrayConsistsOfNumbersInRange(movedInto, 1, 5));
 		}
 
@@ -161,7 +161,7 @@ namespace DynamicArrayUnitTest
 
 			Array copy(arrayToCopy);
 
-			Assert::IsTrue(hasNullForCountAndSize(copy));
+			Assert::IsTrue(hasNullForCapacityAndSize(copy));
 		}
 
 		TEST_METHOD(testCopyConstructorFromNonEmptyArray)
@@ -170,7 +170,7 @@ namespace DynamicArrayUnitTest
 
 			Array copy(arrayToCopy);
 			
-			Assert::AreEqual(arrayToCopy.getSize(), copy.getSize());
+			Assert::AreEqual(arrayToCopy.getCapacity(), copy.getCapacity());
 			Assert::IsTrue(areEqual(arrayToCopy, copy));
 		}
 
@@ -181,7 +181,7 @@ namespace DynamicArrayUnitTest
 
 			arrayToChange = arrayToCopy;
 
-			Assert::IsTrue(hasNullForCountAndSize(arrayToChange));
+			Assert::IsTrue(hasNullForCapacityAndSize(arrayToChange));
 		}
 
 		TEST_METHOD(testCopyAssignmentEmptyToNonEmptyArray)
@@ -191,7 +191,7 @@ namespace DynamicArrayUnitTest
 
 			arrayToChange = arrayToCopy;
 
-			Assert::IsTrue(hasNullForCountAndSize(arrayToChange));
+			Assert::IsTrue(hasNullForCapacityAndSize(arrayToChange));
 		}
 
 		TEST_METHOD(testCopyAssignmentNonEmptyToEmptyArray)
@@ -201,7 +201,7 @@ namespace DynamicArrayUnitTest
 
 			arrayToChange = arrayToCopy;
 
-			Assert::AreEqual(arrayToCopy.getSize(), arrayToChange.getSize());
+			Assert::AreEqual(arrayToCopy.getCapacity(), arrayToChange.getCapacity());
 			Assert::IsTrue(areEqual(arrayToCopy, arrayToChange));
 		}
 
@@ -212,7 +212,7 @@ namespace DynamicArrayUnitTest
 
 			arrayToChange = arrayToCopy;
 
-			Assert::AreEqual(arrayToCopy.getSize(), arrayToChange.getSize());
+			Assert::AreEqual(arrayToCopy.getCapacity(), arrayToChange.getCapacity());
 			Assert::IsTrue(areEqual(arrayToCopy, arrayToChange));
 		}
 
@@ -223,8 +223,8 @@ namespace DynamicArrayUnitTest
 
 			arrayToMoveInto = std::move(arrayToMove);
 
-			Assert::IsTrue(hasNullForCountAndSize(arrayToMoveInto), L"The moved-into array did not become empty!");
-			Assert::IsTrue(hasNullForCountAndSize(arrayToMove), L"The moved-from array did not become empty!");
+			Assert::IsTrue(hasNullForCapacityAndSize(arrayToMoveInto), L"The moved-into array did not become empty!");
+			Assert::IsTrue(hasNullForCapacityAndSize(arrayToMove), L"The moved-from array did not become empty!");
 		}
 
 		TEST_METHOD(testMoveAssignmentEmptyToNonEmptyArray)
@@ -234,20 +234,20 @@ namespace DynamicArrayUnitTest
 
 			arrayToMoveInto = std::move(arrayToMove);
 
-			Assert::IsTrue(hasNullForCountAndSize(arrayToMoveInto), L"The moved-into array did not become empty!");
-			Assert::IsTrue(hasNullForCountAndSize(arrayToMove), L"The moved-from array did not become empty!");
+			Assert::IsTrue(hasNullForCapacityAndSize(arrayToMoveInto), L"The moved-into array did not become empty!");
+			Assert::IsTrue(hasNullForCapacityAndSize(arrayToMove), L"The moved-from array did not become empty!");
 		}
 
 		TEST_METHOD(testMoveAssignmentNonEmptyToEmptyArray)
 		{
 			Array arrayToMove = createArrayFromRange(1, 5);
-			std::size_t movedArraySize = arrayToMove.getSize();
+			std::size_t movedArrayCapacity = arrayToMove.getCapacity();
 			Array arrayToMoveInto;
 
 			arrayToMoveInto = std::move(arrayToMove);
 
-			Assert::IsTrue(hasNullForCountAndSize(arrayToMove), L"The moved-from array did not become empty!");
-			Assert::AreEqual(movedArraySize, arrayToMoveInto.getSize());
+			Assert::IsTrue(hasNullForCapacityAndSize(arrayToMove), L"The moved-from array did not become empty!");
+			Assert::AreEqual(movedArrayCapacity, arrayToMoveInto.getCapacity());
 			Assert::IsTrue(arrayConsistsOfNumbersInRange(arrayToMoveInto, 1, 5));
 		}
 
@@ -255,12 +255,12 @@ namespace DynamicArrayUnitTest
 		{
 			Array arrayToMove = createArrayFromRange(10, 15);
 			Array arrayToMoveInto = createArrayFromRange(1, 5);
-			std::size_t movedArraySize = arrayToMove.getSize();
+			std::size_t movedArrayCapacity = arrayToMove.getCapacity();
 
 			arrayToMoveInto = std::move(arrayToMove);
 
-			Assert::IsTrue(hasNullForCountAndSize(arrayToMove), L"The moved-from array did not become empty!");
-			Assert::AreEqual(movedArraySize, arrayToMoveInto.getSize());
+			Assert::IsTrue(hasNullForCapacityAndSize(arrayToMove), L"The moved-from array did not become empty!");
+			Assert::AreEqual(movedArrayCapacity, arrayToMoveInto.getCapacity());
 			Assert::IsTrue(arrayConsistsOfNumbersInRange(arrayToMoveInto, 10, 15));
 		}
 
@@ -276,14 +276,14 @@ namespace DynamicArrayUnitTest
 			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr, 1, 10));
 		}
 
-		TEST_METHOD(testAddIncrementsCount)
+		TEST_METHOD(testAddIncrementsSize)
 		{
 			Array arr;
 
 			for (unsigned i = 1; i <= 5; ++i)
 			{
 				arr.add(i);
-				Assert::AreEqual(i, arr.getCount());
+				Assert::AreEqual(i, arr.getSize());
 			}
 		}
 
@@ -308,7 +308,7 @@ namespace DynamicArrayUnitTest
 			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr, 1, 5));
 		}
 
-		TEST_METHOD(testRemoveAtUpdatesTheItemsCount)
+		TEST_METHOD(testRemoveAtUpdatesSize)
 		{
 			Array arr = createArrayFromRange(0, 6);
 
@@ -317,7 +317,7 @@ namespace DynamicArrayUnitTest
 				arr.removeAt(i);
 			}
 
-			Assert::AreEqual(3u, arr.getCount());
+			Assert::AreEqual(3u, arr.getSize());
 		}
 
 		TEST_METHOD(testRemoveAtInvalidIndexThrowsException)
@@ -372,12 +372,12 @@ namespace DynamicArrayUnitTest
 		{
 			Array arr = createArrayFromRange(11, 15);
 
-			arr.addAt(arr.getCount(), 16);
+			arr.addAt(arr.getSize(), 16);
 
 			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr, 11, 16));
 		}
 
-		TEST_METHOD(testAddAtIndexGreaterThanCountThrowsException)
+		TEST_METHOD(testAddAtIndexGreaterThanSizeThrowsException)
 		{
 			Array arr;
 			unsigned number = 10;
@@ -393,7 +393,7 @@ namespace DynamicArrayUnitTest
 			}
 		}
 
-		TEST_METHOD(testAddAtIncrementsElementsCount)
+		TEST_METHOD(testAddAtIncrementsSize)
 		{
 			Array arr = createArrayFromRange(0, 4);
 
@@ -402,7 +402,7 @@ namespace DynamicArrayUnitTest
 				arr.addAt(5, 100);
 			}
 
-			Assert::AreEqual(8u, arr.getCount());
+			Assert::AreEqual(8u, arr.getSize());
 		}
 
 		TEST_METHOD(testAddAtWithAnRvalueMovesTheObject)
@@ -417,25 +417,25 @@ namespace DynamicArrayUnitTest
 			Assert::IsTrue(arr[0] == word);
 		}
 
-		TEST_METHOD(testEnsureSizeExtendsTheArrayIfPassedAGreaterSize)
+		TEST_METHOD(testReserveExtendsTheArrayIfPassedGreaterCapacity)
 		{
 			Array arr = createArrayFromRange(1, 10);
-			std::size_t size = arr.getSize();
+			std::size_t capacity = arr.getCapacity();
 
-			arr.ensureSize(size + 1);
+			arr.reserve(capacity + 1);
 
-			Assert::AreEqual(size + 1, arr.getSize());
+			Assert::AreEqual(capacity + 1, arr.getCapacity());
 			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr, 1, 10),
 				L"Extending the array did not kepp its elements the same!");
 		}
 
-		TEST_METHOD(testEnsureSizeDoesNothingIfPassedNotGreaterSize)
+		TEST_METHOD(testReserveDoesNothingIfCapacityIsAvailable)
 		{
 			Array arr(100);
 
-			arr.ensureSize(50);
+			arr.reserve(50);
 
-			Assert::AreEqual(100u, arr.getSize());
+			Assert::AreEqual(100u, arr.getCapacity());
 		}
 
 		TEST_METHOD(testEmpty)
@@ -444,7 +444,7 @@ namespace DynamicArrayUnitTest
 
 			arr.empty();
 
-			Assert::IsTrue(hasNullForCountAndSize(arr));
+			Assert::IsTrue(hasNullForCapacityAndSize(arr));
 		}
 
 		TEST_METHOD(testSubscriptOperator)

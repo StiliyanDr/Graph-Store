@@ -47,7 +47,7 @@ public:
 
 public:
 	DynamicArray() noexcept;
-	explicit DynamicArray(std::size_t size, std::size_t count = 0);
+	explicit DynamicArray(std::size_t capacity, std::size_t size = 0);
 	DynamicArray(DynamicArray<T>&& source) noexcept;
 	DynamicArray(const DynamicArray<T>& source);
 	DynamicArray<T>& operator=(DynamicArray<T>&& rhs) noexcept;
@@ -61,12 +61,12 @@ public:
 
 	void addAt(std::size_t index, const T& item);
 	void addAt(std::size_t index, T&& item);
-	void ensureSize(std::size_t size);
+	void reserve(std::size_t capacity);
 	void empty() noexcept;
 	bool isEmpty() const noexcept;
 
+	std::size_t getCapacity() const noexcept;
 	std::size_t getSize() const noexcept;
-	std::size_t getCount() const noexcept;
 
 	Iterator getIterator() noexcept;
 	ConstIterator getConstIterator() const noexcept;
@@ -83,20 +83,20 @@ private:
 	void shiftLeft(std::size_t first, std::size_t last);
 	void shiftRight(std::size_t first, std::size_t last);
 	void extendIfFull();
-	void resize(std::size_t newSize);
+	void resize(std::size_t newCapacity);
 	void copyFrom(const DynamicArray<T>& source);
 	void swapContentsWith(DynamicArray<T> other);
 	void destroyItems();
 	void nullifyMembers();
 	void validateIndex(std::size_t i) const;
-	void setCount(std::size_t newCount);
+	void setSize(std::size_t newSize);
 
 private:
 	static const std::size_t GROWTH_RATE = 2;
 
 private:
-	std::size_t count;
 	std::size_t size;
+	std::size_t capacity;
 	T* items;
 };
 

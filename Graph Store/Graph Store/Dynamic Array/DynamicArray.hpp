@@ -9,35 +9,35 @@ inline DynamicArray<T>::DynamicArray() noexcept :
 }
 
 template <class T>
-DynamicArray<T>::DynamicArray(std::size_t size, std::size_t count) :
-	size(size),
+DynamicArray<T>::DynamicArray(std::size_t capacity, std::size_t size) :
+	capacity(capacity),
 	items(nullptr)
 {
-	setCount(count);
+	setSize(size);
 
-	if (size > 0)
+	if (capacity > 0)
 	{
-		items = new T[size];
+		items = new T[capacity];
 	}
 }
 
 template <class T>
-void DynamicArray<T>::setCount(std::size_t newCount)
+void DynamicArray<T>::setSize(std::size_t newSize)
 {
-	if (newCount <= size)
+	if (newSize <= capacity)
 	{
-		count = newCount;
+		size = newSize;
 	}
 	else
 	{
-		throw std::invalid_argument("Count must not exceed size!");
+		throw std::invalid_argument("Size must not exceed capacity!");
 	}
 }
 
 template <class T>
 inline DynamicArray<T>::DynamicArray(DynamicArray<T>&& source) noexcept :
-	count(source.count),
 	size(source.size),
+	capacity(source.capacity),
 	items(source.items)
 {
 	source.nullifyMembers();
@@ -53,9 +53,9 @@ inline DynamicArray<T>::DynamicArray(const DynamicArray<T>& source) :
 template <class T>
 void DynamicArray<T>::copyFrom(const DynamicArray<T>& source)
 {
-	DynamicArray<T> theCopy(source.size, source.count);
+	DynamicArray<T> theCopy(source.capacity, source.size);
 
-	for (std::size_t i = 0; i < source.count; ++i)
+	for (std::size_t i = 0; i < source.size; ++i)
 	{
 		theCopy.items[i] = source.items[i];
 	}
@@ -66,8 +66,8 @@ void DynamicArray<T>::copyFrom(const DynamicArray<T>& source)
 template <class T>
 void DynamicArray<T>::swapContentsWith(DynamicArray<T> other)
 {
-	std::swap(count, other.count);
 	std::swap(size, other.size);
+	std::swap(capacity, other.capacity);
 	std::swap(items, other.items);
 }
 
@@ -119,29 +119,29 @@ void DynamicArray<T>::doAdd(U&& item)
 {
 	extendIfFull();
 
-	items[count] = std::forward<U>(item);
-	++count;
+	items[size] = std::forward<U>(item);
+	++size;
 }
 
 template <class T>
 void DynamicArray<T>::extendIfFull()
 {
-	assert(count <= size);
+	assert(size <= capacity);
 
-	if (count >= size)
+	if (size >= capacity)
 	{
-		resize(size > 0 ? GROWTH_RATE * size : 2);
+		resize(capacity > 0 ? GROWTH_RATE * capacity : 2);
 	}
 }
 
 template <class T>
-void DynamicArray<T>::resize(std::size_t newSize)
+void DynamicArray<T>::resize(std::size_t newCapacity)
 {
-	std::size_t newCount = (newSize < count) ? newSize : count;
+	std::size_t newSize = (newCapacity < size) ? newCapacity : size;
 
-	DynamicArray<T> newArray(newSize, newCount);
+	DynamicArray<T> newArray(newCapacity, newSize);
 
-	for (std::size_t i = 0; i < newCount; ++i)
+	for (std::size_t i = 0; i < newSize; ++i)
 	{
 		newArray.items[i] = moveAssignIfNoexcept(items[i]);
 	}
@@ -167,12 +167,12 @@ template <class T>
 template <class U>
 void DynamicArray<T>::doAddAt(std::size_t index, U&& item)
 {
-	if (index <= count)
+	if (index <= size)
 	{
 		extendIfFull();
-		shiftRight(index, count - 1);
+		shiftRight(index, size - 1);
 		items[index] = std::forward<U>(item);
-		++count;
+		++size;
 	}
 	else
 	{
@@ -184,7 +184,7 @@ template <class T>
 void DynamicArray<T>::shiftRight(std::size_t first,
 	                             std::size_t last)
 {
-	assert(last + 1 < size);
+	assert(last + 1 < capacity);
 
 	for (std::size_t i = last + 1; i > first; --i)
 	{
@@ -197,7 +197,7 @@ void DynamicArray<T>::removeLast()
 {
 	if (!isEmpty())
 	{
-		removeAt(count - 1);
+		removeAt(size - 1);
 	}
 	else
 	{
@@ -210,7 +210,7 @@ inline void DynamicArray<T>::removeAt(std::size_t index)
 {
 	validateIndex(index);
 
-	shiftLeft(index + 1, --count);
+	shiftLeft(index + 1, --size);
 }
 
 template <class T>
@@ -218,7 +218,7 @@ void DynamicArray<T>::shiftLeft(std::size_t first,
 	                            std::size_t last)
 {
 	assert(first > 0);
-	assert(last < size);
+	assert(last < capacity);
 
 	for (std::size_t i = first - 1; i < last; ++i)
 	{
@@ -244,11 +244,11 @@ DynamicArray<T>::operator[](std::size_t index) const
 }
 
 template <class T>
-inline void DynamicArray<T>::ensureSize(std::size_t size)
+inline void DynamicArray<T>::reserve(std::size_t capacity)
 {
-	if (size > this->size)
+	if (capacity > this->capacity)
 	{
-		resize(size);
+		resize(capacity);
 	}
 }
 
@@ -277,13 +277,13 @@ template <class T>
 inline void DynamicArray<T>::nullifyMembers()
 {
 	items = nullptr;
-	count = size = 0;
+	capacity = size = 0;
 }
 
 template <class T>
 inline void DynamicArray<T>::validateIndex(std::size_t i) const
 {
-	if (i >= count)
+	if (i >= size)
 	{
 		throw std::out_of_range("Index out of range!");
 	}
@@ -292,7 +292,7 @@ inline void DynamicArray<T>::validateIndex(std::size_t i) const
 template <class T>
 inline bool DynamicArray<T>::isEmpty() const noexcept
 {
-	return count == 0;
+	return size == 0;
 }
 
 template <class T>
@@ -302,9 +302,9 @@ inline std::size_t DynamicArray<T>::getSize() const noexcept
 }
 
 template <class T>
-inline std::size_t DynamicArray<T>::getCount() const noexcept
+inline std::size_t DynamicArray<T>::getCapacity() const noexcept
 {
-	return count;
+	return capacity;
 }
 
 template <class T>
