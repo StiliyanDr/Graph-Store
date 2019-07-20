@@ -49,11 +49,11 @@ public:
 
 public:
 	DynamicArray() noexcept;
-	explicit DynamicArray(SizeType capacity, SizeType size = 0);
-	DynamicArray(DynamicArray<T>&& source) noexcept;
-	DynamicArray(const DynamicArray<T>& source);
-	DynamicArray<T>& operator=(DynamicArray<T>&& rhs) noexcept;
-	DynamicArray<T>& operator=(const DynamicArray<T>& rhs);
+	explicit DynamicArray(SizeType capacity, SizeType size = 0u);
+	DynamicArray(DynamicArray&& source) noexcept;
+	DynamicArray(const DynamicArray& source);
+	DynamicArray& operator=(DynamicArray&& rhs) noexcept;
+	DynamicArray& operator=(const DynamicArray& rhs);
 	~DynamicArray();
 
 	void add(const T& item);
@@ -86,15 +86,15 @@ private:
 	void shiftRight(SizeType first, SizeType last);
 	void extendIfFull();
 	void resize(SizeType newCapacity);
-	void copyFrom(const DynamicArray<T>& source);
-	void swapContentsWith(DynamicArray<T> other);
-	void destroyItems();
-	void nullifyMembers();
+	void copyFrom(const DynamicArray& source);
+	void swapContentsWith(DynamicArray other) noexcept;
+	void destroyItems() noexcept;
+	void nullifyMembers() noexcept;
 	void validateIndex(SizeType i) const;
 	void setSize(SizeType newSize);
 
 private:
-	static const SizeType GROWTH_RATE = 2;
+	static const SizeType GROWTH_RATE = 2u;
 
 private:
 	SizeType size;

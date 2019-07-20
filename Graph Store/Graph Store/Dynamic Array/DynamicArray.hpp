@@ -64,7 +64,7 @@ void DynamicArray<T>::copyFrom(const DynamicArray<T>& source)
 }
 
 template <class T>
-void DynamicArray<T>::swapContentsWith(DynamicArray<T> other)
+void DynamicArray<T>::swapContentsWith(DynamicArray<T> other) noexcept
 {
 	std::swap(size, other.size);
 	std::swap(capacity, other.capacity);
@@ -274,7 +274,7 @@ DynamicArray<T>::getConstIterator() const noexcept
 }
 
 template <class T>
-inline void DynamicArray<T>::nullifyMembers()
+inline void DynamicArray<T>::nullifyMembers() noexcept
 {
 	items = nullptr;
 	capacity = size = 0;
@@ -310,7 +310,7 @@ inline auto DynamicArray<T>::getCapacity() const noexcept
 }
 
 template <class T>
-inline void DynamicArray<T>::destroyItems()
+inline void DynamicArray<T>::destroyItems() noexcept
 {
 	delete[] items;
 }
