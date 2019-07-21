@@ -30,12 +30,12 @@ void DynamicArray<T>::setSize(SizeType newSize)
 	}
 	else
 	{
-		throw std::invalid_argument("Size must not exceed capacity!");
+		throw std::invalid_argument{ "Size must not exceed capacity!" };
 	}
 }
 
 template <class T>
-inline DynamicArray<T>::DynamicArray(DynamicArray<T>&& source) noexcept :
+DynamicArray<T>::DynamicArray(DynamicArray&& source) noexcept :
 	size(source.size),
 	capacity(source.capacity),
 	items(source.items)
@@ -44,18 +44,18 @@ inline DynamicArray<T>::DynamicArray(DynamicArray<T>&& source) noexcept :
 }
 
 template <class T>
-inline DynamicArray<T>::DynamicArray(const DynamicArray<T>& source) :
-	DynamicArray()
+inline DynamicArray<T>::DynamicArray(const DynamicArray& source) :
+	DynamicArray{}
 {
 	copyFrom(source);
 }
 
 template <class T>
-void DynamicArray<T>::copyFrom(const DynamicArray<T>& source)
+void DynamicArray<T>::copyFrom(const DynamicArray& source)
 {
-	DynamicArray<T> theCopy(source.capacity, source.size);
+	auto theCopy = DynamicArray(source.capacity, source.size);
 
-	for (SizeType i = 0; i < source.size; ++i)
+	for (auto i = 0u; i < source.size; ++i)
 	{
 		theCopy.items[i] = source.items[i];
 	}
@@ -64,7 +64,7 @@ void DynamicArray<T>::copyFrom(const DynamicArray<T>& source)
 }
 
 template <class T>
-void DynamicArray<T>::swapContentsWith(DynamicArray<T> other) noexcept
+void DynamicArray<T>::swapContentsWith(DynamicArray other) noexcept
 {
 	std::swap(size, other.size);
 	std::swap(capacity, other.capacity);
@@ -73,7 +73,7 @@ void DynamicArray<T>::swapContentsWith(DynamicArray<T> other) noexcept
 
 template <class T>
 DynamicArray<T>&
-DynamicArray<T>::operator=(DynamicArray<T>&& rhs) noexcept
+DynamicArray<T>::operator=(DynamicArray&& rhs) noexcept
 {
 	if (this != &rhs)
 	{
@@ -85,7 +85,7 @@ DynamicArray<T>::operator=(DynamicArray<T>&& rhs) noexcept
 
 template <class T>
 DynamicArray<T>&
-DynamicArray<T>::operator=(const DynamicArray<T>& rhs)
+DynamicArray<T>::operator=(const DynamicArray& rhs)
 {
 	if (this != &rhs)
 	{
@@ -137,11 +137,10 @@ void DynamicArray<T>::extendIfFull()
 template <class T>
 void DynamicArray<T>::resize(SizeType newCapacity)
 {
-	SizeType newSize = (newCapacity < size) ? newCapacity : size;
+	auto newSize = (newCapacity < size) ? newCapacity : size;
+	auto newArray = DynamicArray(newCapacity, newSize);
 
-	DynamicArray<T> newArray(newCapacity, newSize);
-
-	for (SizeType i = 0; i < newSize; ++i)
+	for (auto i = 0u; i < newSize; ++i)
 	{
 		newArray.items[i] = moveAssignIfNoexcept(items[i]);
 	}
@@ -176,7 +175,7 @@ void DynamicArray<T>::doAddAt(SizeType index, U&& item)
 	}
 	else
 	{
-		throw std::out_of_range("Index out of range!");
+		throw std::out_of_range{ "Index out of range!" };
 	}
 }
 
@@ -186,7 +185,7 @@ void DynamicArray<T>::shiftRight(SizeType first,
 {
 	assert(last + 1 < capacity);
 
-	for (SizeType i = last + 1; i > first; --i)
+	for (auto i = last + 1; i > first; --i)
 	{
 		items[i] = moveAssignIfNoexcept(items[i - 1]);
 	}
@@ -201,7 +200,7 @@ void DynamicArray<T>::removeLast()
 	}
 	else
 	{
-		throw std::logic_error("There is no last element!");
+		throw std::logic_error{ "There is no last element!" };
 	}
 }
 
@@ -220,7 +219,7 @@ void DynamicArray<T>::shiftLeft(SizeType first,
 	assert(first > 0);
 	assert(last < capacity);
 
-	for (SizeType i = first - 1; i < last; ++i)
+	for (auto i = first - 1; i < last; ++i)
 	{
 		items[i] = moveAssignIfNoexcept(items[i + 1]);
 	}
@@ -229,7 +228,7 @@ void DynamicArray<T>::shiftLeft(SizeType first,
 template <class T>
 inline T& DynamicArray<T>::operator[](SizeType index)
 {
-	const DynamicArray<T>& arr = *this;
+	const auto& arr = *this;
 
 	return const_cast<T&>(arr[index]);
 }
@@ -260,15 +259,15 @@ inline void DynamicArray<T>::empty() noexcept
 }
 
 template <class T>
-inline typename DynamicArray<T>::Iterator
-DynamicArray<T>::getIterator() noexcept
+inline auto DynamicArray<T>::getIterator() noexcept
+-> Iterator
 {
 	return Iterator(0, this);
 }
 
 template <class T>
-inline typename DynamicArray<T>::ConstIterator
-DynamicArray<T>::getConstIterator() const noexcept
+inline auto DynamicArray<T>::getConstIterator() const noexcept
+-> ConstIterator
 {
 	return ConstIterator(0, this);
 }
@@ -283,9 +282,11 @@ inline void DynamicArray<T>::nullifyMembers() noexcept
 template <class T>
 inline void DynamicArray<T>::validateIndex(SizeType i) const
 {
+	assert(i >= 0);
+
 	if (i >= size)
 	{
-		throw std::out_of_range("Index out of range!");
+		throw std::out_of_range{ "Index out of range!" };
 	}
 }
 
