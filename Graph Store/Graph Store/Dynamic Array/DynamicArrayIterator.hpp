@@ -45,7 +45,7 @@ template <class Item, bool isConst>
 inline bool
 DynamicArray<T>::DynamicArrayIterator<Item, isConst>::isValid() const noexcept
 {
-	return currentPosition < owner->getCount();
+	return currentPosition < owner->getSize();
 }
 
 template <class T>
