@@ -5,7 +5,7 @@
 
 template <class T>
 using ConditionalReference = std::conditional_t<
-	!std::is_nothrow_move_assignable<T>::value && std::is_copy_assignable<T>::value,
+	!std::is_nothrow_move_assignable_v<T> && std::is_copy_assignable_v<T>,
 	const T&,
 	T&&>;
 
