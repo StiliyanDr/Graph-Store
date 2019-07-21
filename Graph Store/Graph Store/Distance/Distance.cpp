@@ -19,8 +19,9 @@ Distance::Distance(unsigned distance) noexcept :
 {
 }
 
-const Distance operator+(const Distance& lhs,
-	                     const Distance& rhs) noexcept
+constexpr const Distance
+operator+(const Distance& lhs,
+	      const Distance& rhs) noexcept
 {
 	auto result = lhs;
 	result += rhs;
@@ -43,39 +44,45 @@ Distance::operator+=(const Distance& rhs) noexcept
 	return *this;
 }
 
-bool operator!=(const Distance& lhs,
-	            const Distance& rhs) noexcept
+constexpr bool
+operator!=(const Distance& lhs,
+	       const Distance& rhs) noexcept
 {
 	return !(lhs == rhs);
 }
 
-bool operator==(const Distance& lhs,
-	            const Distance& rhs) noexcept
+constexpr bool
+operator==(const Distance& lhs,
+	       const Distance& rhs) noexcept
 {
 	return !(lhs.isInfinity || rhs.isInfinity)
 		   && (lhs.distance == rhs.distance);
 }
 
-bool operator>(const Distance& lhs,
-	           const Distance& rhs) noexcept
+constexpr bool
+operator>(const Distance& lhs,
+	      const Distance& rhs) noexcept
 {
 	return rhs < lhs;
 }
 
-bool operator<=(const Distance& lhs,
-	            const Distance& rhs) noexcept
+constexpr bool
+operator<=(const Distance& lhs,
+	       const Distance& rhs) noexcept
 {
 	return !(rhs < lhs);
 }
 
-bool operator>=(const Distance& lhs,
-	            const Distance& rhs) noexcept
+constexpr bool
+operator>=(const Distance& lhs,
+	       const Distance& rhs) noexcept
 {
 	return !(lhs < rhs);
 }
 
-bool operator<(const Distance& lhs,
-	           const Distance& rhs) noexcept
+constexpr bool
+operator<(const Distance& lhs,
+	      const Distance& rhs) noexcept
 {
 	return (!(lhs.isInfinity || rhs.isInfinity)
 		    && (lhs.distance < rhs.distance))
