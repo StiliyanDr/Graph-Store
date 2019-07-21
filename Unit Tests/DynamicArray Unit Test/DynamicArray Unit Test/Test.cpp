@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "../../../Graph Store/Graph Store/Dynamic Array/DynamicArray.h"
-#include <utility>
+#include "Dynamic Array/DynamicArray.h"
+#include "Utility.h"
 #include <assert.h>
 #include <string>
 
@@ -13,80 +13,75 @@ namespace DynamicArrayUnitTest
 	{
 		using Array = DynamicArray<unsigned>;
 
+		static Array createArrayFromRange(unsigned start,
+			                              unsigned end)
+		{
+			auto arr = Array{};
+			fillArrayWithNumbersFromTo(arr, start, end);
+
+			return arr;
+		}
+
+		static void fillArrayWithNumbersFromTo(Array &arr,
+			                                   unsigned first,
+			                                   unsigned last)
+		{
+			assert(arr.isEmpty());
+			assert(first <= last);
+			
+			arr.reserve(last - first + 1);
+
+			for (auto i = first; i <= last; ++i)
+			{
+				arr.add(i);
+			}
+		}
+
+		static bool areEqual(const Array& lhs, const Array& rhs)
+		{
+			auto rhsIterator = rhs.getConstIterator();
+			auto equalsCorrespondingItem =
+				[&rhsIterator](auto lhsItem)
+			{
+				return lhsItem == *(rhsIterator++);
+			};
+
+			return lhs.getSize() == rhs.getSize()
+				   && allOf(lhs.getConstIterator(),
+					        equalsCorrespondingItem);
+		}
+
+		static bool arrayConsistsOfNumbersInRange(const Array& arr,
+			                                      unsigned start,
+			                                      unsigned end)
+		{
+			assert(start <= end);
+
+			auto rangeSize = end - start + 1;
+			auto equalsCorrespondingNumber =
+				[&current = start](auto number)
+			{
+				return number == current++;
+			};
+
+			return arr.getSize() == rangeSize
+				   && allOf(arr.getConstIterator(),
+						    equalsCorrespondingNumber);
+		}
+
+		static bool hasNullForCapacityAndSize(const Array& arr)
+		{
+			return arr.getCapacity() == 0 && arr.getSize() == 0;
+		}
+
 		static bool stringIsMovedFrom(const std::string& s)
 		{
 			return s == "";
 		}
 
-		bool hasNullForCapacityAndSize(const Array& arr)
+		static bool areEqual(const char* lhs, const char* rhs)
 		{
-			return (arr.getCapacity() == 0 && arr.getSize() == 0);
-		}
-
-		void fillArrayWithNumbersFromTo(Array &arr, unsigned firstNumber, unsigned lastNumber)
-		{
-			for (unsigned number = firstNumber; number <= lastNumber; ++number)
-			{
-				arr.add(number);
-			}
-		}
-
-		Array createArrayFromRange(unsigned firstNumber, unsigned lastNumber)
-		{
-			assert(firstNumber <= lastNumber);
-
-			Array arr(lastNumber - firstNumber + 1);
-			fillArrayWithNumbersFromTo(arr, firstNumber, lastNumber);
-
-			return arr;
-		}
-
-		bool areEqual(const Array& lhs, const Array& rhs)
-		{
-			const std::size_t lhsSize = lhs.getSize();
-
-			if (lhsSize != rhs.getSize())
-			{
-				return false;
-			}
-
-			for (std::size_t i = 0; i < lhsSize; ++i)
-			{
-				if (lhs[i] != rhs[i])
-				{
-					return false;
-				}
-			}
-
-			return true;
-		}
-
-		bool arrayConsistsOfNumbersInRange(const Array& arr, unsigned firstNumber, unsigned lastNumber)
-		{
-			assert(firstNumber <= lastNumber);
-			unsigned rangeSize = lastNumber - firstNumber + 1;
-
-			if (rangeSize != arr.getSize())
-			{
-				return false;
-			}
-
-			unsigned i = 0;
-
-			for (unsigned number = firstNumber; number <= lastNumber; ++number)
-			{
-				if (arr[i++] != number)
-				{
-					return false;
-				}
-			}
-
-			return true;
-		}
-
-		bool areEqual(const char* lhs, const char* rhs)
-		{
-			return strcmp(lhs, rhs) == 0;
+			return std::strcmp(lhs, rhs) == 0;
 		}
 
 	public:
