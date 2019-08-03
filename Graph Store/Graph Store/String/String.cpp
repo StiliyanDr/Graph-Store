@@ -8,108 +8,115 @@ std::ostream& operator<<(std::ostream& out, const String& s)
 	return out;
 }
 
-bool operator!=(const String &lhs, const String &rhs)
+bool operator!=(const String& lhs, const String& rhs) noexcept
 {
 	return !(lhs == rhs);
 }
 
-bool operator==(const String &lhs, const String &rhs)
+bool operator==(const String& lhs, const String& rhs) noexcept
 {
-	return strcmp(lhs.cString(), rhs.cString()) == 0;
+	return std::strcmp(lhs.cString(), rhs.cString()) == 0;
 }
 
-bool operator>(const String &lhs, const String &rhs)
+bool operator>(const String& lhs, const String& rhs) noexcept
 {
 	return rhs < lhs;
 }
 
-bool operator>=(const String &lhs, const String &rhs)
+bool operator>=(const String& lhs, const String& rhs) noexcept
 {
 	return !(lhs < rhs);
 }
 
-bool operator<=(const String &lhs, const String &rhs)
+bool operator<=(const String& lhs, const String& rhs) noexcept
 {
 	return !(rhs < lhs);
 }
 
-bool operator<(const String &lhs, const String &rhs)
+bool operator<(const String& lhs, const String& rhs) noexcept
 {
-	return strcmp(lhs.cString(), rhs.cString()) < 0;
+	return std::strcmp(lhs.cString(), rhs.cString()) < 0;
 }
 
-String::String() :
+String operator "" _s(const char* string, std::size_t)
+{
+	return String{ string };
+}
+
+String::String() noexcept :
 	string(nullptr)
 {
 }
 
-String::String(char character) :
-	string(nullptr)
+String::String(char c) :
+	String{}
 {
-	char buffer[2] = "";
-	buffer[0] = character;
-
-	setString(buffer);
+	char s[] = { c, '\0' };
+	setString(s);
 }
 
 void String::setString(const char* newString)
 {
-	if (newString != nullptr)
-	{
-		size_t bufferSize = strlen(newString) + 1;
-		char* buffer = new char[bufferSize];
-		strcpy_s(buffer, bufferSize, newString);
-
-		delete[] string;
-		string = buffer;
-	}
-	else
-	{
-		delete[] string;
-		string = nullptr;
-	}
+	replaceStringWith(makeACopyOf(newString));
 }
 
-String operator "" _s(const char* string, size_t)
+char* String::makeACopyOf(const char* string)
 {
-	return String(string);
+	if (string == nullptr)
+	{
+		return nullptr;
+	}
+
+	auto bufferSize = std::strlen(string) + 1;
+	auto buffer = new char[bufferSize];
+	std::strncpy(buffer, string, bufferSize);
+
+	return buffer;
+}
+
+void String::replaceStringWith(char* newString) noexcept
+{
+	delete[] string;
+	string = newString;
 }
 
 String::String(const char* string) :
-	string(nullptr)
+	String{}
 {
 	setString(string);
 }
 
-String::String(String&& source) :
+String::String(String&& source) noexcept :
 	string(source.string)
 {
 	source.string = nullptr;
 }
 
-String::String(const String &source) :
-	string(nullptr)
+String::String(const String& source) :
+	String{ source.string }
 {
-	setString(source.string);
 }
 
 String& String::operator=(const String& rhs)
 {
 	if (this != &rhs)
 	{
-		setString(rhs.string);
+		swapContentsWith(rhs);
 	}
 
 	return *this;
 }
 
-String& String::operator=(String&& rhs)
+void String::swapContentsWith(String s) noexcept
+{
+	std::swap(string, s.string);
+}
+
+String& String::operator=(String&& rhs) noexcept
 {
 	if (this != &rhs)
 	{
-		delete[] string;		
-		string = rhs.string;	
-		rhs.string = nullptr;	
+		swapContentsWith(std::move(rhs));
 	}
 
 	return *this;
@@ -180,12 +187,12 @@ void String::concatenate(char character)
 	concatenate(buffer);
 }
 
-size_t String::getLength() const
+size_t String::getLength() const noexcept
 {
 	return strlen(cString());
 }
 
-const char* String::cString() const
+const char* String::cString() const noexcept
 {
 	return (string != nullptr) ? string : "";
 }
