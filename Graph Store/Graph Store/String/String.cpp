@@ -2,41 +2,50 @@
 #include <cstring>
 #include <assert.h>
 
-std::ostream& operator<<(std::ostream& out, const String& s)
+std::ostream& operator<<(std::ostream& out,
+	                     const String& s)
 {
 	out << s.cString();
 
 	return out;
 }
 
-bool operator!=(const String& lhs, const String& rhs) noexcept
+bool operator!=(const String& lhs,
+	            const String& rhs) noexcept
 {
 	return !(lhs == rhs);
 }
 
-bool operator==(const String& lhs, const String& rhs) noexcept
+bool operator==(const String& lhs,
+	            const String& rhs) noexcept
 {
-	return std::strcmp(lhs.cString(), rhs.cString()) == 0;
+	return std::strcmp(lhs.cString(),
+		               rhs.cString()) == 0;
 }
 
-bool operator>(const String& lhs, const String& rhs) noexcept
+bool operator>(const String& lhs,
+	           const String& rhs) noexcept
 {
 	return rhs < lhs;
 }
 
-bool operator>=(const String& lhs, const String& rhs) noexcept
+bool operator>=(const String& lhs,
+	            const String& rhs) noexcept
 {
 	return !(lhs < rhs);
 }
 
-bool operator<=(const String& lhs, const String& rhs) noexcept
+bool operator<=(const String& lhs,
+	            const String& rhs) noexcept
 {
 	return !(rhs < lhs);
 }
 
-bool operator<(const String& lhs, const String& rhs) noexcept
+bool operator<(const String& lhs,
+	           const String& rhs) noexcept
 {
-	return std::strcmp(lhs.cString(), rhs.cString()) < 0;
+	return std::strcmp(lhs.cString(),
+		               rhs.cString()) < 0;
 }
 
 String operator "" _s(const char* string, std::size_t)
@@ -128,7 +137,8 @@ String::~String()
 	delete[] string;
 }
 
-String operator+(const String& lhs, const String& rhs)
+String operator+(const String& lhs,
+	             const String& rhs)
 {
 	auto newString = lhs;
 	newString += rhs;
@@ -160,7 +170,8 @@ bool String::isEmptyString(const char* s) noexcept
 	return *s == '\0';
 }
 
-char* String::concatenate(const char* lhs, const char* rhs)
+char* String::concatenate(const char* lhs,
+	                      const char* rhs)
 {
 	assert(lhs != nullptr);
 	assert(rhs != nullptr);
