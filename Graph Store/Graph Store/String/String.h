@@ -26,10 +26,11 @@ public:
 
 private:
 	static char* makeACopyOf(const char* string);
+	static char* concatenate(const char* lhs, const char* rhs);
+	static bool isEmptyString(const char* s) noexcept;
 
 private:
 	void concatenate(const char* string);
-	void concatenate(char c);
 	void setString(const char* newString);
 	void replaceStringWith(char* newString) noexcept;
 	void swapContentsWith(String s) noexcept;

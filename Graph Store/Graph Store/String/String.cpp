@@ -1,5 +1,6 @@
 #include "String.h"
 #include <cstring>
+#include <assert.h>
 
 std::ostream& operator<<(std::ostream& out, const String& s)
 {
@@ -127,42 +128,52 @@ String::~String()
 	delete[] string;
 }
 
-String operator+(const String &lhs, const String &rhs)
+String operator+(const String& lhs, const String& rhs)
 {
-	String newString(lhs);
+	auto newString = lhs;
 	newString += rhs;
 
 	return newString;
 }
 
-String& String::operator+=(const String& string)
+String& String::operator+=(const String& s)
 {
-	concatenate(string.cString());
+	concatenate(s.cString());
 
 	return *this;
 }
 
-void String::concatenate(const char* stringToConcatenate)
+void String::concatenate(const char* s)
 {
-	if (stringToConcatenate == nullptr)
+	if (s == nullptr || isEmptyString(s))
 	{
 		return;
 	}
 
-	size_t stringToConcatenateLength = strlen(stringToConcatenate);
+	replaceStringWith(concatenate(cString(), s));
+}
 
-	if (stringToConcatenateLength > 0)
-	{
-		size_t currentLength = getLength();
-		size_t newLength = currentLength + stringToConcatenateLength + 1;
-		char* buffer = new char[newLength];
+bool String::isEmptyString(const char* s) noexcept
+{
+	assert(s != nullptr);
 
-		strcpy_s(buffer, currentLength + 1, cString());
-		strcat_s(buffer, newLength, stringToConcatenate);
+	return *s == '\0';
+}
 
-		delete[] string;
-		string = buffer;
-	}
+char* String::concatenate(const char* lhs, const char* rhs)
+{
+	assert(lhs != nullptr);
+	assert(rhs != nullptr);
+
+	auto lhsLength = std::strlen(lhs);
+	auto rhsLength = std::strlen(rhs);
+	auto totalLength = lhsLength + rhsLength + 1;
+	auto buffer = new char[totalLength];
+
+	std::strncpy(buffer, lhs, lhsLength + 1);
+	std::strncat(buffer, rhs, rhsLength);
+
+	return buffer;
 }
 
 String& String::operator+=(const char* string)
@@ -172,27 +183,25 @@ String& String::operator+=(const char* string)
 	return *this;
 }
 
-String& String::operator+=(char character)
+String& String::operator+=(char c)
 {
-	concatenate(character);
+	char s[] = { c, '\0' };
+	concatenate(s);
 
 	return *this;
 }
 
-void String::concatenate(char character)
+std::size_t String::getLength() const noexcept
 {
-	char buffer[2] = "";
-	buffer[0] = character;
-
-	concatenate(buffer);
-}
-
-size_t String::getLength() const noexcept
-{
-	return strlen(cString());
+	return std::strlen(cString());
 }
 
 const char* String::cString() const noexcept
 {
 	return (string != nullptr) ? string : "";
+}
+
+String::operator const char*() const noexcept
+{
+	return cString();
 }
