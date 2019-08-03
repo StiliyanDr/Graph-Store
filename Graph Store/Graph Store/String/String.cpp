@@ -44,16 +44,15 @@ String operator "" _s(const char* string, std::size_t)
 	return String{ string };
 }
 
+String::String(const char* string) :
+	String{}
+{
+	setString(string);
+}
+
 String::String() noexcept :
 	string(nullptr)
 {
-}
-
-String::String(char c) :
-	String{}
-{
-	char s[] = { c, '\0' };
-	setString(s);
 }
 
 void String::setString(const char* newString)
@@ -81,21 +80,22 @@ void String::replaceStringWith(char* newString) noexcept
 	string = newString;
 }
 
-String::String(const char* string) :
+String::String(char c) :
 	String{}
 {
-	setString(string);
+	char s[] = { c, '\0' };
+	setString(s);
+}
+
+String::String(const String& source) :
+	String{ source.string }
+{
 }
 
 String::String(String&& source) noexcept :
 	string(source.string)
 {
 	source.string = nullptr;
-}
-
-String::String(const String& source) :
-	String{ source.string }
-{
 }
 
 String& String::operator=(const String& rhs)
@@ -201,7 +201,7 @@ const char* String::cString() const noexcept
 	return (string != nullptr) ? string : "";
 }
 
-String::operator const char*() const noexcept
+String::operator const char* () const noexcept
 {
 	return cString();
 }
