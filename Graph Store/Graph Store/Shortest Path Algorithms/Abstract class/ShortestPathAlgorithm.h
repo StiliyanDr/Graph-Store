@@ -74,6 +74,7 @@ protected:
 	virtual void addDecoratedVersionOf(const Graph::Vertex& v) = 0;
 	virtual DecoratedVertex& getDecoratedVersionOf(const Graph::Vertex& v) = 0;
 	virtual void decorateVerticesOf(const Graph& g);
+	virtual void cleanUp() = 0;
 
 private:
 	virtual void initialise(const Graph& g,
@@ -82,7 +83,6 @@ private:
 	virtual void execute(const Graph& g,
 						 const Graph::Vertex& source,
 						 const Graph::Vertex& target) = 0;
-	virtual void cleanUp() = 0;
 	Path createPathBetween(const Graph::Vertex& source,
 		                   const Graph::Vertex& target);
 	void setID(String id);
