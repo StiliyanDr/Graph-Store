@@ -87,7 +87,7 @@ namespace DynamicArrayUnitTest
 	public:
 		TEST_METHOD(testDefaultConstructorCreatesAnEmptyArray)
 		{
-			Array arr;
+			auto arr = Array{};
 
 			Assert::IsTrue(hasNullForCapacityAndSize(arr));
 			Assert::IsTrue(arr.isEmpty());
@@ -95,9 +95,9 @@ namespace DynamicArrayUnitTest
 
 		TEST_METHOD(testCtorFromCapacity)
 		{
-			std::size_t capacity = 10;
+			auto capacity = 10u;
 
-			Array arr(capacity);
+			auto arr = Array(capacity);
 
 			Assert::AreEqual(capacity, arr.getCapacity());
 			Assert::IsTrue(arr.isEmpty());
@@ -105,20 +105,22 @@ namespace DynamicArrayUnitTest
 
 		TEST_METHOD(testCtorAllocatesCapacityAndGivesAccessToSizeItems)
 		{
-			std::size_t capacity = 10;
-			std::size_t size = 5;
+			auto capacity = 10u;
+			auto size = 5u;
 
-			Array arr(capacity, size);
+			auto arr = Array(capacity, size);
 
 			Assert::AreEqual(size, arr.getSize());
 			Assert::AreEqual(capacity, arr.getCapacity());
 		}
 
-		TEST_METHOD(testCtorWithSizeExceedingCapacityThrowsException)
+		TEST_METHOD(testCtorThrowsExceptionWhenSizeExceedsCapacity)	
 		{
+			auto capacity = 5u;
+
 			try
 			{
-				Array arr(10, 11);
+				auto arr = Array(capacity, capacity + 1);
 				Assert::Fail(L"Constructor did not throw an exception!");
 			}
 			catch (std::invalid_argument& e)
@@ -129,41 +131,45 @@ namespace DynamicArrayUnitTest
 
 		TEST_METHOD(testMoveConstructorFromEmptyArray)
 		{
-			Array arrayToMove;
+			auto arrayToMove = Array{};
 
-			Array movedInto(std::move(arrayToMove));
+			auto movedInto = Array(std::move(arrayToMove));
 
-			Assert::IsTrue(hasNullForCapacityAndSize(movedInto), L"The moved-into array did not become empty!");
-			Assert::IsTrue(hasNullForCapacityAndSize(arrayToMove), L"The moved-from array did not become empty!");
+			Assert::IsTrue(hasNullForCapacityAndSize(movedInto),
+				           L"The moved-into array did not become empty!");
+			Assert::IsTrue(hasNullForCapacityAndSize(arrayToMove),
+				           L"The moved-from array did not become empty!");
 		}
-
+		
 		TEST_METHOD(testMoveConstructorFromNonEmptyArray)
 		{
-			Array arrayToMove;
+			auto arrayToMove = Array{};
 			fillArrayWithNumbersFromTo(arrayToMove, 1, 5);
-			std::size_t capacity = arrayToMove.getCapacity();
+			auto capacity = arrayToMove.getCapacity();
 
-			Array movedInto(std::move(arrayToMove));
+			auto movedInto = Array(std::move(arrayToMove));
 			
-			Assert::IsTrue(hasNullForCapacityAndSize(arrayToMove), L"The moved-from array did not become empty!");
-			Assert::AreEqual(capacity, movedInto.getCapacity(), L"The moved-into array should have the same capacity!");
+			Assert::IsTrue(hasNullForCapacityAndSize(arrayToMove),
+				           L"The moved-from array did not become empty!");
+			Assert::AreEqual(capacity, movedInto.getCapacity(),
+				             L"The moved-into array should have the same capacity!");
 			Assert::IsTrue(arrayConsistsOfNumbersInRange(movedInto, 1, 5));
 		}
 
 		TEST_METHOD(testCopyConstructorFromEmptyArray)
 		{
-			Array arrayToCopy;
+			auto emptyArray = Array{};
 
-			Array copy(arrayToCopy);
+			auto copy = emptyArray;
 
 			Assert::IsTrue(hasNullForCapacityAndSize(copy));
 		}
 
 		TEST_METHOD(testCopyConstructorFromNonEmptyArray)
 		{
-			Array arrayToCopy = createArrayFromRange(1, 5);
+			auto arrayToCopy = createArrayFromRange(1, 5);
 
-			Array copy(arrayToCopy);
+			auto copy = arrayToCopy;
 			
 			Assert::AreEqual(arrayToCopy.getCapacity(), copy.getCapacity());
 			Assert::IsTrue(areEqual(arrayToCopy, copy));
@@ -171,92 +177,98 @@ namespace DynamicArrayUnitTest
 
 		TEST_METHOD(testCopyAssignmentEmptyToEmptyArray)
 		{
-			Array arrayToCopy;
-			Array arrayToChange;
+			auto rhs = Array{};
+			auto lhs = Array{};
 
-			arrayToChange = arrayToCopy;
+			lhs = rhs;
 
-			Assert::IsTrue(hasNullForCapacityAndSize(arrayToChange));
+			Assert::IsTrue(hasNullForCapacityAndSize(lhs));
 		}
 
 		TEST_METHOD(testCopyAssignmentEmptyToNonEmptyArray)
 		{	
-			Array arrayToCopy;
-			Array arrayToChange = createArrayFromRange(1, 5);
+			auto emptyArray = Array{};
+			auto lhs = createArrayFromRange(1, 5);
 
-			arrayToChange = arrayToCopy;
+			lhs = emptyArray;
 
-			Assert::IsTrue(hasNullForCapacityAndSize(arrayToChange));
+			Assert::IsTrue(hasNullForCapacityAndSize(lhs));
 		}
 
 		TEST_METHOD(testCopyAssignmentNonEmptyToEmptyArray)
 		{
-			Array arrayToCopy = createArrayFromRange(1, 5);
-			Array arrayToChange;
+			auto rhs = createArrayFromRange(1, 5);
+			auto lhs = Array{};
 
-			arrayToChange = arrayToCopy;
+			lhs = rhs;
 
-			Assert::AreEqual(arrayToCopy.getCapacity(), arrayToChange.getCapacity());
-			Assert::IsTrue(areEqual(arrayToCopy, arrayToChange));
+			Assert::AreEqual(rhs.getCapacity(), lhs.getCapacity());
+			Assert::IsTrue(areEqual(rhs, lhs));
 		}
 
 		TEST_METHOD(testCopyAssignmentNonEmptyToNonEmptyArray)
 		{
-			Array arrayToCopy = createArrayFromRange(1, 5);
-			Array arrayToChange = createArrayFromRange(10, 15);
+			auto rhs = createArrayFromRange(1, 5);
+			auto lhs = createArrayFromRange(10, 15);
 
-			arrayToChange = arrayToCopy;
+			lhs = rhs;
 
-			Assert::AreEqual(arrayToCopy.getCapacity(), arrayToChange.getCapacity());
-			Assert::IsTrue(areEqual(arrayToCopy, arrayToChange));
+			Assert::AreEqual(rhs.getCapacity(), lhs.getCapacity());
+			Assert::IsTrue(areEqual(rhs, lhs));
 		}
 
 		TEST_METHOD(testMoveAssignmentEmptyToEmptyArray)
 		{
-			Array arrayToMove;
-			Array arrayToMoveInto;
+			auto rhs = Array{};
+			auto lhs = Array{};
 
-			arrayToMoveInto = std::move(arrayToMove);
+			lhs = std::move(rhs);
 
-			Assert::IsTrue(hasNullForCapacityAndSize(arrayToMoveInto), L"The moved-into array did not become empty!");
-			Assert::IsTrue(hasNullForCapacityAndSize(arrayToMove), L"The moved-from array did not become empty!");
+			Assert::IsTrue(hasNullForCapacityAndSize(lhs),
+				           L"The moved-into array did not become empty!");
+			Assert::IsTrue(hasNullForCapacityAndSize(rhs),
+				           L"The moved-from array did not become empty!");
 		}
 
 		TEST_METHOD(testMoveAssignmentEmptyToNonEmptyArray)
 		{
-			Array arrayToMove;
-			Array arrayToMoveInto = createArrayFromRange(1, 5);
+			auto rhs = Array{};
+			auto lhs = createArrayFromRange(1, 5);
 
-			arrayToMoveInto = std::move(arrayToMove);
+			lhs = std::move(rhs);
 
-			Assert::IsTrue(hasNullForCapacityAndSize(arrayToMoveInto), L"The moved-into array did not become empty!");
-			Assert::IsTrue(hasNullForCapacityAndSize(arrayToMove), L"The moved-from array did not become empty!");
+			Assert::IsTrue(hasNullForCapacityAndSize(lhs),
+				           L"The moved-into array did not become empty!");
+			Assert::IsTrue(hasNullForCapacityAndSize(rhs),
+				           L"The moved-from array did not become empty!");
 		}
 
 		TEST_METHOD(testMoveAssignmentNonEmptyToEmptyArray)
 		{
-			Array arrayToMove = createArrayFromRange(1, 5);
-			std::size_t movedArrayCapacity = arrayToMove.getCapacity();
-			Array arrayToMoveInto;
+			auto rhs = createArrayFromRange(1, 5);
+			auto capacity = rhs.getCapacity();
+			auto lhs = Array{};
 
-			arrayToMoveInto = std::move(arrayToMove);
+			lhs = std::move(rhs);
 
-			Assert::IsTrue(hasNullForCapacityAndSize(arrayToMove), L"The moved-from array did not become empty!");
-			Assert::AreEqual(movedArrayCapacity, arrayToMoveInto.getCapacity());
-			Assert::IsTrue(arrayConsistsOfNumbersInRange(arrayToMoveInto, 1, 5));
+			Assert::IsTrue(hasNullForCapacityAndSize(rhs),
+				           L"The moved-from array did not become empty!");
+			Assert::AreEqual(capacity, lhs.getCapacity());
+			Assert::IsTrue(arrayConsistsOfNumbersInRange(lhs, 1, 5));
 		}
 
 		TEST_METHOD(testMoveAssignmentNonEmptyToNonEmptyArray)
 		{
-			Array arrayToMove = createArrayFromRange(10, 15);
-			Array arrayToMoveInto = createArrayFromRange(1, 5);
-			std::size_t movedArrayCapacity = arrayToMove.getCapacity();
+			auto rhs = createArrayFromRange(10, 15);
+			auto lhs = createArrayFromRange(1, 5);
+			auto capacity = rhs.getCapacity();
 
-			arrayToMoveInto = std::move(arrayToMove);
+			lhs = std::move(rhs);
 
-			Assert::IsTrue(hasNullForCapacityAndSize(arrayToMove), L"The moved-from array did not become empty!");
-			Assert::AreEqual(movedArrayCapacity, arrayToMoveInto.getCapacity());
-			Assert::IsTrue(arrayConsistsOfNumbersInRange(arrayToMoveInto, 10, 15));
+			Assert::IsTrue(hasNullForCapacityAndSize(rhs),
+				           L"The moved-from array did not become empty!");
+			Assert::AreEqual(capacity, lhs.getCapacity());
+			Assert::IsTrue(arrayConsistsOfNumbersInRange(lhs, 10, 15));
 		}
 
 		TEST_METHOD(testAddAppendsTheItemToTheArray)
