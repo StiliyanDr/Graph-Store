@@ -13,6 +13,9 @@ namespace DynamicArrayUnitTest
 	{
 		using Array = DynamicArray<unsigned>;
 
+		static const std::size_t RANGE_START = 1u;
+		static const std::size_t RANGE_END = 5u;
+
 		static Array createArrayFromRange(unsigned start,
 			                              unsigned end)
 		{
@@ -125,7 +128,8 @@ namespace DynamicArrayUnitTest
 			}
 			catch (std::invalid_argument& e)
 			{
-				Assert::IsTrue(areEqual("Size must not exceed capacity!", e.what()));
+				Assert::IsTrue(areEqual("Size must not exceed capacity!",
+					                    e.what()));
 			}
 		}
 
@@ -144,7 +148,7 @@ namespace DynamicArrayUnitTest
 		TEST_METHOD(testMoveConstructorFromNonEmptyArray)
 		{
 			auto arrayToMove = Array{};
-			fillArrayWithNumbersFromTo(arrayToMove, 1, 5);
+			fillArrayWithNumbersFromTo(arrayToMove, RANGE_START, RANGE_END);
 			auto capacity = arrayToMove.getCapacity();
 
 			auto movedInto = Array(std::move(arrayToMove));
@@ -153,7 +157,9 @@ namespace DynamicArrayUnitTest
 				           L"The moved-from array did not become empty!");
 			Assert::AreEqual(capacity, movedInto.getCapacity(),
 				             L"The moved-into array should have the same capacity!");
-			Assert::IsTrue(arrayConsistsOfNumbersInRange(movedInto, 1, 5));
+			Assert::IsTrue(arrayConsistsOfNumbersInRange(movedInto,
+				                                         RANGE_START,
+				                                         RANGE_END));
 		}
 
 		TEST_METHOD(testCopyConstructorFromEmptyArray)
@@ -167,11 +173,13 @@ namespace DynamicArrayUnitTest
 
 		TEST_METHOD(testCopyConstructorFromNonEmptyArray)
 		{
-			auto arrayToCopy = createArrayFromRange(1, 5);
+			auto arrayToCopy =
+				createArrayFromRange(RANGE_START, RANGE_END);
 
 			auto copy = arrayToCopy;
 			
-			Assert::AreEqual(arrayToCopy.getCapacity(), copy.getCapacity());
+			Assert::AreEqual(arrayToCopy.getCapacity(),
+				             copy.getCapacity());
 			Assert::IsTrue(areEqual(arrayToCopy, copy));
 		}
 
@@ -188,7 +196,8 @@ namespace DynamicArrayUnitTest
 		TEST_METHOD(testCopyAssignmentEmptyToNonEmptyArray)
 		{	
 			auto emptyArray = Array{};
-			auto lhs = createArrayFromRange(1, 5);
+			auto lhs = createArrayFromRange(RANGE_START,
+				                            RANGE_END);
 
 			lhs = emptyArray;
 
@@ -197,7 +206,8 @@ namespace DynamicArrayUnitTest
 
 		TEST_METHOD(testCopyAssignmentNonEmptyToEmptyArray)
 		{
-			auto rhs = createArrayFromRange(1, 5);
+			auto rhs = createArrayFromRange(RANGE_START,
+				                            RANGE_END);
 			auto lhs = Array{};
 
 			lhs = rhs;
@@ -208,9 +218,10 @@ namespace DynamicArrayUnitTest
 
 		TEST_METHOD(testCopyAssignmentNonEmptyToNonEmptyArray)
 		{
-			auto rhs = createArrayFromRange(1, 5);
-			auto lhs = createArrayFromRange(10, 15);
-
+			auto rhs = createArrayFromRange(RANGE_START,
+				                            RANGE_END);
+			auto lhs = createArrayFromRange(RANGE_START + 1,
+				                            RANGE_END + 1);
 			lhs = rhs;
 
 			Assert::AreEqual(rhs.getCapacity(), lhs.getCapacity());
@@ -233,7 +244,8 @@ namespace DynamicArrayUnitTest
 		TEST_METHOD(testMoveAssignmentEmptyToNonEmptyArray)
 		{
 			auto rhs = Array{};
-			auto lhs = createArrayFromRange(1, 5);
+			auto lhs = createArrayFromRange(RANGE_START,
+				                            RANGE_END);
 
 			lhs = std::move(rhs);
 
@@ -245,7 +257,7 @@ namespace DynamicArrayUnitTest
 
 		TEST_METHOD(testMoveAssignmentNonEmptyToEmptyArray)
 		{
-			auto rhs = createArrayFromRange(1, 5);
+			auto rhs = createArrayFromRange(RANGE_START, RANGE_END);
 			auto capacity = rhs.getCapacity();
 			auto lhs = Array{};
 
@@ -254,13 +266,15 @@ namespace DynamicArrayUnitTest
 			Assert::IsTrue(hasNullForCapacityAndSize(rhs),
 				           L"The moved-from array did not become empty!");
 			Assert::AreEqual(capacity, lhs.getCapacity());
-			Assert::IsTrue(arrayConsistsOfNumbersInRange(lhs, 1, 5));
+			Assert::IsTrue(arrayConsistsOfNumbersInRange(lhs,
+				                                         RANGE_START,
+				                                         RANGE_END));
 		}
 
 		TEST_METHOD(testMoveAssignmentNonEmptyToNonEmptyArray)
 		{
-			auto rhs = createArrayFromRange(10, 15);
-			auto lhs = createArrayFromRange(1, 5);
+			auto rhs = createArrayFromRange(RANGE_START, RANGE_END);
+			auto lhs = createArrayFromRange(RANGE_START + 1, RANGE_END + 1);
 			auto capacity = rhs.getCapacity();
 
 			lhs = std::move(rhs);
@@ -268,26 +282,34 @@ namespace DynamicArrayUnitTest
 			Assert::IsTrue(hasNullForCapacityAndSize(rhs),
 				           L"The moved-from array did not become empty!");
 			Assert::AreEqual(capacity, lhs.getCapacity());
-			Assert::IsTrue(arrayConsistsOfNumbersInRange(lhs, 10, 15));
+			Assert::IsTrue(arrayConsistsOfNumbersInRange(lhs,
+				                                         RANGE_START,
+				                                         RANGE_END));
 		}
 
-		TEST_METHOD(testAddAppendsTheItemToTheArray)
+		TEST_METHOD(testAddAppendsAnItemAtTheEnd)
 		{
-			Array arr;
+			auto arr = Array{};
 
-			for (unsigned number = 1; number <= 10; ++number)
+			for (auto i = RANGE_START;
+				 i <= RANGE_END;
+				 ++i)
 			{
-				arr.add(number);
+				arr.add(i);
 			}
 
-			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr, 1, 10));
+			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr,
+				                                         RANGE_START,
+				                                         RANGE_END));
 		}
 
 		TEST_METHOD(testAddIncrementsSize)
 		{
-			Array arr;
+			auto arr = Array{};
 
-			for (unsigned i = 1; i <= 5; ++i)
+			for (auto i = 1u;
+				 i <= 5u;
+				 ++i)
 			{
 				arr.add(i);
 				Assert::AreEqual(i, arr.getSize());
@@ -297,43 +319,41 @@ namespace DynamicArrayUnitTest
 		TEST_METHOD(testAddingAnRvalueMovesTheObject)
 		{
 			const char word[] = "test";
-			std::string s = word;
-			DynamicArray<std::string> arr;
+			auto s = std::string{ word };
+			auto arr = DynamicArray<std::string>{};
 
 			arr.add(std::move(s));
 
-			Assert::IsTrue(stringIsMovedFrom(s));
+			Assert::IsTrue(stringIsMovedFrom(s),
+				           L"The rvalue object was not moved!");
 			Assert::IsTrue(arr[0] == word);
 		}
 
-		TEST_METHOD(testRemoveAtShiftsLeftTheElementsAfterRemovedItem)
+		TEST_METHOD(testRemoveAtShiftsLeftTheItemsAfterRemovedItem)
 		{
-			Array arr = createArrayFromRange(0, 5);
+			auto arr = createArrayFromRange(0, 5);
 
 			arr.removeAt(0);
 
 			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr, 1, 5));
 		}
 
-		TEST_METHOD(testRemoveAtUpdatesSize)
+		TEST_METHOD(testRemoveAtDecrementsSize)
 		{
-			Array arr = createArrayFromRange(0, 6);
+			auto arr = createArrayFromRange(0, 6);
 
-			for (int i = 6; i >= 0; i -= 2)
-			{
-				arr.removeAt(i);
-			}
+			arr.removeAt(0);
 
-			Assert::AreEqual(3u, arr.getSize());
+			Assert::AreEqual(6u, arr.getSize());
 		}
 
 		TEST_METHOD(testRemoveAtInvalidIndexThrowsException)
 		{
-			Array arr = createArrayFromRange(0, 5);
+			auto arr = Array{};
 
 			try
 			{
-				arr.removeAt(6);
+				arr.removeAt(0);
 				Assert::Fail(L"The method did not throw an exception!");
 			}
 			catch (std::out_of_range& e)
@@ -344,16 +364,18 @@ namespace DynamicArrayUnitTest
 
 		TEST_METHOD(testRemoveLast)
 		{
-			Array arr = createArrayFromRange(0, 5);
-
+			auto arr = createArrayFromRange(RANGE_START,
+				                            RANGE_END + 1);
 			arr.removeLast();
 
-			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr, 0, 4));
+			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr,
+				                                         RANGE_START,
+				                                         RANGE_END));
 		}
 
 		TEST_METHOD(testRemoveLastFromEmptyArrayThrowsException)
 		{
-			Array emptyArray;
+			auto emptyArray = Array{};
 
 			try
 			{
@@ -366,32 +388,37 @@ namespace DynamicArrayUnitTest
 			}
 		}
 
-		TEST_METHOD(testAddAtIndexShiftsRightTheNextElements)
+		TEST_METHOD(testAddAtIndexShiftsRightTheNextItems)
 		{
-			Array arr = createArrayFromRange(11, 15);
+			auto arr = createArrayFromRange(RANGE_START + 1,
+				                            RANGE_END);
 
-			arr.addAt(0, 10);
+			arr.addAt(0, RANGE_START);
 
-			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr, 10, 15));
+			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr,
+				                                         RANGE_START,
+				                                         RANGE_END));
 		}
 
 		TEST_METHOD(testAddAtIndexAfterLastElement)
 		{
-			Array arr = createArrayFromRange(11, 15);
+			auto arr = createArrayFromRange(RANGE_START,
+				                            RANGE_END);
 
-			arr.addAt(arr.getSize(), 16);
+			arr.addAt(arr.getSize(), RANGE_END + 1);
 
-			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr, 11, 16));
+			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr,
+				                                         RANGE_START,
+				                                         RANGE_END + 1));
 		}
 
 		TEST_METHOD(testAddAtIndexGreaterThanSizeThrowsException)
 		{
-			Array arr;
-			unsigned number = 10;
+			auto arr = Array{};
 
 			try
 			{
-				arr.addAt(1, number);
+				arr.addAt(arr.getSize() + 1, 10);
 				Assert::Fail(L"The method did not throw an exception!");
 			}
 			catch (std::out_of_range& e)
@@ -402,53 +429,55 @@ namespace DynamicArrayUnitTest
 
 		TEST_METHOD(testAddAtIncrementsSize)
 		{
-			Array arr = createArrayFromRange(0, 4);
+			auto arr = createArrayFromRange(1, 1);
 
-			for (int i = 1; i <= 3; ++i)
-			{
-				arr.addAt(5, 100);
-			}
+			arr.addAt(0, 0);
 
-			Assert::AreEqual(8u, arr.getSize());
+			Assert::AreEqual(2u, arr.getSize());
 		}
 
 		TEST_METHOD(testAddAtWithAnRvalueMovesTheObject)
 		{
 			const char word[] = "test";
-			std::string s = word;
-			DynamicArray<std::string> arr;
+			auto s = std::string{ word };
+			auto arr = DynamicArray<std::string>{};
 
 			arr.addAt(0, std::move(s));
 
-			Assert::IsTrue(stringIsMovedFrom(s));
+			Assert::IsTrue(stringIsMovedFrom(s),
+				           L"The rvalue object was not moved!");
 			Assert::IsTrue(arr[0] == word);
 		}
 
 		TEST_METHOD(testReserveExtendsTheArrayIfPassedGreaterCapacity)
 		{
-			Array arr = createArrayFromRange(1, 10);
-			std::size_t capacity = arr.getCapacity();
+			auto arr = createArrayFromRange(RANGE_START,
+				                            RANGE_END);
+			auto desiredCapacity = arr.getCapacity() + 1;
 
-			arr.reserve(capacity + 1);
+			arr.reserve(desiredCapacity);
 
-			Assert::AreEqual(capacity + 1, arr.getCapacity());
-			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr, 1, 10),
-				L"Extending the array did not kepp its elements the same!");
+			Assert::IsTrue(arr.getCapacity() >= desiredCapacity);
+			Assert::IsTrue(arrayConsistsOfNumbersInRange(arr,
+				                                         RANGE_START,
+				                                         RANGE_END),
+				           L"Extending the array did not keep its elements the same!");
 		}
 
 		TEST_METHOD(testReserveDoesNothingIfCapacityIsAvailable)
 		{
-			Array arr(100);
+			auto capacity = 10u;
+			auto arr = Array(capacity);
 
-			arr.reserve(50);
+			arr.reserve(capacity / 2);
 
-			Assert::AreEqual(100u, arr.getCapacity());
+			Assert::AreEqual(capacity, arr.getCapacity());
 		}
 
 		TEST_METHOD(testEmpty)
 		{
-			Array arr = createArrayFromRange(1, 10);
-
+			auto arr = createArrayFromRange(RANGE_START,
+				                            RANGE_END);
 			arr.empty();
 
 			Assert::IsTrue(hasNullForCapacityAndSize(arr));
@@ -456,9 +485,9 @@ namespace DynamicArrayUnitTest
 
 		TEST_METHOD(testSubscriptOperator)
 		{
-			Array arr = createArrayFromRange(0, 4);
+			auto arr = createArrayFromRange(0, 4);
 
-			for (unsigned i = 0; i <= 4; ++i)
+			for (auto i = 0u; i <= 4u; ++i)
 			{
 				Assert::AreEqual(i, arr[i]);
 			}
@@ -466,7 +495,7 @@ namespace DynamicArrayUnitTest
 
 		TEST_METHOD(testSubscriptOperatorWithInvalidIndexThrowsException)
 		{
-			Array arr;
+			auto arr = Array{};
 
 			try
 			{
