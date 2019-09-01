@@ -7,13 +7,13 @@ template <class Item, bool isConst = false>
 class AbstractIterator
 {
 public:
-	using Reference = typename std::conditional<isConst, const Item&, Item&>::type;
-	using Pointer = typename std::conditional<isConst, const Item*, Item*>::type;
+	using Reference = std::conditional_t<isConst, const Item&, Item&>;
+	using Pointer = std::conditional_t<isConst, const Item*, Item*>;
 
 public:
 	virtual ~AbstractIterator() = default;
 
-	virtual AbstractIterator<Item, isConst>& operator++() = 0;
+	virtual AbstractIterator& operator++() = 0;
 
 	Reference operator*() const
 	{
@@ -37,10 +37,11 @@ public:
 
 protected:
 	AbstractIterator() = default;
-	AbstractIterator(const AbstractIterator<Item, isConst>&) = default;
-	AbstractIterator&
-		operator=(const AbstractIterator<Item, isConst>&) = default;
-	
+	AbstractIterator(const AbstractIterator&) = default;
+	AbstractIterator& operator=(const AbstractIterator&) = default;
+    AbstractIterator(AbstractIterator&&) = default;
+    AbstractIterator& operator=(AbstractIterator&&) = default;
+
 	virtual bool isValid() const = 0;
 
 private:
@@ -55,8 +56,8 @@ template <class Item>
 using ConstIterator = AbstractIterator<Item, true>;
 
 template <class Item, bool isConst>
-typename AbstractIterator<Item, isConst>::Reference
-AbstractIterator<Item, isConst>::verifyValidityAndReturnCurrentItem() const
+auto AbstractIterator<Item, isConst>::verifyValidityAndReturnCurrentItem() const
+-> Reference
 {
 	if (isValid())
 	{
@@ -64,7 +65,7 @@ AbstractIterator<Item, isConst>::verifyValidityAndReturnCurrentItem() const
 	}
 	else
 	{
-		throw std::out_of_range("Iterator out of range!");
+        throw std::out_of_range{ "Iterator out of range!" };
 	}
 }
 
