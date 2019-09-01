@@ -29,7 +29,7 @@ public:
 		LinkedListIterator(const LinkedListIterator<Item, false>& source) noexcept;
 
 		LinkedListIterator& operator++() noexcept override;
-		LinkedListIterator operator++(int) noexcept;
+		const LinkedListIterator operator++(int) noexcept;
 
 		template <class Item, bool isConst>
 		friend bool operator==(typename const LinkedList<Item>::LinkedListIterator<Item, isConst>& lhs,

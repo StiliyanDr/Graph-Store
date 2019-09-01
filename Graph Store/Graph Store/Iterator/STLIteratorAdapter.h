@@ -20,7 +20,7 @@ public:
 public:
 	STLIteratorAdapter(STLIterator begin, STLIterator end);
 	STLIteratorAdapter& operator++() override;
-    STLIteratorAdapter operator++(int);
+    const STLIteratorAdapter operator++(int);
 
 protected:
 	bool isValid() const override;
@@ -42,7 +42,7 @@ STLIteratorAdapter<STLIterator>::STLIteratorAdapter(STLIterator begin,
 }
 
 template <class STLIterator>
-STLIteratorAdapter<STLIterator>
+const STLIteratorAdapter<STLIterator>
 STLIteratorAdapter<STLIterator>::operator++(int)
 {
     auto copy = *this;

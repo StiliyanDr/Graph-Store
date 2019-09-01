@@ -25,7 +25,7 @@ LinkedList<T>::LinkedListIterator<Item, isConst>::LinkedListIterator(
 template <class T>
 template <class Item, bool isConst>
 auto LinkedList<T>::LinkedListIterator<Item, isConst>::operator++(int) noexcept
--> LinkedListIterator
+-> const LinkedListIterator
 {
 	auto copy = *this;
 	++(*this);
