@@ -53,7 +53,8 @@ public:
 
 	using Iterator = LinkedListIterator<T, false>;
 	using ConstIterator = LinkedListIterator<T, true>;
- 
+    using SizeType = std::size_t;
+
 public:
 	LinkedList() noexcept;
 	LinkedList(LinkedList<T>&& source) noexcept;
@@ -81,7 +82,7 @@ public:
 
 	void empty() noexcept;
 	bool isEmpty() const noexcept;
-	std::size_t getSize() const noexcept;
+	SizeType getSize() const noexcept;
 
 	const T& getFirst() const;
 	const T& getLast() const;
@@ -100,7 +101,7 @@ private:
 	void destroyChain();
 
 private:
-	std::size_t size;
+	SizeType size;
 	Node<T>* first;
 	Node<T>* last;
 };

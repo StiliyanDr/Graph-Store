@@ -369,8 +369,9 @@ LinkedList<T>::isEmpty() const noexcept
 }
 
 template <class T>
-inline std::size_t
+inline auto
 LinkedList<T>::getSize() const noexcept
+-> SizeType
 {
 	return size;
 }
