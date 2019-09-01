@@ -30,7 +30,6 @@ public:
 			                                DynamicArray<Item>*>;
 	public:
 		using typename AbstractIterator<Item, isConst>::Reference;
-		using typename AbstractIterator<Item, isConst>::Pointer;
 
 	public:
 		DynamicArrayIterator(const DynamicArrayIterator<Item, false>& source) noexcept;
@@ -45,7 +44,7 @@ public:
 	private:
 		DynamicArrayIterator(Position currentPosition, OwnerPtr owner) noexcept;
 
-		Reference getCurrentItem() const override;
+		Reference getCurrentItem() const noexcept override;
 		bool isValid() const noexcept override;
 
 	private:
