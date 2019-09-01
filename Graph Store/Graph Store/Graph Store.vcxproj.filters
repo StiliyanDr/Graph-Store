@@ -42,18 +42,6 @@
     <Filter Include="Graph\Undirected Graph">
       <UniqueIdentifier>{4808a882-2d3d-4a62-b9ca-655e6f62c525}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shortest Path Algorithms">
-      <UniqueIdentifier>{eb1361a8-3847-4417-947f-c42a826d562b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shortest Path Algorithms\Abstract class">
-      <UniqueIdentifier>{4eb8960e-4e4e-4f7a-b28e-bc366a8cb965}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shortest Path Algorithms\BFS">
-      <UniqueIdentifier>{04f2d1ac-e4e2-431c-8bf2-8c9bdb242edf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shortest Path Algorithms\Iterative Deepening DFS">
-      <UniqueIdentifier>{0989909a-0ea5-4cfe-a894-f411fa880c64}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graph Factory">
       <UniqueIdentifier>{7f4b21a7-6dc9-46f8-917b-15682f11662f}</UniqueIdentifier>
     </Filter>
@@ -81,9 +69,6 @@
     <Filter Include="Priority Queue\Priority Queue Handle">
       <UniqueIdentifier>{48e4da2f-6c66-44ce-bf60-595e9285875e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shortest Path Algorithms\Dijkstra Algorithm">
-      <UniqueIdentifier>{995cdfae-2ec8-46ab-a87d-2cde847bc999}</UniqueIdentifier>
-    </Filter>
     <Filter Include="File Parser">
       <UniqueIdentifier>{8b59dc09-3a6c-4677-9b12-3c9b7eb741dc}</UniqueIdentifier>
     </Filter>
@@ -104,9 +89,6 @@
     </Filter>
     <Filter Include="Hashing\Identifier Accessor">
       <UniqueIdentifier>{22075870-293d-4918-9d93-c583698928bf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shortest Path Algorithms\Shortest Path Algorithm Registrator">
-      <UniqueIdentifier>{92e258eb-cd58-4f59-86b2-713805b2aada}</UniqueIdentifier>
     </Filter>
     <Filter Include="Logger">
       <UniqueIdentifier>{92bf67f7-66d4-4d16-aaac-35a442db257f}</UniqueIdentifier>
@@ -159,9 +141,6 @@
     <Filter Include="Command\Exceptions">
       <UniqueIdentifier>{d1644408-9074-4aa1-8027-33a6c62e4198}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shortest Path Algorithms\Search Based Shortest Path Algorithm">
-      <UniqueIdentifier>{ed3bc4ea-dc52-429b-aab9-4572355912c6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Runtime Error">
       <UniqueIdentifier>{8c6986b5-d370-4859-a342-91a36ae6c15a}</UniqueIdentifier>
     </Filter>
@@ -193,11 +172,32 @@
     <Filter Include="Graph IO\Graph Files Functions">
       <UniqueIdentifier>{fe5f077f-8d69-440d-8719-ab8674ce48c4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shortest Path Algorithms\Shortest Path Algorithms Store">
-      <UniqueIdentifier>{64578d2a-b4d0-4f1f-8e7e-314661566a2d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Invocer">
       <UniqueIdentifier>{27156600-961b-48bc-8634-73ed23db1328}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shortest Path Algorithms">
+      <UniqueIdentifier>{eb1361a8-3847-4417-947f-c42a826d562b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shortest Path Algorithms\Abstract class">
+      <UniqueIdentifier>{4eb8960e-4e4e-4f7a-b28e-bc366a8cb965}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shortest Path Algorithms\BFS">
+      <UniqueIdentifier>{04f2d1ac-e4e2-431c-8bf2-8c9bdb242edf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shortest Path Algorithms\Iterative Deepening DFS">
+      <UniqueIdentifier>{0989909a-0ea5-4cfe-a894-f411fa880c64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shortest Path Algorithms\Dijkstra Algorithm">
+      <UniqueIdentifier>{995cdfae-2ec8-46ab-a87d-2cde847bc999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shortest Path Algorithms\Shortest Path Algorithm Registrator">
+      <UniqueIdentifier>{92e258eb-cd58-4f59-86b2-713805b2aada}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shortest Path Algorithms\Search Based Shortest Path Algorithm">
+      <UniqueIdentifier>{ed3bc4ea-dc52-429b-aab9-4572355912c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shortest Path Algorithms\Shortest Path Algorithms Store">
+      <UniqueIdentifier>{64578d2a-b4d0-4f1f-8e7e-314661566a2d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -280,13 +280,13 @@
       <Filter>Priority Queue\Priority Queue Handle</Filter>
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Abstract class\ShortestPathAlgorithm.h">
-      <Filter>Shortest Path Algorithms\Abstract class</Filter>
+      <Filter>Source Files\Shortest Path Algorithms\Abstract class</Filter>
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.h">
-      <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
+      <Filter>Source Files\Shortest Path Algorithms\Iterative Deepening DFS</Filter>
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Store\ShortestPathAlgorithmsStore.h">
-      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
+      <Filter>Source Files\Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
     </ClInclude>
     <ClInclude Include="String\String.h">
       <Filter>String</Filter>
@@ -340,22 +340,19 @@
       <Filter>Command\Search Command</Filter>
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Algorithm Registrator\ShortestPathAlgorithmRegistrator.h">
-      <Filter>Shortest Path Algorithms\Shortest Path Algorithm Registrator</Filter>
+      <Filter>Source Files\Shortest Path Algorithms\Shortest Path Algorithm Registrator</Filter>
     </ClInclude>
     <ClInclude Include="Linked List\LinkedListIterator.hpp">
       <Filter>Linked List</Filter>
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\BFS\BFSShortestPath.h">
-      <Filter>Shortest Path Algorithms\BFS</Filter>
+      <Filter>Source Files\Shortest Path Algorithms\BFS</Filter>
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Search Based Shortest Path Algorithm\SearchBasedShortestPathAlgorithm.h">
-      <Filter>Shortest Path Algorithms\Search Based Shortest Path Algorithm</Filter>
-    </ClInclude>
-    <ClInclude Include="Iterator\ConcreteIteratorAdapter.h">
-      <Filter>Iterator</Filter>
+      <Filter>Source Files\Shortest Path Algorithms\Search Based Shortest Path Algorithm</Filter>
     </ClInclude>
     <ClInclude Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraShortestPath.h">
-      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
+      <Filter>Source Files\Shortest Path Algorithms\Dijkstra Algorithm</Filter>
     </ClInclude>
     <ClInclude Include="Runtime Error\RuntimeError.h">
       <Filter>Runtime Error</Filter>
@@ -411,6 +408,9 @@
     <ClInclude Include="Invocer\Invocer.h">
       <Filter>Invocer</Filter>
     </ClInclude>
+    <ClInclude Include="Iterator\IsConstIterator.h">
+      <Filter>Iterator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="File Parser\FileParser.cpp">
@@ -435,13 +435,13 @@
       <Filter>Graph Factory\GraphFactory</Filter>
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\Abstract class\ShortestPathAlgorithm.cpp">
-      <Filter>Shortest Path Algorithms\Abstract class</Filter>
+      <Filter>Source Files\Shortest Path Algorithms\Abstract class</Filter>
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\Iterative Deepening DFS\IterativeDeepeningDFS.cpp">
-      <Filter>Shortest Path Algorithms\Iterative Deepening DFS</Filter>
+      <Filter>Source Files\Shortest Path Algorithms\Iterative Deepening DFS</Filter>
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\Store\ShortestPathAlgorithmsStore.cpp">
-      <Filter>Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
+      <Filter>Source Files\Shortest Path Algorithms\Shortest Path Algorithms Store</Filter>
     </ClCompile>
     <ClCompile Include="String\String.cpp">
       <Filter>String</Filter>
@@ -492,13 +492,13 @@
       <Filter>Command\Search Command</Filter>
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\BFS\BFSShortestPath.cpp">
-      <Filter>Shortest Path Algorithms\BFS</Filter>
+      <Filter>Source Files\Shortest Path Algorithms\BFS</Filter>
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\Search Based Shortest Path Algorithm\SearchBasedShortestPathAlgorithm.cpp">
-      <Filter>Shortest Path Algorithms\Search Based Shortest Path Algorithm</Filter>
+      <Filter>Source Files\Shortest Path Algorithms\Search Based Shortest Path Algorithm</Filter>
     </ClCompile>
     <ClCompile Include="Shortest Path Algorithms\Dijkstra Algorithm\DijkstraShortestPath.cpp">
-      <Filter>Shortest Path Algorithms\Dijkstra Algorithm</Filter>
+      <Filter>Source Files\Shortest Path Algorithms\Dijkstra Algorithm</Filter>
     </ClCompile>
     <ClCompile Include="Graph IO\Graph Builder\GraphBuilder.cpp">
       <Filter>Graph IO\Graph Builder</Filter>
