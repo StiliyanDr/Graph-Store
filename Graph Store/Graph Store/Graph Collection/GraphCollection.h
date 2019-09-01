@@ -23,7 +23,7 @@ public:
 
 		using STLIteratorType =
 			std::conditional_t<isConst, Collection::const_iterator, Collection::iterator>;
-		using IteratorType = STLIteratorAdapter<STLIteratorType, isConst>;
+		using IteratorType = STLIteratorAdapter<STLIteratorType>;
 
 	public:
 		using typename AbstractIterator<Graph, isConst>::Reference;

@@ -1,19 +1,26 @@
 #ifndef __STL_ITERATOR_ADAPTER_HEADER_INCLUDED__
 #define __STL_ITERATOR_ADAPTER_HEADER_INCLUDED__
 
-#include "Iterator.h"
+#include "Iterator/Iterator.h"
+#include "Iterator/IsConstIterator.h"
 #include <assert.h>
 #include <iterator>
 
-template <class STLIterator, bool isConst = false>
-class STLIteratorAdapter : public AbstractIterator<typename std::iterator_traits<STLIterator>::value_type, isConst>
+template <class STLIterator>
+using STLIteratorAdapterBaseClass =
+    AbstractIterator<typename std::iterator_traits<STLIterator>::value_type,
+                     isConstIterator<STLIterator>>;
+
+template <class STLIterator>
+class STLIteratorAdapter : public STLIteratorAdapterBaseClass<STLIterator>
 {
 public:
-	using typename AbstractIterator<typename std::iterator_traits<STLIterator>::value_type, isConst>::Reference;
+	using typename STLIteratorAdapterBaseClass<STLIterator>::Reference;
 
 public:
-	STLIteratorAdapter(STLIterator rangeStart, STLIterator rangeEnd);
-	STLIteratorAdapter<STLIterator, isConst>& operator++() override;
+	STLIteratorAdapter(STLIterator begin, STLIterator end);
+	STLIteratorAdapter& operator++() override;
+    STLIteratorAdapter operator++(int);
 
 protected:
 	bool isValid() const override;
@@ -22,46 +29,55 @@ private:
 	Reference getCurrentItem() const override;
 
 private:
-	STLIterator iterator;
+	STLIterator current;
 	STLIterator end;
 };
 
-template <class STLConstIterator>
-using STLConstIteratorAdapter = STLIteratorAdapter<STLConstIterator, true>;
-
-template <class STLIterator, bool isConst>
-STLIteratorAdapter<STLIterator, isConst>::STLIteratorAdapter(STLIterator rangeStart,
-	                                                         STLIterator rangeEnd) :
-	iterator(rangeStart),
-	end(rangeEnd)
+template <class STLIterator>
+STLIteratorAdapter<STLIterator>::STLIteratorAdapter(STLIterator begin,
+                                                    STLIterator end) :
+	current(begin),
+	end(end)
 {
 }
 
-template <class STLIterator, bool isConst>
-STLIteratorAdapter<STLIterator, isConst>&
-STLIteratorAdapter<STLIterator, isConst>::operator++()
+template <class STLIterator>
+STLIteratorAdapter<STLIterator>
+STLIteratorAdapter<STLIterator>::operator++(int)
+{
+    auto copy = *this;
+    ++(*this);
+
+    return copy;
+}
+
+template <class STLIterator>
+STLIteratorAdapter<STLIterator>&
+STLIteratorAdapter<STLIterator>::operator++()
 {
 	if (isValid())
 	{
-		++iterator;
+		++current;
 	}
 
 	return *this;
 }
 
-template <class STLIterator, bool isConst>
-inline bool STLIteratorAdapter<STLIterator, isConst>::isValid() const
+template <class STLIterator>
+inline bool
+STLIteratorAdapter<STLIterator>::isValid() const
 {
-	return iterator != end;
+	return current != end;
 }
 
-template <class STLIterator, bool isConst>
+template <class STLIterator>
 inline auto
-STLIteratorAdapter<STLIterator, isConst>::getCurrentItem() const -> Reference
+STLIteratorAdapter<STLIterator>::getCurrentItem() const
+-> Reference
 {
 	assert(isValid());
 
-	return *iterator;
+	return *current;
 }
 
 #endif //__STL_ITERATOR_ADAPTER_HEADER_INCLUDED__

@@ -91,7 +91,7 @@ private:
 
 protected:
 	using VerticesConcreteIterator = STLIteratorAdapter<Array::iterator>;
-	using VerticesConcreteConstIterator = STLConstIteratorAdapter<Array::const_iterator>;
+	using VerticesConcreteConstIterator = STLIteratorAdapter<Array::const_iterator>;
 	using OutgoingEdgesConcreteIterator = AdjacencyList::Iterator;
 	using OutgoingEdgesConcreteConstIterator = AdjacencyList::ConstIterator;
 
