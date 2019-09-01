@@ -9,8 +9,12 @@ class LinkedList
 	template <class T>
 	struct Node
 	{
-		Node(const T& item, Node<T>* next = nullptr) :
-			item(item), next(next) { }
+        template <class U>
+		Node(U&& item, Node<T>* next = nullptr) :
+            next(next),
+			item(std::forward<U>(item))
+        {
+        }
 
 		Node<T>* next;
 		T item;
@@ -49,7 +53,7 @@ public:
 
 	using Iterator = LinkedListIterator<T, false>;
 	using ConstIterator = LinkedListIterator<T, true>;
-
+ 
 public:
 	LinkedList() noexcept;
 	LinkedList(LinkedList<T>&& source) noexcept;
