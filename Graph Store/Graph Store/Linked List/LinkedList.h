@@ -1,7 +1,7 @@
 #ifndef __LINKED_LIST_HEADER_INCLUDED__
 #define __LINKED_LIST_HEADER_INCLUDED__
 
-#include <type_traits>
+#include "Iterator/Iterator.h"
 
 template <class T>
 class LinkedList
@@ -18,23 +18,18 @@ class LinkedList
 
 public:
 	template <class Item, bool isConst = false>
-	class LinkedListIterator
+	class LinkedListIterator : public AbstractIterator<Item, isConst>
 	{
 		friend class LinkedList<Item>;
 	
 	public:
-		using Reference = std::conditional_t<isConst, const Item&, Item&>;
-		using Pointer = std::conditional_t<isConst, const Item*, Item*>;
+		using typename AbstractIterator<Item, isConst>::Reference;
 
 	public:
 		LinkedListIterator(const LinkedListIterator<Item, false>& source) noexcept;
 
-		LinkedListIterator<Item, isConst>& operator++() noexcept;
-		LinkedListIterator<Item, isConst> operator++(int) noexcept;
-		Reference operator*() const;
-		Pointer operator->() const;
-		bool operator!() const noexcept;
-		operator bool() const noexcept;
+		LinkedListIterator& operator++() noexcept override;
+		LinkedListIterator operator++(int) noexcept;
 
 		template <class Item, bool isConst>
 		friend bool operator==(typename const LinkedList<Item>::LinkedListIterator<Item, isConst>& lhs,
@@ -44,8 +39,8 @@ public:
 		LinkedListIterator(Node<Item>* current,
 			               const LinkedList<Item>* owner) noexcept;
 
-		Reference getCurrentItem() const;
-		bool isValid() const noexcept;
+		Reference getCurrentItem() const noexcept override;
+		bool isValid() const noexcept override;
 
 	private:
 		Node<Item>* current;
