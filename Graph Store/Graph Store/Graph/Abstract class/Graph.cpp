@@ -403,12 +403,11 @@ Graph::getConcreteConstIteratorOfVertices() const
 Graph::OutgoingEdgesConstIterator
 Graph::getConstIteratorOfEdgesLeaving(const Vertex& v) const
 {
-	using ConcreteConstIterator =
-		ConcreteConstIteratorAdapter<OutgoingEdge, AdjacencyList::ConstIterator>;
-
 	verifyOwnershipOf(v);
 
-	return std::make_unique<ConcreteConstIterator>(getConcreteConstIteratorOfEdgesLeaving(v));
+	return std::make_unique<AdjacencyList::ConstIterator>(
+        getConcreteConstIteratorOfEdgesLeaving(v)
+    );
 }
 
 Graph::OutgoingEdgesConcreteIterator
