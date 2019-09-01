@@ -21,15 +21,16 @@ public:
 	{
 		friend class GraphCollection;
 
-		using STLIteratorType =
-			std::conditional_t<isConst, Collection::const_iterator, Collection::iterator>;
+		using STLIteratorType = std::conditional_t<isConst,
+                                                   Collection::const_iterator,
+                                                   Collection::iterator>;
 		using IteratorType = STLIteratorAdapter<STLIteratorType>;
 
 	public:
 		using typename AbstractIterator<Graph, isConst>::Reference;
 
 	public:
-		GraphCollectionIterator<isConst>& operator++() override
+		GraphCollectionIterator& operator++() override
 		{
 			++iterator;
 
@@ -37,8 +38,9 @@ public:
 		}
 
 	private:
-		GraphCollectionIterator(STLIteratorType iterator, STLIteratorType end) :
-			iterator(iterator, end)
+		GraphCollectionIterator(STLIteratorType begin,
+                                STLIteratorType end) :
+            iterator{ begin, end }
 		{
 		}
 
