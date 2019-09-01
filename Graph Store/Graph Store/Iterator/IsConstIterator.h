@@ -7,10 +7,12 @@
 template <class Iterator>
 struct IsConstIterator
 {
-    using Reference = std::iterator_traits<Iterator>::reference;
+private:
+    using Reference = typename std::iterator_traits<Iterator>::reference;
     using ReferencedType = std::remove_reference_t<Reference>;
 
-    static const bool value = std::is_const_v<ReferencedType>;
+public:
+    static constexpr bool value = std::is_const_v<ReferencedType>;
 };
 
 template <class Iterator>
