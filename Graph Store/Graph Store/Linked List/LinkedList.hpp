@@ -49,7 +49,7 @@ void LinkedList<T>::copyChainFrom(const LinkedList& source)
 
 template <class T>
 LinkedList<T>&
-LinkedList<T>::operator=(LinkedList<T>&& rhs) noexcept
+LinkedList<T>::operator=(LinkedList&& rhs) noexcept
 {
 	if (this != &rhs)
 	{
@@ -60,7 +60,7 @@ LinkedList<T>::operator=(LinkedList<T>&& rhs) noexcept
 }
 
 template <class T>
-void LinkedList<T>::swapContentsWith(LinkedList<T> list) noexcept
+void LinkedList<T>::swapContentsWith(LinkedList list) noexcept
 {
 	std::swap(first, list.first);
 	std::swap(last, list.last);
@@ -69,7 +69,7 @@ void LinkedList<T>::swapContentsWith(LinkedList<T> list) noexcept
 
 template <class T>
 LinkedList<T>&
-LinkedList<T>::operator=(const LinkedList<T>& rhs)
+LinkedList<T>::operator=(const LinkedList& rhs)
 {
 	if (this != &rhs)
 	{
@@ -90,7 +90,7 @@ void LinkedList<T>::destroyChain() noexcept
 {
 	while (first != nullptr)
 	{
-		Node<T>* nextNode = first->next;
+		auto nextNode = first->next;
 		delete first;
 		first = nextNode;
 	}
@@ -104,7 +104,7 @@ void LinkedList<T>::empty() noexcept
 }
 
 template <class T>
-void LinkedList<T>::appendList(LinkedList<T> list) noexcept
+void LinkedList<T>::appendList(LinkedList list) noexcept
 {
 	if (list.isEmpty())
 	{
@@ -264,8 +264,8 @@ void LinkedList<T>::insertBefore(Node<T>* node,
 }
 
 template <class T>
-typename LinkedList<T>::Node<T>*
-LinkedList<T>::findNodeBefore(const Node<T>* node) noexcept
+auto LinkedList<T>::findNodeBefore(const Node<T>* node)
+noexcept -> Node<T>*
 {
 	assert(node != nullptr);
 
@@ -274,9 +274,10 @@ LinkedList<T>::findNodeBefore(const Node<T>* node) noexcept
 		return nullptr;
 	}
 
-	Node<T>* current = first;
+	auto current = first;
 
-	while (current != nullptr && current->next != node)
+	while (current != nullptr &&
+           current->next != node)
 	{
 		current = current->next;
 	}
@@ -328,7 +329,7 @@ void LinkedList<T>::removeAt(Iterator& iterator)
 template <class T>
 void LinkedList<T>::removeAt(Node<T>* node) noexcept
 {
-	Node<T>* previousNode = findNodeBefore(node);
+	auto previousNode = findNodeBefore(node);
 
 	if (previousNode != nullptr)
 	{
@@ -366,7 +367,7 @@ void LinkedList<T>::removeBefore(const Iterator& iterator)
 
 	if (iterator)
 	{
-		Node<T>* previousNode =
+		auto previousNode =
 			findNodeBefore(iterator.current);
 
 		if (previousNode != nullptr)
@@ -393,24 +394,27 @@ void LinkedList<T>::removeLast()
 }
 
 template <class T>
-inline typename LinkedList<T>::ConstIterator
+inline auto
 LinkedList<T>::getConstIterator() const noexcept
+-> ConstIterator
 {
-	return ConstIterator(first, this);
+    return ConstIterator{ first, this };
 }
 
 template <class T>
-inline typename LinkedList<T>::Iterator
+inline auto
 LinkedList<T>::getIteratorToFirst() noexcept
+-> Iterator
 {
-	return Iterator(first, this);
+    return Iterator{ first, this };
 }
 
 template <class T>
-inline typename LinkedList<T>::Iterator
+inline auto
 LinkedList<T>::getIteratorToLast() noexcept
+-> Iterator
 {
-	return Iterator(last, this);
+    return Iterator{ last, this };
 }
 
 template <class T>
@@ -457,7 +461,7 @@ LinkedList<T>::verifyOwnershipOf(const Iterator& iterator) const
 {
 	if (iterator.owner != this)
 	{
-		throw std::logic_error("Received iterator from another list!");
+        throw std::logic_error{ "Received iterator from another list!" };
 	}
 }
 
@@ -466,6 +470,6 @@ inline void LinkedList<T>::verifyThatListIsNotEmpty() const
 {
 	if (isEmpty())
 	{
-		throw std::logic_error("The list is empty!");
+        throw std::logic_error{ "The list is empty!" };
 	}
 }
