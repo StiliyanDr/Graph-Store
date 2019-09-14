@@ -57,18 +57,22 @@ public:
 
 public:
 	LinkedList() noexcept;
-	LinkedList(LinkedList<T>&& source) noexcept;
-	LinkedList(const LinkedList<T>& source);
-	LinkedList<T>& operator=(LinkedList<T>&& rhs) noexcept;
-	LinkedList<T>& operator=(const LinkedList<T>& rhs);
+	LinkedList(LinkedList&& source) noexcept;
+	LinkedList(const LinkedList& source);
+	LinkedList& operator=(LinkedList&& rhs) noexcept;
+	LinkedList& operator=(const LinkedList& rhs);
 	~LinkedList();
 
-	void appendList(LinkedList<T> list) noexcept;
+	void appendList(LinkedList list) noexcept;
 
 	void insertAfter(const Iterator& iterator, const T& item);
+    void insertAfter(const Iterator& iterator, T&& item);
 	void insertBefore(const Iterator& iterator, const T& item);
+    void insertBefore(const Iterator& iterator, T&& item);
 	void addFront(const T& item);
+    void addFront(T&& item);
 	void addBack(const T& item);
+    void addBack(T&& item);
 
 	void removeAt(Iterator& iterator);
 	void removeAfter(const Iterator& iterator);
@@ -88,17 +92,27 @@ public:
 	const T& getLast() const;
 
 private:
-	void insertAfter(Node<T>* node, const T& item);
-	void insertBefore(Node<T>* node, const T& item);
-	void removeAt(Node<T>* node);
-	Node<T>* findNodeBefore(const Node<T>* node);
-	void copyFrom(const LinkedList<T>& source);
-	void copyChainFrom(const LinkedList<T>& source);
-	void swapContentsWith(LinkedList<T> list);
-	void nullifyMembers();
+    template <class U>
+    void doInsertAfter(const Iterator& iterator, U&& item);
+    template <class U>
+    void doInsertBefore(const Iterator& iterator, U&& item);
+    template <class U>
+    void doAddFront(U&& item);
+    template <class U>
+    void doAddBack(U&& item);
+    template <class U>
+    void insertAfter(Node<T>* node, U&& item);
+	template <class U>
+    void insertBefore(Node<T>* node, U&& item);
+	void removeAt(Node<T>* node) noexcept;
+	Node<T>* findNodeBefore(const Node<T>* node) noexcept;
+	void copyFrom(const LinkedList& source);
+	void copyChainFrom(const LinkedList& source);
+	void swapContentsWith(LinkedList list) noexcept;
+	void nullifyMembers() noexcept;
 	void verifyOwnershipOf(const Iterator& iterator) const;
 	void verifyThatListIsNotEmpty() const;
-	void destroyChain();
+	void destroyChain() noexcept;
 
 private:
 	SizeType size;

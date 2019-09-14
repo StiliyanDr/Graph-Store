@@ -8,7 +8,7 @@ inline LinkedList<T>::LinkedList() noexcept
 }
 
 template <class T>
-LinkedList<T>::LinkedList(LinkedList<T>&& source) noexcept :
+LinkedList<T>::LinkedList(LinkedList&& source) noexcept :
 	first(source.first),
 	last(source.last),
 	size(source.size)
@@ -17,8 +17,8 @@ LinkedList<T>::LinkedList(LinkedList<T>&& source) noexcept :
 }
 
 template <class T>
-LinkedList<T>::LinkedList(const LinkedList<T>& source) :
-	LinkedList<T>()
+LinkedList<T>::LinkedList(const LinkedList& source) :
+	LinkedList()
 {
 	copyFrom(source);
 }
@@ -75,7 +75,7 @@ LinkedList<T>::operator=(LinkedList<T>&& rhs) noexcept
 }
 
 template <class T>
-void LinkedList<T>::swapContentsWith(LinkedList<T> list)
+void LinkedList<T>::swapContentsWith(LinkedList<T> list) noexcept
 {
 	std::swap(first, list.first);
 	std::swap(last, list.last);
@@ -101,7 +101,7 @@ inline LinkedList<T>::~LinkedList()
 }
 
 template <class T>
-void LinkedList<T>::destroyChain()
+void LinkedList<T>::destroyChain() noexcept
 {
 	while (first != nullptr)
 	{
@@ -142,42 +142,76 @@ void LinkedList<T>::appendList(LinkedList<T> list) noexcept
 }
 
 template <class T>
-void LinkedList<T>::insertAfter(const Iterator& iterator,
-	                            const T& item)
+inline void
+LinkedList<T>::insertAfter(const Iterator& iterator,
+                           const T& item)
+{
+    doInsertAfter(iterator, item);
+}
+
+template <class T>
+inline void
+LinkedList<T>::insertAfter(const Iterator& iterator,
+                           T&& item)
+{
+    doInsertAfter(iterator, std::move(item));
+}
+
+template <class T>
+template <class U>
+void LinkedList<T>::doInsertAfter(const Iterator& iterator,
+                                  U&& item)
 {
 	verifyOwnershipOf(iterator);
 
 	if (iterator)
 	{
-		insertAfter(iterator.current, item);
+		insertAfter(iterator.current,
+                    std::forward<U>(item));
 	}
 	else
 	{
-		addBack(item);
+		addBack(std::forward<U>(item));
 	}
 }
 
 template <class T>
+template <class U>
 void LinkedList<T>::insertAfter(Node<T>* node,
-	                            const T& item)
+	                            U&& item)
 {
 	assert(node != nullptr);
 
 	if (node->next != nullptr)
 	{
-		node->next = new Node<T>(item, node->next);
+        node->next = new Node<T>{ std::forward<U>(item),
+                                  node->next };
 		++size;
 	}
 	else
 	{
-		addBack(item);
+		addBack(std::forward<U>(item));
 	}
 }
 
 template <class T>
-void LinkedList<T>::addBack(const T &item)
+inline void LinkedList<T>::addBack(const T& item)
 {
-	Node<T>* newLastNode = new Node<T>(item);
+    doAddBack(item);
+}
+
+template <class T>
+inline void LinkedList<T>::addBack(T&& item)
+{
+    doAddBack(std::move(item));
+}
+
+template <class T>
+template <class U>
+void LinkedList<T>::doAddBack(U&& item)
+{
+	auto newLastNode =
+        new Node<T>{ std::forward<U>(item) };
 
 	if (last != nullptr)
 	{
@@ -194,40 +228,59 @@ void LinkedList<T>::addBack(const T &item)
 }
 
 template <class T>
-void LinkedList<T>::insertBefore(const Iterator& iterator,
-	                             const T& item)
+inline void
+LinkedList<T>::insertBefore(const Iterator& iterator,
+                            const T& item)
+{
+    doInsertBefore(iterator, item);
+}
+
+template <class T>
+inline void
+LinkedList<T>::insertBefore(const Iterator& iterator,
+                            T&& item)
+{
+    doInsertBefore(iterator, std::move(item));
+}
+
+template <class T>
+template <class U>
+void LinkedList<T>::doInsertBefore(const Iterator& iterator,
+                                   U&& item)
 {
 	verifyOwnershipOf(iterator);
 
 	if (iterator)
 	{
-		insertBefore(iterator.current, item);
+		insertBefore(iterator.current,
+                     std::forward<U>(item));
 	}
 	else
 	{
-		addFront(item);
+		addFront(std::forward<U>(item));
 	}
 }
 
 template <class T>
+template <class U>
 void LinkedList<T>::insertBefore(Node<T>* node,
-	                             const T& item)
+	                             U&& item)
 {
-	Node<T>* previousNode = findNodeBefore(node);
+	auto previousNode = findNodeBefore(node);
 
 	if (previousNode != nullptr)
 	{
-		insertAfter(previousNode, item);
+		insertAfter(previousNode, std::forward<U>(item));
 	}
 	else
 	{
-		addFront(item);
+		addFront(std::forward<U>(item));
 	}
 }
 
 template <class T>
 typename LinkedList<T>::Node<T>*
-LinkedList<T>::findNodeBefore(const Node<T>* node)
+LinkedList<T>::findNodeBefore(const Node<T>* node) noexcept
 {
 	assert(node != nullptr);
 
@@ -247,9 +300,23 @@ LinkedList<T>::findNodeBefore(const Node<T>* node)
 }
 
 template <class T>
-void LinkedList<T>::addFront(const T &item)
+inline void LinkedList<T>::addFront(const T& item)
 {
-	Node<T>* newFirstNode = new Node<T>(item, first);
+    doAddFront(item);
+}
+
+template <class T>
+inline void LinkedList<T>::addFront(T&& item)
+{
+    doAddFront(std::move(item));
+}
+
+template <class T>
+template <class U>
+void LinkedList<T>::doAddFront(U&& item)
+{
+	auto newFirstNode =
+        new Node<T>{ std::forward<U>(item), first };
 
 	if (first == nullptr)
 	{
@@ -274,7 +341,7 @@ void LinkedList<T>::removeAt(Iterator& iterator)
 }
 
 template <class T>
-void LinkedList<T>::removeAt(Node<T>* node)
+void LinkedList<T>::removeAt(Node<T>* node) noexcept
 {
 	Node<T>* previousNode = findNodeBefore(node);
 
@@ -393,7 +460,7 @@ const T& LinkedList<T>::getLast() const
 }
 
 template <class T>
-inline void LinkedList<T>::nullifyMembers()
+inline void LinkedList<T>::nullifyMembers() noexcept
 {
 	first = last = nullptr;
 	size = 0;
