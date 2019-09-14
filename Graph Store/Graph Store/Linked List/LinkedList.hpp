@@ -20,41 +20,26 @@ template <class T>
 LinkedList<T>::LinkedList(const LinkedList& source) :
 	LinkedList()
 {
-	copyFrom(source);
+    if (!source.isEmpty())
+    {
+        copyChainFrom(source);
+        size = source.size;
+    }
 }
 
 template <class T>
-void LinkedList<T>::copyFrom(const LinkedList<T>& source)
-{
-	if (!source.isEmpty())
-	{
-		try
-		{
-			copyChainFrom(source);
-		}
-		catch (...)
-		{
-			destroyChain();
-			throw;
-		}
-
-		size = source.size;
-	}
-}
-
-template <class T>
-void LinkedList<T>::copyChainFrom(const LinkedList<T>& source)
+void LinkedList<T>::copyChainFrom(const LinkedList& source)
 {
 	assert(!source.isEmpty());
 	assert(isEmpty());
 
-	first = new Node<T>(source.first->item);
-	const Node<T>* readFrom = source.first->next;
-	Node<T>* writeAfter = first;
+    first = new Node<T>{ source.first->item };
+	auto readFrom = source.first->next;
+	auto writeAfter = first;
 
 	while (readFrom != nullptr)
 	{
-		writeAfter->next = new Node<T>(readFrom->item);
+        writeAfter->next = new Node<T>{ readFrom->item };
 		writeAfter = writeAfter->next;
 		readFrom = readFrom->next;
 	}

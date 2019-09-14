@@ -106,7 +106,6 @@ private:
     void insertBefore(Node<T>* node, U&& item);
 	void removeAt(Node<T>* node) noexcept;
 	Node<T>* findNodeBefore(const Node<T>* node) noexcept;
-	void copyFrom(const LinkedList& source);
 	void copyChainFrom(const LinkedList& source);
 	void swapContentsWith(LinkedList list) noexcept;
 	void nullifyMembers() noexcept;
