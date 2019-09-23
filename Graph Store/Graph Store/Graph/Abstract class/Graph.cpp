@@ -1,6 +1,5 @@
 #include "Graph.h"
 #include "Graph/Graph Exception/GraphException.h"
-#include "Iterator/ConcreteIteratorAdapter.h"
 
 Graph::Vertex::Vertex(String id,
 	                  size_t index,
