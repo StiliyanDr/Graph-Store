@@ -6,14 +6,14 @@ Hash<Item, Key, KeyAccessor, Function>::Table::Table(std::size_t size) :
 	slots(size, size),
 	count(0)
 {
-	for (std::size_t i = 0; i < size; ++i)
+	for (auto i = 0u; i < size; ++i)
 	{
 		slots[i] = nullptr;
 	}
 }
 
 template <class Item, class Key, class KeyAccessor, class Function>
-Hash<Item, Key, KeyAccessor, Function>::Table::Table(Table&& source) :
+Hash<Item, Key, KeyAccessor, Function>::Table::Table(Table&& source) noexcept :
 	slots(std::move(source.slots)),
 	count(source.count)
 {
@@ -21,8 +21,8 @@ Hash<Item, Key, KeyAccessor, Function>::Table::Table(Table&& source) :
 }
 
 template <class Item, class Key, class KeyAccessor, class Function>
-typename Hash<Item, Key, KeyAccessor, Function>::Table&
-Hash<Item, Key, KeyAccessor, Function>::Table::operator=(Table&& rhs)
+auto Hash<Item, Key, KeyAccessor, Function>::Table::operator=(Table&& rhs)
+noexcept -> Table&
 {
 	if (this != &rhs)
 	{
@@ -34,10 +34,11 @@ Hash<Item, Key, KeyAccessor, Function>::Table::operator=(Table&& rhs)
 
 template <class Item, class Key, class KeyAccessor, class Function>
 inline void
-Hash<Item, Key, KeyAccessor, Function>::Table::swapContentsWith(Table table)
+Hash<Item, Key, KeyAccessor, Function>::Table::swapContentsWith(Table t)
+noexcept
 {
-	std::swap(slots, table.slots);
-	std::swap(count, table.count);
+	std::swap(slots, t.slots);
+	std::swap(count, t.count);
 }
 
 template <class Item, class Key, class KeyAccessor, class Function>
@@ -49,17 +50,19 @@ Hash<Item, Key, KeyAccessor, Function>::Table::becomeEmptyWithSize(std::size_t s
 
 template <class Item, class Key, class KeyAccessor, class Function>
 inline void
-Hash<Item, Key, KeyAccessor, Function>::Table::addAt(std::size_t index, Item& item)
+Hash<Item, Key, KeyAccessor, Function>::Table::addAt(std::size_t index,
+                                                     Item& item) noexcept
 {
 	assert(!isOccupiedAt(index));
 
-	slots[index] = &item;
+	slots[index] = std::addressof(item);
 	++count;
 }
 
 template <class Item, class Key, class KeyAccessor, class Function>
 inline bool
-Hash<Item, Key, KeyAccessor, Function>::Table::isOccupiedAt(std::size_t index) const
+Hash<Item, Key, KeyAccessor, Function>::Table::isOccupiedAt(std::size_t index)
+const noexcept
 {
 	assert(index < slots.getSize());
 
@@ -68,10 +71,11 @@ Hash<Item, Key, KeyAccessor, Function>::Table::isOccupiedAt(std::size_t index) c
 
 template <class Item, class Key, class KeyAccessor, class Function>
 Item* Hash<Item, Key, KeyAccessor, Function>::Table::extractItemAt(std::size_t index)
+noexcept
 {
 	assert(isOccupiedAt(index));
 
-	Item* item = slots[index];
+	auto item = slots[index];
 	slots[index] = nullptr;
 
 	--count;
@@ -82,15 +86,17 @@ Item* Hash<Item, Key, KeyAccessor, Function>::Table::extractItemAt(std::size_t i
 template <class Item, class Key, class KeyAccessor, class Function>
 inline Item&
 Hash<Item, Key, KeyAccessor, Function>::Table::operator[](std::size_t index)
+noexcept
 {
-	const Table& table = *this;
+	const auto& table = *this;
 
 	return const_cast<Item&>(table[index]);
 }
 
 template <class Item, class Key, class KeyAccessor, class Function>
 inline const Item&
-Hash<Item, Key, KeyAccessor, Function>::Table::operator[](std::size_t index) const
+Hash<Item, Key, KeyAccessor, Function>::Table::operator[](std::size_t index)
+const noexcept
 {
 	assert(isOccupiedAt(index));
 
@@ -99,13 +105,15 @@ Hash<Item, Key, KeyAccessor, Function>::Table::operator[](std::size_t index) con
 
 template <class Item, class Key, class KeyAccessor, class Function>
 inline std::size_t
-Hash<Item, Key, KeyAccessor, Function>::Table::occupiedSlotsCount() const
+Hash<Item, Key, KeyAccessor, Function>::Table::occupiedSlotsCount()
+const noexcept
 {
 	return count;
 }
 
 template <class Item, class Key, class KeyAccessor, class Function>
-inline std::size_t Hash<Item, Key, KeyAccessor, Function>::Table::size() const
+inline std::size_t Hash<Item, Key, KeyAccessor, Function>::Table::size()
+const noexcept
 {
 	return slots.getSize();
 }

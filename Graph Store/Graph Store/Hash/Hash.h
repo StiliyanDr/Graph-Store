@@ -8,7 +8,7 @@ class Identity
 {
 public:
 	template <class T>
-	const T& operator()(const T& object) const
+	const T& operator()(const T& object) const noexcept
 	{
 		return object;
 	}
@@ -23,25 +23,25 @@ class Hash
 	class Table
 	{
 	public:
-		Table(std::size_t size = 0);
+		explicit Table(std::size_t size = 0);
 		Table(const Table&) = default;
 		Table& operator=(const Table&) = default;
-		Table(Table&& source);
-		Table& operator=(Table&& rhs);
+		Table(Table&& source) noexcept;
+		Table& operator=(Table&& rhs) noexcept;
 
-		void addAt(std::size_t index, Item& item);
-		Item* extractItemAt(std::size_t index);
+		void addAt(std::size_t index, Item& item) noexcept;
+		Item* extractItemAt(std::size_t index) noexcept;
 		void becomeEmptyWithSize(std::size_t size);
-		bool isOccupiedAt(std::size_t index) const;
+		bool isOccupiedAt(std::size_t index) const noexcept;
 
-		std::size_t occupiedSlotsCount() const;
-		std::size_t size() const;
+		std::size_t occupiedSlotsCount() const noexcept;
+		std::size_t size() const noexcept;
 
-		Item& operator[](std::size_t index);
-		const Item& operator[](std::size_t index) const;
+		Item& operator[](std::size_t index) noexcept;
+		const Item& operator[](std::size_t index) const noexcept;
 
 	private:
-		void swapContentsWith(Table table);
+		void swapContentsWith(Table t) noexcept;
 
 	private:
 		DynamicArray<Item*> slots;
