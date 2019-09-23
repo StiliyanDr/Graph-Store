@@ -2,6 +2,7 @@
 #include "Shortest Path Algorithms/Store/ShortestPathAlgorithmsStore.h"
 #include "Shortest Path Algorithms/Abstract class/ShortestPathAlgorithm.h"
 #include "Command/Command Registrator/CommandRegistrator.h"
+#include <iostream>
 
 static CommandRegistrator<SearchCommand> registrator("search",
 	                                                 "Finds a shortest path between two vertices");
