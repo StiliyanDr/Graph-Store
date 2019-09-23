@@ -69,7 +69,7 @@ namespace GraphIO
 		assert(identifiers.isEmpty());
 
 		auto identifiersCount = parseUnsignedAndSkipUntil('\n');
-		identifiers.ensureSize(identifiersCount);
+		identifiers.reserve(identifiersCount);
 
 		for (auto i = 0u; i < identifiersCount; ++i)
 		{
