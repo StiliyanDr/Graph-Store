@@ -9,17 +9,17 @@ public:
 	static const Distance& getInfinity() noexcept;
 
 public:
-	constexpr Distance() noexcept;
-	constexpr Distance(unsigned distance) noexcept;
+	Distance() noexcept;
+	Distance(unsigned distance) noexcept;
 
-	constexpr Distance& operator+=(const Distance& rhs) noexcept;
+	Distance& operator+=(const Distance& rhs) noexcept;
 
-	friend std::ostream&
-		operator<<(std::ostream& output, const Distance& d);
-	friend constexpr bool
-		operator==(const Distance& lhs, const Distance& rhs) noexcept;
-	friend constexpr bool
-		operator<(const Distance& lhs, const Distance& rhs) noexcept;
+	friend std::ostream& operator<<(std::ostream& output,
+		                            const Distance& d);
+	friend bool operator==(const Distance& lhs,
+		                   const Distance& rhs) noexcept;
+	friend bool operator<(const Distance& lhs,
+		                  const Distance& rhs) noexcept;
 private:
 	static const Distance infinity;
 
@@ -28,12 +28,12 @@ private:
 	bool isInfinity;
 };
 
-constexpr const Distance
-	operator+(const Distance& lhs, const Distance& rhs) noexcept;
+const Distance operator+(const Distance& lhs,
+	                     const Distance& rhs) noexcept;
 
-constexpr bool operator!=(const Distance& lhs, const Distance& rhs) noexcept;
-constexpr bool operator>(const Distance& lhs, const Distance& rhs) noexcept;
-constexpr bool operator<=(const Distance& lhs, const Distance& rhs) noexcept;
-constexpr bool operator>=(const Distance& lhs, const Distance& rhs) noexcept;
+bool operator!=(const Distance& lhs, const Distance& rhs) noexcept;
+bool operator>(const Distance& lhs, const Distance& rhs) noexcept;
+bool operator<=(const Distance& lhs, const Distance& rhs) noexcept;
+bool operator>=(const Distance& lhs, const Distance& rhs) noexcept;
 
 #endif //__DISTANCE_HEADER_INCLUDED__
