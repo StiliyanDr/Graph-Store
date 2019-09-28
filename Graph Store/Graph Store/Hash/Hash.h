@@ -50,10 +50,10 @@ class Hash
 
 public:
 	explicit Hash(std::size_t expectedItemsCount = 0);
-	Hash(const Hash<Item, Key, KeyAccessor, Function>&) = default;
-	Hash<Item, Key, KeyAccessor, Function>& operator=(const Hash<Item, Key, KeyAccessor, Function>&) = default;
-	Hash(Hash<Item, Key, KeyAccessor, Function>&& source);
-	Hash<Item, Key, KeyAccessor, Function>& operator=(Hash<Item, Key, KeyAccessor, Function>&& rhs);
+	Hash(const Hash&) = default;
+	Hash& operator=(const Hash&) = default;
+	Hash(Hash&& source);
+	Hash& operator=(Hash&& rhs);
 
 	void add(Item& item);
 	Item* remove(const Key& key);
@@ -65,23 +65,24 @@ public:
 	std::size_t getCount() const noexcept;
 	bool isEmpty() const noexcept;
 	void empty();
-	void swap(Hash<Item, Key, KeyAccessor, Function>& hash) noexcept;
+	void swap(Hash& hash) noexcept;
 
 private:
-	static std::size_t calculateTableSize(std::size_t expectedItemsCount);
+	static std::size_t
+        calculateTableSize(std::size_t expectedItemsCount) noexcept;
 
 private:
-	long getIndexOfFirstItemWithKey(const Key& key) const;
-	std::size_t computeIndexFromKey(const Key& key) const;
+	long indexOfFirstItemWithKey(const Key& key) const;
+	std::size_t hashValueFor(const Key& key) const noexcept;
 	void rehashClusterStartingAt(std::size_t index);
 	void shrinkAfterRemovingItemAt(std::size_t index);
-	void rehashItemsInTableWithSize(std::size_t newSize);
+	void rehashItemsInTableWithSize(std::size_t size);
 	void addAllItemsFrom(Table& table);
-	bool hasTooManyEmptySlots() const;
-	bool canBeShrinked() const;
+	bool hasTooManyEmptySlots() const noexcept;
+	bool canBeShrinked() const noexcept;
 	void extendIfFillingUp();
-	bool isFillingUp() const;
-	std::size_t getNextPositionToProbe(std::size_t currentPosition) const;
+	bool isFillingUp() const noexcept;
+	std::size_t nextPositionToProbe(std::size_t currentPosition) const noexcept;
 
 private:
 	static const std::size_t GROWTH_RATE = 2;
