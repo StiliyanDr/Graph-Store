@@ -43,7 +43,10 @@ class Hash
 	};
 
 public:
-	explicit Hash(std::size_t expectedItemsCount = 0);
+	explicit Hash(std::size_t expectedItemsCount = 0,
+                  KeyAccessor accessor = {},
+                  Function hashFunction = {},
+                  Equal areEqual = {});
 	Hash(const Hash&) = default;
 	Hash& operator=(const Hash&) = default;
 	Hash(Hash&& source);

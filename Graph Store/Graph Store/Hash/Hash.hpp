@@ -118,9 +118,17 @@ const noexcept
 }
 
 template <class Item, class Key, class KeyAccessor, class Function, class Equal>
-inline Hash<Item, Key, KeyAccessor, Function, Equal>::Hash(std::size_t expectedItemsCount)
+Hash<Item, Key, KeyAccessor, Function, Equal>::Hash(
+    std::size_t expectedItemsCount,
+    KeyAccessor accessor,
+    Function hashFunction,
+    Equal areEqual
+) :
+    table(calculateTableSize(expectedItemsCount)),
+    keyAccessor(accessor),
+    hashFunction(hashFunction),
+    areEqual(areEqual)
 {
-	table.becomeEmptyWithSize(calculateTableSize(expectedItemsCount));
 }
 
 ///
