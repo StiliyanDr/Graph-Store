@@ -3,16 +3,7 @@
 
 #include "Dynamic Array/DynamicArray.h"
 #include "Hash Function/HashFunction.h"
-
-class Identity
-{
-public:
-	template <class T>
-	const T& operator()(const T& object) const noexcept
-	{
-		return object;
-	}
-};
+#include "Utility.h"
 
 template <class Item,
 	class Key = Item,

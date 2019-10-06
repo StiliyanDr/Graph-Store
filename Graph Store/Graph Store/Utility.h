@@ -16,4 +16,14 @@ moveAssignIfNoexcept(T& object) noexcept
 	return static_cast<ConditionalReference<T>>(object);
 }
 
+class Identity
+{
+public:
+    template <class T>
+    constexpr T&& operator()(T&& x) const noexcept
+    {
+        return std::forward<T>(x);
+    }
+};
+
 #endif //__UTILITY_HEADER_INCLUDED__

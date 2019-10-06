@@ -1,5 +1,4 @@
 #include <assert.h>
-#include <utility>
 
 template <class Item, class Key, class KeyAccessor, class Function>
 Hash<Item, Key, KeyAccessor, Function>::Table::Table(std::size_t size) :
