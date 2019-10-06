@@ -26,4 +26,15 @@ public:
     }
 };
 
+template <class T>
+class EqualTo
+{
+public:
+    constexpr bool operator()(const T& lhs, const T& rhs) const
+    noexcept(noexcept(lhs == rhs))
+    {
+        return lhs == rhs;
+    }
+};
+
 #endif //__UTILITY_HEADER_INCLUDED__
