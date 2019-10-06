@@ -5,10 +5,13 @@
 #include "Hash Function/HashFunction.h"
 #include "Utility.h"
 
-template <class Item,
+template <
+    class Item,
 	class Key = Item,
 	class KeyAccessor = Identity,
-	class Function = HashFunction<Key>>
+	class Function = HashFunction<Key>,
+    class Equal = EqualTo<Key>
+>
 class Hash
 {
 	class Table
@@ -83,11 +86,12 @@ private:
 	Table table;
 	KeyAccessor keyAccessor;
 	Function hashFunction;
+    Equal areEqual;
 };
 
-template <class Item, class Key, class KeyAccessor, class Function>
-inline void swap(Hash<Item, Key, KeyAccessor, Function>& lhs,
-	             Hash<Item, Key, KeyAccessor, Function>& rhs) noexcept
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+inline void swap(Hash<Item, Key, KeyAccessor, Function, Equal>& lhs,
+	             Hash<Item, Key, KeyAccessor, Function, Equal>& rhs) noexcept
 {
 	lhs.swap(rhs);
 }

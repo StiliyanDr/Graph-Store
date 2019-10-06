@@ -1,7 +1,7 @@
 #include <assert.h>
 
-template <class Item, class Key, class KeyAccessor, class Function>
-Hash<Item, Key, KeyAccessor, Function>::Table::Table(std::size_t size) :
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+Hash<Item, Key, KeyAccessor, Function, Equal>::Table::Table(std::size_t size) :
 	slots(size, size),
 	count(0)
 {
@@ -11,16 +11,16 @@ Hash<Item, Key, KeyAccessor, Function>::Table::Table(std::size_t size) :
 	}
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-Hash<Item, Key, KeyAccessor, Function>::Table::Table(Table&& source) noexcept :
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+Hash<Item, Key, KeyAccessor, Function, Equal>::Table::Table(Table&& source) noexcept :
 	slots(std::move(source.slots)),
 	count(source.count)
 {
 	source.count = 0;
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-auto Hash<Item, Key, KeyAccessor, Function>::Table::operator=(Table&& rhs)
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+auto Hash<Item, Key, KeyAccessor, Function, Equal>::Table::operator=(Table&& rhs)
 noexcept -> Table&
 {
 	if (this != &rhs)
@@ -31,26 +31,26 @@ noexcept -> Table&
 	return *this;
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
 inline void
-Hash<Item, Key, KeyAccessor, Function>::Table::swapContentsWith(Table t)
+Hash<Item, Key, KeyAccessor, Function, Equal>::Table::swapContentsWith(Table t)
 noexcept
 {
 	std::swap(slots, t.slots);
 	std::swap(count, t.count);
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
 inline void
-Hash<Item, Key, KeyAccessor, Function>::Table::becomeEmptyWithSize(std::size_t size)
+Hash<Item, Key, KeyAccessor, Function, Equal>::Table::becomeEmptyWithSize(std::size_t size)
 {
 	*this = Table(size);
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
 inline void
-Hash<Item, Key, KeyAccessor, Function>::Table::addAt(std::size_t index,
-                                                     Item& item) noexcept
+Hash<Item, Key, KeyAccessor, Function, Equal>::Table::addAt(std::size_t index,
+                                                            Item& item) noexcept
 {
 	assert(!isOccupiedAt(index));
 
@@ -58,9 +58,9 @@ Hash<Item, Key, KeyAccessor, Function>::Table::addAt(std::size_t index,
 	++count;
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
 inline bool
-Hash<Item, Key, KeyAccessor, Function>::Table::isOccupiedAt(std::size_t index)
+Hash<Item, Key, KeyAccessor, Function, Equal>::Table::isOccupiedAt(std::size_t index)
 const noexcept
 {
 	assert(index < slots.getSize());
@@ -68,8 +68,8 @@ const noexcept
 	return slots[index] != nullptr;
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-Item* Hash<Item, Key, KeyAccessor, Function>::Table::extractItemAt(std::size_t index)
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+Item* Hash<Item, Key, KeyAccessor, Function, Equal>::Table::extractItemAt(std::size_t index)
 noexcept
 {
 	assert(isOccupiedAt(index));
@@ -82,9 +82,9 @@ noexcept
 	return item;
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
 inline Item&
-Hash<Item, Key, KeyAccessor, Function>::Table::operator[](std::size_t index)
+Hash<Item, Key, KeyAccessor, Function, Equal>::Table::operator[](std::size_t index)
 noexcept
 {
 	const auto& table = *this;
@@ -92,9 +92,9 @@ noexcept
 	return const_cast<Item&>(table[index]);
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
 inline const Item&
-Hash<Item, Key, KeyAccessor, Function>::Table::operator[](std::size_t index)
+Hash<Item, Key, KeyAccessor, Function, Equal>::Table::operator[](std::size_t index)
 const noexcept
 {
 	assert(isOccupiedAt(index));
@@ -102,23 +102,23 @@ const noexcept
 	return *slots[index];
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
 inline std::size_t
-Hash<Item, Key, KeyAccessor, Function>::Table::occupiedSlotsCount()
+Hash<Item, Key, KeyAccessor, Function, Equal>::Table::occupiedSlotsCount()
 const noexcept
 {
 	return count;
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-inline std::size_t Hash<Item, Key, KeyAccessor, Function>::Table::size()
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+inline std::size_t Hash<Item, Key, KeyAccessor, Function, Equal>::Table::size()
 const noexcept
 {
 	return slots.getSize();
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-inline Hash<Item, Key, KeyAccessor, Function>::Hash(std::size_t expectedItemsCount)
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+inline Hash<Item, Key, KeyAccessor, Function, Equal>::Hash(std::size_t expectedItemsCount)
 {
 	table.becomeEmptyWithSize(calculateTableSize(expectedItemsCount));
 }
@@ -129,26 +129,27 @@ inline Hash<Item, Key, KeyAccessor, Function>::Hash(std::size_t expectedItemsCou
 /// Adding MIN_TABLE_SIZE prevents from inappropriate table size for small values 
 /// of expectedItemsCount.
 ///
-template <class Item, class Key, class KeyAccessor, class Function>
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
 inline std::size_t
-Hash<Item, Key, KeyAccessor, Function>::calculateTableSize(std::size_t expectedItemsCount)
+Hash<Item, Key, KeyAccessor, Function, Equal>::calculateTableSize(std::size_t expectedItemsCount)
 noexcept
 {
 	return ((3 * expectedItemsCount) / 2) + MIN_TABLE_SIZE;
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-Hash<Item, Key, KeyAccessor, Function>::Hash(Hash&& source) :
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+Hash<Item, Key, KeyAccessor, Function, Equal>::Hash(Hash&& source) :
     table(MIN_TABLE_SIZE),
     keyAccessor(std::move(source.keyAccessor)),
-    hashFunction(std::move(source.hashFunction))
+    hashFunction(std::move(source.hashFunction)),
+    areEqual(std::move(source.areEqual))
 {
 	std::swap(table, source.table);
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-Hash<Item, Key, KeyAccessor, Function>&
-Hash<Item, Key, KeyAccessor, Function>::operator=(Hash&& rhs)
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+Hash<Item, Key, KeyAccessor, Function, Equal>&
+Hash<Item, Key, KeyAccessor, Function, Equal>::operator=(Hash&& rhs)
 {
 	if (this != &rhs)
 	{
@@ -159,24 +160,25 @@ Hash<Item, Key, KeyAccessor, Function>::operator=(Hash&& rhs)
 	return *this;
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-void Hash<Item, Key, KeyAccessor, Function>::swap(Hash& hash) noexcept
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+void Hash<Item, Key, KeyAccessor, Function, Equal>::swap(Hash& hash) noexcept
 {
     using std::swap;
 
     swap(table, hash.table);
     swap(keyAccessor, hash.keyAccessor);
     swap(hashFunction, hash.hashFunction);
+    swap(areEqual, hash.areEqual);
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-inline void Hash<Item, Key, KeyAccessor, Function>::empty()
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+inline void Hash<Item, Key, KeyAccessor, Function, Equal>::empty()
 {
 	table.becomeEmptyWithSize(MIN_TABLE_SIZE);
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-void Hash<Item, Key, KeyAccessor, Function>::add(Item& item)
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+void Hash<Item, Key, KeyAccessor, Function, Equal>::add(Item& item)
 {
 	assert(table.size() >= MIN_TABLE_SIZE);
 	assert(table.occupiedSlotsCount() < table.size());
@@ -193,8 +195,8 @@ void Hash<Item, Key, KeyAccessor, Function>::add(Item& item)
 	table.addAt(index, item);
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-inline void Hash<Item, Key, KeyAccessor, Function>::extendIfFillingUp()
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+inline void Hash<Item, Key, KeyAccessor, Function, Equal>::extendIfFillingUp()
 {
 	if (isFillingUp())
 	{
@@ -202,31 +204,31 @@ inline void Hash<Item, Key, KeyAccessor, Function>::extendIfFillingUp()
 	}
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-inline bool Hash<Item, Key, KeyAccessor, Function>::isFillingUp()
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+inline bool Hash<Item, Key, KeyAccessor, Function, Equal>::isFillingUp()
 const noexcept
 {
 	return 3 * table.occupiedSlotsCount() >= 2 * table.size();
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
 inline std::size_t
-Hash<Item, Key, KeyAccessor, Function>::hashValueFor(const Key& key)
+Hash<Item, Key, KeyAccessor, Function, Equal>::hashValueFor(const Key& key)
 const noexcept
 {
 	return hashFunction(key) % table.size();
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
 inline std::size_t
-Hash<Item, Key, KeyAccessor, Function>::nextPositionToProbe(std::size_t currentPosition)
+Hash<Item, Key, KeyAccessor, Function, Equal>::nextPositionToProbe(std::size_t currentPosition)
 const noexcept
 {
 	return (currentPosition + 1) % table.size();
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-void Hash<Item, Key, KeyAccessor, Function>::rehashItemsInTableWithSize(std::size_t size)
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+void Hash<Item, Key, KeyAccessor, Function, Equal>::rehashItemsInTableWithSize(std::size_t size)
 {
 	assert(size >= MIN_TABLE_SIZE);
 	assert(size > table.occupiedSlotsCount());
@@ -246,8 +248,8 @@ void Hash<Item, Key, KeyAccessor, Function>::rehashItemsInTableWithSize(std::siz
 	addAllItemsFrom(oldTable);
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-void Hash<Item, Key, KeyAccessor, Function>::addAllItemsFrom(Table& table)
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+void Hash<Item, Key, KeyAccessor, Function, Equal>::addAllItemsFrom(Table& table)
 {
 	auto size = table.size();
 
@@ -260,16 +262,16 @@ void Hash<Item, Key, KeyAccessor, Function>::addAllItemsFrom(Table& table)
 	}
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-Item& Hash<Item, Key, KeyAccessor, Function>::operator[](const Key& key)
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+Item& Hash<Item, Key, KeyAccessor, Function, Equal>::operator[](const Key& key)
 {
 	const auto& hash = *this;
 
 	return const_cast<Item&>(hash[key]);
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-const Item& Hash<Item, Key, KeyAccessor, Function>::operator[](const Key& key) const
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+const Item& Hash<Item, Key, KeyAccessor, Function, Equal>::operator[](const Key& key) const
 {
 	auto index = indexOfFirstItemWithKey(key);
 
@@ -283,13 +285,13 @@ const Item& Hash<Item, Key, KeyAccessor, Function>::operator[](const Key& key) c
 	}
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-long Hash<Item, Key, KeyAccessor, Function>::indexOfFirstItemWithKey(const Key& key) const
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+long Hash<Item, Key, KeyAccessor, Function, Equal>::indexOfFirstItemWithKey(const Key& key) const
 {
 	auto index = hashValueFor(key);
 
 	while (table.isOccupiedAt(index) &&
-           keyAccessor(table[index]) != key)
+           !areEqual(keyAccessor(table[index]), key))
 	{
 		index = nextPositionToProbe(index);
 	}
@@ -297,14 +299,14 @@ long Hash<Item, Key, KeyAccessor, Function>::indexOfFirstItemWithKey(const Key& 
 	return table.isOccupiedAt(index) ? index : -1;
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-inline bool Hash<Item, Key, KeyAccessor, Function>::contains(const Key& key) const
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+inline bool Hash<Item, Key, KeyAccessor, Function, Equal>::contains(const Key& key) const
 {
 	return indexOfFirstItemWithKey(key) != -1;
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-Item* Hash<Item, Key, KeyAccessor, Function>::remove(const Key& key)
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+Item* Hash<Item, Key, KeyAccessor, Function, Equal>::remove(const Key& key)
 {
 	auto removedItem = static_cast<Item*>(nullptr);
 	auto index = indexOfFirstItemWithKey(key);
@@ -329,22 +331,22 @@ Item* Hash<Item, Key, KeyAccessor, Function>::remove(const Key& key)
 	return removedItem;
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-inline bool Hash<Item, Key, KeyAccessor, Function>::hasTooManyEmptySlots()
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+inline bool Hash<Item, Key, KeyAccessor, Function, Equal>::hasTooManyEmptySlots()
 const noexcept
 {
 	return 6 * table.occupiedSlotsCount() <= table.size();
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-inline bool Hash<Item, Key, KeyAccessor, Function>::canBeShrinked()
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+inline bool Hash<Item, Key, KeyAccessor, Function, Equal>::canBeShrinked()
 const noexcept
 {
 	return (table.size() / GROWTH_RATE) >= MIN_TABLE_SIZE;
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-void Hash<Item, Key, KeyAccessor, Function>::shrinkAfterRemovingItemAt(std::size_t index)
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+void Hash<Item, Key, KeyAccessor, Function, Equal>::shrinkAfterRemovingItemAt(std::size_t index)
 {
 	assert(!table.isOccupiedAt(index));
     assert(canBeShrinked());
@@ -359,8 +361,8 @@ void Hash<Item, Key, KeyAccessor, Function>::shrinkAfterRemovingItemAt(std::size
 	}
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-void Hash<Item, Key, KeyAccessor, Function>::rehashClusterStartingAt(std::size_t index)
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+void Hash<Item, Key, KeyAccessor, Function, Equal>::rehashClusterStartingAt(std::size_t index)
 {
 	while (table.isOccupiedAt(index))
 	{
@@ -369,14 +371,14 @@ void Hash<Item, Key, KeyAccessor, Function>::rehashClusterStartingAt(std::size_t
 	}
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-inline std::size_t Hash<Item, Key, KeyAccessor, Function>::getCount() const noexcept
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+inline std::size_t Hash<Item, Key, KeyAccessor, Function, Equal>::getCount() const noexcept
 {
 	return table.occupiedSlotsCount();
 }
 
-template <class Item, class Key, class KeyAccessor, class Function>
-inline bool Hash<Item, Key, KeyAccessor, Function>::isEmpty() const noexcept
+template <class Item, class Key, class KeyAccessor, class Function, class Equal>
+inline bool Hash<Item, Key, KeyAccessor, Function, Equal>::isEmpty() const noexcept
 {
 	return getCount() == 0;
 }
