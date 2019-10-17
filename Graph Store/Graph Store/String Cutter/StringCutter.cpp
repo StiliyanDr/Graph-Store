@@ -117,12 +117,7 @@ void StringCutter::verifyDelimitersMatch(char lhs, char rhs)
 
 std::string StringCutter::copySkippedWord()
 {
-    auto delimiter = *remainingString;
-    *remainingString = '\0';
-
-    auto result = std::string{ word };
-
-    *remainingString = delimiter;
+    auto result = temporarilyMarkWordEndAndMakeACopy();
 
     if (!hasReachedEnd())
     {
@@ -130,4 +125,11 @@ std::string StringCutter::copySkippedWord()
     }
 
     return result;
+}
+
+std::string StringCutter::temporarilyMarkWordEndAndMakeACopy()
+{
+    auto marker = WordEndMarker(remainingString);
+
+    return std::string{ word };
 }

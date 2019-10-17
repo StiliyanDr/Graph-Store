@@ -7,6 +7,29 @@
 
 class StringCutter
 {
+    class WordEndMarker
+    {
+    public:
+        explicit WordEndMarker(char* end) noexcept :
+            end(end),
+            c(*end)
+        {
+            *end = '\0';
+        }
+
+        WordEndMarker(const WordEndMarker&) = delete;
+        WordEndMarker& operator=(const WordEndMarker&) = delete;
+
+        ~WordEndMarker()
+        {
+            *end = c;
+        }
+
+    private:
+        char* end;
+        char c;
+    };
+
 public:
 	StringCutter() = default;
 	explicit StringCutter(std::initializer_list<char> delimiters);
@@ -23,6 +46,7 @@ private:
     void markWordStart() noexcept;
 	void skipTo(char startDelimiter);
     std::string copySkippedWord();
+    std::string temporarilyMarkWordEndAndMakeACopy();
 	bool hasReachedEnd() const noexcept;
 	void setString(char* s);
 	bool isDelimiter(char c) const;
