@@ -18,14 +18,13 @@ private:
 
 private:
 	std::string cutWord();
-	void skipSpaces();
+	void skipSpaces() noexcept;
 	char skipAndReturnDelimiter();
+    void markWordStart() noexcept;
 	void skipTo(char startDelimiter);
-	std::string copySkippedWord();
-	void markWordEnd();
-	bool hasReachedEnd() const;
-	void setString(char* string);
-	void markWordStart();
+    std::string copySkippedWord();
+	bool hasReachedEnd() const noexcept;
+	void setString(char* s);
 	bool isDelimiter(char c) const;
 
 private:
