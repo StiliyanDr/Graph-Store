@@ -384,7 +384,7 @@ void Hash<Item, Key, KeyAccessor, Function, Equal>::rehashClusterStartingAt(
 }
 
 template <class Item, class Key, class KeyAccessor, class Function, class Equal>
-inline std::size_t Hash<Item, Key, KeyAccessor, Function, Equal>::getCount() const noexcept
+inline std::size_t Hash<Item, Key, KeyAccessor, Function, Equal>::getSize() const noexcept
 {
 	return table.occupiedSlotsCount();
 }
@@ -392,5 +392,5 @@ inline std::size_t Hash<Item, Key, KeyAccessor, Function, Equal>::getCount() con
 template <class Item, class Key, class KeyAccessor, class Function, class Equal>
 inline bool Hash<Item, Key, KeyAccessor, Function, Equal>::isEmpty() const noexcept
 {
-	return getCount() == 0;
+	return getSize() == 0;
 }
