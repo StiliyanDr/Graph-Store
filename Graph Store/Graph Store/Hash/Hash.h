@@ -53,8 +53,8 @@ public:
 	Hash& operator=(Hash&& rhs);
 
 	void add(Item& item);
-	Item* remove(const Key& key);
-	bool contains(const Key& key) const;
+	Item* remove(const Key& key) noexcept;
+	bool contains(const Key& key) const noexcept;
 
 	Item& operator[](const Key& key);
 	const Item& operator[](const Key& key) const;
@@ -69,9 +69,9 @@ private:
         calculateTableSize(std::size_t expectedItemsCount) noexcept;
 
 private:
-	long indexOfFirstItemWithKey(const Key& key) const;
+	long indexOfFirstItemWithKey(const Key& key) const noexcept;
 	std::size_t hashValueFor(const Key& key) const noexcept;
-	void rehashClusterStartingAt(std::size_t index);
+	void rehashClusterStartingAt(std::size_t index) noexcept;
 	void shrinkAfterRemovingItemAt(std::size_t index);
 	void rehashItemsInTableWithSize(std::size_t size);
 	void addAllItemsFrom(Table& table);

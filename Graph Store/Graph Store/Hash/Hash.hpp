@@ -294,7 +294,8 @@ const Item& Hash<Item, Key, KeyAccessor, Function, Equal>::operator[](const Key&
 }
 
 template <class Item, class Key, class KeyAccessor, class Function, class Equal>
-long Hash<Item, Key, KeyAccessor, Function, Equal>::indexOfFirstItemWithKey(const Key& key) const
+long Hash<Item, Key, KeyAccessor, Function, Equal>::indexOfFirstItemWithKey(const Key& key)
+const noexcept
 {
 	auto index = hashValueFor(key);
 
@@ -308,13 +309,14 @@ long Hash<Item, Key, KeyAccessor, Function, Equal>::indexOfFirstItemWithKey(cons
 }
 
 template <class Item, class Key, class KeyAccessor, class Function, class Equal>
-inline bool Hash<Item, Key, KeyAccessor, Function, Equal>::contains(const Key& key) const
+inline bool Hash<Item, Key, KeyAccessor, Function, Equal>::contains(const Key& key)
+const noexcept
 {
 	return indexOfFirstItemWithKey(key) != -1;
 }
 
 template <class Item, class Key, class KeyAccessor, class Function, class Equal>
-Item* Hash<Item, Key, KeyAccessor, Function, Equal>::remove(const Key& key)
+Item* Hash<Item, Key, KeyAccessor, Function, Equal>::remove(const Key& key) noexcept
 {
 	auto removedItem = static_cast<Item*>(nullptr);
 	auto index = indexOfFirstItemWithKey(key);
@@ -370,7 +372,9 @@ void Hash<Item, Key, KeyAccessor, Function, Equal>::shrinkAfterRemovingItemAt(st
 }
 
 template <class Item, class Key, class KeyAccessor, class Function, class Equal>
-void Hash<Item, Key, KeyAccessor, Function, Equal>::rehashClusterStartingAt(std::size_t index)
+void Hash<Item, Key, KeyAccessor, Function, Equal>::rehashClusterStartingAt(
+    std::size_t index
+) noexcept
 {
 	while (table.isOccupiedAt(index))
 	{
