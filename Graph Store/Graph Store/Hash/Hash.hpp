@@ -283,9 +283,9 @@ const Item& Hash<Item, Key, KeyAccessor, Function, Equal>::operator[](const Key&
 {
 	auto index = indexOfFirstItemWithKey(key);
 
-	if (index != -1)
+	if (static_cast<bool>(index))
 	{
-		return table[index];
+		return table[*index];
 	}
 	else
 	{
@@ -294,7 +294,8 @@ const Item& Hash<Item, Key, KeyAccessor, Function, Equal>::operator[](const Key&
 }
 
 template <class Item, class Key, class KeyAccessor, class Function, class Equal>
-long Hash<Item, Key, KeyAccessor, Function, Equal>::indexOfFirstItemWithKey(const Key& key)
+std::optional<std::size_t>
+Hash<Item, Key, KeyAccessor, Function, Equal>::indexOfFirstItemWithKey(const Key& key)
 const noexcept
 {
 	auto index = hashValueFor(key);
@@ -305,14 +306,15 @@ const noexcept
 		index = nextPositionToProbe(index);
 	}
 
-	return table.isOccupiedAt(index) ? index : -1;
+    return table.isOccupiedAt(index) ?
+        std::make_optional(index) : std::nullopt;
 }
 
 template <class Item, class Key, class KeyAccessor, class Function, class Equal>
 inline bool Hash<Item, Key, KeyAccessor, Function, Equal>::contains(const Key& key)
 const noexcept
 {
-	return indexOfFirstItemWithKey(key) != -1;
+	return static_cast<bool>(indexOfFirstItemWithKey(key));
 }
 
 template <class Item, class Key, class KeyAccessor, class Function, class Equal>
@@ -321,20 +323,20 @@ Item* Hash<Item, Key, KeyAccessor, Function, Equal>::remove(const Key& key) noex
 	auto removedItem = static_cast<Item*>(nullptr);
 	auto index = indexOfFirstItemWithKey(key);
 
-	if (index != -1)
+	if (static_cast<bool>(index))
 	{
 		assert(table.occupiedSlotsCount() > 0);
 		assert(table.size() > table.occupiedSlotsCount());
 
-		removedItem = table.extractItemAt(index);
+		removedItem = table.extractItemAt(*index);
 
 		if (hasTooManyEmptySlots() && canBeShrinked())
 		{
-			shrinkAfterRemovingItemAt(index);
+			shrinkAfterRemovingItemAt(*index);
 		}
 		else
 		{
-			rehashClusterStartingAt(nextPositionToProbe(index));
+			rehashClusterStartingAt(nextPositionToProbe(*index));
 		}
 	}
 

@@ -1,6 +1,7 @@
 #ifndef __HASH_HEADER_INCLUDED__
 #define __HASH_HEADER_INCLUDED__
 
+#include <optional>
 #include "Dynamic Array/DynamicArray.h"
 #include "Hash Function/HashFunction.h"
 #include "Utility.h"
@@ -69,7 +70,8 @@ private:
         calculateTableSize(std::size_t expectedItemsCount) noexcept;
 
 private:
-	long indexOfFirstItemWithKey(const Key& key) const noexcept;
+	std::optional<std::size_t>
+        indexOfFirstItemWithKey(const Key& key) const noexcept;
 	std::size_t hashValueFor(const Key& key) const noexcept;
 	void rehashClusterStartingAt(std::size_t index) noexcept;
 	void shrinkAfterRemovingItemAt(std::size_t index);
