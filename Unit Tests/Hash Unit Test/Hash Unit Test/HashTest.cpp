@@ -40,7 +40,7 @@ namespace HashUnitTest
 			
 			std::size_t booksCount = to - from + 1;
 
-			return booksCount == hash.getCount()
+			return booksCount == hash.getSize()
 				   && hashContainsBooksFromTo(hash, from, to);
 		}
 
@@ -257,7 +257,7 @@ namespace HashUnitTest
 			for (std::size_t i = 0; i < BOOKS_COUNT; ++i)
 			{
 				hash.add(books[i]);
-				Assert::AreEqual(i + 1, hash.getCount());
+				Assert::AreEqual(i + 1, hash.getSize());
 			}
 
 			Assert::IsTrue(hashConsistsOfBooksFromTo(hash, 0, BOOKS_COUNT - 1));
@@ -295,12 +295,12 @@ namespace HashUnitTest
 			std::size_t indexOfMiddleBook = BOOKS_COUNT / 2;
 			fillHashWithBooksFromTo(hash, 0, indexOfMiddleBook);
 
-			std::size_t correctCount = hash.getCount();
+			std::size_t correctCount = hash.getSize();
 
 			for (std::size_t i = 0; i <= indexOfMiddleBook; ++i)
 			{
 				hash.remove(books[i].getTitle());
-				Assert::AreEqual(--correctCount, hash.getCount());
+				Assert::AreEqual(--correctCount, hash.getSize());
 			}
 		}
 
